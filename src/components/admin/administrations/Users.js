@@ -46,11 +46,10 @@ class Users extends Component{
           ];
 
 
-        const values = [
-            {
-                currency: 'EUR',
-            } 
-        ]
+        const values = {
+            currency: 'EUR',
+        } 
+        
 
         const headRows = [
             { id: 'name', numeric: false, disablePadding: true, label: 'Utilisateur' },
@@ -66,10 +65,10 @@ class Users extends Component{
 
         return (
             <div className={classes.container}>
-                <h5 className={classes.subTitle}>
+                <Typography variant="h5" noWrap className={classes.subTitle}>
                     <TrendingFlatIcon className={classes.subTitleIcon}/>
                     Ajouter un nouvel utilisateur
-                </h5>
+                </Typography>
                 <Grid container className={classes.note}>
                     {/* <Typography variant="body2" > */}
                         Droits :<br/>
@@ -101,11 +100,11 @@ class Users extends Component{
                             className={classes.textField}
                             value={values.currency}
                             // onChange={handleChange('currency')}
-                            SelectProps={{
-                            MenuProps: {
-                                className: classes.menu,
-                            },
-                            }}
+                            // SelectProps={{
+                            // MenuProps: {
+                            //     className: classes.menu,
+                            // },
+                            // }}
                             margin="dense"
                             variant="outlined"
                         >
@@ -123,10 +122,10 @@ class Users extends Component{
                     </Grid>
                 </Grid>
                 
-                <h5 className={classes.subTitle}>
+                <Typography variant="h5" noWrap className={classes.subTitle}>
                     <TrendingFlatIcon className={classes.subTitleIcon}/>
                     Liste des utilisateurs
-                </h5>
+                </Typography>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -227,6 +226,7 @@ const styles = theme => ({
     container: {
         padding: 20,
         margin: 30,
+        marginTop: 100,
         border: "2px solid #B22132",
     },
     paper: {
