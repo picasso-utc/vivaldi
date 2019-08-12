@@ -1,7 +1,5 @@
-import {URL, API_URL} from './Config';
+import {URL, API_URL, WEB_APP_URL} from './Config';
 import {ajaxGet} from './Ajax';
-import axios from 'axios';
-
 
 
 class Auth {
@@ -28,7 +26,7 @@ class Auth {
 
     static async login(){
 
-        axios.get(API_URL + 'auth/me', {withCredentials: true})
+        ajaxGet('auth/me')
             .then(function(res){
                 Auth.authenticateUser(res.data)
             })
