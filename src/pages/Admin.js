@@ -68,23 +68,21 @@ class Admin extends Component {
 					className={classes.content}
 				>
 					
-					<BrowserRouter>
-						<Switch>
-							<Route path={`${base_url}/`} exact component={Dashboard}/>
-							<Route path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
-							<Route path={`${base_url}/polls`} exact component={PollsManagement}/>
-							<Route path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
-							<Route path={`${base_url}/calendar`} exact component={CalendarManagement}/>
-							<Route path={`${base_url}/astreintes`} exact component={Astreintes}/>
-							<Route path={`${base_url}/perms`} exact component={Perms}/>
-							<Route path={`${base_url}/charte`} exact component={Charte}/>
-							<Route path={`${base_url}/users`} exact component={Users}/>
-							<Route path={`${base_url}/team`} exact component={TeamManagement}/>
-							<Route path={`${base_url}/semesters`} exact component={Semesters}/>
-							<Route path={`${base_url}/settings`} exact component={Settings}/>
-							<Route component={Error404}/>
-						</Switch>
-					</BrowserRouter>
+					<Switch>
+						<Route path={`${base_url}/`} exact component={Dashboard}/>
+						<Route path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
+						<Route path={`${base_url}/polls`} exact component={PollsManagement}/>
+						<Route path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
+						<Route path={`${base_url}/calendar`} exact component={CalendarManagement}/>
+						<Route path={`${base_url}/astreintes`} exact component={Astreintes}/>
+						<Route path={`${base_url}/perms`} exact component={Perms}/>
+						<Route path={`${base_url}/charte`} exact component={Charte}/>
+						<Route path={`${base_url}/users`} exact component={Users}/>
+						<Route path={`${base_url}/team`} exact component={TeamManagement}/>
+						<Route path={`${base_url}/semesters`} exact component={Semesters}/>
+						<Route path={`${base_url}/settings`} exact component={Settings}/>
+						<Route component={Error404}/>
+					</Switch>
 				</main>
 			</div>
 		);
