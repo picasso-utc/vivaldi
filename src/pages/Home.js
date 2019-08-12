@@ -1,4 +1,9 @@
 import React from 'react'
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
 
 import Header from '../components/Header';
 import Rules from  '../components/home/Rules';
@@ -9,25 +14,90 @@ import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
 
 
-const HEADER_HEIGHT = 64;
-
 class Home extends React.Component {
 	render() {
-		return (
 
-			<div>
-				<Header height={HEADER_HEIGHT} />
-				<div className="container">
-					<Rules />
-					<Calendar />
-					<PriceDisplayer />
-					<GoodiesDisplayer />
-					<FichesPostes />
-					<Trombinoscope />	
-				</div>
-			</div>
+		const { classes } = this.props;
+
+		return (
+			<React.Fragment>
+				<CssBaseline />
+				
+				<Container className={classes.root}>
+					<Container className={classes.header} id="header" fixed>
+						<Header/>
+					</Container>
+					
+					<Typography variant="h4" className={classes.title}>
+						Les règles au Pic
+                	</Typography>
+					<Container className={classes.component}>
+						<Rules />
+					</Container>
+
+					<Typography variant="h4" className={classes.title}>
+						Calendrier
+                	</Typography>
+					<Container className={classes.component}>
+						<Calendar />
+					</Container>
+
+					<Typography variant="h4" className={classes.title}>
+						Tarifs
+                	</Typography>
+					<Container className={classes.component}>
+						<PriceDisplayer />
+					</Container>
+
+					<Typography variant="h4" className={classes.title}>
+						Goodies
+                	</Typography>
+					<Container className={classes.component}>
+						<GoodiesDisplayer />
+					</Container>
+					
+					<Typography variant="h4" className={classes.title}>
+						Devenir membre du Pic
+                	</Typography>
+					<Container className={classes.component}>
+						<FichesPostes />
+					</Container>
+
+					<Typography variant="h4" className={classes.title}>
+						La Team
+                	</Typography>
+					<Container className={classes.component}>
+						<Trombinoscope />
+					</Container>
+				</Container>
+			</React.Fragment>
 		);
 	}
 }
 
-export default Home
+const styles = theme => ({
+	root: {
+		width:'100%',
+		maxWidth: '100%',
+		margin: 0,
+		paddingRight: 50,
+		paddingLeft: 50,
+		paddingBottom: 50,
+		backgroundColor: '#000223'
+	},
+	header : {
+		height: window.innerHeight,
+	},
+	title: {
+		color: 'white',
+		textAlign: "center",
+		marginTop: 50,
+	},
+	component: {
+		marginTop: 30,
+		padding: 20,
+		border: "#B22132 2px solid",
+	},
+});
+
+export default withStyles(styles)(Home)
