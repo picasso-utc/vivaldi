@@ -54,7 +54,7 @@ class Auth {
         if (Auth.isUserAuthenticated()) {
            // To DO rediriger en fonction des droits
             // et en fonction d'une page d'ou le chargement à débuter 
-            window.location.href = URL + '/admin' 
+            window.location = '/admin'
         }
         
     }
