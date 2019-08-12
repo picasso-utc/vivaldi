@@ -1,11 +1,24 @@
-import React from 'react';
+import React from "react";
+import { withStyles } from '@material-ui/core/styles'
 
 class PriceDisplayer extends React.Component {
-	render() {
-		return (
-			<div>PriceDisplayer</div>
-		);
-	}
+  
+
+	constructor(props) {
+		super(props);
+    }
+
+  	render() {
+    	return (
+			<React.Fragment>
+
+			</React.Fragment>
+    	);
+  	}
 }
 
-export default PriceDisplayer;
+const styles = theme => ({
+
+});
+
+export default withStyles (styles) (PriceDisplayer)

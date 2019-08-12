@@ -1,11 +1,24 @@
-import React from 'react';
+import React from "react";
+import { withStyles } from '@material-ui/core/styles'
 
 class Trombinoscope extends React.Component {
-	render() {
-		return (
-			<div>Trombinoscope</div>
-		);
-	}
+  
+
+	constructor(props) {
+		super(props);
+    }
+
+  	render() {
+    	return (
+			<React.Fragment>
+
+			</React.Fragment>
+    	);
+  	}
 }
 
-export default Trombinoscope;
+const styles = theme => ({
+
+});
+
+export default withStyles (styles) (Trombinoscope)

@@ -1,4 +1,9 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import Hidden from '@material-ui/core/Hidden';
+
 
 export const YoutubeIframe =  <iframe 
 	width = "100%"
@@ -11,46 +16,47 @@ export const YoutubeIframe =  <iframe
 
 class Rules extends React.Component {
 
-    constructor() {
-			super();
-			this.state = {
-				isActive: false,
-			};
+    constructor(props) {
+		super(props);
     }
     
 	render() {
+
+		const { classes } = this.props;
+
 		return (
-			<section className ="Rules" style ={style.rules}>
-                <h1 style={style.sectionTitle}>
-									Les règles du Pic
-								</h1>
-								<div className ="videoContainer" style ={style.videoContainer}>
-									{YoutubeIframe}
-								</div>
-      </section>
+			<React.Fragment>
+				<Hidden xsDown implementation="css">
+					<Grid className={clsx(classes.videoContainer, classes.large)}>
+						{YoutubeIframe}
+					</Grid>
+				</Hidden>
+				<Hidden smUp implementation="css">
+					<Grid className={clsx(classes.videoContainer, classes.small)}>
+						{YoutubeIframe}
+					</Grid>
+				</Hidden>
+			</React.Fragment>
 		);
 	}
 }
 
 
-export const style = {
-	rules: {
-		height: window.innerHeight + "px",
-		paddingTop: 64,
-		display: "block",
+const styles = theme => ({
+	videoContainer: {	
+		paddingTop: 20,
+		paddingBottom: 20,
 	},
-	sectionTitle: {
-		fontSize: 60,
-		fontFamily: "Roboto",
-		textAlign: "center",
-		display: "block",
-		marginBottom: "20px",
+	small: {
+		height: window.innerHeight/3,
+		paddingLeft: 10,
+		paddingRight: 10,
 	},
-	videoContainer: {
-		padding: "1em",
-		height: "80%",
-		border: "red 2px solid",
+	large: {
+		height: 2*window.innerHeight/3,
+		paddingLeft: 60,
+		paddingRight: 60,
 	},
-}
+});
 
-export default Rules;
+export default withStyles(styles)(Rules);

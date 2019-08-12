@@ -1,12 +1,24 @@
-import React from 'react';
+import React from "react";
+import { withStyles } from '@material-ui/core/styles'
 
 class GoodiesDisplayer extends React.Component {
-	render() {
-		return (
-			<div>GoodiesDisplayer</div>
-			
-		);
-	}
+  
+
+	constructor(props) {
+		super(props);
+    }
+
+  	render() {
+    	return (
+			<React.Fragment>
+
+			</React.Fragment>
+    	);
+  	}
 }
 
-export default GoodiesDisplayer;
+const styles = theme => ({
+
+});
+
+export default withStyles (styles) (GoodiesDisplayer)
