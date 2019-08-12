@@ -40,9 +40,9 @@ class Header extends React.Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<header>
-			<AppBar position="fixed" color="secondary">
-				<Toolbar className={classes.Toolbar} style={{ minHeight: this.props.height }}>
+			<div>
+			{/* <AppBar position="fixed" color="secondary"> */}
+				{/* <Toolbar className={classes.Toolbar} style={{ minHeight: this.props.height }}>
 					<Link to="/">
 						<img src={HEADER_PATH} alt="Foyer Pic'asso" className={classes.logo}/>
 					</Link>
@@ -81,12 +81,12 @@ class Header extends React.Component {
 							<AccountCircle className={classes.leftIcon} />login
      				</IconButton>
 					</div>
-				</Toolbar>
-			</AppBar>
+				</Toolbar> */}
+			{/* </AppBar> */}
 			<div className = {classes.imgContainer}>
 				<h1 className={classes.headerTitle}></h1>
 			</div>
-			</header>
+			</div>
 		);
 
 	}
@@ -129,13 +129,13 @@ const styles = theme => ({
 		}
 	},
 	leftIcon: {
-		marginRight: theme.spacing.unit,
+		// marginRight: theme.spacing.unit,
 		fontSize: 30,
 	},
 	centerIcon: {
 		fontSize: 35,
-		marginRight: theme.spacing.unit,
-		marginLeft: theme.spacing.unit,	
+		// marginRight: theme.spacing.unit,
+		// marginLeft: theme.spacing.unit,	
 	},
 	imgContainer: {
 		width: "100%",

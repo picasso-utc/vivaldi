@@ -56,7 +56,7 @@ class FichesPostes extends React.Component {
 		return (
 			<section id="FichesPostes" className={classes.FichesPostes}>
 				<h1 className={classes.sectionTitle}>Les postes du Pic </h1>
-				<div className={classes.frame}>
+				{/* <div className={classes.frame}>
 					<p className={classes.textNormal}> Être membre du pic: c&rsquo;est quoi ?</p>
 					<div className={classes.center}>
 						<Button className={classes.button} onClick={this.openDialog}>Découvrir</Button>
@@ -96,7 +96,7 @@ class FichesPostes extends React.Component {
 							</div>
 
 					</div>
-				</div>
+				</div> */}
 			</section>
 		);
 	}
