@@ -1,24 +1,16 @@
 import React from 'react';
-import axios from 'axios';
 import Auth from '../utils/Auth';
-// import  { Redirect } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 
-/*
-To try the connection, use this in the JS console after login:
-(await a.get('auth/me', { withCredentials: true })).data
-*/
-
-class LoginPage extends React.Component {
-	// componentDidMount() {
-	// 	this.redirect()
-	// }
+class Login extends React.Component {
 
 	constructor(props) {
 		super(props);
 	}
 
 	componentDidMount(){
-		console.log(Auth.isUserAuthenticated())
 		if(Auth.isUserAuthenticated()){
 			this.redirectUser();
 		} else {
@@ -27,28 +19,42 @@ class LoginPage extends React.Component {
 	}
 
 	redirectUser(){
-		window.location = '/admin'
-		// <Redirect to='/admin'  />
-		// Auth.redirectUser();
+		Auth.redirectUser();
 	}
 
 	loginUser(){
 		Auth.login();
 	}
 
-	// redirect() {
-	// 	const apiURL = axios.defaults.baseURL;
-	// 	const callback = String(window.location).replace(/(.*)log(in|out)\/?$/, '$1');
-	// 	window.location.replace(`${apiURL}/auth/login?redirect=${callback}`);
-	// }
 
 	render() {
+
+		const { classes } = this.props;
+		console.log(classes);
+
 		return (
-			<div className="container">
-				<span>Logging in...</span>
+			<div className={classes.container}>
+				<h1>
+					<Typography variant="h4" noWrap>
+						<CircularProgress className={classes.progress} />
+						Connexion ...
+					</Typography>
+				</h1>
 			</div>
 		);
 	}
 }
 
-export default LoginPage;
+const styles = theme => ({
+    container: {
+        paddingTop: 100,
+        textAlign: 'center',
+	},
+	progress: {
+		margin: 20,
+		color: '#B22132',
+	}
+});
+
+export default withStyles (styles) (Login)
+
