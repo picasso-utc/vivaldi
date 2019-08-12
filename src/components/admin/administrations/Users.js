@@ -24,42 +24,63 @@ class Users extends Component{
     
     constructor(props) {
         super(props)
+
+        this.state = {
+            new_user : {
+                login: '',
+                right: 'M'
+            },
     }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.saveUser = this.saveUser.bind(this);
+        this.handleChangePage = this.handleChangePage.bind(this);
+    }
+        
+    handleChange(event){
+        this.setState({
+            new_user: {
+                ...this.state.new_user,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
+
+    saveUser(){
+        // TO DO save in API
+        // ajaxPost()
+        this.setState({
+            new_user : {login: '', right: 'M'}
+        });
+    }
+
+    handleChangePage(event, newPage){
+        this.setState({page: newPage});
+    }
+        
 
     render(){
         
         const { classes } = this.props;
 
-        const currencies = [
-            {
-              value: 'USD',
-              label: 'Aucun droit',
-            },
-            {
-              value: 'EUR',
-              label: 'Membre du Pic',
-            },
-            {
-              value: 'BTC',
-              label: 'Administrateur',
-            },
-          ];
+        const {new_user, page, rowsPerPage} = this.state;
 
-
-        const values = {
-            currency: 'EUR',
-        } 
-        
-
-        const headRows = [
-            { id: 'name', numeric: false, disablePadding: true, label: 'Utilisateur' },
-            { id: 'droit', numeric: true, disablePadding: false, label: 'Droit' },
+        const rights = [
+            { value: 'N', label: 'Aucun droit' },
+            { value: 'M', label: 'Membre du Pic' },
+            { value: 'A', label: 'Administrateur' },
         ];
 
 
         const rows = [
-            {id: 'jpennors', name: 'Josselin Pennors (jpennors)', right: 'Admin'},
-            {id: 'auvinali', name: 'Alix Auvin (auvinali)', right: 'Admin'},
+            {id: 'jpennors', name: 'Josselin Pennors (jpennors)', right: 'A'},
+            {id: 'auvinali', name: 'Alix Auvin (auvinali)', right: 'Membre'},
+            {id: 'jpennors2', name: 'Josselin Pennors (jpennors)', right: 'N'},
+            {id: 'auvinali3', name: 'Alix Auvin (auvinali)', right: 'A'},
+            {id: '1jpennors', name: 'Josselin Pennors (jpennors)', right: 'A'},
+            {id: 'a2uvinali', name: 'Alix Auvin (auvinali)', right: 'M'},
+            {id: 'jp4ennors', name: 'Josselin Pennors (jpennors)', right: 'M'},
+            {id: 'auv5inali', name: 'Alix Auvin (auvinali)', right: 'M'},
         ];
           
 
@@ -85,8 +106,9 @@ class Users extends Component{
                             id="outlined-email-input"
                             label="Nom de l'étudiant"
                             className={classes.textField}
-                            type=""
-                            name=""
+                            name="login"
+                            value={new_user.login}
+                            onChange={this.handleChange}
                             autoComplete=""
                             margin="dense"
                             variant="outlined"
@@ -98,17 +120,13 @@ class Users extends Component{
                             select
                             label="Droit de l'utilisateur"
                             className={classes.textField}
-                            value={values.currency}
-                            // onChange={handleChange('currency')}
-                            // SelectProps={{
-                            // MenuProps: {
-                            //     className: classes.menu,
-                            // },
-                            // }}
+                            name="right"
+                            value={new_user.right}
+                            onChange={this.handleChange}
                             margin="dense"
                             variant="outlined"
                         >
-                            {currencies.map(option => (
+                            {rights.map(option => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
@@ -116,7 +134,7 @@ class Users extends Component{
                         </TextField>
                     </Grid>
                     <Grid item xs={4} sm={2}>
-                        <Button variant="outlined" className={classes.button} size="large">
+                        <Button variant="outlined" color="primary" className={classes.addButton} size="large" onClick={this.saveUser}>
                             Ajouter
                         </Button>
                     </Grid>
