@@ -14,7 +14,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 
-import ajaxPost from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 
 class Users extends Component{
  
@@ -23,6 +23,7 @@ class Users extends Component{
         super(props)
 
         this.state = {
+            users : [],
             new_user : {
                 login: '',
                 right: 'M'
@@ -33,8 +34,18 @@ class Users extends Component{
 
         this.handleChange = this.handleChange.bind(this);
         this.saveUser = this.saveUser.bind(this);
+        this.upgradeUser = this.upgradeUser.bind(this);
+        this.downgradeUser = this.downgradeUser.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+        this.giveaccesUser = this.giveaccesUser.bind(this);
+        this.updateUser = this.updateUser.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
     }
+
+    componentDidMount(){
+        this.loadUsers();
+    }
+
 
     handleChange(event){
         this.setState({
@@ -45,14 +56,79 @@ class Users extends Component{
         })
     }
 
+
+    loadUsers(){
+        ajaxGet('users').then(res => {
+            this.setState({users: res.data.users})
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
+
     saveUser(){
-        // TO DO save in API
-        // ajaxPost()
+        //Traiter le cas où user déjà présent
+        ajaxPost('users/', this.state.new_user).then(res => {
+            const new_user = res.data.user;
+            let users = this.state.users;
+            // On vérifie que l'utilisateur n'est pas déjà dans le tableau
+            const index = users.findIndex(u => u.login == new_user.login);
+            if (index >= 0) {
+                users[index] = new_user;
+            } else {
+                users.push(new_user);
+            }
+            this.setState({users: users})
+        })
+        .catch(res => {
+
+        })
         this.setState({
             new_user : {login: '', right: 'M'}
         });
     }
 
+
+    upgradeUser(event, user){
+        user.right = 'A';
+        this.updateUser(user)
+    }
+
+    
+    downgradeUser(event, user){
+        user.right = 'M';
+        this.updateUser(user)
+    }
+
+    
+    giveaccesUser(event, user){
+        user.right = 'M';
+        this.updateUser(user)
+    }
+
+    
+    deleteUser(event, user){
+        user.right = 'N';
+        this.updateUser(user)
+    }
+
+    
+    updateUser(user){
+        ajaxPost('users/', user).then(res => {
+            let users = this.state.users;
+            const index = users.findIndex(u => u.login == user.login);
+            if (index >= 0) {
+                users[index] = res.data.user;
+                this.setState({users: users})
+            }   
+        })
+        .catch(error => {
+
+        })
+    }
+
+    
     handleChangePage(event, newPage){
         this.setState({page: newPage});
     }
@@ -62,24 +138,12 @@ class Users extends Component{
         
         const { classes } = this.props;
 
-        const {new_user, page, rowsPerPage} = this.state;
+        const {users, new_user, page, rowsPerPage} = this.state;
 
         const rights = [
             { value: 'N', label: 'Aucun droit' },
             { value: 'M', label: 'Membre du Pic' },
             { value: 'A', label: 'Administrateur' },
-        ];
-
-
-        const rows = [
-            {id: 'jpennors', name: 'Josselin Pennors (jpennors)', right: 'A'},
-            {id: 'auvinali', name: 'Alix Auvin (auvinali)', right: 'Membre'},
-            {id: 'jpennors2', name: 'Josselin Pennors (jpennors)', right: 'N'},
-            {id: 'auvinali3', name: 'Alix Auvin (auvinali)', right: 'A'},
-            {id: '1jpennors', name: 'Josselin Pennors (jpennors)', right: 'A'},
-            {id: 'a2uvinali', name: 'Alix Auvin (auvinali)', right: 'M'},
-            {id: 'jp4ennors', name: 'Josselin Pennors (jpennors)', right: 'M'},
-            {id: 'auv5inali', name: 'Alix Auvin (auvinali)', right: 'M'},
         ];
 
         return (
@@ -155,32 +219,55 @@ class Users extends Component{
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                             <TableRow hover key={index} className={classes.row}>
                                 <TableCell component="th" scope="row" className={classes.cell}>
-                                    {row.name}
+                                    {row.user && row.user.prenom} {row.user && row.user.nom} ({row.login})
                                 </TableCell>
                                 <TableCell component="th" scope="row" className={classes.cell}>
-                                    {row.right}
+                                    {row.right_detail}
                                 </TableCell>
                                 <TableCell component="th" scope="row" className={classes.cell}>
                                     {row.right == "A" && (
-                                        <Button variant="outlined" size="small" className={classes.btn} onClick={this.saveUser}>
+                                        <Button 
+                                            variant="outlined" 
+                                            size="small" 
+                                            className={classes.btn} 
+                                            onClick={(e) => this.downgradeUser(e, row)}
+                                        >
                                             Rétrograder
                                         </Button>
                                     )}
                                     {row.right == "M" && (
-                                        <Button variant="outlined" size="small" color="primary" className={classes.btn} onClick={this.saveUser}>
+                                        <Button 
+                                            variant="outlined" 
+                                            size="small" 
+                                            color="primary" 
+                                            className={classes.btn} 
+                                            onClick={(e) => this.upgradeUser(e, row)}
+                                        >
                                             Upgrader
                                         </Button>
                                     )}
                                     {row.right == "N" ? (
-                                        <Button variant="outlined" size="small" color="primary" className={classes.btn} onClick={this.saveUser}>
+                                        <Button 
+                                            variant="outlined" 
+                                            size="small" 
+                                            color="primary" 
+                                            className={classes.btn} 
+                                            onClick={(e) => this.giveaccesUser(e, row)}
+                                        >
                                             Accès
                                         </Button>
                                     ): (
-                                        <Button variant="outlined" size="small" color="secondary" className={classes.btn} onClick={this.saveUser}>
+                                        <Button 
+                                            variant="outlined" 
+                                            size="small" 
+                                            color="secondary" 
+                                            className={classes.btn} 
+                                            onClick={(e) => this.deleteUser(e, row)}
+                                        >
                                             Supprimer
                                         </Button>
                                     )}
@@ -193,7 +280,7 @@ class Users extends Component{
                 <TablePagination
                     component="div"
                     rowsPerPageOptions={[]}
-                    count={rows.length}
+                    count={users.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
