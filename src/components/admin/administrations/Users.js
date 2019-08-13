@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -13,6 +12,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 
@@ -30,9 +32,11 @@ class Users extends Component{
             },
             page: 0,
             rowsPerPage: 5,
+            autoCompleteUsers: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.autoCompleteQuery = this.autoCompleteQuery.bind(this);
         this.saveUser = this.saveUser.bind(this);
         this.upgradeUser = this.upgradeUser.bind(this);
         this.downgradeUser = this.downgradeUser.bind(this);
@@ -53,6 +57,21 @@ class Users extends Component{
                 ...this.state.new_user,
                 [event.target.name]: event.target.value
             }
+        })
+        if (event.target.name == 'login' && event.target.value) {
+            this.autoCompleteQuery(event.target.value)
+        }
+    }
+
+
+    // Méthode pour obtenir de Payutc des auto complétions
+    // via la valeur entrée
+    autoCompleteQuery(query){
+        ajaxGet('payutc/user/autocomplete/' + query).then(res => {
+            this.setState({autoCompleteUsers: res.data.users});
+        })
+        .catch(error => {
+
         })
     }
 
@@ -138,7 +157,7 @@ class Users extends Component{
         
         const { classes } = this.props;
 
-        const {users, new_user, page, rowsPerPage} = this.state;
+        const {users, new_user, autoCompleteUsers, page, rowsPerPage} = this.state;
 
         const rights = [
             { value: 'N', label: 'Aucun droit' },
@@ -169,10 +188,22 @@ class Users extends Component{
                             name="login"
                             value={new_user.login}
                             onChange={this.handleChange}
-                            autoComplete=""
+                            autoComplete="off"
                             margin="dense"
                             variant="outlined"
                         />
+                        <Paper className={classes.suggestions}>
+                            {autoCompleteUsers.map((suggestion, index)=> (
+                                <MenuItem
+                                    className={classes.suggestionItem}
+                                    key={index}
+                                    component="div"
+                                >
+                                    {suggestion.name.split('-')[0]}
+                                </MenuItem>
+                            ))}
+                            
+                        </Paper>
                     </Grid>
                     <Grid item xs={8} sm={5}>
                         <TextField
@@ -314,7 +345,21 @@ const styles = theme => ({
     textField: {
         marginTop: 16,
         paddingRight: 15,
-        width: "100%"
+        width: "100%",
+    },
+    suggestions: {
+        zIndex: 100,
+        position: 'absolute',
+        maxHeight: 200,
+        overflowY: 'scroll',
+        marginRight: 15,
+    },
+    suggestionItem: {
+        paddingLeft: 15,
+        paddingBottom: 0,
+        paddingTop: 0,
+        fontSize: 14,
+        minHeight: 30,
     },
     addButton: {
         marginTop: 16,
