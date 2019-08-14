@@ -91,7 +91,7 @@ class CalendarManagement extends Component{
         return (
             <div className={classes.container}>
                 <Grid container>
-                    <Grid item xs={12} md={5}>
+                    <Grid item xs={12} md={5} lg={4}>
                         <Typography variant="h5" noWrap>
                             <ChevronRightIcon className={classes.titleIcon}/>
                             Perms
@@ -112,6 +112,7 @@ class CalendarManagement extends Component{
                                     autoComplete="off"
                                     margin="dense"
                                     variant="outlined"
+                                    InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -135,11 +136,12 @@ class CalendarManagement extends Component{
                                     autoComplete="off"
                                     margin="dense"
                                     variant="outlined"
+                                    InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label="Mail responsable"
+                                    label="Mail resp"
                                     className={classes.textField}
                                     name="mail_resp"
                                     value={newPerm.mail_resp}
@@ -147,6 +149,7 @@ class CalendarManagement extends Component{
                                     autoComplete="off"
                                     margin="dense"
                                     variant="outlined"
+                                    InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
                             <Grid
@@ -160,6 +163,7 @@ class CalendarManagement extends Component{
                                     size="small" 
                                     color="secondary" 
                                     onClick={this.savePerm}
+                                    className={classes.btnAddPerm}
                                 >
                                     Ajouter
                                 </Button>
@@ -179,11 +183,13 @@ class CalendarManagement extends Component{
                                             component="div"
                                         >
                                             <ListItemText
+                                                // Déterminer dynamiquement le nombre de créneaux
                                                 primary={perm.nom + " - 0/0/1"}
                                                 secondary={perm.nom_resp + (perm.asso?(" - Association"):("")) }
                                             />
                                             <ListItemSecondaryAction>
                                                 <IconButton edge="end" aria-label="delete" color="secondary">
+                                                    {/* A désactiver quand des perms y sont associés */}
                                                     <DeleteOutlineIcon />
                                                 </IconButton>
                                             </ListItemSecondaryAction>
@@ -195,7 +201,7 @@ class CalendarManagement extends Component{
                             </List>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={7}>
+                    <Grid item xs={12} sm={7} lg={8}>
                         <Typography variant="h5" noWrap>
                             <ChevronRightIcon className={classes.titleIcon}/>
                             Calendrier
@@ -228,9 +234,13 @@ const styles = theme => ({
     },
     textField: {
         margin: 10,
+        fontSize: 12,
     },
     checkBox: {
         paddingTop: 10,
+    },
+    btnAddPerm: {
+        marginTop: 10,
     },
     listPerms: {
         width: "100%",
