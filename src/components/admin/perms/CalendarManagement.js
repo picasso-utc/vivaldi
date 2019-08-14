@@ -16,6 +16,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
 
 
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
@@ -119,6 +127,15 @@ class CalendarManagement extends Component{
     }
 
 
+    formateCalendarDate(date){
+        const months_list = [
+            "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+            "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+        ]
+        const day = date.getDate();
+        const month = months_list[date.getMonth()];
+        return day + " " + month;
+    }
 
 
     formatCreneauDate(date){
@@ -158,7 +175,7 @@ class CalendarManagement extends Component{
         
         const { classes } = this.props;
 
-        const { perms, newPerm } = this.state 
+        const { perms, newPerm, calendar } = this.state 
 
         return (
             <div className={classes.container}>
@@ -278,6 +295,85 @@ class CalendarManagement extends Component{
                             <ChevronRightIcon className={classes.titleIcon}/>
                             Calendrier
                         </Typography>
+                        <Grid container className={classes.calendar}>
+                            <Table size="small">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Lundi</TableCell>
+                                        <TableCell>Mardi</TableCell>
+                                        <TableCell>Mercredi</TableCell>
+                                        <TableCell>Jeudi</TableCell>
+                                        <TableCell>Vendredi</TableCell>
+                                        <TableCell>Samedi</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {calendar.map((week, index) => (
+                                        // console.log(week)
+                                        <TableRow key={index}>
+                                            {week.map((day, index_day) => (
+                                                <TableCell key={index_day}>
+                                                    <Typography variant="caption" display="block" gutterBottom className={classes.day}>
+                                                        {this.formateCalendarDate(day.date)}
+                                                    </Typography>
+                                                    <FormControl className={classes.margin}>
+                                                        <InputLabel htmlFor="matin">Matin</InputLabel>
+                                                        <NativeSelect
+                                                            className={classes.input}
+                                                            id="matin"
+                                                            // value={age}
+                                                            // onChange={handleChange}
+                                                            // input={<BootstrapInput name="age" id="age-customized-native-simple" />}
+                                                        >
+                                                            <option value="" />
+                                                            {perms.map((perm, index) => (
+                                                                <option value={perm.id} key={index}>
+                                                                    {perm.nom}
+                                                                </option>
+                                                            ))}
+                                                        </NativeSelect>
+                                                    </FormControl>
+                                                    <FormControl className={classes.margin}>
+                                                        <InputLabel htmlFor="midi">Midi</InputLabel>
+                                                        <NativeSelect
+                                                            className={classes.input}
+                                                            id="midi"
+                                                            // value={age}
+                                                            // onChange={handleChange}
+                                                            // input={<BootstrapInput name="age" id="age-customized-native-simple" />}
+                                                        >
+                                                            <option value="" />
+                                                            {perms.map((perm, index) => (
+                                                                <option value={perm.id} key={index}>
+                                                                    {perm.nom}
+                                                                </option>
+                                                            ))}
+                                                        </NativeSelect>
+                                                    </FormControl>
+                                                    <FormControl className={classes.margin}>
+                                                        <InputLabel htmlFor="soir">Soir</InputLabel>
+                                                        <NativeSelect
+                                                            className={classes.input}
+                                                            id="soir"
+                                                            // value={age}
+                                                            // onChange={handleChange}
+                                                            // input={<BootstrapInput name="age" id="age-customized-native-simple" />}
+                                                        >
+                                                            <option value="" />
+                                                            {perms.map((perm, index) => (
+                                                                <option value={perm.id} key={index}>
+                                                                    {perm.nom}
+                                                                </option>
+                                                            ))}
+                                                        </NativeSelect>
+                                                    </FormControl>
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Grid>
                     </Grid>
                 </Grid>
             </div>
@@ -318,6 +414,42 @@ const styles = theme => ({
         width: "100%",
         height: 300,
         overflowY: "scroll",
+    },
+    calendar: {
+        margin: 10,
+        height: window.innerHeight - 150,
+        overflowY: "scroll",
+    },
+    day: {
+        fontSize: 10,
+    },
+    input: {
+        // borderRadius: 4,
+        // position: 'relative',
+        // backgroundColor: theme.palette.background.paper,
+        // border: '1px solid #ced4da',
+        fontSize: 12,
+        // paddingLeft: 10,
+        // padding: '10px 26px 10px 12px',
+        // transition: theme.transitions.create(['border-color', 'box-shadow']),
+        // Use the system font instead of the default Roboto font.
+        // fontFamily: [
+        //   '-apple-system',
+        //   'BlinkMacSystemFont',
+        //   '"Segoe UI"',
+        //   'Roboto',
+        //   '"Helvetica Neue"',
+        //   'Arial',
+        //   'sans-serif',
+        //   '"Apple Color Emoji"',
+        //   '"Segoe UI Emoji"',
+        //   '"Segoe UI Symbol"',
+        // ].join(','),
+        // '&:focus': {
+        //   borderRadius: 4,
+        //   borderColor: '#80bdff',
+        //   boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        // },
     },
 });
 
