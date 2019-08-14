@@ -26,7 +26,7 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
 
-import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
 
 
 class CalendarManagement extends Component{
@@ -162,12 +162,24 @@ class CalendarManagement extends Component{
             perms.push(res.data.perm);
             this.setState({perms: perms})
         })
-        .catch(res => {
-
+        .catch(error => {
+            console.log(error);
         })
         this.setState({
             newPerm : { nom: '', nom_resp: '', mail_resp: '', asso: false }
         });
+    }
+
+
+    deletePerm(event, perm){
+        ajaxDelete('perms/' + perm.id).then(res => {
+            let perms = this.state.perms;
+            perms = perms.filter(p => p.id != perm.id);
+            this.setState({perms: perms});
+        })
+        .catch(error => {
+            console.log(error);
+        })
     }
 
 
@@ -277,8 +289,12 @@ class CalendarManagement extends Component{
                                                 secondary={perm.nom_resp + (perm.asso?(" - Association"):("")) }
                                             />
                                             <ListItemSecondaryAction>
-                                                <IconButton edge="end" aria-label="delete" color="secondary">
-                                                    {/* A désactiver quand des perms y sont associés */}
+                                                        <IconButton 
+                                                            edge="end" 
+                                                            aria-label="delete" 
+                                                            color="secondary"
+                                                            onClick={(e) => this.deletePerm(e, perm)}
+                                                        >
                                                     <DeleteOutlineIcon />
                                                 </IconButton>
                                             </ListItemSecondaryAction>
