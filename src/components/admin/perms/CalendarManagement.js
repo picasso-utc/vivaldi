@@ -24,6 +24,7 @@ import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
@@ -35,6 +36,7 @@ class CalendarManagement extends Component{
     constructor(props) {
         super(props)
         this.state = {
+            loading: true,
             perms: [],
             newPerm: {
                 nom: '',
@@ -187,7 +189,23 @@ class CalendarManagement extends Component{
         
         const { classes } = this.props;
 
-        const { perms, newPerm, calendar } = this.state 
+        const { perms, newPerm, calendar, loading } = this.state 
+
+        if(loading){
+            return (
+                <Grid 
+                    container 
+                    className={classes.loader}
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress className={classes.progress} />
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return (
             <div className={classes.container}>
