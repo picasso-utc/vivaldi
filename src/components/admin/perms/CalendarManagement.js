@@ -17,16 +17,76 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
+
+import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
+
+
 class CalendarManagement extends Component{
  
     
     constructor(props) {
         super(props)
+        this.state = {
+            perms: [],
+            newPerm: {
+                nom: '',
+                nom_resp: '',
+                mail_resp: '',
+                asso: false,
+            }
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.savePerm = this.savePerm.bind(this);
+
     }
+
+
+    componentDidMount(){
+        this.loadPerms();
+    }
+
+
+    loadPerms(){
+        ajaxGet('perms').then(res => {
+            this.setState({perms: res.data})
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
+
+    handleChange(event){
+        this.setState({
+            newPerm: {
+                ...this.state.newPerm,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
+
+
+    savePerm(){
+        ajaxPost('perms/', this.state.newPerm).then(res => {
+            let perms = this.state.perms;
+            perms.push(res.data.perm);
+            this.setState({perms: perms})
+        })
+        .catch(res => {
+
+        })
+        this.setState({
+            newPerm : { nom: '', nom_resp: '', mail_resp: '', asso: false }
+        });
+    }
+
 
     render(){
         
         const { classes } = this.props;
+
+        const { perms, newPerm } = this.state 
 
         return (
             <div className={classes.container}>
@@ -46,9 +106,9 @@ class CalendarManagement extends Component{
                                 <TextField
                                     label="Nom"
                                     className={classes.textField}
-                                    name="login"
-                                    // value={new_user.login}
-                                    // onChange={this.handleChange}
+                                    name="nom"
+                                    value={newPerm.nom}
+                                    onChange={this.handleChange}
                                     autoComplete="off"
                                     margin="dense"
                                     variant="outlined"
@@ -57,7 +117,9 @@ class CalendarManagement extends Component{
                             <Grid item xs={12} sm={6}>
                                 <FormControlLabel
                                     className={classes.checkBox}
-                                    value="start"
+                                    name="asso"
+                                    value={newPerm.asso}
+                                    onChange={this.handleChange}
                                     control={<Checkbox color="primary" />}
                                     label="Association ?"
                                     labelPlacement="start"
@@ -67,9 +129,9 @@ class CalendarManagement extends Component{
                                 <TextField
                                     label="Responsable"
                                     className={classes.textField}
-                                    name="login"
-                                    // value={new_user.login}
-                                    // onChange={this.handleChange}
+                                    name="nom_resp"
+                                    value={newPerm.nom_resp}
+                                    onChange={this.handleChange}
                                     autoComplete="off"
                                     margin="dense"
                                     variant="outlined"
@@ -79,9 +141,9 @@ class CalendarManagement extends Component{
                                 <TextField
                                     label="Mail responsable"
                                     className={classes.textField}
-                                    name="login"
-                                    // value={new_user.login}
-                                    // onChange={this.handleChange}
+                                    name="mail_resp"
+                                    value={newPerm.mail_resp}
+                                    onChange={this.handleChange}
                                     autoComplete="off"
                                     margin="dense"
                                     variant="outlined"
@@ -97,6 +159,7 @@ class CalendarManagement extends Component{
                                     variant="outlined" 
                                     size="small" 
                                     color="secondary" 
+                                    onClick={this.savePerm}
                                 >
                                     Ajouter
                                 </Button>
