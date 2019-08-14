@@ -33,17 +33,20 @@ class CalendarManagement extends Component{
                 nom_resp: '',
                 mail_resp: '',
                 asso: false,
-            }
+            },
+            calendar : []
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.savePerm = this.savePerm.bind(this);
+        this.formateCalendarDate = this.formateCalendarDate.bind(this);
 
     }
 
 
     componentDidMount(){
         this.loadPerms();
+        this.createCalender();
     }
 
 
@@ -54,6 +57,75 @@ class CalendarManagement extends Component{
         .catch(error => {
             console.log(error)
         })
+    }
+
+
+    createCalender(){
+        let startDate = new Date(2019, 0, 9);
+        let stopDate = new Date(2019,5,30);
+        let week_number = 0;
+        // L'objet calendrier correspond à un tableau comprenant des tableaux de semaine
+        // calendar[0] correspond à la semaine 0 du semestre
+        // calendar[0][2] correspond au 3ème jour de la semaine 0
+        // On anticipe la création de la première semaine dans calendar d'où [[]]
+        let calendar = [[]];
+        for (let dt = new Date(startDate); dt <= stopDate; dt.setDate(dt.getDate() + 1)) {
+            // Création de la date et ajout des créneaux
+            const date = new Date(dt);
+            const creneaux = [{
+                matin: {date: this.formatCreneauDate(date), creaneau: 'M', creaneau_detail: 'Matin', perm_id: null},
+                midi: {date: this.formatCreneauDate(date), creaneau: 'D', creaneau_detail: 'Midi', perm_id: null},
+                soir: {date: this.formatCreneauDate(date), creaneau: 'S', creaneau_detail: 'Soir', perm_id: null}
+            }]
+            const new_date = {
+                date: date,
+                creneaux: creneaux
+            }
+            const day = date.getDay();
+            if (day == 1) {
+                // Création d'une nouvelle semaine car correspond au lundi
+                // En conséquence création d'un nouveau tableau dans le calendrier
+                week_number += 1;
+                calendar.push([])
+            }
+            if (day != 0) {
+                // On ne prend pas les dimanches dans le planning
+                calendar[week_number].push(new_date);
+            }
+        }
+
+        // Pour la semaine 0 on ajoute manuellement les jours entre lundi et le premier jour donné
+        const week_size = calendar[0].length;
+        if (week_size < 6) {
+            const missing_day = 6 - week_size;
+            for (let index = 1; index <= missing_day; index++) {
+                // const element = missing_day;
+                const date = new Date(startDate.getTime() - 86400000 * index);
+                // console.log(new Date((startDate.getDate() - 1)));
+                const creneaux = [{
+                    matin: {date: this.formatCreneauDate(date), creaneau: 'M', creaneau_detail: 'Matin', perm_id: null},
+                    midi: {date: this.formatCreneauDate(date), creaneau: 'D', creaneau_detail: 'Midi', perm_id: null},
+                    soir: {date: this.formatCreneauDate(date), creaneau: 'S', creaneau_detail: 'Soir', perm_id: null}
+                }]
+                const new_date = {
+                    date: date,
+                    creneaux: creneaux
+                }
+                calendar[0].splice(0,0, new_date);   
+            }
+        }
+        console.log(calendar);
+        this.setState({calendar: calendar})
+    }
+
+
+
+
+    formatCreneauDate(date){
+        const day = date.getDate();
+        const month_number = date.getMonth() +1;
+        const year = date.getFullYear();
+        return year + "-" + month_number + "-" + day;
     }
 
 
