@@ -201,30 +201,21 @@ class Settings extends Component{
                             
                         </Paper>
                     </Grid>
-                    <Grid item xs={8} sm={5}>
+                    <Grid item xs={12} sm={5}>
                         <TextField
-                            id="outlined-select-currency"
-                            select
-                            label="Droit de l'utilisateur"
+                            id="outlined-email-input"
+                            label="Badge de l'étudiant"
                             className={classes.textField}
-                            name="right"
-                            value={new_user.right}
+                            name="login"
+                            value={new_user.login}
                             onChange={this.handleChange}
+                            autoComplete="off"
                             margin="dense"
                             variant="outlined"
-                        >
-                            {rights.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                            ))}
-                        </TextField>
+                        />
                     </Grid>
-                    <Grid item xs={4} sm={2}>
-                        <Button variant="outlined" color="primary" className={classes.addButton} size="large" onClick={this.saveUser}>
-                            Ajouter
-                        </Button>
-                    </Grid>
+                    
+                    
                 </Grid>
                 
                 <Typography variant="h5" noWrap className={classes.subTitle}>
