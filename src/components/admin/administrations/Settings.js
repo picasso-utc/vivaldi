@@ -25,30 +25,26 @@ class Settings extends Component{
         super(props)
 
         this.state = {
-            users : [],
-            new_user : {
-                login: '',
-                right: 'M'
+            badge :{
+                key:'',
+                value:''
             },
-            page: 0,
-            rowsPerPage: 5,
+            user : {
+                login: '',
+                badge: ''
+            },
+            new_user : {
+                login: ''
+            },
             autoCompleteUsers: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.loadUser = this.loadUser.bind(this);
         this.autoCompleteQuery = this.autoCompleteQuery.bind(this);
-        this.saveUser = this.saveUser.bind(this);
-        this.upgradeUser = this.upgradeUser.bind(this);
-        this.downgradeUser = this.downgradeUser.bind(this);
-        this.deleteUser = this.deleteUser.bind(this);
-        this.giveaccesUser = this.giveaccesUser.bind(this);
-        this.updateUser = this.updateUser.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
     }
 
-    componentDidMount(){
-        this.loadUsers();
-    }
 
 
     handleChange(event){
@@ -71,81 +67,27 @@ class Settings extends Component{
             this.setState({autoCompleteUsers: res.data.users});
         })
         .catch(error => {
-
-        })
-    }
-
-
-    loadUsers(){
-        ajaxGet('users').then(res => {
-            this.setState({users: res.data.users})
-        })
-        .catch(error => {
             console.log(error)
         })
     }
 
+    loadUser(){
+        ajaxGet('admin/settings', this.state.settings).then(res => {
+            const settings = res.data.settings;
+            console.log(res)
+            console.log(settings["GINGER_URL"])
+            this.setState({badge:settings}) 
+           
 
-    saveUser(){
-        //Traiter le cas où user déjà présent
-        ajaxPost('users/', this.state.new_user).then(res => {
-            const new_user = res.data.user;
-            let users = this.state.users;
-            // On vérifie que l'utilisateur n'est pas déjà dans le tableau
-            const index = users.findIndex(u => u.login == new_user.login);
-            if (index >= 0) {
-                users[index] = new_user;
-            } else {
-                users.push(new_user);
-            }
-            this.setState({users: users})
         })
         .catch(res => {
-
+            console.log(res)  
         })
-        this.setState({
-            new_user : {login: '', right: 'M'}
-        });
+ 
     }
 
 
-    upgradeUser(event, user){
-        user.right = 'A';
-        this.updateUser(user)
-    }
 
-    
-    downgradeUser(event, user){
-        user.right = 'M';
-        this.updateUser(user)
-    }
-
-    
-    giveaccesUser(event, user){
-        user.right = 'M';
-        this.updateUser(user)
-    }
-
-    
-    deleteUser(event, user){
-        user.right = 'N';
-        this.updateUser(user)
-    }
-
-    
-    updateUser(user){
-        ajaxPost('users/', user).then(res => {
-            let users = this.state.users;
-            const index = users.findIndex(u => u.login == user.login);
-            if (index >= 0) {
-                users[index] = res.data.user;
-                this.setState({users: users})
-            }   
-        })
-        .catch(error => {
-
-        })
-    }
 
     
     handleChangePage(event, newPage){
@@ -157,72 +99,166 @@ class Settings extends Component{
         
         const { classes } = this.props;
 
-        const {users, new_user, autoCompleteUsers, page, rowsPerPage} = this.state;
-
-         const rights = [
-            { value: 'N', label: 'Aucun droit' },
-            { value: 'M', label: 'Membre du Pic' },
-            { value: 'A', label: 'Administrateur' },
-        ];
+        const {badge,user, new_user, autoCompleteUsers} = this.state;
 
         return (
             <div className={classes.container}>
-                <Typography variant="h5" noWrap className={classes.subTitle}>
-                    <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Badge de connexion PayUTC
-                </Typography>
-                <Grid container className={classes.note}>
-                    Ce badge permet de définir avec quels identifiants la connexion à PayUTC est réalisée. <br/><br/>
-                    Bien que cette méthode de connexion à PayUTC pour le serveur aie une configuration contraignante (il faut, pour se connecter, l'identifiant du badge et le PIN, à la façon d'une connexion sur les caisses), c'est celle qui une fois installée permet le fonctionnement le plus rapide du logiciel.
-                </Grid>
-                <Grid container>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            id="outlined-email-input"
-                            label="Nom de l'étudiant"
-                            className={classes.textField}
-                            name="login"
-                            value={new_user.login}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                        <Paper className={classes.suggestions}>
-                            {autoCompleteUsers.map((suggestion, index)=> (
-                                <MenuItem
-                                    className={classes.suggestionItem}
-                                    key={index}
-                                    component="div"
-                                >
-                                    {suggestion.name.split('-')[0]}
-                                </MenuItem>
-                            ))}
+                <Grid container className={classes.section}>
+                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        Badge de connexion PayUTC
+                    </Typography>
+                    <Grid container className={classes.note}>
+                        Ce badge permet de définir avec quels identifiants la connexion à PayUTC est réalisée. <br/><br/>
+                        Bien que cette méthode de connexion à PayUTC pour le serveur aie une configuration contraignante (il faut, pour se connecter, l'identifiant du badge et le PIN, à la façon d'une connexion sur les caisses), c'est celle qui une fois installée permet le fonctionnement le plus rapide du logiciel.
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Nom de l'étudiant"
+                                className={classes.textField}
+                                name="login"
+                                value={new_user.login}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Badge de l'étudiant"
+                                className={classes.textField}
+                                name="badge"
+                                value={badge}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
                             
-                        </Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            id="outlined-email-input"
-                            label="Badge de l'étudiant"
-                            className={classes.textField}
-                            name="login"
-                            value={new_user.login}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    
                     
                 </Grid>
-                
-                <Typography variant="h5" noWrap className={classes.subTitle}>
-                    <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Liste des utilisateurs
-                </Typography>
 
+                <Grid container className={classes.section}>
+                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        API Ginger
+                    </Typography>
+                    <Grid container className={classes.note}>
+                        Ces paramètres permettent de définir d'où les informations sur les utilisateurs sont récupérées.
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="URL de l'API"
+                                className={classes.textField}
+                                name="login"
+                                value={new_user.login}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Clé de connexion"
+                                className={classes.textField}
+                                name="badge"
+                                value={badge}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>              
+                    </Grid>
+                </Grid>
+
+                <Grid container className={classes.section}>
+                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        Semestre
+                    </Typography>
+                    <Grid container className={classes.note}>
+                        Ce menu vous permet de choisir le semestre en cours, c'est à dire le semestre qui apparaîtra aux utilisateurs de Picsous.<br/> <br/>
+                        A partir du moment où vous changez un semestre, les perms des autres semestres n'apparaîtront plus aux utilisateurs de Picsous - 
+                        pour les administrateurs, le système n'affichera par défaut que les factures du semestre en cours. Ils peuvent cependant naviguer 
+                        entre les semestres grâce au menu déroulant en haut de l'écran.<br/> <br/>
+                        Ne changez pas de semestre si vous souhaitez juste consulter les informations d'un semestre ! <br/> <br/>
+                        Pour cela, utilisez le menu déroulant.
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="URL de l'API"
+                                className={classes.textField}
+                                name="login"
+                                value={new_user.login}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Clé de connexion"
+                                className={classes.textField}
+                                name="badge"
+                                value={badge}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>              
+                    </Grid>
+                </Grid>
+
+
+                <Grid container className={classes.section}>
+                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        API PayUTC
+                    </Typography>
+                    <Grid container className={classes.note}>
+                        Ces paramètres permettent de définir la connexion au serveur PayUTC.
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="URL de l'API"
+                                className={classes.textField}
+                                name="login"
+                                value={new_user.login}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Clé de connexion"
+                                className={classes.textField}
+                                name="badge"
+                                value={badge}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                            />
+                        </Grid>              
+                    </Grid>
+                </Grid>
+
+                
+                <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.loadUser}> 
+                    Sauvegarder
+                </Button>
+            
+                
+                
             </div>
         );
     };
@@ -235,6 +271,9 @@ const styles = theme => ({
         margin: 30,
         marginTop: 100,
         border: "2px solid #B22132",
+    },
+    section:{
+        paddingBottom :70,
     },
     paper: {
         padding: 10
