@@ -5,18 +5,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
+import Auth  from '../../../utils/Auth';
 
 class Settings extends Component{
  
@@ -25,26 +20,37 @@ class Settings extends Component{
         super(props)
 
         this.state = {
-            badge :{
-                key:'',
-                value:''
-            },
-            user : {
-                login: '',
-                badge: ''
+            settings : {
+                GINGER_URL : '', 
+                GINGER_KEY : '',  
+                PAYUTC_CONNECTION_UID : '', 
+                PAYUTC_CONNECTION_PIN: '', 
+                PAYUTC_APP_KEY: '', 
+                PAYUTC_APP_URL: '', 
+                SEMESTER: ''
             },
             new_user : {
                 login: ''
             },
+            semesters : [],
             autoCompleteUsers: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.loadUser = this.loadUser.bind(this);
+        this.handleChangeSetting = this.handleChangeSetting.bind(this);
+        this.loadSettings = this.loadSettings.bind(this);
         this.autoCompleteQuery = this.autoCompleteQuery.bind(this);
-        this.handleChangePage = this.handleChangePage.bind(this);
+        this.saveSettings = this.saveSettings.bind(this);
     }
 
+    componentDidMount(){
+        this.loadSettings();
+    }
+
+    saveSettings(){
+        console.log('hello')
+        ajaxPost('admin/settings/', this.state.settings)
+    }
 
 
     handleChange(event){
@@ -59,6 +65,15 @@ class Settings extends Component{
         }
     }
 
+    handleChangeSetting(event){
+        this.setState({
+            settings: {
+                ...this.state.settings,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
+
 
     // Méthode pour obtenir de Payutc des auto complétions
     // via la valeur entrée
@@ -71,17 +86,19 @@ class Settings extends Component{
         })
     }
 
-    loadUser(){
-        ajaxGet('admin/settings', this.state.settings).then(res => {
-            const settings = res.data.settings;
-            console.log(res)
-            console.log(settings["GINGER_URL"])
-            this.setState({badge:settings}) 
-           
+    loadSettings(){
 
+        ajaxGet('admin/settings', this.state.settings).then(res => {
+            console.log(res.data.settings)
+            this.setState({settings:res.data.settings}) 
         })
         .catch(res => {
             console.log(res)  
+        })
+
+        ajaxGet('semesters').then(res => {
+            console.log(res)
+            this.setState({semesters:res.data}) 
         })
  
     }
@@ -89,17 +106,13 @@ class Settings extends Component{
 
 
 
-    
-    handleChangePage(event, newPage){
-        this.setState({page: newPage});
-    }
-        
+ 
 
     render(){
         
         const { classes } = this.props;
 
-        const {badge,user, new_user, autoCompleteUsers} = this.state;
+        const {settings, semesters, autoCompleteUsers, new_user} = this.state;
 
         return (
             <div className={classes.container}>
@@ -113,9 +126,9 @@ class Settings extends Component{
                         Bien que cette méthode de connexion à PayUTC pour le serveur aie une configuration contraignante (il faut, pour se connecter, l'identifiant du badge et le PIN, à la façon d'une connexion sur les caisses), c'est celle qui une fois installée permet le fonctionnement le plus rapide du logiciel.
                     </Grid>
                     <Grid container>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
-                                label="Nom de l'étudiant"
+                                label="Retrouver le badge à partir du login de l'étudiant.e"
                                 className={classes.textField}
                                 name="login"
                                 value={new_user.login}
@@ -124,16 +137,42 @@ class Settings extends Component{
                                 margin="dense"
                                 variant="outlined"
                             />
+                            <Paper className={classes.suggestions}>
+                                {autoCompleteUsers.map((suggestion, index)=> (
+                                    <MenuItem
+                                        className={classes.suggestionItem}
+                                        key={index}
+                                        component="div"
+                                        
+                                    >
+                                        {suggestion.name.split('-')[0]}
+                                    </MenuItem>
+                                ))}     
+                            </Paper>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                label="Badge de l'étudiant"
+                                label="Badge de connexion (UID)"
                                 className={classes.textField}
-                                name="badge"
-                                value={badge}
+                                name="PAYUTC_CONNECTION_UID"
+                                value={settings.PAYUTC_CONNECTION_UID}
+                                onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Code PIN de l'utilisateur"
+                                className={classes.textField}
+                                name="PAYUTC_CONNECTION_PIN"
+                                value={settings.PAYUTC_CONNECTION_PIN}
+                                onChange={this.handleChangeSetting}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                                type="password"
                             />
                             
                         </Grid>
@@ -154,9 +193,9 @@ class Settings extends Component{
                             <TextField
                                 label="URL de l'API"
                                 className={classes.textField}
-                                name="login"
-                                value={new_user.login}
-                                onChange={this.handleChange}
+                                name="GINGER_URL"
+                                value={settings.GINGER_URL}
+                                onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
@@ -166,8 +205,9 @@ class Settings extends Component{
                             <TextField
                                 label="Clé de connexion"
                                 className={classes.textField}
-                                name="badge"
-                                value={badge}
+                                name="GINGER_KEY"
+                                value={settings.GINGER_KEY}
+                                onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
@@ -186,32 +226,28 @@ class Settings extends Component{
                         A partir du moment où vous changez un semestre, les perms des autres semestres n'apparaîtront plus aux utilisateurs de Picsous - 
                         pour les administrateurs, le système n'affichera par défaut que les factures du semestre en cours. Ils peuvent cependant naviguer 
                         entre les semestres grâce au menu déroulant en haut de l'écran.<br/> <br/>
-                        Ne changez pas de semestre si vous souhaitez juste consulter les informations d'un semestre ! <br/> <br/>
-                        Pour cela, utilisez le menu déroulant.
+                        Ne changez pas de semestre si vous souhaitez juste consulter les informations d'un semestre ! Pour cela, utilisez le menu déroulant.
                     </Grid>
                     <Grid container>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                label="URL de l'API"
+                                select
                                 className={classes.textField}
-                                name="login"
-                                value={new_user.login}
-                                onChange={this.handleChange}
+                                name="SEMESTER"
+                                value={settings.SEMESTER}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Clé de connexion"
-                                className={classes.textField}
-                                name="badge"
-                                value={badge}
-                                autoComplete="off"
+                                onChange={this.handleChangeSetting}
                                 margin="dense"
                                 variant="outlined"
-                            />
+                            >
+                                {semesters.map(semesters => (
+                                <MenuItem key={semesters.id} value={semesters.id}>
+                                    {semesters.periode+semesters.annee}
+                                </MenuItem>
+                                ))}
+                            </TextField>
                         </Grid>              
                     </Grid>
                 </Grid>
@@ -230,9 +266,9 @@ class Settings extends Component{
                             <TextField
                                 label="URL de l'API"
                                 className={classes.textField}
-                                name="login"
-                                value={new_user.login}
-                                onChange={this.handleChange}
+                                name="PAYUTC_APP_URL"
+                                value={settings.PAYUTC_APP_URL}
+                                onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
@@ -242,8 +278,9 @@ class Settings extends Component{
                             <TextField
                                 label="Clé de connexion"
                                 className={classes.textField}
-                                name="badge"
-                                value={badge}
+                                name="PAYUTC_APP_KEY"
+                                value={settings.PAYUTC_APP_KEY}
+                                onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
@@ -253,7 +290,7 @@ class Settings extends Component{
                 </Grid>
 
                 
-                <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.loadUser}> 
+                <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.saveSettings}> 
                     Sauvegarder
                 </Button>
             
