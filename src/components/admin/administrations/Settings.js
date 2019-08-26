@@ -48,8 +48,12 @@ class Settings extends Component{
     }
 
     saveSettings(){
-        console.log('hello')
-        ajaxPost('admin/settings/', this.state.settings)
+        ajaxPost('admin/settings', this.state.settings).then(res => {
+            console.log(this.state.settings)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
 
 
