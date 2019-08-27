@@ -45,7 +45,7 @@ class AdminNav extends Component {
 				{
 					id: 'Dashboard',
 					open: false,
-					link: '/admin/',
+					link: '/admin',
 					icon: <HomeIcon />,
 					authorization: Auth.isUserMember(),
 					children : []
@@ -172,7 +172,7 @@ class AdminNav extends Component {
 									className={classes.categoryHeader} 
 									onClick={(e) => this.handleClickOnCategory(e, {id})}
 									button
-									// component={link ? (Link) : ('')}
+									component={link ? (Link) : ('')}
 									to={link ? (link) : ('')}
 								>
 									<ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
