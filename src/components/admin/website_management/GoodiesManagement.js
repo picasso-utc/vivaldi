@@ -139,7 +139,6 @@ class GoodiesManagement extends Component{
                                     variant="inline"
                                     format="MM/dd/yyyy"
                                     margin="normal"
-                                    id="date-picker-inline"
                                     label="Date de départ"
                                     name="start_date"
                                     value={start_date}
@@ -153,7 +152,6 @@ class GoodiesManagement extends Component{
                                     variant="inline"
                                     format="MM/dd/yyyy"
                                     margin="normal"
-                                    id="date-picker-inline"
                                     label="Date de fin"
                                     name="end_date"
                                     value={end_date}
@@ -296,6 +294,10 @@ const styles = theme => ({
     },
     title_btn: {
         marginLeft: 20,
+    },
+    subTitleIcon: {
+        marginRight: 8,
+        paddingTop: 5,
     },
     generate_btn: {
         margin: 20,

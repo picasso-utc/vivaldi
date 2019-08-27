@@ -171,18 +171,9 @@ class Users extends Component{
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Ajouter un nouvel utilisateur
                 </Typography>
-                {/* <Grid container className={classes.note}>
-                        Droits :<br/>
-                        <ul>
-                            <li>Pas d'accès : Pas d'accès à Picsous.</li>
-                            <li>User : Peut ajouter et modifier une perm, et gérer les articles de la perm.</li>
-                            <li>Admin : Peut modifier l'ensemble des paramètres et gérer l'ensemble des factures.</li>
-                        </ul>
-                </Grid> */}
                 <Grid container>
                     <Grid item xs={12} sm={5}>
                         <TextField
-                            id="outlined-email-input"
                             label="Nom de l'étudiant"
                             className={classes.textField}
                             name="login"
@@ -207,7 +198,6 @@ class Users extends Component{
                     </Grid>
                     <Grid item xs={8} sm={5}>
                         <TextField
-                            id="outlined-select-currency"
                             select
                             label="Droit de l'utilisateur"
                             className={classes.textField}
