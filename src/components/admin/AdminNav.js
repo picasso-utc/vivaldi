@@ -27,7 +27,7 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 
 import { Link } from 'react-router-dom';
 
-
+import Auth from '../../utils/Auth';
 
 import Collapse from '@material-ui/core/Collapse';
 
@@ -47,6 +47,7 @@ class AdminNav extends Component {
 					open: false,
 					link: '/admin/',
 					icon: <HomeIcon />,
+					authorization: Auth.isUserMember(),
 					children : []
 				
 				},
@@ -55,6 +56,7 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <DeveloperModeIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Goodies', link: '/admin/goodies'},
 						{ id: 'Vote', link: '/admin/polls'},
@@ -65,6 +67,7 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <EventNoteIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Perm en cours', link: '/admin/current/perm'},
 						{ id: 'Planning', link: '/admin/calendar'},
@@ -84,6 +87,7 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <ImportantDevicesIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Weezevent', link: 'https://admin.nemopay.net'},
 						{ id: 'Picsous', link: 'https://assos.utc.fr/picasso/picsous'},
@@ -95,6 +99,7 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <SettingsIcon/>,
+					authorization:  Auth.isUserAdmin(),
 					children : [
 						{id: 'Utilisateurs', link: '/admin/users'},
 						{id: 'Team', link: '/admin/team'},
@@ -155,8 +160,8 @@ class AdminNav extends Component {
 
 				</Grid>
 				<List disablePadding>
-					{categories.map(({ id, open, link, icon, children })=> (
-						<React.Fragment key={id}>
+					{categories.map(({ id, open, link, icon, children, authorization })=> (
+						authorization && <React.Fragment key={id}>
 							{/* <Link to={link} style={{ textDecoration: 'none' }}> */}
 								<ListItem 
 									className={classes.categoryHeader} 
