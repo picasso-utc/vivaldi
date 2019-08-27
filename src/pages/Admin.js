@@ -36,41 +36,29 @@ class Admin extends Component {
 	displayScreenName(){
 		switch (window.location.pathname) {
 			case "/admin":
-					return "Dashboard";
-					break;
+				return "Dashboard";
 			case "/admin/goodies":
 				return "Goodies";
-				break;
 			case "/admin/polls":
-					return "Sondages";
-					break;
+				return "Sondages";
 			case "/admin/current/perm":
-					return "Perm en cours";
-					break;
+				return "Perm en cours";
 			case "/admin/calendar":
 				return "Planning du semestre";
-				break;
 			case "/admin/astreintes":
 				return "Astreintes";
-				break;
 			case "/admin/perms":
 				return "Perms";
-				break;
 			case "/admin/charte":
 				return "Charte";
-				break;	
 			case "/admin/users":
-					return "Utilisateurs";
-					break;	
+				return "Utilisateurs";
 			case "/admin/team":
-					return "Team";
-					break;	
+				return "Team";
 			case "/admin/semesters":
-					return "Semestres";
-					break;	
+				return "Semestres";
 			case "/admin/settings":
-					return "Paramètres";
-					break;	
+				return "Paramètres";
 			default:
 				break;
 		}
