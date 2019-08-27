@@ -80,10 +80,11 @@ const styles = theme => ({
 		width:'100%',
 		maxWidth: '100%',
 		margin: 0,
-		paddingRight: 50,
-		paddingLeft: 50,
+		paddingRight: '5%',
+		paddingLeft: '5%',
 		paddingBottom: 50,
-		backgroundColor: '#000223'
+		backgroundColor: '#000223',
+		color: 'white',
 	},
 	header : {
 		height: window.innerHeight,
@@ -95,7 +96,7 @@ const styles = theme => ({
 	},
 	component: {
 		marginTop: 30,
-		padding: 20,
+		padding: '5%',
 		border: "#B22132 2px solid",
 	},
 });
