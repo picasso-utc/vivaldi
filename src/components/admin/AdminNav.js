@@ -59,7 +59,7 @@ class AdminNav extends Component {
 					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Goodies', link: '/admin/goodies'},
-						{ id: 'Vote', link: '/admin/polls'},
+						{ id: 'Sondages', link: '/admin/polls'},
 					]
 				},
 				{
@@ -104,7 +104,7 @@ class AdminNav extends Component {
 						{id: 'Utilisateurs', link: '/admin/users'},
 						{id: 'Team', link: '/admin/team'},
 						{id: 'Semestres', link: '/admin/semesters'},
-						{id: 'Paramètre', link: '/admin/settings'},
+						{id: 'Paramètres', link: '/admin/settings'},
 					]
 				}
 			],

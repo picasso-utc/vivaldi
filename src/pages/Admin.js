@@ -32,6 +32,49 @@ class Admin extends Component {
 		super(props);
 	}
 	
+
+	displayScreenName(){
+		switch (window.location.pathname) {
+			case "/admin":
+					return "Dashboard";
+					break;
+			case "/admin/goodies":
+				return "Goodies";
+				break;
+			case "/admin/polls":
+					return "Sondages";
+					break;
+			case "/admin/current/perm":
+					return "Perm en cours";
+					break;
+			case "/admin/calendar":
+				return "Planning du semestre";
+				break;
+			case "/admin/astreintes":
+				return "Astreintes";
+				break;
+			case "/admin/perms":
+				return "Perms";
+				break;
+			case "/admin/charte":
+				return "Charte";
+				break;	
+			case "/admin/users":
+					return "Utilisateurs";
+					break;	
+			case "/admin/team":
+					return "Team";
+					break;	
+			case "/admin/semesters":
+					return "Semestres";
+					break;	
+			case "/admin/settings":
+					return "Paramètres";
+					break;	
+			default:
+				break;
+		}
+	}
 	
   	render(){
 
@@ -60,7 +103,8 @@ class Admin extends Component {
 							<MenuIcon />
 						</IconButton>
 						<Typography variant="h4" noWrap className={classes.windowTitle}>
-							Utilisateurs
+							{/* Utilisateurs */}
+							{this.displayScreenName()}
 						</Typography>
 					</Toolbar>
 				</AppBar>
