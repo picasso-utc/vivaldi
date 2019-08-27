@@ -8,9 +8,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut } from '../../../utils/Ajax';
 
@@ -22,11 +22,15 @@ class GoodiesManagement extends Component{
         this.state = {
             winners: [],
             loading: true,
+            start_date: new Date(),
+            end_date: new Date(),
         }
 
         this.generateGoodiesWinners = this.generateGoodiesWinners.bind(this);
         this.deleteGoodiesWinners = this.deleteGoodiesWinners.bind(this);
         this.updateGoodieWinner = this.updateGoodieWinner.bind(this)
+        this.handleStartDateChange = this.handleStartDateChange.bind(this)
+        this.handleEndDateChange = this.handleEndDateChange.bind(this)
     }
 
 
@@ -44,9 +48,27 @@ class GoodiesManagement extends Component{
         })
     }
 
+
+    handleStartDateChange(date){
+        this.setState({start_date: date})
+    }
+
+    handleEndDateChange(date){
+        this.setState({end_date: date})
+    }
+
+    formateDate(date){
+        const day = ("0" + (date.getDate() + 1)).slice(-2);
+        const month_number = ("0" + (date.getMonth() + 1)).slice(-2)
+        const year = date.getFullYear();
+        return year + "-" + month_number + "-" + day;
+    }
+
     generateGoodiesWinners(){
         this.setState({loading: true})
-        ajaxPost('payutc/goodies/').then(res => {
+        const start_date = this.formateDate(this.state.start_date);
+        const end_date = this.formateDate(this.state.end_date)
+        ajaxPost('payutc/goodies/', {start_date: start_date, end_date: end_date}).then(res => {
             this.setState({winners: res.data.winners, loading: false})
         })
         .catch(error => {
@@ -83,7 +105,7 @@ class GoodiesManagement extends Component{
     render(){
         
         const { classes } = this.props;
-        const { winners, loading } = this.state;
+        const { winners, loading, start_date, end_date } = this.state;
 
         if (loading) {
             return (
@@ -108,17 +130,54 @@ class GoodiesManagement extends Component{
                 {winners.length == 0 ? (
                     <Grid container>
                         <Typography variant="h5" noWrap className={classes.subTitle}>
-                            Pas de vainqueur pour le moment 
+                            Pas de vainqueur pour le moment. 
                         </Typography>
-                        <Button 
-                            variant="outlined" 
-                            size="small" 
-                            color="primary"
-                            className={classes.title_btn}
-                            onClick={this.generateGoodiesWinners}
-                        >
-                            Générer
-                        </Button>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid container justify="space-around">
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Date de départ"
+                                    name="start_date"
+                                    value={start_date}
+                                    onChange={this.handleStartDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Date de fin"
+                                    name="end_date"
+                                    value={end_date}
+                                    onChange={this.handleEndDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </Grid>
+                            <Grid container
+                            direction="row"
+                            justify="center"
+                            alignItems="center">
+                                <Button 
+                                    variant="outlined" 
+                                    size="small" 
+                                    color="primary"
+                                    className={classes.generate_btn}
+                                    onClick={this.generateGoodiesWinners}
+                                >
+                                    Générer
+                                </Button>
+                            </Grid>
+                        </MuiPickersUtilsProvider>
                     </Grid>
                 ):(
                     <div>
@@ -135,41 +194,84 @@ class GoodiesManagement extends Component{
                                 Supprimer
                             </Button>
                         </Typography>
-                        <Table>
-                            <TableBody>
-                                {winners.map((row, index) => (
-                                    <TableRow hover key={index} className={classes.row}>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {row.winner}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {row.picked_up?(
-                                                <Button 
-                                                    variant="outlined" 
-                                                    size="small" 
-                                                    className={classes.btn} 
-                                                    color="secondary"
-                                                    onClick={(e) => this.updateGoodieWinner(e, row.id)}
-                                                >
-                                                    Annuler
-                                                </Button>
-                                            ):(
-                                                <Button 
-                                                    variant="outlined" 
-                                                    size="small" 
-                                                    className={classes.btn} 
-                                                    color="primary"
-                                                    onClick={(e) => this.updateGoodieWinner(e, row.id)}
-                                                >
-                                                    Reçu
-                                                </Button>
-                                            )
-                                        }
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <Grid container>
+                            <Grid item xs={12} sm={6}>
+                                <Table size="small">
+                                    <TableBody>
+                                        {winners.slice(0,Math.ceil(winners.length/2))
+                                        .map((row, index) => (
+                                            <TableRow hover key={index} className={classes.row}>
+                                                <TableCell component="th" scope="row" className={classes.cell}>
+                                                    {row.winner}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row" className={classes.cell}>
+                                                    {row.picked_up?(
+                                                        <Button 
+                                                            variant="outlined" 
+                                                            size="small" 
+                                                            className={classes.btn} 
+                                                            color="secondary"
+                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                        >
+                                                            Annuler
+                                                        </Button>
+                                                    ):(
+                                                        <Button 
+                                                            variant="outlined" 
+                                                            size="small" 
+                                                            className={classes.btn} 
+                                                            color="primary"
+                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                        >
+                                                            Reçu
+                                                        </Button>
+                                                    )
+                                                }
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Table size="small">
+                                    <TableBody>
+                                        {winners.slice(Math.ceil(winners.length/2), winners.length)
+                                        .map((row, index) => (
+                                            <TableRow hover key={index} className={classes.row}>
+                                                <TableCell component="th" scope="row" className={classes.cell}>
+                                                    {row.winner}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row" className={classes.cell}>
+                                                    {row.picked_up?(
+                                                        <Button 
+                                                            variant="outlined" 
+                                                            size="small" 
+                                                            className={classes.btn} 
+                                                            color="secondary"
+                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                        >
+                                                            Annuler
+                                                        </Button>
+                                                    ):(
+                                                        <Button 
+                                                            variant="outlined" 
+                                                            size="small" 
+                                                            className={classes.btn} 
+                                                            color="primary"
+                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                        >
+                                                            Reçu
+                                                        </Button>
+                                                    )
+                                                }
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Grid>
+                        </Grid>
                     </div>
                 )}
 
@@ -189,8 +291,15 @@ const styles = theme => ({
         marginTop: 100,
         border: "2px solid #B22132",
     },
+    subTitle:{
+        marginBottom: 40,
+    },
     title_btn: {
         marginLeft: 20,
+    },
+    generate_btn: {
+        margin: 20,
+        marginTop: 30,
     },
 });
 
