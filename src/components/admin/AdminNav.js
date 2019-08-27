@@ -137,6 +137,11 @@ class AdminNav extends Component {
 			categories: categories
 		});
 	}
+
+
+	openChildLink(event, link){
+		window.open(link)
+	}
 	
 	
   	render(){
@@ -167,7 +172,7 @@ class AdminNav extends Component {
 									className={classes.categoryHeader} 
 									onClick={(e) => this.handleClickOnCategory(e, {id})}
 									button
-									component={link ? (Link) : ('')}
+									// component={link ? (Link) : ('')}
 									to={link ? (link) : ('')}
 								>
 									<ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
@@ -185,7 +190,21 @@ class AdminNav extends Component {
 							<Collapse in={open} timeout="auto" unmountOnExit>
 								<List component="div" disablePadding>
 									{children && children.map(({ id: childId, link: childLink }) => (
-										// <Link to="">
+										childLink.startsWith('http')? (
+											<ListItem 
+												key={childId} 
+												button
+												className={classes.categoryChildren}
+												onClick={(e) => this.openChildLink(e, childLink)}
+											>
+												<ListItemText 
+													primary={childId} 
+													classes={{
+														primary: classes.categoryChildrenPrimary,
+													}}
+												/>
+											</ListItem>
+										) : (
 											<ListItem 
 												key={childId} 
 												button
@@ -200,7 +219,7 @@ class AdminNav extends Component {
 													}}
 												/>
 											</ListItem>
-										// </Link>
+										)
 									))}
 								</List>
 							</Collapse>
