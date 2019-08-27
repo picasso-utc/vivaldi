@@ -53,8 +53,8 @@ class GoodiesDisplayer extends React.Component {
 								.map((winner, index) => (
 									<ListItem key={index} className={classes.item}>
 										<ListItemText 
-											primary={winner.winner} $
-											className={winner.picked_up && classes.validatedItem}/>
+											primary={winner.winner}
+											className={`${winner.picked_up && classes.validatedItem}`}/>
 									</ListItem>
 								))}
 							</List>
@@ -66,7 +66,7 @@ class GoodiesDisplayer extends React.Component {
 									<ListItem key={index} className={classes.item}>
 										<ListItemText 
 											primary={winner.winner} 
-											className={winner.picked_up && classes.validatedItem}
+											className={`${winner.picked_up && classes.validatedItem}`}
 										/>
 									</ListItem>
 								))}
