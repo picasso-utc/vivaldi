@@ -29,8 +29,10 @@ class Settings extends Component{
                 PAYUTC_APP_URL: '', 
                 SEMESTER: ''
             },
-            new_user : {
-                login: ''
+            user : {
+                login : '',
+                badge : '',
+                pin : ''
             },
             semesters : [],
             autoCompleteUsers: [],
@@ -41,10 +43,29 @@ class Settings extends Component{
         this.loadSettings = this.loadSettings.bind(this);
         this.autoCompleteQuery = this.autoCompleteQuery.bind(this);
         this.saveSettings = this.saveSettings.bind(this);
+        this.updateBadge = this.updateBadge.bind(this);
     }
+
 
     componentDidMount(){
         this.loadSettings();
+    }
+
+    updateBadge(name){
+        const login = name.match(/\(.*\)/).toString()
+        const query = login.substring(1,9)
+        console.log(query)
+        ajaxGet('core/user?login='+query).then(res => {
+            console.log(res)
+            const new_user = {
+                login : res.data.login,
+                badge : res.data.badge_uid,
+                pin :  res.data.badge_uid
+            }
+            this.setState({user : new_user, autoCompleteUsers:[]})
+
+        })
+
     }
 
     saveSettings(){
@@ -59,8 +80,8 @@ class Settings extends Component{
 
     handleChange(event){
         this.setState({
-            new_user: {
-                ...this.state.new_user,
+            user: {
+                ...this.state.user,
                 [event.target.name]: event.target.value
             }
         })
@@ -94,7 +115,12 @@ class Settings extends Component{
 
         ajaxGet('admin/settings', this.state.settings).then(res => {
             console.log(res.data.settings)
-            this.setState({settings:res.data.settings}) 
+            const new_user = {
+                login : '',
+                badge : res.data.settings.PAYUTC_CONNECTION_UID,
+                pin : res.data.settings.PAYUTC_CONNECTION_PIN
+            }
+            this.setState({settings:res.data.settings, user : new_user}) 
         })
         .catch(res => {
             console.log(res)  
@@ -116,7 +142,7 @@ class Settings extends Component{
         
         const { classes } = this.props;
 
-        const {settings, semesters, autoCompleteUsers, new_user} = this.state;
+        const {settings, semesters, autoCompleteUsers, user} = this.state;
 
         return (
             <div className={classes.container}>
@@ -135,7 +161,7 @@ class Settings extends Component{
                                 label="Retrouver le badge à partir du login de l'étudiant.e"
                                 className={classes.textField}
                                 name="login"
-                                value={new_user.login}
+                                value={user.login|| ''}
                                 onChange={this.handleChange}
                                 autoComplete="off"
                                 margin="dense"
@@ -147,6 +173,7 @@ class Settings extends Component{
                                         className={classes.suggestionItem}
                                         key={index}
                                         component="div"
+                                        onClick={()=>this.updateBadge(suggestion.name.split('-')[0])}
                                         
                                     >
                                         {suggestion.name.split('-')[0]}
@@ -159,7 +186,7 @@ class Settings extends Component{
                                 label="Badge de connexion (UID)"
                                 className={classes.textField}
                                 name="PAYUTC_CONNECTION_UID"
-                                value={settings.PAYUTC_CONNECTION_UID}
+                                value={user.badge || ''}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
@@ -171,7 +198,7 @@ class Settings extends Component{
                                 label="Code PIN de l'utilisateur"
                                 className={classes.textField}
                                 name="PAYUTC_CONNECTION_PIN"
-                                value={settings.PAYUTC_CONNECTION_PIN}
+                                value={user.pin || ''}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
