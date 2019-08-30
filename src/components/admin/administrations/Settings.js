@@ -69,7 +69,7 @@ class Settings extends Component{
     }
 
     saveSettings(){
-        ajaxPost('admin/settings', this.state.settings).then(res => {
+        ajaxPost('admin/settings', {settings: this.state.settings}).then(res => {
             console.log(this.state.settings)
         })
         .catch(error=>{
