@@ -99,7 +99,7 @@ const styles = theme => ({
 	couverture: {
 		width: '100%',
 		height: window.innerHeight - (65),
-		objectFit: 'fill',
+		objectFit: 'cover',
 	},
 });
 
