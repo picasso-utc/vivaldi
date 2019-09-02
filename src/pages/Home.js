@@ -43,12 +43,12 @@ class Home extends React.Component {
 					</Container> */}
 
 
-					<Container className={classes.container}>
+					{/* <Container className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Calendrier</legend>
 							<Calendar />
 						</fieldset>
-					</Container>
+					</Container> */}
 
 					<Container className={classes.container}>
 						<fieldset className={classes.component}>
@@ -64,12 +64,12 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					<Container className={classes.container}>
+					{/* <Container className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Devenir membre du Pic</legend>
 							<FichesPostes />
 						</fieldset>
-					</Container>
+					</Container> */}
 
 					<Container className={classes.container}>
 						<fieldset className={classes.component}>
