@@ -12,6 +12,7 @@ import PriceDisplayer from '../components/home/PriceDisplayer';
 import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
 import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
+import Footer from '../components/Footer';
 
 
 class Home extends React.Component {
@@ -78,6 +79,9 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
+				</Container>
+				<Container direction="row">
+					<Footer/>
 				</Container>
 			</React.Fragment>
 		);
