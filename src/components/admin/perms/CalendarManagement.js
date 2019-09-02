@@ -25,9 +25,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Chip from '@material-ui/core/Chip';
+import Icon from '@material-ui/core/Icon';
+
+
 
 
 import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
+import { isWhiteSpaceLike } from 'typescript';
 
 
 class CalendarManagement extends Component{
@@ -44,11 +49,13 @@ class CalendarManagement extends Component{
                 mail_resp: '',
                 asso: false,
             },
-            calendar : []
+            calendar : [],
+            current_semester: {},
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handlePlanningChange = this.handlePlanningChange.bind(this);
+        this.handleDeleteCreneau = this.handleDeleteCreneau.bind(this);
         this.savePerm = this.savePerm.bind(this);
         this.deletePerm = this.deletePerm.bind(this);
         this.formateCalendarDate = this.formateCalendarDate.bind(this);
@@ -57,7 +64,18 @@ class CalendarManagement extends Component{
 
 
     componentDidMount(){
-        this.loadPerms();
+        this.loadCurrentSemester();
+    }
+
+
+    loadCurrentSemester(){
+        ajaxGet('current/semester').then(res => {
+            this.setState({current_semester: res.data})
+            this.loadPerms();
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
 
@@ -69,9 +87,10 @@ class CalendarManagement extends Component{
             for (let index = 0; index < perms.length; index++) {
 
                 for (let index_creneau = 0; index_creneau < perms[index].creneaux.length; index_creneau++) {
-                    // Créneau au format AAAA-MM-dd:Creneau
+                    // Créneau au format AAAA-MM-dd:Creneau:id
                     const creneau_array = perms[index].creneaux[index_creneau].split(':');
                     let creneau = {
+                        id: creneau_array[2],
                         date: new Date(creneau_array[0]),
                         creneau: creneau_array[1],
                         perm_id: perms[index].id,
@@ -109,8 +128,8 @@ class CalendarManagement extends Component{
 
 
     createCalender(existing_creneaux){
-        let startDate = new Date(2019, 0, 9);
-        let stopDate = new Date(2019,11,30);
+        let startDate = new Date(this.state.current_semester.start_date);
+        let stopDate = new Date(this.state.current_semester.end_date);
         let week_number = 0;
         // L'objet calendrier correspond à un tableau comprenant des tableaux de semaine
         // calendar[0] correspond à la semaine 0 du semestre
@@ -127,7 +146,7 @@ class CalendarManagement extends Component{
             }
 
             const day = date.getDay();
-            if (day == 1) {
+            if (day == 1 && !this.compareDates(startDate, date)) {
                 // Création d'une nouvelle semaine car correspond au lundi
                 // En conséquence création d'un nouveau tableau dans le calendrier
                 week_number += 1;
@@ -154,7 +173,6 @@ class CalendarManagement extends Component{
                 calendar[0].splice(0,0, new_date);   
             }
         }
-        console.log(calendar);
         this.setState({loading: false, calendar: calendar})
     }
 
@@ -199,7 +217,7 @@ class CalendarManagement extends Component{
 
 
     formatCreneauDate(date){
-        const day = ("0" + (date.getDate() + 1)).slice(-2);
+        const day = ("0" + (date.getDate())).slice(-2);
         // const month_number = date.getMonth() +1;
         const month_number = ("0" + (date.getMonth() + 1)).slice(-2)
         const year = date.getFullYear();
@@ -217,27 +235,50 @@ class CalendarManagement extends Component{
     }
 
 
-    handlePlanningChange(event, week_index, day_index){
-        // To DO Save creneaux !!!
+    handlePlanningChange(event, week_index, day_index, creneau_type){
 
         if (!event.target.value) {
             return
         }
-        
-        let calendar = this.state.calendar;
-        let perms = this.state.perms;
+        let calendar = [ ... this.state.calendar];
+        let perms = [ ... this.state.perms];
         const perm_id = event.target.value;
         let perm_index = perms.findIndex(p => p.id == perm_id);
         
-        calendar[week_index][day_index].creneaux.midi.perm_nom = perms[perm_index].nom;
-        calendar[week_index][day_index].creneaux.midi.perm_id = perm_id;
-        console.log(calendar[week_index][day_index].creneaux.midi)
-        ajaxPost('creneau/', calendar[week_index][day_index].creneaux.midi).then(res => {
-            const creneau_date = calendar[week_index][day_index].creneaux.midi.date;
-            const creneau_period = calendar[week_index][day_index].creneaux.midi.creneau;
-            perms[perm_index].creneaux.push(creneau_date + " : " + creneau_period);
-            console.log(perms)
-            // console.log(calendar[week_index][day_index])
+        calendar[week_index][day_index].creneaux[creneau_type].perm_nom = perms[perm_index].nom;
+        calendar[week_index][day_index].creneaux[creneau_type].perm_id = perm_id;
+        ajaxPost('creneau/', calendar[week_index][day_index].creneaux[creneau_type]).then(res => {
+            const creneau_date = calendar[week_index][day_index].creneaux[creneau_type].date;
+            const creneau_period = calendar[week_index][day_index].creneaux[creneau_type].creneau;
+            calendar[week_index][day_index].creneaux[creneau_type].id = res.data.id;
+            perms[perm_index].creneaux.push(creneau_date + ":" + creneau_period + ":" + res.data.id);
+            this.setState({
+                calendar: calendar,
+                perms: perms,
+            })
+        })
+        .catch(error => {
+            console.log(error);
+        }) 
+    }
+
+
+    handleDeleteCreneau(event, week_index, day_index, creneau_type, perm_id){
+        let calendar = [ ... this.state.calendar];
+        let perms = [ ... this.state.perms];
+        let perm_index = perms.findIndex(p => p.id == perm_id);
+
+        
+        const creneau = calendar[week_index][day_index].creneaux[creneau_type]
+
+        // console.log(calendar[week_index][day_index].creneaux[creneau_type])
+        
+        ajaxDelete('creneau/' + creneau.id).then(res => {
+            // Suppression du créneau dans le calendrier
+            calendar[week_index][day_index].creneaux[creneau_type].perm_nom = "";
+            calendar[week_index][day_index].creneaux[creneau_type].perm_id = "";
+            // Suppression du créneau dans les perms
+            perms[perm_index].creneaux = perms[perm_index].creneaux.filter(c => c != creneau.date + ":" + creneau.creneau + ":" + creneau.id)
             this.setState({
                 calendar: calendar,
                 perms: perms,
@@ -452,82 +493,84 @@ class CalendarManagement extends Component{
                                             {week.map((day, index_day) => (
                                                 // console.log(day)
                                                 <TableCell key={index_day}>
-                                                    <Typography variant="caption" display="block" gutterBottom className={classes.day}>
-                                                        {this.formateCalendarDate(day.date)}
+                                                    <Typography variant="caption" display="block" gutterBottom className={classes.day} noWrap>
+                                                        <strong>{this.formateCalendarDate(day.date)}</strong>
                                                     </Typography>
-                                                    {day.creneaux.matin.perm_id? (
-                                                        <Typography variant="caption" display="block" gutterBottom className={classes.day}>
-                                                            {day.creneaux.matin.perm_nom && day.creneaux.matin.perm_nom}
-                                                        </Typography>  
-                                                    ) : (
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel htmlFor="matin">Matin</InputLabel>
-                                                            <NativeSelect
-                                                                className={classes.input}
-                                                                id="matin"
-                                                                // value={age}
-                                                                // onChange={handleChange}
-                                                                // input={<BootstrapInput name="age" id="age-customized-native-simple" />}
-                                                            >
-                                                                <option value="" />
-                                                                {perms.map((perm, index) => (
-                                                                    <option value={perm.id} key={index}>
-                                                                        {perm.nom}
-                                                                    </option>
-                                                                ))}
-                                                            </NativeSelect>
-                                                        </FormControl>
-                                                    )}
-                                                    {day.creneaux.midi.perm_id?(
-                                                        <Typography variant="caption" display="block" gutterBottom className={classes.day}>
-                                                            {day.creneaux.midi.perm_nom && day.creneaux.midi.perm_nom}
-                                                            <IconButton edge="end" aria-label="delete" color="secondary">
-                                                                <DeleteOutlineIcon />
-                                                            </IconButton>
-                                                        </Typography>  
-                                                    ):(
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel htmlFor="midi">Midi</InputLabel>
-                                                            <NativeSelect
-                                                                className={classes.input}
-                                                                id="midi"
-                                                                value={day.creneaux.midi.perm_id}
-                                                                onChange={(e) => this.handlePlanningChange(e, index, index_day)}
-                                                                // input={<BootstrapInput name="age" id="age-customized-native-simple" />}
-                                                            >
-                                                                
-                                                                <option value="" />
-                                                                {perms.map((perm, index) => (
-                                                                    <option value={perm.id} key={index}>
-                                                                        {perm.nom}
-                                                                    </option>
-                                                                ))}
-                                                            </NativeSelect>
-                                                        </FormControl>
-                                                    )}
-                                                    {day.creneaux.soir.perm_id? (
-                                                        <Typography variant="caption" display="block" gutterBottom className={classes.day}>
-                                                            {day.creneaux.soir.perm_nom && day.creneaux.soir.perm_nom}
-                                                        </Typography>  
-                                                    ) : (
-                                                        <FormControl className={classes.margin}>
-                                                            <InputLabel htmlFor="soir">Soir</InputLabel>
-                                                            <NativeSelect
-                                                                className={classes.input}
-                                                                id="soir"
-                                                                // value={age}
-                                                                // onChange={handleChange}
-                                                                // input={<BootstrapInput name="age" id="age-customized-native-simple" />}
-                                                            >
-                                                                <option value="" />
-                                                                {perms.map((perm, index) => (
-                                                                    <option value={perm.id} key={index}>
-                                                                        {perm.nom}
-                                                                    </option>
-                                                                ))}
-                                                            </NativeSelect>
-                                                        </FormControl>
-                                                    )}
+                                                    <div className={classes.creneau_card}>
+                                                        {day.creneaux.matin.perm_id? (
+                                                            <Chip 
+                                                                size="small" 
+                                                                label={day.creneaux.matin.perm_nom} 
+                                                                color="primary" 
+                                                                className={classes.perm_chip}
+                                                                onDelete={(e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
+                                                            />
+                                                        ) : (
+                                                            <FormControl className={classes.form}>
+                                                                <select 
+                                                                    className={classes.perm_select}
+                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'matin')}
+                                                                >
+                                                                    <option value="" defaultValue/>
+                                                                    {perms.map((perm, index) => (
+                                                                        <option value={perm.id} key={index}>
+                                                                            {perm.nom}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </FormControl>
+                                                        )}
+                                                    </div>
+                                                    <div className={classes.creneau_card}>
+                                                        {day.creneaux.midi.perm_id?(
+                                                            <Chip 
+                                                                size="small" 
+                                                                label={day.creneaux.midi.perm_nom} 
+                                                                color="primary" 
+                                                                className={classes.perm_chip} 
+                                                                onDelete={(e) => this.handleDeleteCreneau(e, index, index_day, 'midi', day.creneaux.midi.perm_id)}
+                                                            />
+                                                        ):(
+                                                            <FormControl className={classes.form}>
+                                                                <select 
+                                                                    className={classes.perm_select}
+                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'midi')}
+                                                                >
+                                                                    <option value="" defaultValue/>
+                                                                    {perms.map((perm, index) => (
+                                                                        <option value={perm.id} key={index}>
+                                                                            {perm.nom}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </FormControl>
+                                                        )}
+                                                    </div>
+                                                    <div className={classes.creneau_card}>
+                                                        {day.creneaux.soir.perm_id? (
+                                                            <Chip 
+                                                                size="small" 
+                                                                label={day.creneaux.soir.perm_nom} 
+                                                                color="primary"
+                                                                className={classes.perm_chip} 
+                                                                onDelete={(e) => this.handleDeleteCreneau(e, index, index_day, 'soir', day.creneaux.soir.perm_id)}
+                                                            />
+                                                        ) : (
+                                                            <FormControl className={classes.form}>                                                 
+                                                                <select 
+                                                                    className={classes.perm_select}
+                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'soir')}
+                                                                >
+                                                                    <option value="" defaultValue/>
+                                                                    {perms.map((perm, index) => (
+                                                                        <option value={perm.id} key={index}>
+                                                                            {perm.nom}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </FormControl>
+                                                        )}
+                                                    </div>
                                                 </TableCell>
                                             ))}
                                         </TableRow>
@@ -585,10 +628,28 @@ const styles = theme => ({
         overflowY: "scroll",
     },
     day: {
-        fontSize: 10,
+        fontSize: 12,
     },
     input: {
         fontSize: 12,
+    },
+    perm_chip : {
+        fontSize: 11,
+        height: 24,
+        marginTop:0,
+        marginBottom: 6,
+        width: '100%',
+        padding: 5,
+    },
+    creneau_card : {
+        height: 30,
+    },
+    perm_select : {
+        paddingLeft: '5%',
+        paddingRight: '5%',
+    },
+    form: {
+        width: '100%',
     },
 });
 
