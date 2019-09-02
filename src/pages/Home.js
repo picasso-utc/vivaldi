@@ -28,47 +28,56 @@ class Home extends React.Component {
 						<Header/>
 					</Container>
 					
-					<Typography variant="h4" className={classes.title}>
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Les règles au Pic</legend>
+							<Rules />
+						</fieldset>
+					</Container>
+					
+					{/* <Typography variant="h4" className={classes.title}>
 						Les règles au Pic
                 	</Typography>
 					<Container className={classes.component}>
 						<Rules />
+					</Container> */}
+
+
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Calendrier</legend>
+							<Calendar />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						Calendrier
-                	</Typography>
-					<Container className={classes.component}>
-						<Calendar />
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Tarifs</legend>
+							<PriceDisplayer />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						Tarifs
-                	</Typography>
-					<Container className={classes.component}>
-						<PriceDisplayer />
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Goodies</legend>
+							<GoodiesDisplayer />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						Goodies
-                	</Typography>
-					<Container className={classes.component}>
-						<GoodiesDisplayer />
-					</Container>
-					
-					<Typography variant="h4" className={classes.title}>
-						Devenir membre du Pic
-                	</Typography>
-					<Container className={classes.component}>
-						<FichesPostes />
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Devenir membre du Pic</legend>
+							<FichesPostes />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						La Team
-                	</Typography>
-					<Container className={classes.component}>
-						<Trombinoscope />
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>La Team</legend>
+							<Trombinoscope />
+						</fieldset>
 					</Container>
+
 				</Container>
 			</React.Fragment>
 		);
@@ -94,10 +103,18 @@ const styles = theme => ({
 		textAlign: "center",
 		marginTop: 50,
 	},
+	container: {
+		padding: 0,
+	},
 	component: {
 		marginTop: 30,
 		padding: '5%',
-		border: "#B22132 2px solid",
+		border: "#B22132 1.5px solid",
+		textAlign: 'left',
+	},
+	legend : {
+		fontSize: 34,
+		padding: 15,
 	},
 });
 
