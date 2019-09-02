@@ -32,7 +32,6 @@ class Footer extends React.Component {
                     alignItems="center"
                     className={classes.footer}
                 >
-                    {/* <p></p> */}
                     <Grid item className={classes.footer_content}>
                     <Typography variant="body1" gutterBottom>
                         Pour toute question relative au <strong>Pic'Asso</strong> : <a href="mailto:picasso@assos.utc.fr" className={classes.link}>picasso@assos.utc.fr</a>
