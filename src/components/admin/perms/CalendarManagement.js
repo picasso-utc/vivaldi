@@ -270,8 +270,6 @@ class CalendarManagement extends Component{
 
         
         const creneau = calendar[week_index][day_index].creneaux[creneau_type]
-
-        // console.log(calendar[week_index][day_index].creneaux[creneau_type])
         
         ajaxDelete('creneau/' + creneau.id).then(res => {
             // Suppression du créneau dans le calendrier
@@ -294,8 +292,9 @@ class CalendarManagement extends Component{
     savePerm(){
         ajaxPost('perms/', this.state.newPerm).then(res => {
             let perms = this.state.perms;
-            perms.push(res.data.perm);
+            perms.push(res.data);
             this.setState({perms: perms})
+            
         })
         .catch(error => {
             console.log(error);
