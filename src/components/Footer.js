@@ -41,7 +41,7 @@ class Footer extends React.Component {
                         Pour toute question relative à <strong>Pay'utc</strong> : <a href="mailto:payutc@assos.utc.fr" className={classes.link}> payutc@assos.utc.fr</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Vous êtes responsables : <a href="https://assos.utc.fr/picasso/charte-consommateur.pdf" className={classes.link}>Charte du permanencier</a>
+                        Vous êtes responsables : <a target="_blank" href="https://assos.utc.fr/picasso/charte-consommateur.pdf" className={classes.link}>Charte du permanencier</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom className={classes.copyright}>
                         @2019 Copyright Pic'Asso
