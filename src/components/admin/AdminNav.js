@@ -51,7 +51,7 @@ class AdminNav extends Component {
 					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Goodies', link: '/admin/goodies'},
-						{ id: 'Sondages', link: '/admin/polls'},
+						// { id: 'Sondages', link: '/admin/polls'},
 					]
 				},
 				{
@@ -63,8 +63,8 @@ class AdminNav extends Component {
 					children : [
 						{ id: 'Perm en cours', link: '/admin/current/perm'},
 						{ id: 'Planning', link: '/admin/calendar'},
-						{ id: 'Astreintes', link: '/admin/astreintes'},
-						{ id: 'Index perms', link: '/admin/perms'},
+						// { id: 'Astreintes', link: '/admin/astreintes'},
+						// { id: 'Index perms', link: '/admin/perms'},
 					]
 				},
 				{
@@ -94,7 +94,7 @@ class AdminNav extends Component {
 					authorization:  Auth.isUserAdmin(),
 					children : [
 						{id: 'Utilisateurs', link: '/admin/users'},
-						{id: 'Team', link: '/admin/team'},
+						// {id: 'Team', link: '/admin/team'},
 						{id: 'Semestres', link: '/admin/semesters'},
 						{id: 'Paramètres', link: '/admin/settings'},
 					]
