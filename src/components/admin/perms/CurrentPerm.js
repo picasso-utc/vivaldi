@@ -41,16 +41,19 @@ class CurrentPerm extends Component{
 
     loadCurrentPerm(){
         ajaxGet('perms/current/creneau').then(res => {
-            for (let index = 0; index < res.data.article_set.length; index++) {
-                const date = new Date(res.data.article_set[index].ventes_last_update);
-                res.data.article_set[index].ventes_last_formatted_update = this.formateDate(date);
-            }
-            let new_article = this.state.new_article;
-            new_article.creneau = res.data.id;
-            if (!res.data.perm.asso) {
-                new_article.tva = 5.5;
-            }
-            this.setState({loading: false, current_creneau: res.data, new_article: new_article})
+            if (res.data.article_set){
+                for (let index = 0; index < res.data.article_set.length; index++) {
+                    const date = new Date(res.data.article_set[index].ventes_last_update);
+                    res.data.article_set[index].ventes_last_formatted_update = this.formateDate(date);
+                }
+                let new_article = this.state.new_article;
+                new_article.creneau = res.data.id;
+                if (!res.data.perm.asso) {
+                    new_article.tva = 5.5;
+                }
+                this.setState({current_creneau: res.data, new_article: new_article})
+            }      
+            this.setState({loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -198,7 +201,7 @@ class CurrentPerm extends Component{
                                             {article.nom}
                                         </TableCell>
                                         <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.prix}
+                                            {article.prix.toFixed(2)}€
                                         </TableCell>
                                         <TableCell component="th" scope="row" className={classes.cell}>
                                             {article.tva}%
@@ -304,6 +307,7 @@ class CurrentPerm extends Component{
                             <Grid item xs={2}>
                                 <TextField
                                     label="TVA"
+                                    disabled
                                     className={classes.textField}
                                     value={new_article.tva}
                                     type="number"
