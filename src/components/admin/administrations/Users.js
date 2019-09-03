@@ -40,6 +40,7 @@ class Users extends Component{
         this.saveUser = this.saveUser.bind(this);
         this.upgradeUser = this.upgradeUser.bind(this);
         this.downgradeUser = this.downgradeUser.bind(this);
+        this.selectUser = this.selectUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.giveaccesUser = this.giveaccesUser.bind(this);
         this.updateUser = this.updateUser.bind(this);
@@ -58,8 +59,12 @@ class Users extends Component{
                 [event.target.name]: event.target.value
             }
         })
-        if (event.target.name == 'login' && event.target.value) {
-            this.autoCompleteQuery(event.target.value)
+        if (event.target.name == 'login') {
+            if (event.target.value){
+                this.autoCompleteQuery(event.target.value)
+            } else {
+                this.setState({autoCompleteUsers: []})
+            }
         }
     }
 
@@ -82,6 +87,19 @@ class Users extends Component{
         })
         .catch(error => {
             console.log(error)
+        })
+    }
+
+
+    selectUser(name){
+        const regex = name.match(/\(.*\)/).toString()
+        const login = regex.substring(1,9)
+        this.setState({
+            new_user: {
+                ...this.state.new_user,
+                login: login,
+            },
+            autoCompleteUsers: [],
         })
     }
 
@@ -189,6 +207,7 @@ class Users extends Component{
                                     className={classes.suggestionItem}
                                     key={index}
                                     component="div"
+                                    onClick={()=>this.selectUser(suggestion.name.split('-')[0])}
                                 >
                                     {suggestion.name.split('-')[0]}
                                 </MenuItem>
