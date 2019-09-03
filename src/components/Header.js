@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, Link } from 'react-router-dom';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Payment from '@material-ui/icons/Payment';
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Icon } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 
 

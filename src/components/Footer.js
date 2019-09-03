@@ -1,23 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-
-
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Payment from '@material-ui/icons/Payment';
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Icon } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
-import Hidden from '@material-ui/core/Hidden';
+
 
 class Footer extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 

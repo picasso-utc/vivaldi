@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,7 +11,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
@@ -59,7 +57,7 @@ class Users extends Component{
                 [event.target.name]: event.target.value
             }
         })
-        if (event.target.name == 'login') {
+        if (event.target.name === 'login') {
             if (event.target.value){
                 this.autoCompleteQuery(event.target.value)
             } else {
@@ -110,7 +108,7 @@ class Users extends Component{
             const new_user = res.data.user;
             let users = this.state.users;
             // On vérifie que l'utilisateur n'est pas déjà dans le tableau
-            const index = users.findIndex(u => u.login == new_user.login);
+            const index = users.findIndex(u => u.login === new_user.login);
             if (index >= 0) {
                 users[index] = new_user;
             } else {
@@ -154,7 +152,7 @@ class Users extends Component{
     updateUser(user){
         ajaxPost('users/', user).then(res => {
             let users = this.state.users;
-            const index = users.findIndex(u => u.login == user.login);
+            const index = users.findIndex(u => u.login === user.login);
             if (index >= 0) {
                 users[index] = res.data.user;
                 this.setState({users: users})
@@ -269,7 +267,7 @@ class Users extends Component{
                                     {row.right_detail}
                                 </TableCell>
                                 <TableCell component="th" scope="row" className={classes.cell}>
-                                    {row.right == "A" && (
+                                    {row.right === "A" && (
                                         <Button 
                                             variant="outlined" 
                                             size="small" 
@@ -279,7 +277,7 @@ class Users extends Component{
                                             Rétrograder
                                         </Button>
                                     )}
-                                    {row.right == "M" && (
+                                    {row.right === "M" && (
                                         <Button 
                                             variant="outlined" 
                                             size="small" 
@@ -290,7 +288,7 @@ class Users extends Component{
                                             Upgrader
                                         </Button>
                                     )}
-                                    {row.right == "N" ? (
+                                    {row.right === "N" ? (
                                         <Button 
                                             variant="outlined" 
                                             size="small" 

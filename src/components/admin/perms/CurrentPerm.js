@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -9,7 +9,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';

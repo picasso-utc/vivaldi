@@ -1,11 +1,8 @@
-import {URL, API_URL, WEB_APP_URL} from './Config';
+import {URL} from './Config';
 import {ajaxGet} from './Ajax';
 
 
 class Auth {
-
-    constructor(){}
-
 
     static isUserAuthenticated(){
         return localStorage.getItem('auth');
@@ -20,11 +17,11 @@ class Auth {
     }
 
     static isUserAdmin(){
-        return localStorage.getItem('right') == 'A'
+        return localStorage.getItem('right') === 'A'
     }
 
     static isUserMember(){
-        return (localStorage.getItem('right') == 'A' || localStorage.getItem('right') == 'M')
+        return (localStorage.getItem('right') === 'A' || localStorage.getItem('right') === 'M')
     }
 
 

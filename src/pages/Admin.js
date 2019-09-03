@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar';
@@ -27,10 +27,6 @@ import ProtectedRoute from '../utils/ProtectedRoute';
 
 
 class Admin extends Component {
-
-	constructor(props) {
-		super(props);
-	}
 	
 
 	displayScreenName(){

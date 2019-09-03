@@ -7,8 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -21,18 +19,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
-import Icon from '@material-ui/core/Icon';
 
 
 
 
 import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
-import { isWhiteSpaceLike } from 'typescript';
 
 
 class CalendarManagement extends Component{
@@ -120,7 +114,7 @@ class CalendarManagement extends Component{
     }
 
     compareDates(d1, d2){
-        if (d1.getDate() == d2.getDate() && d1.getMonth() == d2.getMonth() && d1.getFullYear() == d2.getFullYear()) {
+        if (d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()) {
             return true;
         }
         return false;
@@ -146,13 +140,13 @@ class CalendarManagement extends Component{
             }
 
             const day = date.getDay();
-            if (day == 1 && !this.compareDates(startDate, date)) {
+            if (day === 1 && !this.compareDates(startDate, date)) {
                 // Création d'une nouvelle semaine car correspond au lundi
                 // En conséquence création d'un nouveau tableau dans le calendrier
                 week_number += 1;
                 calendar.push([])
             }
-            if (day != 0) {
+            if (day !== 0) {
                 // On ne prend pas les dimanches dans le planning
                 calendar[week_number].push(new_date);
             }
@@ -180,21 +174,21 @@ class CalendarManagement extends Component{
     createCreneaux(date, existing_creneaux){
         let creneaux = {};
 
-        const creneau_matin_index = existing_creneaux.findIndex(c => (this.compareDates(c.date, date) && c.creneau == 'M'))
+        const creneau_matin_index = existing_creneaux.findIndex(c => (this.compareDates(c.date, date) && c.creneau === 'M'))
         if (creneau_matin_index >= 0) {
             creneaux.matin = existing_creneaux[creneau_matin_index]
         } else {
             creneaux.matin = {date: this.formatCreneauDate(date), creneau: 'M', creneau_detail: 'Matin', perm_id: ""}
         }
         
-        const creneau_midi_index = existing_creneaux.findIndex(c => (this.compareDates(c.date, date) && c.creneau == 'D'))
+        const creneau_midi_index = existing_creneaux.findIndex(c => (this.compareDates(c.date, date) && c.creneau === 'D'))
         if (creneau_midi_index >= 0) {
             creneaux.midi = existing_creneaux[creneau_midi_index]
         } else {
             creneaux.midi = {date: this.formatCreneauDate(date), creneau: 'D', creneau_detail: 'Midi', perm_id: ""}
         }
         
-        const creneau_soir_index = existing_creneaux.findIndex(c => (this.compareDates(c.date, date) && c.creneau == 'S'))
+        const creneau_soir_index = existing_creneaux.findIndex(c => (this.compareDates(c.date, date) && c.creneau === 'S'))
         if (creneau_soir_index >= 0) {
             creneaux.soir = existing_creneaux[creneau_soir_index]
         } else {
@@ -240,10 +234,10 @@ class CalendarManagement extends Component{
         if (!event.target.value) {
             return
         }
-        let calendar = [ ... this.state.calendar];
-        let perms = [ ... this.state.perms];
+        let calendar = [...this.state.calendar];
+        let perms = [...this.state.perms];
         const perm_id = event.target.value;
-        let perm_index = perms.findIndex(p => p.id == perm_id);
+        let perm_index = perms.findIndex(p => p.id === perm_id);
         
         calendar[week_index][day_index].creneaux[creneau_type].perm_nom = perms[perm_index].nom;
         calendar[week_index][day_index].creneaux[creneau_type].perm_id = perm_id;
@@ -264,9 +258,9 @@ class CalendarManagement extends Component{
 
 
     handleDeleteCreneau(event, week_index, day_index, creneau_type, perm_id){
-        let calendar = [ ... this.state.calendar];
-        let perms = [ ... this.state.perms];
-        let perm_index = perms.findIndex(p => p.id == perm_id);
+        let calendar = [...this.state.calendar];
+        let perms = [...this.state.perms];
+        let perm_index = perms.findIndex(p => p.id === perm_id);
 
         
         const creneau = calendar[week_index][day_index].creneaux[creneau_type]
@@ -276,7 +270,7 @@ class CalendarManagement extends Component{
             calendar[week_index][day_index].creneaux[creneau_type].perm_nom = "";
             calendar[week_index][day_index].creneaux[creneau_type].perm_id = "";
             // Suppression du créneau dans les perms
-            perms[perm_index].creneaux = perms[perm_index].creneaux.filter(c => c != creneau.date + ":" + creneau.creneau + ":" + creneau.id)
+            perms[perm_index].creneaux = perms[perm_index].creneaux.filter(c => c !== creneau.date + ":" + creneau.creneau + ":" + creneau.id)
             this.setState({
                 calendar: calendar,
                 perms: perms,
@@ -308,7 +302,7 @@ class CalendarManagement extends Component{
     deletePerm(event, perm){
         ajaxDelete('perms/' + perm.id).then(res => {
             let perms = this.state.perms;
-            perms = perms.filter(p => p.id != perm.id);
+            perms = perms.filter(p => p.id !== perm.id);
             this.setState({perms: perms});
         })
         .catch(error => {
@@ -428,9 +422,9 @@ class CalendarManagement extends Component{
                             </Grid>
                             <List className={classes.listPerms}>
                                 {perms.map((perm, index)=> {
-                                    const M_creneaux = perm.creneaux.filter(c => c.split(':')[1] == 'M').length
-                                    const D_creneaux = perm.creneaux.filter(c => c.split(':')[1] == 'D').length
-                                    const S_creneaux = perm.creneaux.filter(c => c.split(':')[1] == 'S').length
+                                    const M_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'M').length
+                                    const D_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'D').length
+                                    const S_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'S').length
                                     const canDelete = (M_creneaux + D_creneaux + S_creneaux) === 0;
                                     return (
                                         <React.Fragment key={index}>

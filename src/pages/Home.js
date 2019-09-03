@@ -2,8 +2,6 @@ import React from 'react'
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
 
 import Header from '../components/Header';
 import Rules from  '../components/home/Rules';

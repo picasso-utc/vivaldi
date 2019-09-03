@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import { ajaxGet } from '../../utils/Ajax';
@@ -40,7 +39,7 @@ class GoodiesDisplayer extends React.Component {
 
     	return (
 			<React.Fragment>
-				{winners.length == 0 ? (
+				{winners.length === 0 ? (
 					// <p>Pas de goodies</p>
 					<div></div>
 				):(

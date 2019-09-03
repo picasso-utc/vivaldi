@@ -5,9 +5,12 @@ axios.interceptors.response.use( (response) => {
  }, (error) => {
     switch (error.response.status) {
         case 403:
-            if (window.location.pathname != "/login") {
+            if (window.location.pathname !== "/login") {
                 window.location.href = "/login";
             }
+            break;
+        default:
+            return;
     }
     return Promise.reject(error);
  });
