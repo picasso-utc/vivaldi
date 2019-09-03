@@ -87,7 +87,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Yanis Aboura',
 				poste: 'Team Locaux',
-				image: '/images/ayman.png',
+				image: '/images/yanis.jpg',
 			},
 			{
 				nom: 'Alexandre Brasseur',
