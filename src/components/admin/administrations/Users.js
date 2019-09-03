@@ -342,7 +342,7 @@ const styles = theme => ({
         padding: 20,
         margin: 30,
         marginTop: 100,
-        border: "2px solid #B22132",
+        border: "1.5px solid #B22132",
     },
     paper: {
         padding: 10

@@ -602,7 +602,7 @@ const styles = theme => ({
     },
     redBox: {
         border: "1.5px solid #B22132",
-        borderRadius: 5,
+        // borderRadius: 5,
         padding: 10,
         marginTop: 20,
     },
