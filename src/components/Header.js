@@ -9,7 +9,7 @@ import Hidden from '@material-ui/core/Hidden';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LockIcon from '@material-ui/icons/Lock';
 
-const COUVERTURE_PATH = '/images/header_pic.jpg'
+const COUVERTURE_PATH = '/images/couverture_a19.png'
 const LOGO_PATH = '/images/header_a19.png'
 
 class Header extends React.Component {
