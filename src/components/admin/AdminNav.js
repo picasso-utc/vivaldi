@@ -83,6 +83,7 @@ class AdminNav extends Component {
 					children : [
 						{ id: 'Weezevent', link: 'https://admin.nemopay.net'},
 						{ id: 'Picsous', link: 'https://assos.utc.fr/picasso/picsous'},
+						{ id: 'Ancien Picsous', link: 'https://cas.utc.fr/cas/login?service=http://assos.utc.fr/picasso/old/picsous/#/'},
 						{ id: 'Beethoven', link: 'http://beethoven.picasso-utc.fr/'},
 					]
 				},
