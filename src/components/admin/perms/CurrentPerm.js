@@ -85,8 +85,7 @@ class CurrentPerm extends Component{
 
     saveArticle(){
         let new_article = this.state.new_article;
-        ajaxPost('perm/articles', new_article).then(res => {
-            console.log(res)
+        ajaxPost('perm/articles/', new_article).then(res => {
             let current_creneau = this.state.current_creneau;
             current_creneau.article_set.push(res.data);
             new_article.nom = '';
