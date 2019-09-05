@@ -1,14 +1,10 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid';
+import { asset_url } from '../../utils/Config';
 
 class Trombinoscope extends React.Component {
   
-
-	constructor(props) {
-		super(props);
-    }
-
   	render() {
 
 		const { classes } = this.props;
@@ -127,7 +123,7 @@ class Trombinoscope extends React.Component {
 						<Grid xs={4} sm={3} item className={classes.card} key={index}>
 							<div className={classes.card_content}>
 								<div className={classes.card_img}>
-									<img src={member.image} className={classes.img}/>
+									<img src={asset_url(member.image)} className={classes.img}/>
 								</div>
 								<div className={classes.card_description}>
 									<div style={{alignItems:'center'}}>

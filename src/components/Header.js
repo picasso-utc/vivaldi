@@ -4,23 +4,27 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
-
+import { asset_url } from '../utils/Config';
 
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LockIcon from '@material-ui/icons/Lock';
 
-const COUVERTURE_PATH = '/images/couverture_a19.png'
-const LOGO_PATH = '/images/header_a19.png'
+
+import { Link } from 'react-router-dom'
+
+export function IconButtonLink(props) {
+	return <IconButton component={Link} {...props} />
+}
+
+
+const COUVERTURE_PATH = asset_url('/images/couverture_a19.png')
+const LOGO_PATH = asset_url('/images/header_a19.png')
+
 
 class Header extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
-
 		const { classes } = this.props;
-
 		return (
 			<React.Fragment>
 				<div className={classes.root}>
@@ -35,9 +39,9 @@ class Header extends React.Component {
 								<IconButton href="https://payutc.nemopay.net" target="_blank" className={classes.menuButton} aria-label="Calendar">
 									<CreditCardIcon className={classes.icon}/>
 								</IconButton>
-								<IconButton href="/login" className={classes.menuButton} aria-label="Login">
+								<IconButtonLink to="/login" className={classes.menuButton} aria-label="Login">
 									<LockIcon className={classes.icon}/>
-								</IconButton>
+								</IconButtonLink>
 							</Hidden>
 						</Toolbar>
 					</AppBar>

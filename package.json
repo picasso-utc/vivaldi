@@ -24,7 +24,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "echo \"Building with PUBLIC_URL='$PUBLIC_URL'\"; react-scripts build",
+    "build-assos": "PUBLIC_URL=/picasso; npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

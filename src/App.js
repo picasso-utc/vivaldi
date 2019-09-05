@@ -9,11 +9,12 @@ import Login from './pages/Login';
 import Error404 from './pages/Error404';
 import ProtectedRoute from './utils/ProtectedRoute';
 
+const PUBLIC_URL = process.env.PUBLIC_URL;
 
 class App extends React.Component {
 	render() {
 		return (
-			<BrowserRouter>
+			<BrowserRouter basename={PUBLIC_URL}>
 				<Switch>
 					<Route path="/" exact component={Home}/>
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
