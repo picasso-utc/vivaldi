@@ -1,5 +1,7 @@
 import React from 'react';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import MomentUtils from '@date-io/moment';
 
 import './App.css';
 
@@ -12,14 +14,16 @@ import Error404 from './pages/Error404';
 class App extends React.Component {
 	render() {
 		return (
-			<BrowserRouter>
-				<Switch>
-					<Route path="/" exact component={Home}/>
-					<Route path="/admin" component={Admin}/>
-					<Route path="/login" exact component={Login}/>
-					<Route component={Error404}/>
-				</Switch>
-			</BrowserRouter>
+			<MuiPickersUtilsProvider utils={MomentUtils}>
+				<BrowserRouter>
+					<Switch>
+						<Route path="/" exact component={Home}/>
+						<Route path="/admin" component={Admin}/>
+						<Route path="/login" exact component={Login}/>
+						<Route component={Error404}/>
+					</Switch>
+				</BrowserRouter>
+			</MuiPickersUtilsProvider>
 		)
 	}
 }

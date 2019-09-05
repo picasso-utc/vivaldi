@@ -30,9 +30,7 @@ class Settings extends Component{
                 SEMESTER: ''
             },
             user : {
-                login : '',
-                badge : '',
-                pin : ''
+                login : ''
             },
             semesters : [],
             autoCompleteUsers: [],
@@ -58,10 +56,15 @@ class Settings extends Component{
         ajaxGet('core/user?login='+query).then(res => {
             console.log(res)
             const new_user = {
-                login : res.data.login,
-                badge : res.data.badge_uid,
-                pin :  res.data.badge_uid
+                login : '',
             }
+            this.setState({
+                settings: {
+                    ...this.state.settings,
+                    PAYUTC_CONNECTION_UID : res.data.badge_uid,
+                    PAYUTC_CONNECTION_PIN :  res.data.badge_pin
+                }
+            })
             this.setState({user : new_user, autoCompleteUsers:[]})
 
         })
@@ -186,7 +189,7 @@ class Settings extends Component{
                                 label="Badge de connexion (UID)"
                                 className={classes.textField}
                                 name="PAYUTC_CONNECTION_UID"
-                                value={user.badge || ''}
+                                value={settings.PAYUTC_CONNECTION_UID|| ''}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
@@ -198,7 +201,7 @@ class Settings extends Component{
                                 label="Code PIN de l'utilisateur"
                                 className={classes.textField}
                                 name="PAYUTC_CONNECTION_PIN"
-                                value={user.pin || ''}
+                                value={settings.PAYUTC_CONNECTION_PIN|| ''}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
@@ -247,6 +250,7 @@ class Settings extends Component{
                     </Grid>
                 </Grid>
 
+            {/*
                 <Grid container className={classes.section}>
                     <Typography variant="h5" noWrap className={classes.subTitle}>
                         <ChevronRightIcon className={classes.subTitleIcon}/>
@@ -282,6 +286,9 @@ class Settings extends Component{
                         </Grid>              
                     </Grid>
                 </Grid>
+            */}
+
+                
 
 
                 <Grid container className={classes.section}>
