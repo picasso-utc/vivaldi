@@ -107,6 +107,7 @@ const styles = theme => ({
 	},
 	container: {
 		padding: 0,
+		overflowX: "overlay",
 	},
 	component: {
 		marginTop: 30,
