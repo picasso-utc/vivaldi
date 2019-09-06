@@ -18,6 +18,7 @@ export function IconButtonLink(props) {
 
 
 const COUVERTURE_PATH = asset_url('/images/couverture_a19.png')
+const COUVERTURE_PATH_XS = asset_url('/images/couverture_a19_xs.jpg')
 const LOGO_PATH = asset_url('/images/header_a19.png')
 
 
@@ -46,8 +47,14 @@ class Header extends React.Component {
 						</Toolbar>
 					</AppBar>
 				</div>
+				
 				<div className = {classes.imgContainer}>
-					<img src={COUVERTURE_PATH} className={classes.couverture}/>
+					<Hidden smUp implementation="css">
+						<img src={COUVERTURE_PATH_XS} className={classes.couverture}/>
+					</Hidden>
+					<Hidden xsDown implementation="css">
+						<img src={COUVERTURE_PATH} className={classes.couverture}/>
+					</Hidden>
 				</div>
 			</React.Fragment>
 		);
