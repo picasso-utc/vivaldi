@@ -38,7 +38,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Maliana Hoatau',
 				poste: 'Team Anim',
-				image: '/images/ayman.png',
+				image: '/images/maliana.png',
 			},
 			{
 				nom: 'Nicolas Théron',
@@ -78,7 +78,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Léo Romanet',
 				poste: 'Team Locaux',
-				image: '/images/ayman.png',
+				image: '/images/romanet.png',
 			},
 			{
 				nom: 'Yanis Aboura',
@@ -103,7 +103,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Corentin Martin',
 				poste: 'Appro Softs',
-				image: '/images/ayman.png',
+				image: '/images/corentin.png',
 			},
 			{
 				nom: 'Josselin Pennors',
@@ -113,7 +113,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Capucine Martin',
 				poste: 'Team Info',
-				image: '/images/ayman.png',
+				image: '/images/capucine.png',
 			},
 		]
     	return (
