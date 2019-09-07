@@ -29,7 +29,6 @@ class Settings extends Component{
             user : {
                 login : ''
             },
-            semesters : [],
             autoCompleteUsers: [],
         }
 
@@ -124,11 +123,6 @@ class Settings extends Component{
         })
         .catch(res => {
             console.log(res)  
-        })
-
-        ajaxGet('semesters').then(res => {
-            console.log(res)
-            this.setState({semesters:res.data}) 
         })
  
     }
@@ -246,47 +240,6 @@ class Settings extends Component{
                         </Grid>              
                     </Grid>
                 </Grid>
-
-            {/*
-                <Grid container className={classes.section}>
-                    <Typography variant="h5" noWrap className={classes.subTitle}>
-                        <ChevronRightIcon className={classes.subTitleIcon}/>
-                        Semestre
-                    </Typography>
-                    <Grid container className={classes.note}>
-                        Ce menu vous permet de choisir le semestre en cours, c'est à dire le semestre qui apparaîtra aux utilisateurs de Picsous.<br/> <br/>
-                        A partir du moment où vous changez un semestre, les perms des autres semestres n'apparaîtront plus aux utilisateurs de Picsous - 
-                        pour les administrateurs, le système n'affichera par défaut que les factures du semestre en cours. Ils peuvent cependant naviguer 
-                        entre les semestres grâce au menu déroulant en haut de l'écran.<br/> <br/>
-                        Ne changez pas de semestre si vous souhaitez juste consulter les informations d'un semestre ! Pour cela, utilisez le menu déroulant.
-                    </Grid>
-                    <Grid container>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                select
-                                className={classes.textField}
-                                name="SEMESTER"
-                                value={settings.SEMESTER}
-                                autoComplete="off"
-                                margin="dense"
-                                variant="outlined"
-                                onChange={this.handleChangeSetting}
-                                margin="dense"
-                                variant="outlined"
-                            >
-                                {semesters.map(semesters => (
-                                <MenuItem key={semesters.id} value={semesters.id}>
-                                    {semesters.periode+semesters.annee}
-                                </MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>              
-                    </Grid>
-                </Grid>
-            */}
-
-                
-
 
                 <Grid container className={classes.section}>
                     <Typography variant="h5" noWrap className={classes.subTitle}>
