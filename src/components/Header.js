@@ -18,7 +18,7 @@ export function IconButtonLink(props) {
 
 
 const COUVERTURE_PATH = asset_url('/images/couverture_a19.png')
-const COUVERTURE_PATH_XS = asset_url('/images/couverture_a19_xs.jpg')
+const COUVERTURE_PATH_XS = asset_url('/images/couverture_a19_xs.png')
 const LOGO_PATH = asset_url('/images/header_a19.png')
 
 
