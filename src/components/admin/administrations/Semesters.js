@@ -140,7 +140,7 @@ class Semesters extends Component{
     changeSemester(){
 
         ajaxPost('current/semester',{new_current_semester: this.state.current_semester.id}).then(res => {
-            console.log(res) 
+            
         })
         .catch(res => {
             console.log(res)  
@@ -246,39 +246,41 @@ class Semesters extends Component{
                               />
                         </Grid>
 
-                        <Grid item xs={12} sm={4}>
-                            <KeyboardDatePicker
-                              disableToolbar
-                              variant="inline"
-                              format="DD/MM/YYYY"
-                              name="start_date"
-                              margin="normal"
-                              label="Date de début"
-                              value={new_semester.start_date}
-                              onChange={this.handleDateDebutChange}
-                              KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                              }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <KeyboardDatePicker
-                              disableToolbar
-                              variant="inline"
-                              name="end_date"
-                              format="DD/MM/YYYY"
-                              margin="normal"
-                              label="Date de fin"
-                              id="date-picker-inline"
-                              value={new_semester.end_date}
-                              onChange={this.handleDateFinChange}
-                              KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                              }}
-                            />
-                        </Grid>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid item xs={12} sm={5}>
+                                
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    name="start_date"
+                                    margin="normal"
+                                    label="Date de début"
+                                    value={new_semester.start_date}
+                                    onChange={this.handleDateDebutChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    name="end_date"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    label="Date de fin"
+                                    value={new_semester.end_date}
+                                    onChange={this.handleDateFinChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </Grid>
+                        </MuiPickersUtilsProvider>
 
-                        <Grid>
+                        <Grid item xs={4} sm={2}>
                             <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.saveNewSemester}> 
                                 Ajouter
                             </Button>
