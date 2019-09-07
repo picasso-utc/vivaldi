@@ -1,22 +1,14 @@
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
-
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
@@ -27,7 +19,7 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 
 import { Link } from 'react-router-dom';
 
-
+import Auth from '../../utils/Auth';
 
 import Collapse from '@material-ui/core/Collapse';
 
@@ -45,8 +37,9 @@ class AdminNav extends Component {
 				{
 					id: 'Dashboard',
 					open: false,
-					link: '/admin/',
+					link: '/admin',
 					icon: <HomeIcon />,
+					authorization: Auth.isUserMember(),
 					children : []
 				
 				},
@@ -55,9 +48,10 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <DeveloperModeIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Goodies', link: '/admin/goodies'},
-						{ id: 'Vote', link: '/admin/polls'},
+						// { id: 'Sondages', link: '/admin/polls'},
 					]
 				},
 				{
@@ -65,11 +59,12 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <EventNoteIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Perm en cours', link: '/admin/current/perm'},
 						{ id: 'Planning', link: '/admin/calendar'},
-						{ id: 'Astreintes', link: '/admin/astreintes'},
-						{ id: 'Index perms', link: '/admin/perms'},
+						// { id: 'Astreintes', link: '/admin/astreintes'},
+						// { id: 'Index perms', link: '/admin/perms'},
 					]
 				},
 				{
@@ -84,9 +79,11 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <ImportantDevicesIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : [
 						{ id: 'Weezevent', link: 'https://admin.nemopay.net'},
 						{ id: 'Picsous', link: 'https://assos.utc.fr/picasso/picsous'},
+						{ id: 'Ancien Picsous', link: 'https://cas.utc.fr/cas/login?service=http://assos.utc.fr/picasso/old/picsous/#/'},
 						{ id: 'Beethoven', link: 'http://beethoven.picasso-utc.fr/'},
 					]
 				},
@@ -95,11 +92,12 @@ class AdminNav extends Component {
 					open: false,
 					link: null,
 					icon: <SettingsIcon/>,
+					authorization:  Auth.isUserAdmin(),
 					children : [
 						{id: 'Utilisateurs', link: '/admin/users'},
-						{id: 'Team', link: '/admin/team'},
+						// {id: 'Team', link: '/admin/team'},
 						{id: 'Semestres', link: '/admin/semesters'},
-						{id: 'Paramètre', link: '/admin/settings'},
+						{id: 'Paramètres', link: '/admin/settings'},
 					]
 				}
 			],
@@ -124,13 +122,18 @@ class AdminNav extends Component {
 	handleClickOnCategory(event, category){
 		const category_id = category.id;
 		let categories = this.state.categories;
-		const index = categories.findIndex((c) => c.id == category_id);
+		const index = categories.findIndex((c) => c.id === category_id);
 		const new_value = !categories[index].open;
 		categories.map((c) => c.open = false);
 		categories[index].open = new_value
 		this.setState({
 			categories: categories
 		});
+	}
+
+
+	openChildLink(event, link){
+		window.open(link)
 	}
 	
 	
@@ -155,8 +158,8 @@ class AdminNav extends Component {
 
 				</Grid>
 				<List disablePadding>
-					{categories.map(({ id, open, link, icon, children })=> (
-						<React.Fragment key={id}>
+					{categories.map(({ id, open, link, icon, children, authorization })=> (
+						authorization && <React.Fragment key={id}>
 							{/* <Link to={link} style={{ textDecoration: 'none' }}> */}
 								<ListItem 
 									className={classes.categoryHeader} 
@@ -180,7 +183,21 @@ class AdminNav extends Component {
 							<Collapse in={open} timeout="auto" unmountOnExit>
 								<List component="div" disablePadding>
 									{children && children.map(({ id: childId, link: childLink }) => (
-										// <Link to="">
+										childLink.startsWith('http')? (
+											<ListItem 
+												key={childId} 
+												button
+												className={classes.categoryChildren}
+												onClick={(e) => this.openChildLink(e, childLink)}
+											>
+												<ListItemText 
+													primary={childId} 
+													classes={{
+														primary: classes.categoryChildrenPrimary,
+													}}
+												/>
+											</ListItem>
+										) : (
 											<ListItem 
 												key={childId} 
 												button
@@ -195,7 +212,7 @@ class AdminNav extends Component {
 													}}
 												/>
 											</ListItem>
-										// </Link>
+										)
 									))}
 								</List>
 							</Collapse>

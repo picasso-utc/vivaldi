@@ -1,32 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, Link } from 'react-router-dom';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Payment from '@material-ui/icons/Payment';
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Icon } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
-
+import { asset_url } from '../utils/Config';
 
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LockIcon from '@material-ui/icons/Lock';
 
-const COUVERTURE_PATH = '/images/header_pic.jpg'
-const LOGO_PATH = '/images/header_p19.png'
+
+import { Link } from 'react-router-dom'
+
+export function IconButtonLink(props) {
+	return <IconButton component={Link} {...props} />
+}
+
+
+const COUVERTURE_PATH = asset_url('/images/couverture_a19.png')
+const COUVERTURE_PATH_XS = asset_url('/images/couverture_a19_xs.jpg')
+const LOGO_PATH = asset_url('/images/header_a19.png')
+
 
 class Header extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
-
 		const { classes } = this.props;
-
 		return (
 			<React.Fragment>
 				<div className={classes.root}>
@@ -41,15 +40,21 @@ class Header extends React.Component {
 								<IconButton href="https://payutc.nemopay.net" target="_blank" className={classes.menuButton} aria-label="Calendar">
 									<CreditCardIcon className={classes.icon}/>
 								</IconButton>
-								<IconButton href="/login" className={classes.menuButton} aria-label="Login">
+								<IconButtonLink to="/login" className={classes.menuButton} aria-label="Login">
 									<LockIcon className={classes.icon}/>
-								</IconButton>
+								</IconButtonLink>
 							</Hidden>
 						</Toolbar>
 					</AppBar>
 				</div>
+				
 				<div className = {classes.imgContainer}>
-					<img src={COUVERTURE_PATH} className={classes.couverture}/>
+					<Hidden smUp implementation="css">
+						<img src={COUVERTURE_PATH_XS} className={classes.couverture}/>
+					</Hidden>
+					<Hidden xsDown implementation="css">
+						<img src={COUVERTURE_PATH} className={classes.couverture}/>
+					</Hidden>
 				</div>
 			</React.Fragment>
 		);
@@ -99,7 +104,7 @@ const styles = theme => ({
 	couverture: {
 		width: '100%',
 		height: window.innerHeight - (65),
-		objectFit: 'fill',
+		objectFit: 'cover',
 	},
 });
 

@@ -2,8 +2,6 @@ import React from 'react'
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
 
 import Header from '../components/Header';
 import Rules from  '../components/home/Rules';
@@ -12,6 +10,7 @@ import PriceDisplayer from '../components/home/PriceDisplayer';
 import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
 import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
+import Footer from '../components/Footer';
 
 
 class Home extends React.Component {
@@ -28,47 +27,59 @@ class Home extends React.Component {
 						<Header/>
 					</Container>
 					
-					<Typography variant="h4" className={classes.title}>
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Les règles au Pic</legend>
+							<Rules />
+						</fieldset>
+					</Container>
+					
+					{/* <Typography variant="h4" className={classes.title}>
 						Les règles au Pic
                 	</Typography>
 					<Container className={classes.component}>
 						<Rules />
+					</Container> */}
+
+
+					{/* <Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Calendrier</legend>
+							<Calendar />
+						</fieldset>
+					</Container> */}
+
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Tarifs</legend>
+							<PriceDisplayer />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						Calendrier
-                	</Typography>
-					<Container className={classes.component}>
-						<Calendar />
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Goodies</legend>
+							<GoodiesDisplayer />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						Tarifs
-                	</Typography>
-					<Container className={classes.component}>
-						<PriceDisplayer />
+					{/* <Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Devenir membre du Pic</legend>
+							<FichesPostes />
+						</fieldset>
+					</Container> */}
+
+					<Container className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>La Team</legend>
+							<Trombinoscope />
+						</fieldset>
 					</Container>
 
-					<Typography variant="h4" className={classes.title}>
-						Goodies
-                	</Typography>
-					<Container className={classes.component}>
-						<GoodiesDisplayer />
-					</Container>
-					
-					<Typography variant="h4" className={classes.title}>
-						Devenir membre du Pic
-                	</Typography>
-					<Container className={classes.component}>
-						<FichesPostes />
-					</Container>
-
-					<Typography variant="h4" className={classes.title}>
-						La Team
-                	</Typography>
-					<Container className={classes.component}>
-						<Trombinoscope />
-					</Container>
+				</Container>
+				<Container direction="row">
+					<Footer/>
 				</Container>
 			</React.Fragment>
 		);
@@ -80,10 +91,11 @@ const styles = theme => ({
 		width:'100%',
 		maxWidth: '100%',
 		margin: 0,
-		paddingRight: 50,
-		paddingLeft: 50,
+		paddingRight: '5%',
+		paddingLeft: '5%',
 		paddingBottom: 50,
-		backgroundColor: '#000223'
+		backgroundColor: '#000223',
+		color: 'white',
 	},
 	header : {
 		height: window.innerHeight,
@@ -93,10 +105,19 @@ const styles = theme => ({
 		textAlign: "center",
 		marginTop: 50,
 	},
+	container: {
+		padding: 0,
+		overflowX: "overlay",
+	},
 	component: {
 		marginTop: 30,
-		padding: 20,
-		border: "#B22132 2px solid",
+		padding: '5%',
+		border: "#B22132 1.5px solid",
+		textAlign: 'left',
+	},
+	legend : {
+		fontSize: 34,
+		padding: 15,
 	},
 });
 

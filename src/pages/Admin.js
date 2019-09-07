@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar';
@@ -23,14 +23,42 @@ import GoodiesManagement from '../components/admin/website_management/GoodiesMan
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Charte from '../components/admin/Charte';
 import Error404 from '../pages/Error404';
+import ProtectedRoute from '../utils/ProtectedRoute';
 
 
 class Admin extends Component {
-
-	constructor(props) {
-		super(props);
-	}
 	
+
+	displayScreenName(){
+		switch (window.location.pathname) {
+			case "/admin":
+				return "Dashboard";
+			case "/admin/goodies":
+				return "Goodies";
+			case "/admin/polls":
+				return "Sondages";
+			case "/admin/current/perm":
+				return "Perm en cours";
+			case "/admin/calendar":
+				return "Planning du semestre";
+			case "/admin/astreintes":
+				return "Astreintes";
+			case "/admin/perms":
+				return "Perms";
+			case "/admin/charte":
+				return "Charte";
+			case "/admin/users":
+				return "Utilisateurs";
+			case "/admin/team":
+				return "Team";
+			case "/admin/semesters":
+				return "Semestres";
+			case "/admin/settings":
+				return "Paramètres";
+			default:
+				break;
+		}
+	}
 	
   	render(){
 
@@ -59,7 +87,8 @@ class Admin extends Component {
 							<MenuIcon />
 						</IconButton>
 						<Typography variant="h4" noWrap className={classes.windowTitle}>
-							Utilisateurs
+							{/* Utilisateurs */}
+							{this.displayScreenName()}
 						</Typography>
 					</Toolbar>
 				</AppBar>
@@ -69,18 +98,18 @@ class Admin extends Component {
 				>
 					
 					<Switch>
-						<Route path={`${base_url}/`} exact component={Dashboard}/>
-						<Route path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
-						<Route path={`${base_url}/polls`} exact component={PollsManagement}/>
-						<Route path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
-						<Route path={`${base_url}/calendar`} exact component={CalendarManagement}/>
-						<Route path={`${base_url}/astreintes`} exact component={Astreintes}/>
-						<Route path={`${base_url}/perms`} exact component={Perms}/>
-						<Route path={`${base_url}/charte`} exact component={Charte}/>
-						<Route path={`${base_url}/users`} exact component={Users}/>
-						<Route path={`${base_url}/team`} exact component={TeamManagement}/>
-						<Route path={`${base_url}/semesters`} exact component={Semesters}/>
-						<Route path={`${base_url}/settings`} exact component={Settings}/>
+						<ProtectedRoute only="member" path={`${base_url}/`} exact component={Dashboard}/>
+						<ProtectedRoute only="member" path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
+						<ProtectedRoute only="member" path={`${base_url}/polls`} exact component={PollsManagement}/>
+						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
+						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
+						<ProtectedRoute only="member" path={`${base_url}/astreintes`} exact component={Astreintes}/>
+						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
+						<ProtectedRoute only="member" path={`${base_url}/charte`} exact component={Charte}/>
+						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
+						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
+						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>
+						<ProtectedRoute only="admin" path={`${base_url}/settings`} exact component={Settings}/>
 						<Route component={Error404}/>
 					</Switch>
 				</main>

@@ -6,3 +6,19 @@
 
 
 # Partie admin#
+
+## User ##
+- Ajouter tri alphabétique
+- Ajouter recherche
+- Ajouter autoCompletion
+
+## Header ##
+- Ajouter icône à droite
+- showMenu ne marche pas encore 
+
+
+
+# API #
+- Durée pour la session
+- Validation à voir 
+- Mettre du cache Ginger

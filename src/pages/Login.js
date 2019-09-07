@@ -11,11 +11,7 @@ class Login extends React.Component {
 	}
 
 	componentDidMount(){
-		if(Auth.isUserAuthenticated()){
-			this.redirectUser();
-		} else {
-			this.loginUser();
-		}
+		this.loginUser();
 	}
 
 	redirectUser(){
@@ -30,16 +26,13 @@ class Login extends React.Component {
 	render() {
 
 		const { classes } = this.props;
-		console.log(classes);
 
 		return (
 			<div className={classes.container}>
-				<h1>
 					<Typography variant="h4" noWrap>
 						<CircularProgress className={classes.progress} />
 						Connexion ...
 					</Typography>
-				</h1>
 			</div>
 		);
 	}

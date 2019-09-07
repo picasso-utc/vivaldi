@@ -14,7 +14,7 @@ class Dashboard extends Component{
 
         return (
             <div className={classes.container}>
-
+                En cours d'écriture lol
             </div>
         );
     };
@@ -23,7 +23,10 @@ class Dashboard extends Component{
 
 const styles = theme => ({
     container: {
-        padding: 50,
+        padding: 20,
+        margin: 30,
+        marginTop: 100,
+        border: "1.5px solid #B22132",
     },
 });
 
