@@ -66,16 +66,16 @@ class Semesters extends Component{
         this.setState({new_semester: new_semester});
     }
 
+
     formatDate(date){
-        const day = ("0" + (date.getDate() + 1)).slice(-2);
+        const day = ("0" + (date.getDate())).slice(-2);
         const month_number = ("0" + (date.getMonth() + 1)).slice(-2)
         const year = date.getFullYear();
         return year + "-" + month_number + "-" + day;
     }
 
     handleDateDebutChange(date) {
-        console.log(date._d.toTimeString())
-        const date_format = this.formatDate(date._d)
+        const date_format = this.formatDate(date)
         this.setState({
             new_semester: {
                 ...this.state.new_semester,
@@ -86,7 +86,7 @@ class Semesters extends Component{
 
     handleDateFinChange(date) {
         console.log(date)
-        const date_format = this.formatDate(date._d)
+        const date_format = this.formatDate(date)
         this.setState({
             new_semester: {
                 ...this.state.new_semester,
@@ -95,17 +95,12 @@ class Semesters extends Component{
         })
     }
 
-    componentDidMount(){
-        this.loadSemester();
-    }
 
     loadSemester(){
         ajaxGet('semesters').then(res => {
-            console.log(res)
             this.setState({semesters:res.data}) 
         })
         ajaxGet('current/semester').then(res => {
-            console.log(res)
             this.setState({current_semester:res.data}) 
         })
  
