@@ -237,7 +237,7 @@ class CalendarManagement extends Component{
         let calendar = [...this.state.calendar];
         let perms = [...this.state.perms];
         const perm_id = event.target.value;
-        let perm_index = perms.findIndex(p => p.id === perm_id);
+        let perm_index = perms.findIndex(p => p.id.toString() === perm_id);
         
         calendar[week_index][day_index].creneaux[creneau_type].perm_nom = perms[perm_index].nom;
         calendar[week_index][day_index].creneaux[creneau_type].perm_id = perm_id;
@@ -260,7 +260,7 @@ class CalendarManagement extends Component{
     handleDeleteCreneau(event, week_index, day_index, creneau_type, perm_id){
         let calendar = [...this.state.calendar];
         let perms = [...this.state.perms];
-        let perm_index = perms.findIndex(p => p.id === perm_id);
+        let perm_index = perms.findIndex(p => p.id.toString() === perm_id.toString());
 
         
         const creneau = calendar[week_index][day_index].creneaux[creneau_type]
@@ -302,7 +302,7 @@ class CalendarManagement extends Component{
     deletePerm(event, perm){
         ajaxDelete('perms/' + perm.id).then(res => {
             let perms = this.state.perms;
-            perms = perms.filter(p => p.id !== perm.id);
+            perms = perms.filter(p => p.id.toString() !== perm.id);
             this.setState({perms: perms});
         })
         .catch(error => {
