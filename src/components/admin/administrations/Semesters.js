@@ -126,7 +126,10 @@ class Semesters extends Component{
 
     saveNewSemester(){
         ajaxPost('semesters/',this.state.new_semester).then(res => {
-            console.log(res) 
+            let semesters = [...this.state.semesters];
+            semesters.push(res.data);
+            this.setState({semesters: semesters});
+            this.loadDefaultNewSemesterValue();
         })
         .catch(res => {
             console.log(res)  
