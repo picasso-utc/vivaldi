@@ -73,7 +73,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Ariane Lozon',
 				poste: 'Team Locaux',
-				image: '/images/ayman.png',
+				image: '/images/ariane.png',
 			},
 			{
 				nom: 'Léo Romanet',
@@ -93,7 +93,7 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Jessica Guilbaud',
 				poste: 'Appro Softs',
-				image: '/images/ayman.png',
+				image: '/images/jessica.png',
 			},
 			{
 				nom: 'Rémy Dudzik',
