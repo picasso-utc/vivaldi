@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
-import { TrendingFlat, ChevronRight } from '@material-ui/icons';
-import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import { ChevronRight } from '@material-ui/icons';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
-
-
-import Auth  from '../../../utils/Auth';
 
 
 class Semesters extends Component{

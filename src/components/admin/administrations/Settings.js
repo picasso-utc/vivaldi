@@ -3,15 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Grid from '@material-ui/core/Grid';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
-import Auth  from '../../../utils/Auth';
 
 class Settings extends Component{
  
