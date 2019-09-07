@@ -48,9 +48,7 @@ class Settings extends Component{
     updateBadge(name){
         const login = name.match(/\(.*\)/).toString()
         const query = login.substring(1,9)
-        console.log(query)
         ajaxGet('core/user?login='+query).then(res => {
-            console.log(res)
             const new_user = {
                 login : '',
             }
@@ -69,7 +67,7 @@ class Settings extends Component{
 
     saveSettings(){
         ajaxPost('admin/settings', {settings: this.state.settings}).then(res => {
-            console.log(this.state.settings)
+    
         })
         .catch(error=>{
             console.log(error)
