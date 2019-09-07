@@ -17,9 +17,9 @@ class Semesters extends Component{
         this.state = {
             new_semester : {
                 periode : '',
-                annee : 2019,
-                start_date : null,
-                end_date : null
+                annee : '',
+                start_date : new Date(),
+                end_date : new Date()
             },
             current_semester : {
                 id : null,
@@ -39,10 +39,31 @@ class Semesters extends Component{
         this.handleChangeNewSemester = this.handleChangeNewSemester.bind(this);
         this.handleChangeCurrentSemester = this.handleChangeCurrentSemester.bind(this);
         this.saveNewSemester = this.saveNewSemester.bind(this);
-        this.changeSemester = this.changeSemester.bind(this);
+        this.changeSemester = this.changeSemester.bind(this);    
+    }
 
 
-       
+    componentDidMount(){
+        this.loadSemester();
+        this.loadDefaultNewSemesterValue();
+    }
+
+
+    loadDefaultNewSemesterValue(){
+        const date = new Date();
+        const current_year = date.getFullYear();
+        const month_number = date.getMonth();
+        let period = 'A';
+        if (month_number >= 1 && month_number <= 5) {
+            period = 'P';
+        }
+        const new_semester = {
+            periode : period,
+            annee : current_year,
+            start_date : this.formatDate(new Date()),
+            end_date : this.formatDate(new Date())
+        }
+        this.setState({new_semester: new_semester});
     }
 
     formatDate(date){
