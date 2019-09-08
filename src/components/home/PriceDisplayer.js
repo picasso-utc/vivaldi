@@ -64,7 +64,7 @@ class PriceDisplayer extends React.Component {
 										<table className={classes.table}>
 											<tbody>
 												{boisson.code in articles && (
-													articles.softs.map((soft, article_index) => (
+													articles[boisson.code].map((soft, article_index) => (
 														<tr key={article_index}>
 															<td className={classes.article_name}>
 																{soft.name}
@@ -89,7 +89,7 @@ class PriceDisplayer extends React.Component {
 										<table className={classes.table}>
 											<tbody>
 												{boisson.code in articles && (
-													articles.softs.map((soft, article_index) => (
+													articles[boisson.code].map((soft, article_index) => (
 														<tr key={article_index}>
 															<td className={classes.article_name}>
 																{soft.name}
