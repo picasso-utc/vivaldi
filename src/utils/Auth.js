@@ -1,4 +1,4 @@
-import {URL} from './Config';
+import {URL, asset_url} from './Config';
 import {ajaxGet} from './Ajax';
 
 
@@ -63,9 +63,9 @@ class Auth {
         if (Auth.isUserMember()) {
            // To DO rediriger en fonction des droits
             // et en fonction d'une page d'ou le chargement à débuter 
-            window.location = '/admin'
+            window.location = asset_url('/admin')
         } else {
-            window.location = '/'
+            window.location = asset_url('/')
         } 
     }
 
