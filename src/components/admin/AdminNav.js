@@ -19,8 +19,8 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 
 import { Link } from 'react-router-dom';
 
-import Auth from '../utils/Auth';
-import { asset_url } from '../utils/Config';
+import Auth from '../../utils/Auth';
+import { asset_url } from '../../utils/Config';
 
 import Collapse from '@material-ui/core/Collapse';
 
