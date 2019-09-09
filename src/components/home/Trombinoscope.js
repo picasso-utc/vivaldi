@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import { asset_url } from '../../utils/Config';
 
 class Trombinoscope extends React.Component {
@@ -126,10 +127,18 @@ class Trombinoscope extends React.Component {
 									<img src={asset_url(member.image)} className={classes.img}/>
 								</div>
 								<div className={classes.card_description}>
-									<div style={{alignItems:'center'}}>
-										<h2>{member.nom}</h2>
-										<h3>{member.poste}</h3>
-									</div>
+									<Hidden smUp implementation="css">
+										<div style={{alignItems:'center'}}>
+											<h5>{member.nom}</h5>
+											<h6>{member.poste}</h6>
+										</div>
+									</Hidden>
+									<Hidden xsDown implementation="css">
+										<div style={{alignItems:'center'}}>
+											<h2>{member.nom}</h2>
+											<h3>{member.poste}</h3>
+										</div>
+									</Hidden>
 								</div>
 							</div>
 						</Grid>
