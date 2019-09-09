@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import { ajaxGet } from '../../utils/Ajax';
 import { List, ListItem, ListItemText } from "@material-ui/core";
@@ -38,14 +39,19 @@ class GoodiesDisplayer extends React.Component {
 		const { classes } = this.props;
 
     	return (
-			<React.Fragment>
+			<Grid container
+				direction="row"
+				justify="center"
+				alignItems="center"
+			>
 				{winners.length === 0 ? (
-					// <p>Pas de goodies</p>
-					<div></div>
+					<Grid item>
+						<Typography variant="body1">
+                            Pas de gagnants des goodies pour le moment. 
+                        </Typography>
+					</Grid>
 				):(
-					<Grid container
-						direction="row"
-					>
+					<div>
 						<Grid item xs={6}>
 							<List dense={true}>
 								{winners.slice(0,Math.ceil(winners.length/2))
@@ -71,16 +77,16 @@ class GoodiesDisplayer extends React.Component {
 								))}
 							</List>
 						</Grid>
-					</Grid>
+					</div>
 				)}
-			</React.Fragment>
+			</Grid>
     	);
   	}
 }
 
 const styles = theme => ({
-	item : {
-		textAlign: 'center',
+	noWinners : {
+		// textAlign: 'center',
 		fontSize: 16,
 	},
 	validatedItem: {
