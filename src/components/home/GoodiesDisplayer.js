@@ -39,19 +39,21 @@ class GoodiesDisplayer extends React.Component {
 		const { classes } = this.props;
 
     	return (
-			<Grid container
-				direction="row"
-				justify="center"
-				alignItems="center"
-			>
+			<React.Fragment>
 				{winners.length === 0 ? (
-					<Grid item>
-						<Typography variant="body1">
-                            Pas de gagnants des goodies pour le moment. 
-                        </Typography>
+					<Grid container
+						direction="row"
+						justify="center"
+						alignItems="center"
+					>
+						<Grid item>
+							<Typography variant="body1">
+								Pas de gagnants des goodies pour le moment. 
+							</Typography>
+						</Grid>
 					</Grid>
 				):(
-					<div>
+					<Grid container direction="row">
 						<Grid item xs={6}>
 							<List dense={true}>
 								{winners.slice(0,Math.ceil(winners.length/2))
@@ -77,9 +79,9 @@ class GoodiesDisplayer extends React.Component {
 								))}
 							</List>
 						</Grid>
-					</div>
+					</Grid>
 				)}
-			</Grid>
+			</React.Fragment>
     	);
   	}
 }
