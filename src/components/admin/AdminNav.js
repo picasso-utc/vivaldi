@@ -71,8 +71,9 @@ class AdminNav extends Component {
 				{
 					id: 'Charte',
 					open: false,
-					link: '/admin/charte',
+					link: '/charte',
 					icon: <HowToRegIcon/>,
+					authorization:  Auth.isUserMember(),
 					children : []
 				},
 				{
