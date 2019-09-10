@@ -108,12 +108,11 @@ class Charte extends Component {
 					</Grid>
 				):(
 					<div className={classes.container}>
+						<Typography variant="h4" className={classes.title}>
+							Charte du permanencier
+						</Typography>
 						{currentCreneau.perm?(
 							<React.Fragment>
-								<Typography variant="h4" className={classes.title}>
-									Charte du permanencier
-								</Typography>
-
 								<Typography variant="body1" className={classes.text}>
 									Ce document est valable pour toute la durée du semestre en cours et sera susceptible d’être utilisé comme justificatif de 
 									responsabilité de l’étudiant en cas de dégradation ou de comportement inapproprié lors d’une de ses permanences dans le 
