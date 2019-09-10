@@ -108,56 +108,65 @@ class Charte extends Component {
 					</Grid>
 				):(
 					<div className={classes.container}>
-						<Typography variant="h4" className={classes.title}>
-							Charte du permanencier
-						</Typography>
+						{currentCreneau.perm?(
+							<React.Fragment>
+								<Typography variant="h4" className={classes.title}>
+									Charte du permanencier
+								</Typography>
 
-						<Typography variant="body1" className={classes.text}>
-							Ce document est valable pour toute la durée du semestre en cours et sera susceptible d’être utilisé comme justificatif de 
-							responsabilité de l’étudiant en cas de dégradation ou de comportement inapproprié lors d’une de ses permanences dans le 
-							foyer étudiant.<br/><br/>
-							Je soussigné 
-						</Typography>
-						<TextField
-								required
-								onChange={this.handleChange}
-								id='name'
-								placeholder='Prénom / Nom'
-								name="nom"
-								className={classes.textField}
-								value={newSignature.nom}
-						/>
-						<Typography variant="body1" className={classes.text}>
-							membre de l’association / membre du groupe, <strong>{currentCreneau.perm.nom}</strong> engage ma 
-							personne et le reste de mon équipe à respecter les règles suivantes lors de toutes les permanences 
-							tenues au Pic’asso durant le semestre. Respecter les décisions de l’équipe d’astreinte. Notamment en ce qui 
-							concerne les horaires de fermeture, le volume sonore et l’utilisation de la licence de cercle privé. Respecter le 
-							matériel mis à disposition des permanenciers. Respecter les étudiants présents dans l’enceinte du foyer.
-							Payer mes consommations pendant mes permanences. En effet, les permanences sont tenues bénévolement. 
-							Leur but est d’assurer un service aux étudiants et non de permettre à ceux qui les tiennent d’en tirer des avantages.
-							Ne pas servir une personne qui a trop bu et prévenir l’astreinteur si l’état de la personne nécessite 
-							l’intervention de personnel qualifié. Distribuer des éthylotests aux conducteurs le demandant. Ceux-ci 
-							seront à disposition derrière le bar durant les heures de services d’alcool (18h30 à 21h30).
-							Rester sobre car nous vous rappelons que vous êtes responsable du bon déroulement de la permanence.
-							Effectuer les tâches ménagères de manière correcte en suivant les consignes des astreinteurs.
-							La caution est un chèque de 200€ à l’ordre du BDE UTC Pic’asso par groupe de permanence, que ce soit 
-							groupe d’amis ou association. Le non-respect d’une des règles citées ci-dessus pourra entraîner l’encaissement 
-							de la caution, totale ou partielle selon la gravité du problème.<br/><br/>
-						</Typography>
+								<Typography variant="body1" className={classes.text}>
+									Ce document est valable pour toute la durée du semestre en cours et sera susceptible d’être utilisé comme justificatif de 
+									responsabilité de l’étudiant en cas de dégradation ou de comportement inapproprié lors d’une de ses permanences dans le 
+									foyer étudiant.<br/><br/>
+									Je soussigné 
+								</Typography>
+								<TextField
+										required
+										onChange={this.handleChange}
+										id='name'
+										placeholder='Prénom / Nom'
+										name="nom"
+										className={classes.textField}
+										value={newSignature.nom}
+								/>
+								<Typography variant="body1" className={classes.text}>
+									membre de l’association / membre du groupe, <strong>{currentCreneau.perm.nom}</strong> engage ma 
+									personne et le reste de mon équipe à respecter les règles suivantes lors de toutes les permanences 
+									tenues au Pic’asso durant le semestre. Respecter les décisions de l’équipe d’astreinte. Notamment en ce qui 
+									concerne les horaires de fermeture, le volume sonore et l’utilisation de la licence de cercle privé. Respecter le 
+									matériel mis à disposition des permanenciers. Respecter les étudiants présents dans l’enceinte du foyer.
+									Payer mes consommations pendant mes permanences. En effet, les permanences sont tenues bénévolement. 
+									Leur but est d’assurer un service aux étudiants et non de permettre à ceux qui les tiennent d’en tirer des avantages.
+									Ne pas servir une personne qui a trop bu et prévenir l’astreinteur si l’état de la personne nécessite 
+									l’intervention de personnel qualifié. Distribuer des éthylotests aux conducteurs le demandant. Ceux-ci 
+									seront à disposition derrière le bar durant les heures de services d’alcool (18h30 à 21h30).
+									Rester sobre car nous vous rappelons que vous êtes responsable du bon déroulement de la permanence.
+									Effectuer les tâches ménagères de manière correcte en suivant les consignes des astreinteurs.
+									La caution est un chèque de 200€ à l’ordre du BDE UTC Pic’asso par groupe de permanence, que ce soit 
+									groupe d’amis ou association. Le non-respect d’une des règles citées ci-dessus pourra entraîner l’encaissement 
+									de la caution, totale ou partielle selon la gravité du problème.<br/><br/>
+								</Typography>
 
-						{this.displayDate()}
-						<TextField
-							required
-							onChange={this.handleChange}
-							id='login'
-							placeholder="Login"
-							name="login"
-							className={classes.textField}
-							value={newSignature.login}
-						/>
-						<Button variant="contained" color="primary" onClick={this.saveSignature}>
-							Valider
-						</Button>
+								{this.displayDate()}
+								<TextField
+									required
+									onChange={this.handleChange}
+									id='login'
+									placeholder="Login"
+									name="login"
+									className={classes.textField}
+									value={newSignature.login}
+								/>
+								<Button variant="contained" color="primary" onClick={this.saveSignature}>
+									Valider
+								</Button>
+							</React.Fragment>
+						):(
+							<Typography variant="body1">
+								Pas de perm en cours ...
+							</Typography>
+						)}
+						
 					</div>
 				)}
 				
