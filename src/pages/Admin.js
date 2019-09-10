@@ -21,7 +21,7 @@ import CurrentPerm from '../components/admin/perms/CurrentPerm';
 import Perms from '../components/admin/perms/Perms';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
-import Charte from '../components/admin/Charte';
+// import Charte from '../components/admin/Charte';
 import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
 
@@ -105,7 +105,6 @@ class Admin extends Component {
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
-						<ProtectedRoute only="member" path={`${base_url}/charte`} exact component={Charte}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>

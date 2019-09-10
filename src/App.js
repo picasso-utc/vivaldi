@@ -6,6 +6,7 @@ import './App.css';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Charte from './components/Charte';
 import Error404 from './pages/Error404';
 import ProtectedRoute from './utils/ProtectedRoute';
 
@@ -19,6 +20,7 @@ class App extends React.Component {
 					<Route path="/" exact component={Home}/>
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
+					<Route path="/charte" exact component={Charte}/>
 					<Route component={Error404}/>
 				</Switch>
 			</BrowserRouter>
