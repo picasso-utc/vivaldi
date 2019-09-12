@@ -25,6 +25,9 @@ class Auth {
         return (localStorage.getItem('right') === 'A' || localStorage.getItem('right') === 'M') && localStorage.getItem('connexion') == GENERAL_CONNEXION
     }
 
+    static isConnexionRestricted(){
+        return localStorage.getItem('connexion') !== GENERAL_CONNEXION;
+    }
 
     static async login(){
         this.emptyLocalStorage();
