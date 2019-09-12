@@ -1,5 +1,5 @@
 import {URL, asset_url} from './Config';
-import {ajaxGet} from './Ajax';
+import {ajaxGet, ajaxPost} from './Ajax';
 
 const GENERAL_CONNEXION = 'full';
 
@@ -69,6 +69,11 @@ class Auth {
     static goLogout(){
         this.emptyLocalStorage();
         window.location.href = URL + '/api/auth/logout';
+    }
+
+
+    static loginUsername(data){
+        return ajaxPost('auth/username', data);
     }
 
 
