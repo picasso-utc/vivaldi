@@ -1,6 +1,7 @@
 import {URL, asset_url} from './Config';
 import {ajaxGet} from './Ajax';
 
+const GENERAL_CONNEXION = 'full';
 
 class Auth {
 
@@ -17,11 +18,11 @@ class Auth {
     }
 
     static isUserAdmin(){
-        return localStorage.getItem('right') === 'A'
+        return localStorage.getItem('right') === 'A' && localStorage.getItem('connexion') == GENERAL_CONNEXION
     }
 
     static isUserMember(){
-        return (localStorage.getItem('right') === 'A' || localStorage.getItem('right') === 'M')
+        return (localStorage.getItem('right') === 'A' || localStorage.getItem('right') === 'M') && localStorage.getItem('connexion') == GENERAL_CONNEXION
     }
 
 
@@ -41,7 +42,7 @@ class Auth {
         localStorage.setItem('auth', data.authenticated);
         localStorage.setItem('identity', data.identitity);
         localStorage.setItem('right', data.right);
-
+        localStorage.setItem('connexion', data.connexion);
         this.redirectUser();
     }
 
