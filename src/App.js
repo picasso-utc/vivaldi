@@ -22,7 +22,7 @@ class App extends React.Component {
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
 					<Route path="/charte" exact component={Charte}/>
-					<Route path="/menu/:menu_id" component={Menu} />
+					<Route path="/menu" component={Menu} />
 					<Route component={Error404}/>
 				</Switch>
 			</BrowserRouter>
