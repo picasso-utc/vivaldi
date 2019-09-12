@@ -1,12 +1,17 @@
 import axios from 'axios';
 import { asset_url } from './Config';
 
+const uncaught_path = [
+    asset_url("/login"),
+    asset_url("/menu")
+]
+
 axios.interceptors.response.use( (response) => {
     return response;
  }, (error) => {
     switch (error.response.status) {
         case 403:
-            if (window.location.pathname !== asset_url("/login")) {
+            if (!uncaught_path.find(window.location.pathname)) {
                 window.location.href = asset_url("/login");
             }
             break;
