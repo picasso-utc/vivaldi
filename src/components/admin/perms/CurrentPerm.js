@@ -83,6 +83,12 @@ class CurrentPerm extends Component{
     }
 
 
+    redirectToMenu(event, article){
+        console.log(article)
+        window.open("/menu/" + article.id_payutc);
+    }
+
+
     saveArticle(){
         let new_article = this.state.new_article;
         ajaxPost('perm/articles/', new_article).then(res => {
@@ -248,6 +254,17 @@ class CurrentPerm extends Component{
                                             )}
                                         </TableCell>
                                         <TableCell component="th" scope="row" className={classes.cell}>
+                                            {article.menu.length > 0 &&
+                                                <Button 
+                                                        variant="contained" 
+                                                    size="small" 
+                                                    color="secondary"
+                                                    className={classes.btn} 
+                                                    onClick={(e) => this.redirectToMenu(e, article)}
+                                                >
+                                                    Consulter
+                                                </Button>
+                                            }
                                                 {/* <Button 
                                                     variant="contained" 
                                                     size="small" 
