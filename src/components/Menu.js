@@ -87,6 +87,9 @@ class Menu extends Component {
 						<Typography variant="h4" className={classes.title}>
 							Menu - {menu.name}
 						</Typography>
+                        <Typography variant="h6" className={classes.subtitle}>
+							{menu.total_quantity} / {menu.quantity} - Menus servis : {menu.served_quantity}
+						</Typography>
                         <Table>
                             <TableBody>
                                 {orders.map((order, index) => (
@@ -153,6 +156,10 @@ const styles = theme => ({
 	title : {
 		textAlign: 'center',
 		textDecoration : 'underline #B22132',
+		marginBottom: 30,
+    },
+    subtitle : {
+		textAlign: 'center',
 		marginBottom: 30,
 	},
 	loader: {
