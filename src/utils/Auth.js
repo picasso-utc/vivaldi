@@ -29,16 +29,26 @@ class Auth {
         return localStorage.getItem('connexion') !== GENERAL_CONNEXION;
     }
 
+
     static async login(){
         this.emptyLocalStorage();
 
-        ajaxGet('auth/me')
+        this.checkAuth()
             .then(res => {
                 Auth.authenticateUser(res.data)
+                if (Auth.isConnexionRestricted()) {
+                    Auth.goLogin();
+                } else {
+                    Auth.redirectUser();
+                }
             })
             .catch(error => {
                 Auth.goLogin();
             })
+    }
+
+    static async checkAuth(){
+        return ajaxGet('auth/me');
     }
 
     static authenticateUser(data){
@@ -46,7 +56,6 @@ class Auth {
         localStorage.setItem('identity', data.identitity);
         localStorage.setItem('right', data.right);
         localStorage.setItem('connexion', data.connexion);
-        this.redirectUser();
     }
 
 
