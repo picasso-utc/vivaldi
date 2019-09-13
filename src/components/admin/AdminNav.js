@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -64,6 +65,7 @@ class AdminNav extends Component {
 					children : [
 						{ id: 'Perm en cours', link: '/admin/current/perm'},
 						{ id: 'Planning', link: '/admin/calendar'},
+						{ id: 'Menu', link: '/menu'},
 						// { id: 'Astreintes', link: '/admin/astreintes'},
 						// { id: 'Index perms', link: '/admin/perms'},
 					]
@@ -105,7 +107,7 @@ class AdminNav extends Component {
 			],
 		};
 
-		this.handleDrawerToggle = this.handleDrawerToggle.bind(this)
+		// this.handleDrawerToggle = this.handleDrawerToggle.bind(this)
 		this.handleClickOnCategory = this.handleClickOnCategory.bind(this)
 	}
 
@@ -114,10 +116,6 @@ class AdminNav extends Component {
 		this.setState({
 			mobileOpen : !mobileOpen
 		})
-	}
-
-	handleDrawerToggle(){
-		this.setMobileOpen();
 	}
 
 
@@ -141,15 +139,15 @@ class AdminNav extends Component {
 	
   	render(){
 
-
+		console.log(this.props.mobileOpen)
 		const { classes } = this.props;
-		const {mobileOpen, categories} = this.state;
+		const {categories} = this.state;
+		const { mobileOpen } = this.props.mobileOpen
+		const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
 		const drawer = (
 			<div>
-				{/* <div 
-					className={classes.toolbar} 
-				/> */}
+
 				<Grid 
 					className={classes.logo} 
 					container
@@ -162,7 +160,6 @@ class AdminNav extends Component {
 				<List disablePadding>
 					{categories.map(({ id, open, link, icon, children, authorization })=> (
 						authorization && <React.Fragment key={id}>
-							{/* <Link to={link} style={{ textDecoration: 'none' }}> */}
 								<ListItem 
 									className={classes.categoryHeader} 
 									onClick={(e) => this.handleClickOnCategory(e, {id})}
@@ -181,7 +178,6 @@ class AdminNav extends Component {
 									</ListItemText>
 									
 								</ListItem>
-							{/* </Link> */}
 							<Collapse in={open} timeout="auto" unmountOnExit>
 								<List component="div" disablePadding>
 									{children && children.map(({ id: childId, link: childLink }) => (
@@ -233,37 +229,16 @@ class AdminNav extends Component {
 				className={classes.drawer} 
 				aria-label="mailbox folders"
 			>
-			
-				<Hidden mdUp implementation="css">
-					<Drawer
-						// container={container}
-						variant="temporary"
-						// anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-						open={mobileOpen}
-						onClose={this.handleDrawerToggle}
-						classes={{
-							paper: classes.drawerPaper,
-						}}
-						// ModalProps={{
-						// keepMounted: true, // Better open performance on mobile.
-						// }}
-					>
-						{drawer}
-						
-					</Drawer>
-				</Hidden>
-				<Hidden smDown implementation="css">
-					<Drawer
-						classes={{
-							paper: classes.drawerPaper,
-						}}
-						variant="permanent"
-						open
-					>
-						{drawer}
-						
-					</Drawer>
-				</Hidden>
+				<Drawer
+					classes={{
+						paper: classes.drawerPaper,
+					}}
+					variant={isMobile ? "temporary" : "permanent"}
+					onClose={this.handleDrawerToggle}
+					open={!isMobile || mobileOpen}
+				>
+					{drawer}
+				</Drawer>
 			</nav>
 		);
 	}
