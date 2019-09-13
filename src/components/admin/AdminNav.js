@@ -1,15 +1,10 @@
-import React, {Component} from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import React from 'react'
+import { Link } from 'react-router-dom';
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
+import { Divider, Drawer, Collapse,
+	List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
@@ -18,227 +13,173 @@ import HomeIcon from '@material-ui/icons/Home';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 
-import { Link } from 'react-router-dom';
-
 import Auth from '../../utils/Auth';
 import { asset_url } from '../../utils/Config';
 
-import Collapse from '@material-ui/core/Collapse';
-
-
 const LOGO_PATH = asset_url('/images/logo.png')
+const CATEGORIES = [
+	{
+		id: 'Dashboard',
+		link: '/admin',
+		icon: <HomeIcon />,
+		authorized: Auth.isUserMember,
+	},
+	{
+		id: 'Gestion du site',
+		icon: <DeveloperModeIcon/>,
+		authorized: Auth.isUserMember,
+		children: [
+			{ id: 'Goodies', link: '/admin/goodies'},
+			// { id: 'Sondages', link: '/admin/polls'},
+		]
+	},
+	{
+		id: 'Perms',
+		icon: <EventNoteIcon/>,
+		authorized: Auth.isUserMember,
+		children: [
+			{ id: 'Perm en cours', link: '/admin/current/perm'},
+			{ id: 'Planning', link: '/admin/calendar'},
+			{ id: 'Menu', link: '/menu'},
+			// { id: 'Astreintes', link: '/admin/astreintes'},
+			// { id: 'Index perms', link: '/admin/perms'},
+		]
+	},
+	{
+		id: 'Charte',
+		link: '/charte',
+		icon: <HowToRegIcon/>,
+		authorized: Auth.isUserMember,
+	},
+	{
+		id: 'Applications',
+		icon: <ImportantDevicesIcon/>,
+		authorized: Auth.isUserMember,
+		children: [
+			{ id: 'Weezevent', link: 'https://admin.nemopay.net'},
+			{ id: 'Picsous', link: 'https://assos.utc.fr/picasso/picsous'},
+			{ id: 'Ancien Picsous', link: 'https://cas.utc.fr/cas/login?service=http://assos.utc.fr/picasso/old/picsous/#/'},
+			{ id: 'Beethoven', link: 'http://beethoven.picasso-utc.fr/'},
+		]
+	},
+	{
+		id: 'Administration',
+		icon: <SettingsIcon/>,
+		authorized: Auth.isUserAdmin,
+		children: [
+			{id: 'Utilisateurs', link: '/admin/users'},
+			// {id: 'Team', link: '/admin/team'},
+			{id: 'Semestres', link: '/admin/semesters'},
+			{id: 'Paramètres', link: '/admin/settings'},
+		]
+	}
+];
 
-class AdminNav extends Component {
+function AdminDrawer(props) {
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	return (
+		<Drawer
+			classes={{ paper: props.classes.drawerPaper }}
+			variant={isMobile ? "temporary" : "permanent"}
+			onClose={props.handleDrawerToggle}
+			open={!isMobile || props.mobileOpen}
+		>
+			{props.children}
+		</Drawer>
+	);
+}
+
+class AdminNav extends React.Component {
 
 	constructor(props) {
-        super(props);
-
-        this.state = {
+		super(props);
+		this.state = {
 			mobileOpen : false,
-			categories : [
-				{
-					id: 'Dashboard',
-					open: false,
-					link: '/admin',
-					icon: <HomeIcon />,
-					authorization: Auth.isUserMember(),
-					children : []
-				
-				},
-				{
-					id: 'Gestion du site',
-					open: false,
-					link: null,
-					icon: <DeveloperModeIcon/>,
-					authorization:  Auth.isUserMember(),
-					children : [
-						{ id: 'Goodies', link: '/admin/goodies'},
-						// { id: 'Sondages', link: '/admin/polls'},
-					]
-				},
-				{
-					id: 'Perms',
-					open: false,
-					link: null,
-					icon: <EventNoteIcon/>,
-					authorization:  Auth.isUserMember(),
-					children : [
-						{ id: 'Perm en cours', link: '/admin/current/perm'},
-						{ id: 'Planning', link: '/admin/calendar'},
-						{ id: 'Menu', link: '/menu'},
-						// { id: 'Astreintes', link: '/admin/astreintes'},
-						// { id: 'Index perms', link: '/admin/perms'},
-					]
-				},
-				{
-					id: 'Charte',
-					open: false,
-					link: '/charte',
-					icon: <HowToRegIcon/>,
-					authorization:  Auth.isUserMember(),
-					children : []
-				},
-				{
-					id: 'Applications',
-					open: false,
-					link: null,
-					icon: <ImportantDevicesIcon/>,
-					authorization:  Auth.isUserMember(),
-					children : [
-						{ id: 'Weezevent', link: 'https://admin.nemopay.net'},
-						{ id: 'Picsous', link: 'https://assos.utc.fr/picasso/picsous'},
-						{ id: 'Ancien Picsous', link: 'https://cas.utc.fr/cas/login?service=http://assos.utc.fr/picasso/old/picsous/#/'},
-						{ id: 'Beethoven', link: 'http://beethoven.picasso-utc.fr/'},
-					]
-				},
-				{
-					id: 'Administration',
-					open: false,
-					link: null,
-					icon: <SettingsIcon/>,
-					authorization:  Auth.isUserAdmin(),
-					children : [
-						{id: 'Utilisateurs', link: '/admin/users'},
-						// {id: 'Team', link: '/admin/team'},
-						{id: 'Semestres', link: '/admin/semesters'},
-						{id: 'Paramètres', link: '/admin/settings'},
-					]
-				}
-			],
+			openCategories: {},
 		};
-
-		// this.handleDrawerToggle = this.handleDrawerToggle.bind(this)
-		this.handleClickOnCategory = this.handleClickOnCategory.bind(this)
 	}
 
-	setMobileOpen = function(){
-		const mobileOpen = this.state.mobileOpen;
-		this.setState({
-			mobileOpen : !mobileOpen
-		})
+	toggleCategoryCollapse = event => {
+		const categoryId = event.currentTarget.getAttribute('value');
+		this.setState(prevState => ({
+			openCategories: {
+				...prevState.openCategories,
+				[categoryId]: !prevState.openCategories[categoryId]
+			},
+		}));
 	}
 
-
-	handleClickOnCategory(event, category){
-		const category_id = category.id;
-		let categories = this.state.categories;
-		const index = categories.findIndex((c) => c.id === category_id);
-		const new_value = !categories[index].open;
-		categories.map((c) => c.open = false);
-		categories[index].open = new_value
-		this.setState({
-			categories: categories
-		});
-	}
-
-
-	openChildLink(event, link){
+	openChildLink = event => {
+		const link = event.currentTarget.getAttribute('value');
 		window.open(link)
 	}
-	
-	
-  	render(){
 
-		console.log(this.props.mobileOpen)
+	getLinkProps = link => {
+		if (!link)
+			return {}
+		if (link.startsWith('http'))
+			return {
+				component: 'a',
+				href: link,
+				target: '_blank',
+			}
+		return {
+			component: Link,
+			to: link || '',
+		}
+	}
+	
+	render() {
 		const { classes } = this.props;
-		const {categories} = this.state;
-		const { mobileOpen } = this.props.mobileOpen
-		const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
-
-		const drawer = (
-			<div>
-
-				<Grid 
-					className={classes.logo} 
-					container
-					justify="center"
- 					direction="row"
-				>
-					<img src={LOGO_PATH} height="44px"/>
-
-				</Grid>
-				<List disablePadding>
-					{categories.map(({ id, open, link, icon, children, authorization })=> (
-						authorization && <React.Fragment key={id}>
+		return (
+			<nav className={classes.drawer}>
+				<AdminDrawer {...this.props}>
+					<div className={classes.logo}>
+						<img src={LOGO_PATH} height="44px" />
+					</div>
+					<List disablePadding>
+						{CATEGORIES.map(category => (
+							<React.Fragment key={category.id}>
 								<ListItem 
 									className={classes.categoryHeader} 
-									onClick={(e) => this.handleClickOnCategory(e, {id})}
+									onClick={category.children && this.toggleCategoryCollapse}
+									value={category.id}
 									button
-									component={link ? (Link) : ('')}
-									to={link ? (link) : ('')}
+									{...this.getLinkProps(category.link)}
 								>
-									<ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
-									<ListItemText
-										classes={{
-											primary: classes.categoryHeaderPrimary,
-										}}
-										
-									>
-										{id}
+									<ListItemIcon className={classes.itemIcon}>
+										{category.icon}
+									</ListItemIcon>
+									<ListItemText classes={{ primary: classes.categoryHeaderPrimary }}>
+										{category.id}
 									</ListItemText>
-									
 								</ListItem>
-							<Collapse in={open} timeout="auto" unmountOnExit>
-								<List component="div" disablePadding>
-									{children && children.map(({ id: childId, link: childLink }) => (
-										childLink.startsWith('http')? (
-											<ListItem 
-												key={childId} 
-												button
-												className={classes.categoryChildren}
-												onClick={(e) => this.openChildLink(e, childLink)}
-											>
-												<ListItemText 
-													primary={childId} 
-													classes={{
-														primary: classes.categoryChildrenPrimary,
-													}}
-												/>
-											</ListItem>
-										) : (
-											<ListItem 
-												key={childId} 
-												button
-												className={classes.categoryChildren}
-												component={childLink ? (Link) : ('')}
-												to={childLink ? (childLink) : ('')}
-											>
-												<ListItemText 
-													primary={childId} 
-													classes={{
-														primary: classes.categoryChildrenPrimary,
-													}}
-												/>
-											</ListItem>
-										)
-									))}
-								</List>
-							</Collapse>
-							<Divider/>
-						</React.Fragment>
-												
-					))}
-
-				</List>
-			</div>		
-		);
-	
-		return (
-				
-			<nav
-				className={classes.drawer} 
-				aria-label="mailbox folders"
-			>
-				<Drawer
-					classes={{
-						paper: classes.drawerPaper,
-					}}
-					variant={isMobile ? "temporary" : "permanent"}
-					onClose={this.handleDrawerToggle}
-					open={!isMobile || mobileOpen}
-				>
-					{drawer}
-				</Drawer>
+									
+								{category.children && category.children.length && (
+									<Collapse in={Boolean(this.state.openCategories[category.id])} timeout="auto">
+										<List component="div" disablePadding>
+											{category.children.map(child => (
+												<ListItem 
+													key={child.id} 
+													button
+													className={classes.categoryChildren}
+													value={child.link}
+													{...this.getLinkProps(child.link)}
+												>
+													<ListItemText
+														primary={child.id} 
+														classes={{ primary: classes.categoryChildrenPrimary }}
+													/>
+												</ListItem>
+											))}
+										</List>
+									</Collapse>
+								)}
+								<Divider/>
+							</React.Fragment>
+						))}
+					</List>
+				</AdminDrawer>
 			</nav>
 		);
 	}
@@ -311,7 +252,8 @@ const styles = theme => ({
 		fontSize: 12,
 		
 	},
-	logo : {
+	logo: {
+		textAlign: 'center',
 		paddingTop : 10,
 		paddingBottom: 30,
 	},
@@ -322,7 +264,7 @@ const styles = theme => ({
 	},
 
 
-	  
+		
 });
 
 export default withStyles (styles) (AdminNav)

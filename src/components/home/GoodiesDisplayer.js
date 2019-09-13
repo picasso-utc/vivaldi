@@ -23,7 +23,7 @@ class GoodiesDisplayer extends React.Component {
 
 	
 	loadGoodiesWinners(){
-        ajaxGet('payutc/goodies').then(res => {
+        ajaxGet('payutc/goodies/').then(res => {
             this.setState({winners: res.data.winners});
         })
         .catch(error => {
