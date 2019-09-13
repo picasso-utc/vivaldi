@@ -42,6 +42,7 @@ class Menu extends Component {
 
     componentDidMount() {
         this.checkAuth()
+       
     }  
     
     componentWillUnmount() {
@@ -85,6 +86,11 @@ class Menu extends Component {
 
 	loadMenus(){
         ajaxGet('perm/menus/').then(res => {
+            const query = new URLSearchParams(this.props.location.search);
+            const selected_article = query.get('selected_article');
+            if (selected_article) {
+                this.setState({selected_article: selected_article})
+            }
             this.setState({menus: res.data, loading: false});
             this.interval = setInterval(() => this.loadSelectedMenu(), 2000);
         })
@@ -96,7 +102,7 @@ class Menu extends Component {
 
     loadSelectedMenu(){
         const menus = [...this.state.menus];
-        const menu = menus.find(m => m.article.id == this.state.selected_article)
+        const menu = menus.find(m => m.article.id.toString() === this.state.selected_article.toString())
         if (menu && menu.article && menu.article.id_payutc) {
             ajaxGet('perms/menu/orders/' + menu.article.id_payutc).then(res => {
                 this.setState({orders: res.data.orders, menu: res.data.menu, loading: false})
