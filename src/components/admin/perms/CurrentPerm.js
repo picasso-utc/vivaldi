@@ -12,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { asset_url } from '../../../utils/Config';
 
 class CurrentPerm extends Component{
  
@@ -84,8 +85,7 @@ class CurrentPerm extends Component{
 
 
     redirectToMenu(event, article){
-        console.log(article)
-        window.open("/menu/" + article.id_payutc);
+        window.open(asset_url("/menu?selected_article=" + article.id));
     }
 
 
