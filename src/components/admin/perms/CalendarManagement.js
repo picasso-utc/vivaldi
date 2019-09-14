@@ -22,7 +22,12 @@ import TableRow from '@material-ui/core/TableRow';
 import FormControl from '@material-ui/core/FormControl';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Paper from '@material-ui/core/Paper';
 
 
 
@@ -45,6 +50,9 @@ class CalendarManagement extends Component{
             },
             calendar : [],
             current_semester: {},
+            open_mail: false,
+            selected_perms: [],
+            unselected_perms: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -53,7 +61,8 @@ class CalendarManagement extends Component{
         this.savePerm = this.savePerm.bind(this);
         this.deletePerm = this.deletePerm.bind(this);
         this.formateCalendarDate = this.formateCalendarDate.bind(this);
-
+        this.handleChangeOnMail = this.handleChangeOnMail.bind(this);
+        this.sendPermsMail = this.sendPermsMail.bind(this);
     }
 
 
@@ -310,12 +319,52 @@ class CalendarManagement extends Component{
         })
     }
 
+    handleChangeOnMail(){
+        const open_mail = this.state.open_mail;
+        this.setState({open_mail: !open_mail});
+        ajaxGet('perms').then(res => {
+            this.setState({selected_perms: res.data});
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
+
+    selectPerm(event, perm){
+        let selected_perms = [...this.state.selected_perms];
+        let unselected_perms = [...this.state.unselected_perms];
+        selected_perms = selected_perms.filter(p => p.id !== perm.id);
+        console.log(selected_perms)
+        unselected_perms.push(perm);
+        this.setState({selected_perms: selected_perms, unselected_perms: unselected_perms});
+    }
+
+
+    unselectPerm(event, perm){
+        let selected_perms = [...this.state.selected_perms];
+        let unselected_perms = [...this.state.unselected_perms];
+        unselected_perms = unselected_perms.filter(p => p.id !== perm.id);
+        selected_perms.push(perm);
+        this.setState({selected_perms: selected_perms, unselected_perms: unselected_perms});
+    }
+
+
+    sendPermsMail(){
+        ajaxPost('perms/mail', this.state.selected_perms).then(res => {
+            
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
 
     render(){
         
         const { classes } = this.props;
 
-        const { perms, newPerm, calendar, loading } = this.state 
+        const { perms, newPerm, calendar, loading, open_mail, selected_perms, unselected_perms } = this.state 
 
         if(loading){
             return (
@@ -418,6 +467,15 @@ class CalendarManagement extends Component{
                             <Grid item xs={12}>
                                 <Typography variant="subtitle1" noWrap className={classes.subTitle}>
                                     Liste des perms
+                                    <Button 
+                                        variant="outlined" 
+                                        size="small" 
+                                        color="secondary" 
+                                        onClick={this.handleChangeOnMail}
+                                        // className={classes.btnAddPerm}
+                                    >
+                                        Mail
+                                    </Button>
                                 </Typography>
                             </Grid>
                             <List className={classes.listPerms}>
@@ -573,6 +631,90 @@ class CalendarManagement extends Component{
                         </Grid>
                     </Grid>
                 </Grid>
+                <Dialog
+                    // fullWidth="lg"
+                    maxWidth="lg"
+                    open={open_mail}
+                    onClose={this.handleChangeOnMail}
+                    aria-labelledby="max-width-dialog-title"
+                >
+                    <DialogTitle id="max-width-dialog-title">Gestion des envois d'email</DialogTitle>
+                    <DialogContent>
+                        <Paper className={classes.paper}>
+                            <DialogContentText>
+                                Ci-dessous la liste des perms auxquelles doit être envoyées un mail de notification des plannings. 
+                            </DialogContentText>
+                            {selected_perms.map((perm, index) => (
+                                <Chip
+                                    label={perm.nom}
+                                    key={index}
+                                    onDelete={(event) => this.selectPerm(event, perm)}
+                                    className={classes.chip}
+                                    color="primary"
+                                />
+                            ))}
+                        </Paper>
+                        <Paper className={classes.paper}>
+                            <DialogContentText>
+                                Ci-dessous la liste des perms auxquelles <strong>ne doit pas</strong> être envoyées un mail de notification des plannings. 
+                            </DialogContentText>
+                            {unselected_perms.map((perm, index) => (
+                                <Chip
+                                    label={perm.nom}
+                                    key={index}
+                                    onDelete={(event) => this.unselectPerm(event, perm)}
+                                    className={classes.chip}
+                                    color="primary"
+                                />
+                            ))}
+                        </Paper>
+                    {/* <form className={classes.form} noValidate>
+                        <FormControl className={classes.formControl}>
+                        <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                        <Select
+                            value={maxWidth}
+                            onChange={handleMaxWidthChange}
+                            inputProps={{
+                            name: 'max-width',
+                            id: 'max-width',
+                            }}
+                        >
+                            <MenuItem value={false}>false</MenuItem>
+                            <MenuItem value="xs">xs</MenuItem>
+                            <MenuItem value="sm">sm</MenuItem>
+                            <MenuItem value="md">md</MenuItem>
+                            <MenuItem value="lg">lg</MenuItem>
+                            <MenuItem value="xl">xl</MenuItem>
+                        </Select>
+                        </FormControl>
+                        <FormControlLabel
+                        className={classes.formControlLabel}
+                        control={
+                            <Switch checked={fullWidth} onChange={handleFullWidthChange} value="fullWidth" />
+                        }
+                        label="Full width"
+                        />
+                    </form> */}
+                    </DialogContent>
+                    <DialogActions>
+                    <Button 
+                        onClick={this.handleChangeOnMail} 
+                        color="secondary"
+                        variant="contained" 
+                        size="small" 
+                    >
+                        Annuler
+                    </Button>
+                    <Button 
+                        onClick={this.sendPermsMail} 
+                        color="primary"
+                        variant="contained" 
+                        size="small" 
+                    >
+                        Envoyer
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     };
@@ -643,6 +785,13 @@ const styles = theme => ({
     },
     form: {
         width: '100%',
+    },
+    chip: {
+        margin: 5,
+    },
+    paper : {
+        margin:20,
+        padding: 20,
     },
 });
 
