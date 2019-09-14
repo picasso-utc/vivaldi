@@ -11,7 +11,7 @@ axios.interceptors.response.use( (response) => {
  }, (error) => {
     switch (error.response.status) {
         case 403:
-            if (!uncaught_path.find(window.location.pathname)) {
+            if (!uncaught_path.indexOf(window.location.pathname)>=0) {
                 window.location.href = asset_url("/login");
             }
             break;
