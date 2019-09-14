@@ -29,6 +29,30 @@ import ProtectedRoute from '../utils/ProtectedRoute';
 class Admin extends Component {
 	
 
+	constructor(props) {
+        super(props);
+
+        this.state = {
+			mobileOpen : true,
+		}
+
+		this.handleDrawerToggle = this.handleDrawerToggle.bind(this)
+	}
+
+
+	setMobileOpen = function(){
+		const mobileOpen = this.state.mobileOpen;
+		this.setState({
+			mobileOpen : !mobileOpen
+		})
+	}
+
+	handleDrawerToggle(){
+		this.setMobileOpen();
+	}
+
+
+
 	displayScreenName(){
 		switch (window.location.pathname) {
 			case "/admin":
@@ -64,6 +88,7 @@ class Admin extends Component {
 
 
 		const { classes } = this.props;
+		const { mobileOpen } = this.state;
 		const base_url = this.props.match.url;
 
 	
@@ -92,7 +117,7 @@ class Admin extends Component {
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<AdminNav/>
+				<AdminNav mobileOpen={mobileOpen}/>
 				<main 
 					className={classes.content}
 				>
