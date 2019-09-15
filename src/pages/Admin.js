@@ -1,13 +1,9 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { Route, Switch } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import IconButton from '@material-ui/core/IconButton';
+import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import AdminNav from '../components/admin/AdminNav';
 import Dashboard from '../components/admin/Dashboard';
@@ -26,102 +22,77 @@ import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
 
 
-class Admin extends Component {
-	
+class Admin extends React.Component {
 
 	constructor(props) {
-        super(props);
-
-        this.state = {
-			mobileOpen : true,
-		}
-
-		this.handleDrawerToggle = this.handleDrawerToggle.bind(this)
+		super(props);
+		this.state = {
+			mobileOpen : false,
+		};
 	}
 
+	handleDrawerToggle = event => this.setState(prevState => ({
+		mobileOpen: !prevState.mobileOpen
+	}))
 
-	setMobileOpen = function(){
-		const mobileOpen = this.state.mobileOpen;
-		this.setState({
-			mobileOpen : !mobileOpen
-		})
-	}
-
-	handleDrawerToggle(){
-		this.setMobileOpen();
-	}
-
-
-
-	displayScreenName(){
+	displayScreenName() {
 		switch (window.location.pathname) {
 			case "/admin":
-				return "Dashboard";
+			return "Dashboard";
 			case "/admin/goodies":
-				return "Goodies";
+			return "Goodies";
 			case "/admin/polls":
-				return "Sondages";
+			return "Sondages";
 			case "/admin/current/perm":
-				return "Perm en cours";
+			return "Perm en cours";
 			case "/admin/calendar":
-				return "Planning du semestre";
+			return "Planning du semestre";
 			case "/admin/astreintes":
-				return "Astreintes";
+			return "Astreintes";
 			case "/admin/perms":
-				return "Perms";
+			return "Perms";
 			case "/admin/charte":
-				return "Charte";
+			return "Charte";
 			case "/admin/users":
-				return "Utilisateurs";
+			return "Utilisateurs";
 			case "/admin/team":
-				return "Team";
+			return "Team";
 			case "/admin/semesters":
-				return "Semestres";
+			return "Semestres";
 			case "/admin/settings":
-				return "Paramètres";
+			return "Paramètres";
 			default:
-				break;
+			break;
 		}
 	}
 	
-  	render(){
-
-
+	render() {
 		const { classes } = this.props;
 		const { mobileOpen } = this.state;
 		const base_url = this.props.match.url;
 
-	
 		return (
-			<div 
-				className={classes.root}
-			>
-				<CssBaseline />
-				<AppBar 
-					position="fixed" 
-					  className={classes.appBar}
-					>
+			<div className={classes.root}>
+				<AppBar className={classes.appBar} position="fixed">
 					<Toolbar>
 						<IconButton
-							color="inherit"
-							aria-label="open drawer"
-							edge="start"
-							onClick={this.handleDrawerToggle}
 							className={classes.menuButton}
+							onClick={this.handleDrawerToggle}
+							aria-label="Open drawer"
+							color="inherit"
+							edge="start"
 						>
 							<MenuIcon />
 						</IconButton>
 						<Typography variant="h4" noWrap className={classes.windowTitle}>
-							{/* Utilisateurs */}
 							{this.displayScreenName()}
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<AdminNav mobileOpen={mobileOpen}/>
-				<main 
-					className={classes.content}
-				>
-					
+
+				<AdminNav mobileOpen={mobileOpen} />
+
+				<main className={classes.content}>
 					<Switch>
 						<ProtectedRoute only="member" path={`${base_url}/`} exact component={Dashboard}/>
 						<ProtectedRoute only="member" path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
@@ -144,9 +115,6 @@ class Admin extends Component {
 
 const drawerWidth = 240;
 
-
-
-
 const styles = theme => ({
 	root: {
 		display: 'flex',
@@ -154,7 +122,7 @@ const styles = theme => ({
 	appBar: {
 		marginLeft: drawerWidth,
 		[theme.breakpoints.up('md')]: {
-		width: `calc(100% - ${drawerWidth}px)`,
+			width: `calc(100% - ${drawerWidth}px)`,
 		},
 		backgroundColor : "white",
 		color : "#000223"
@@ -174,10 +142,10 @@ const styles = theme => ({
 	menuButton: {
 		marginRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
-		display: 'none',
+			display: 'none',
 		},
 	},
-	  
+
 });
 
-export default withStyles (styles) (Admin)
+export default withStyles(styles)(Admin);

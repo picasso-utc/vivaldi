@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { CssBaseline } from '@material-ui/core';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<BrowserRouter basename={PUBLIC_URL}>
+				<CssBaseline />
 				<Switch>
 					<Route path="/" exact component={Home}/>
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
