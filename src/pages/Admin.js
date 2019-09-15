@@ -90,7 +90,10 @@ class Admin extends React.Component {
 					</Toolbar>
 				</AppBar>
 
-				<AdminNav mobileOpen={mobileOpen} />
+				<AdminNav
+					mobileOpen={mobileOpen}
+					handleDrawerToggle={this.handleDrawerToggle}
+				/>
 
 				<main className={classes.content}>
 					<Switch>
