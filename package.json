@@ -24,7 +24,7 @@
     "typescript": "^3.4.5"
   },
   "scripts": {
-    "start": "PUBLIC_URL=''; react-scripts start",
+    "start": "react-scripts start",
     "build": "echo \"Building with PUBLIC_URL='$PUBLIC_URL'\"; react-scripts build",
     "build-assos": "PUBLIC_URL='/picasso'; npm run build",
     "test": "react-scripts test",
