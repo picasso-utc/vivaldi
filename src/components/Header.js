@@ -34,16 +34,15 @@ class Header extends React.Component {
 							<div className={classes.logo}>
 								<img src={LOGO_PATH} height="60px"/>
 							</div>
-							
 							<Hidden xsDown implementation="css">
-
 								<IconButton href="https://payutc.nemopay.net" target="_blank" className={classes.menuButton} aria-label="Calendar">
 									<CreditCardIcon className={classes.icon}/>
 								</IconButton>
-								<IconButtonLink to="/login" className={classes.menuButton} aria-label="Login">
-									<LockIcon className={classes.icon}/>
-								</IconButtonLink>
+								
 							</Hidden>
+							<IconButtonLink to="/login" className={classes.menuButton} aria-label="Login">
+								<LockIcon className={classes.icon}/>
+							</IconButtonLink>
 						</Toolbar>
 					</AppBar>
 				</div>
