@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { asset_url } from '../utils/Config'
 
 
 class Footer extends React.Component {
@@ -25,10 +26,10 @@ class Footer extends React.Component {
                         Pour toute question relative au <strong>Pic'Asso</strong> : <a href="mailto:picasso@assos.utc.fr" className={classes.link}>picasso@assos.utc.fr</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Pour toute question relative à <strong>Pay'utc</strong> : <a href="mailto:payutc@assos.utc.fr" className={classes.link}> payutc@assos.utc.fr</a>
+                        Vous êtes responsables : <a target="_blank" rel="noopener noreferrer" href="https://assos.utc.fr/picasso/charte-consommateur.pdf" className={classes.link}>Charte</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Vous êtes responsables : <a target="_blank" rel="noopener noreferrer" href="https://assos.utc.fr/picasso/charte-consommateur.pdf" className={classes.link}>Charte du permanencier</a>
+                        Signer la charte du permanencier <a target="_blank" rel="noopener noreferrer" href={asset_url("/charte")} className={classes.link}>ici</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom className={classes.copyright}>
                         @2019 Copyright Pic'Asso
