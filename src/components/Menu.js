@@ -180,7 +180,7 @@ class Menu extends Component {
                                                 <TableCell component="th" scope="row" className={classes.cell}>
                                                     {order.served? (
                                                         <Button 
-                                                            variant="outlined" 
+                                                            variant="contained" 
                                                             size="small" 
                                                             color="secondary" 
                                                             className={classes.btn} 
@@ -191,16 +191,16 @@ class Menu extends Component {
                                                     ):(
                                                         <React.Fragment>
                                                             <Button 
-                                                                variant="outlined" 
+                                                                variant="contained" 
                                                                 size="small" 
-                                                                // color="primary" 
+                                                                color="primary" 
                                                                 className={classes.btn} 
                                                                 onClick={(e) => this.servedMenu(e, order)}
                                                             >
                                                                 Valider
                                                             </Button>
                                                             <Button 
-                                                                variant="outlined" 
+                                                                variant="contained" 
                                                                 size="small" 
                                                                 color="secondary" 
                                                                 className={classes.btn} 
