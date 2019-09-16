@@ -66,11 +66,11 @@ class Menu extends Component {
                 this.loadMenus();
             })
             .catch(error => {
-                // Redirectionv vers accueil
+                window.location.reload();
             })
         })
         .catch(error => {
-            console.log(error)
+            window.location.reload();
         });
     }
 
@@ -95,7 +95,7 @@ class Menu extends Component {
             this.interval = setInterval(() => this.loadSelectedMenu(), 2000);
         })
         .catch(error => {
-            console.log(error);
+            window.location.reload();
         })
     }
     
@@ -108,7 +108,7 @@ class Menu extends Component {
                 this.setState({orders: res.data.orders, menu: res.data.menu, loading: false})
             })
             .catch(error => {
-                console.log(error);
+                window.location.reload();
             })  
         }
         
@@ -123,7 +123,7 @@ class Menu extends Component {
             
         })
         .catch(error => {
-            console.log(error);
+            window.location.reload();
         })
     }
 
@@ -133,7 +133,7 @@ class Menu extends Component {
             
         })
         .catch(error => {
-            console.log(error);
+            window.location.reload();
         })
     }
 
