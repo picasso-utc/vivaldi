@@ -455,7 +455,7 @@ class CalendarManagement extends Component{
                                 <Button 
                                     variant="outlined" 
                                     size="small" 
-                                    color="secondary" 
+                                    color="primary" 
                                     onClick={this.savePerm}
                                     className={classes.btnAddPerm}
                                 >
@@ -470,9 +470,9 @@ class CalendarManagement extends Component{
                                     <Button 
                                         variant="outlined" 
                                         size="small" 
-                                        color="secondary" 
+                                        color="primary" 
                                         onClick={this.handleChangeOnMail}
-                                        // className={classes.btnAddPerm}
+                                        className={classes.btnMail}
                                     >
                                         Mail
                                     </Button>
@@ -668,33 +668,6 @@ class CalendarManagement extends Component{
                                 />
                             ))}
                         </Paper>
-                    {/* <form className={classes.form} noValidate>
-                        <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-                        <Select
-                            value={maxWidth}
-                            onChange={handleMaxWidthChange}
-                            inputProps={{
-                            name: 'max-width',
-                            id: 'max-width',
-                            }}
-                        >
-                            <MenuItem value={false}>false</MenuItem>
-                            <MenuItem value="xs">xs</MenuItem>
-                            <MenuItem value="sm">sm</MenuItem>
-                            <MenuItem value="md">md</MenuItem>
-                            <MenuItem value="lg">lg</MenuItem>
-                            <MenuItem value="xl">xl</MenuItem>
-                        </Select>
-                        </FormControl>
-                        <FormControlLabel
-                        className={classes.formControlLabel}
-                        control={
-                            <Switch checked={fullWidth} onChange={handleFullWidthChange} value="fullWidth" />
-                        }
-                        label="Full width"
-                        />
-                    </form> */}
                     </DialogContent>
                     <DialogActions>
                     <Button 
@@ -751,6 +724,9 @@ const styles = theme => ({
     },
     btnAddPerm: {
         marginTop: 10,
+    },
+    btnMail : {
+        marginLeft: 10,
     },
     listPerms: {
         width: "100%",
