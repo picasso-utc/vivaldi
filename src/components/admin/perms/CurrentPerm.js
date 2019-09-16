@@ -249,7 +249,7 @@ class CurrentPerm extends Component{
                                                     className={classes.btn} 
                                                     onClick={(e) => this.addArticleToPayutc(article, index)}
                                                 >
-                                                    Ajouté à PayUTC
+                                                    Ajouter à PayUTC
                                                 </Button> 
                                             )}
                                         </TableCell>
