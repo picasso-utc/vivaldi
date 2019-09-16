@@ -265,24 +265,6 @@ class CurrentPerm extends Component{
                                                     Consulter
                                                 </Button>
                                             }
-                                                {/* <Button 
-                                                    variant="contained" 
-                                                    size="small" 
-                                                    color="primary"
-                                                    className={classes.btn} 
-                                                    // onClick={(e) => this.downgradeUser(e, row)}
-                                                >
-                                                    Modifier
-                                                </Button>
-                                                <Button 
-                                                    variant="contained" 
-                                                    size="small" 
-                                                    color="secondary"
-                                                    className={classes.btn} 
-                                                    // onClick={(e) => this.downgradeUser(e, row)}
-                                                >
-                                                    Supprimer
-                                                </Button> */}
                                         </TableCell>
                                     </TableRow>
                                 ))}
