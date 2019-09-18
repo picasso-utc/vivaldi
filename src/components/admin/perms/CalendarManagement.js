@@ -56,6 +56,7 @@ class CalendarManagement extends Component{
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handlePlanningChange = this.handlePlanningChange.bind(this);
         this.handleDeleteCreneau = this.handleDeleteCreneau.bind(this);
         this.savePerm = this.savePerm.bind(this);
@@ -237,6 +238,16 @@ class CalendarManagement extends Component{
         })
     }
 
+    handleCheckboxChange(event){
+        const asso = this.state.newPerm.asso;
+        this.setState(
+            {newPerm:{
+                ...this.state.newPerm,
+                [event.target.name]: !asso
+            }
+        })
+    }
+
 
     handlePlanningChange(event, week_index, day_index, creneau_type){
 
@@ -414,7 +425,7 @@ class CalendarManagement extends Component{
                                     className={classes.checkBox}
                                     name="asso"
                                     value={newPerm.asso}
-                                    onChange={this.handleChange}
+                                    onChange={this.handleCheckboxChange}
                                     control={<Checkbox color="primary" />}
                                     label="Association ?"
                                     labelPlacement="start"
