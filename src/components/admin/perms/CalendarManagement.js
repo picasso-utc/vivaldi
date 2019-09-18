@@ -229,6 +229,13 @@ class CalendarManagement extends Component{
     }
 
 
+    isDatePast(date){
+        console.log(date)
+        if(date < new Date()){return true;}
+        return false;
+    }   
+
+
     handleChange(event){
         this.setState({
             newPerm: {
@@ -565,12 +572,13 @@ class CalendarManagement extends Component{
                                                                 label={day.creneaux.matin.perm_nom} 
                                                                 color="primary" 
                                                                 className={classes.perm_chip}
-                                                                onDelete={(e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
+                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
                                                             />
                                                         ) : (
                                                             <FormControl className={classes.form}>
                                                                 <select 
                                                                     className={classes.perm_select}
+                                                                    disabled={this.isDatePast(day.date)}
                                                                     onChange={(e) => this.handlePlanningChange(e, index, index_day, 'matin')}
                                                                 >
                                                                     <option value="" defaultValue/>
@@ -590,12 +598,13 @@ class CalendarManagement extends Component{
                                                                 label={day.creneaux.midi.perm_nom} 
                                                                 color="primary" 
                                                                 className={classes.perm_chip} 
-                                                                onDelete={(e) => this.handleDeleteCreneau(e, index, index_day, 'midi', day.creneaux.midi.perm_id)}
+                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'midi', day.creneaux.midi.perm_id)}
                                                             />
                                                         ):(
                                                             <FormControl className={classes.form}>
                                                                 <select 
                                                                     className={classes.perm_select}
+                                                                    disabled={this.isDatePast(day.date)}
                                                                     onChange={(e) => this.handlePlanningChange(e, index, index_day, 'midi')}
                                                                 >
                                                                     <option value="" defaultValue/>
@@ -614,13 +623,14 @@ class CalendarManagement extends Component{
                                                                 size="small" 
                                                                 label={day.creneaux.soir.perm_nom} 
                                                                 color="primary"
-                                                                className={classes.perm_chip} 
-                                                                onDelete={(e) => this.handleDeleteCreneau(e, index, index_day, 'soir', day.creneaux.soir.perm_id)}
+                                                                className={classes.perm_chip}
+                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'soir', day.creneaux.soir.perm_id)}
                                                             />
                                                         ) : (
                                                             <FormControl className={classes.form}>                                                 
                                                                 <select 
                                                                     className={classes.perm_select}
+                                                                    disabled={this.isDatePast(day.date)}
                                                                     onChange={(e) => this.handlePlanningChange(e, index, index_day, 'soir')}
                                                                 >
                                                                     <option value="" defaultValue/>
