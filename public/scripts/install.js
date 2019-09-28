@@ -21,5 +21,5 @@ window.addEventListener('beforeinstallprompt', (e) => {
     // CODELAB: Add code show install prompt & hide the install button.
     deferredPrompt.prompt();
     // Hide the install button, it can't be called twice.
-    evt.srcElement.setAttribute('hidden', true);
+    // evt.srcElement.setAttribute('hidden', true);
 });
