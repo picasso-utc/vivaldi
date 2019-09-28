@@ -97,6 +97,9 @@ class AdminNav extends React.Component {
 			mobileOpen : false,
 			openCategories: {},
 		};
+
+		this.getLinkProps = this.getLinkProps.bind(this);
+		this.closeNav = this.closeNav.bind(this);
 	}
 
 	toggleCategoryCollapse = event => {
@@ -114,6 +117,10 @@ class AdminNav extends React.Component {
 		window.open(link)
 	}
 
+	closeNav = event => {
+		this.props.handleDrawerToggle()
+	}
+
 	getLinkProps = link => {
 		if (!link)
 			return {}
@@ -122,10 +129,12 @@ class AdminNav extends React.Component {
 				component: 'a',
 				href: link,
 				target: '_blank',
+				onClick: this.closeNav
 			}
 		return {
 			component: Link,
 			to: link || '',
+			onClick: this.closeNav
 		}
 	}
 	
