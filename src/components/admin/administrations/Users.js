@@ -245,13 +245,13 @@ class Users extends Component{
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>
+                            <TableCell className={classes.cell}>
                                 Utilisateur
                             </TableCell>
-                            <TableCell>
+                            <TableCell className={classes.cell}>
                                 Droit
                             </TableCell>
-                            <TableCell>
+                            <TableCell className={classes.cell}>
                                 Actions
                             </TableCell>
                         </TableRow>
@@ -388,6 +388,8 @@ const styles = theme => ({
     cell: {
         paddingTop: 10,
         paddingBottom: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
     },
     btn: {
         marginLeft: 5,
