@@ -11,7 +11,7 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -25,16 +25,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Pic'Asso">
-    <link rel="apple-touch-icon" href="/images/logo_pic.png">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/images/logo_pic.png">
     <meta name="theme-color" content="#2F3BA2" />
 
     <!-- CODELAB: Add the install script here -->
-    <script src="/scripts/install.js"></script>
+    <script src="%PUBLIC_URL%/scripts/install.js"></script>
     <script>
       // CODELAB: Register service worker.
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
+          navigator.serviceWorker.register('%PUBLIC_URL%/service-worker.js')
               .then((reg) => {
                 console.log('Service worker registered.', reg);
               });
