@@ -141,7 +141,7 @@ class Settings extends Component{
                 <Grid container className={classes.section}>
                     <Typography variant="h5" noWrap className={classes.subTitle}>
                         <ChevronRightIcon className={classes.subTitleIcon}/>
-                        Badge de connexion PayUTC
+                        Badge PayUTC
                     </Typography>
                     <Grid container className={classes.note}>
                         Ce badge permet de définir avec quels identifiants la connexion à PayUTC est réalisée. <br/><br/>
@@ -150,7 +150,7 @@ class Settings extends Component{
                     <Grid container>
                         <Grid item xs={12}>
                             <TextField
-                                label="Retrouver le badge à partir du login de l'étudiant.e"
+                                label="Chercher un utilisateur ..."
                                 className={classes.textField}
                                 name="login"
                                 value={user.login|| ''}
@@ -310,7 +310,7 @@ const styles = theme => ({
     },
     textField: {
         marginTop: 16,
-        paddingRight: 15,
+        // paddingRight: 15,
         width: "100%",
     },
     suggestions: {
