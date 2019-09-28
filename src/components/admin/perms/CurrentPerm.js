@@ -176,25 +176,25 @@ class CurrentPerm extends Component{
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         Nom
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         Prix TTC
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         TVA
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         Ventes
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         Dernière mise à jour
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         PayUTC
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.cell}>
                                         Actions
                                     </TableCell>
                                 </TableRow>
@@ -390,7 +390,13 @@ const styles = theme => ({
         fontSize: 12,
         paddingRight: 5,
         paddingLeft: 5,
-    }
+    },
+    cell: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
+    },
 });
 
 export default withStyles (styles) (CurrentPerm)
