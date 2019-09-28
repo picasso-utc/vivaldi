@@ -1,14 +1,14 @@
 {
-  "short_name": "Picasso",
-  "name": "site du picasso",
+  "short_name": "Pic'Asso",
+  "name": "Pic'Asso",
   "icons": [
     {
-      "src": "/images/logo_p19.png",
+      "src": "/images/logo_pic.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
+  "start_url": "./",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
