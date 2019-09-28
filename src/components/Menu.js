@@ -154,7 +154,6 @@ class Menu extends Component {
 					>
 						<Grid item>
 							<CircularProgress className={classes.progress} />
-                            {open_login&& <p>ccc</p>}
 						</Grid>
 					</Grid>
 				):(
@@ -223,7 +222,7 @@ class Menu extends Component {
                             justify="center"
                             alignItems="center"
                         >
-                            <Grid item xs={6}>
+                            <Grid item xs={10} md={6}>
                                 <TextField
                                     select
                                     label="Sélection du menu"
@@ -305,6 +304,12 @@ const styles = theme => ({
     },
     menu_selection: {
         width: '100%'
+    },
+    cell: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
     },
 })
 
