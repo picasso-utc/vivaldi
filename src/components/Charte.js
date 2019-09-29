@@ -3,12 +3,13 @@ import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import axios from 'axios'
 import { ajaxGet, ajaxPost } from '../utils/Ajax'
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { formateToDjangoDate } from '../utils/Date';
+import Snackbar from '@material-ui/core/Snackbar';
+import { SnackbarContentWrapper } from '../utils/SnackbarContentWrapper';
 
 class Charte extends Component {
 
@@ -23,9 +24,16 @@ class Charte extends Component {
 			},
 			currentCreneau: {},
 			loading: true,
+			snackbar: {
+				open: false,
+				variant: 'success',
+				message: '',
+			},
+			saving: false,
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.saveSignature = this.saveSignature.bind(this);
+		this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
 	}
 
 
@@ -46,7 +54,14 @@ class Charte extends Component {
 			})
 		})
 		.catch(error => {
-			console.log(error)
+			this.setState({
+				snackbar: {
+					open: true,
+					variant: 'error',
+					message: 'Erreur lors du chargement.'
+				},
+				loading: false,
+			})
 		})
 	}
 
@@ -72,6 +87,7 @@ class Charte extends Component {
 	saveSignature() {
 		const new_signature = this.state.newSignature;
 		if (new_signature.nom && new_signature. login) {
+			this.setState({saving: true})
 			ajaxPost('signatures/', new_signature).then(res => {
 				const current_creneau = this.state.currentCreneau
 				this.setState({
@@ -80,17 +96,48 @@ class Charte extends Component {
 						login: '',
 						creneau_id: current_creneau.id,
 						date: formateToDjangoDate(new Date()),
-					}
+					},
+					snackbar: {
+						open: true,
+						variant: 'success',
+						message: 'Signature de la charte enregistrée.'
+					},
+					saving: false,
 				})
 			})
 			.catch(error => {
-				console.log(error);
+				this.setState({
+					snackbar: {
+						open: true,
+						variant: 'error',
+						message: 'Une erreur est survenue.'
+					},
+					saving: false,
+				})
+			})
+		} else {
+			this.setState({
+				snackbar: {
+					open: true,
+					variant: 'error',
+					message: 'Il manque des informations.'
+				}
 			})
 		}
 	}
 
+
+	handleSnackbarClose(){
+		this.setState({
+			snackbar: {
+                ...this.state.snackbar,
+            	open: false
+			}
+		})
+	}
+
   	render() {
-		  const { currentCreneau, newSignature, loading } = this.state
+		  const { currentCreneau, newSignature, loading, snackbar, saving } = this.state
 		const {classes} = this.props
 		return(
 			<React.Fragment>
@@ -156,9 +203,14 @@ class Charte extends Component {
 									className={classes.textField}
 									value={newSignature.login}
 								/>
-								<Button variant="contained" color="primary" onClick={this.saveSignature}>
-									Valider
-								</Button>
+								{saving? (
+									<CircularProgress className={classes.progress} />
+								):(
+									<Button variant="contained" color="primary" onClick={this.saveSignature}>
+										Valider
+									</Button>
+								)}
+									
 							</React.Fragment>
 						):(
 							<Typography variant="body1">
@@ -168,6 +220,21 @@ class Charte extends Component {
 						
 					</div>
 				)}
+			<Snackbar
+				anchorOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+				}}
+				open={snackbar.open}
+				autoHideDuration={6000}
+				onClose={this.handleSnackbarClose}
+			>
+				<SnackbarContentWrapper
+					onClose={this.handleSnackbarClose}
+					variant={snackbar.variant}
+					message={snackbar.message}
+				/>
+			</Snackbar>
 				
 			</React.Fragment>
 		)
