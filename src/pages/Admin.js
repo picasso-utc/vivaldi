@@ -20,6 +20,7 @@ import PollsManagement from '../components/admin/website_management/PollsManagem
 // import Charte from '../components/admin/Charte';
 import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
+import { asset_url } from '../utils/Config';
 
 
 class Admin extends React.Component {
@@ -37,29 +38,29 @@ class Admin extends React.Component {
 
 	displayScreenName() {
 		switch (window.location.pathname) {
-			case "/admin":
+			case asset_url("/admin"):
 			return "Dashboard";
-			case "/admin/goodies":
+			case asset_url("/admin/goodies"):
 			return "Goodies";
-			case "/admin/polls":
+			case asset_url("/admin/polls"):
 			return "Sondages";
-			case "/admin/current/perm":
+			case asset_url("/admin/current/perm"):
 			return "Perm en cours";
-			case "/admin/calendar":
+			case asset_url("/admin/calendar"):
 			return "Planning du semestre";
-			case "/admin/astreintes":
+			case asset_url("/admin/astreintes"):
 			return "Astreintes";
-			case "/admin/perms":
+			case asset_url("/admin/perms"):
 			return "Perms";
-			case "/admin/charte":
+			case asset_url("/admin/charte"):
 			return "Charte";
-			case "/admin/users":
+			case asset_url("/admin/users"):
 			return "Utilisateurs";
-			case "/admin/team":
+			case asset_url("/admin/team"):
 			return "Team";
-			case "/admin/semesters":
+			case asset_url("/admin/semesters"):
 			return "Semestres";
-			case "/admin/settings":
+			case asset_url("/admin/settings"):
 			return "Paramètres";
 			default:
 			break;
