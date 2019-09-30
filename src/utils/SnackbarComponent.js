@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react'
+import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -45,7 +46,7 @@ const variantIcon = {
     },
   }));
 
-  export function SnackbarContentWrapper(props) {
+  function SnackbarContentWrapper(props) {
     const classes = useStyles1();
     const { className, message, onClose, variant, ...other } = props;
     const Icon = variantIcon[variant];
@@ -76,3 +77,65 @@ const variantIcon = {
     onClose: PropTypes.func,
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
   };
+
+class SnackbarComponent extends Component {
+
+  	constructor(props) {
+		super(props)
+		this.state = {
+			snackbar: {
+				open: this.props.open,
+				variant: this.props.variant,
+				message: this.props.message,
+			},
+		}
+		this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+    }
+    
+    componentDidUpdate(prevProps) {
+        if (this.props.open !== prevProps.open && this.props.open === true && this.state.snackbar.open == false){
+            this.setState((state, props) => ({ 
+                snackbar: {
+                    open: props.open,
+                    variant: props.variant,
+                    message: props.message
+                } 
+            }))
+        }
+    }
+
+	handleSnackbarClose(){
+		this.setState({
+			snackbar: {
+                ...this.state.snackbar,
+            	open: false
+			}
+        })
+        this.props.closeSnackbar();
+	}
+
+  	render() {
+        const { snackbar } = this.state;
+        
+        return(
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={this.handleSnackbarClose}
+            >
+                <SnackbarContentWrapper
+                    onClose={this.handleSnackbarClose}
+                    variant={snackbar.variant}
+                    message={snackbar.message}
+                />
+            </Snackbar>	
+        )
+  	}
+}
+
+
+export default SnackbarComponent
