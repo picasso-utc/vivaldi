@@ -17,6 +17,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Auth from '../utils/Auth';
+import SnackbarComponent from '../utils/SnackbarComponent';
 
 class Menu extends Component {
 
@@ -33,6 +34,13 @@ class Menu extends Component {
                 username: '',
                 pin: '',
             },
+            stack_information : [],
+            snackbar: {
+				open: false,
+				variant: 'success',
+                message: '',
+			},
+			saving: false,
         }
         
         this.handleChange = this.handleChange.bind(this)
@@ -105,7 +113,36 @@ class Menu extends Component {
         const menu = menus.find(m => m.article.id.toString() === this.state.selected_article.toString())
         if (menu && menu.article && menu.article.id_payutc) {
             ajaxGet('perms/menu/orders/' + menu.article.id_payutc).then(res => {
-                this.setState({orders: res.data.orders, menu: res.data.menu, loading: false})
+                // On synchronise le stack avec le retour de l'API
+                let stack_information = [...this.state.stack_information];
+                let stack_index_to_remove = [];
+                let orders = res.data.orders;
+                for (let index = 0; index < stack_information.length; index++) {
+                    const stack = stack_information[index];
+                    const order_index = orders.find(order => order.id_transaction == stack.id_transaction);
+                    if (order_index > -1) {
+                        // Si la commande existe bien on compare les informations avec ce qu'il y a dans le stack
+                        if (orders[order_index].served == stack.served && orders[order_index].is_staff == stack.is_staff) {
+                            // Si les informations sont calés entre l'API et le stack on supprime l'élément du stack
+                            stack_index_to_remove.push(stack.id_transaction);
+                        }
+                        // Sinon on garde l'élément dans le stack, on met à jour order  
+                        orders.splice(order_index, 1);                      
+                        if (!stack.served) {
+                            // Si le stack note la commande comme non servi, on la met en haut de la liste 
+                            orders.splice(0,0,stack);
+                        } else {
+                            // Sinon on met la commande à la fin
+                            orders.push(stack);
+                        }
+                    } else {
+                        // Si la commande n'existe pas, on la supprime du stack car on considère qu'elle a été annulée
+                        stack_index_to_remove.push(stack.id_transaction);
+                    }
+                    // On met à jour les informations du stack
+                    stack_information = stack_information.filter(stack =>  !stack_index_to_remove.includes(stack.id_transaction))
+                }    
+                this.setState({orders: res.data.orders, menu: res.data.menu, stack_information: stack_information, loading: false})
             })
             .catch(error => {
                 window.location.reload();
@@ -115,32 +152,87 @@ class Menu extends Component {
     }
 
     selectMenu(event){
-        this.setState({selected_article: event.target.value, orders: [], menu: {}})
+        this.setState({selected_article: event.target.value, orders: [], menu: {}, stack_information:[]})
     }
 
     servedMenu(event, order){
-        ajaxPost('perms/menu/served/' + order.id_transaction).then(res => {
-            
-        })
-        .catch(error => {
-            window.location.reload();
-        })
+        // On récupère le stack et on cherche la commande dans les commandes du state
+        let stack_information = [...this.state.stack_information];
+        let orders = [...this.state.orders];
+        let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction == order.id_transaction)
+
+        if (order_index > - 1) {
+            // On modifie la commande en changeant son attribut served 
+            let order_edited = orders[order_index];
+            order_edited.served = !order_edited.served;
+            // Si la commande a été servie on la met à la fin de la liste de commmande 
+            if (order_edited.served) {
+                orders.splice(order_index, 1);
+                orders.push(order_edited);
+            } else {
+                // Suppression élément
+                orders.splice(order_index,1)
+                // Ajout en première position
+                orders.splice(0,0, order_edited)
+                console.log(orders);
+            }
+            stack_information.push(order_edited);
+            // On envoie l'appel à la bdd
+            this.setState({stack_information: stack_information, orders: orders});
+            ajaxPost('perms/menu/served/' + order.id_transaction).then(res => {
+                let message = "Le service du menu de " + order.first_name + " a été annulé";
+                if (order.served) {
+                    message = 'Le menu de ' + order.first_name + ' a été validé';
+                }
+                this.changeSnackbarState(true, 'success', message);
+            })
+            .catch(error => {
+                window.location.reload();
+            })
+        }
+        
     }
 
 
     staffMenu(event, order){
-        ajaxPost('perms/menu/staff/' + order.id_transaction).then(res => {
-            
-        })
-        .catch(error => {
-            window.location.reload();
-        })
+        // On récupère le stack et on cherche la commande dans les commandes du state
+        let stack_information = [...this.state.stack_information];
+        let orders = [...this.state.orders];
+        stack_information.push(order);
+        let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction == order.id_transaction)
+
+        if (order_index > - 1) {
+            // On modifie la commande en changeant son attribut is_staff 
+            let order_edited = orders[order_index];
+            order_edited.is_staff = true;
+            // On peut seulement déclarer un menu comme staff, par conséquent on le met à la fin de la liste
+            // Aucune posibilité de revenir en arrière et de mettre la commande en haut de la liste 
+            orders.splice(order_index, 1);
+            orders.push(order_edited);
+            this.setState({stack_information: stack_information, orders: orders});
+            ajaxPost('perms/menu/staff/' + order.id_transaction).then(res => {
+                this.changeSnackbarState(true, 'success', 'Le menu de ' + order.first_name + ' a été reporté');
+            })
+            .catch(error => {
+                window.location.reload();
+            })
+        }
     }
 
+
+    changeSnackbarState(open, variant, message){
+		this.setState({
+			snackbar: {
+				open: open,
+				variant: variant,
+				message: message
+			}
+		})
+	}
 	
 
   	render() {
-		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials } = this.state
+		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials, snackbar } = this.state
 		const {classes} = this.props
 		return(
 			<React.Fragment>
@@ -272,6 +364,23 @@ class Menu extends Component {
                     </Button>
                     </DialogActions>
                 </Dialog>
+
+                <SnackbarComponent 
+                    open={snackbar.open} 
+                    variant={snackbar.variant} 
+                    message={snackbar.message}
+                    duration={2000}
+                    closeSnackbar={
+                        ()=>{
+                            this.setState({
+                                snackbar: {
+                                    ...this.state.snackbar,
+                                    open: false,
+                                }
+                            })
+                        }
+                    }
+                />
 				
 			</React.Fragment>
 		)
