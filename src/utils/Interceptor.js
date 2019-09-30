@@ -16,7 +16,7 @@ axios.interceptors.response.use( (response) => {
             }
             break;
         default:
-            return;
+            return Promise.reject(error);
     }
     return Promise.reject(error);
  });
