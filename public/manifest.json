@@ -3,42 +3,42 @@
   "name": "Pic'Asso",
   "icons": [
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "60x60",
       "type": "image/x-icon"
     }, 
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "76x76",
       "type": "image/png"
     },
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "120x120",
       "type": "image/x-icon"
     }, 
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "150x150",
       "type": "image/x-icon"
     }, 
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "152x152",
       "type": "image/x-icon"
     }, 
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "180x180",
       "type": "image/x-icon"
     }, 
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "192x192",
       "type": "image/x-icon"
     }, 
     {
-      "src": "/images/logo_pic.png",
+      "src": "/picasso/images/logo_pic.png",
       "sizes": "512x512",
       "type": "image/x-icon"
     }
