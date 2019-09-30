@@ -8,8 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { formateToDjangoDate } from '../utils/Date';
-import Snackbar from '@material-ui/core/Snackbar';
-import { SnackbarContentWrapper } from '../utils/SnackbarContentWrapper';
+import SnackbarComponent from '../utils/SnackbarComponent';
 
 class Charte extends Component {
 
@@ -34,6 +33,7 @@ class Charte extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.saveSignature = this.saveSignature.bind(this);
 		this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+		this.changeSnackbarState = this.changeSnackbarState.bind(this);
 	}
 
 
@@ -54,14 +54,11 @@ class Charte extends Component {
 			})
 		})
 		.catch(error => {
+			console.log(error)
 			this.setState({
-				snackbar: {
-					open: true,
-					variant: 'error',
-					message: 'Erreur lors du chargement.'
-				},
 				loading: false,
 			})
+			this.changeSnackbarState(true, 'error', 'Erreur lors du chargement.');
 		})
 	}
 
@@ -89,7 +86,7 @@ class Charte extends Component {
 		if (new_signature.nom && new_signature. login) {
 			this.setState({saving: true})
 			ajaxPost('signatures/', new_signature).then(res => {
-				const current_creneau = this.state.currentCreneau
+				const current_creneau = this.state.currentCreneau;
 				this.setState({
 					newSignature: {
 						nom: '',
@@ -97,32 +94,18 @@ class Charte extends Component {
 						creneau_id: current_creneau.id,
 						date: formateToDjangoDate(new Date()),
 					},
-					snackbar: {
-						open: true,
-						variant: 'success',
-						message: 'Signature de la charte enregistrée.'
-					},
 					saving: false,
 				})
+				this.changeSnackbarState(true, 'success', 'Signature de la charte enregistrée.');
 			})
 			.catch(error => {
 				this.setState({
-					snackbar: {
-						open: true,
-						variant: 'error',
-						message: 'Une erreur est survenue.'
-					},
 					saving: false,
 				})
+				this.changeSnackbarState(true, 'error', 'Une erreur est survenue.');
 			})
 		} else {
-			this.setState({
-				snackbar: {
-					open: true,
-					variant: 'error',
-					message: 'Il manque des informations.'
-				}
-			})
+			this.changeSnackbarState(true, 'error', 'Il manque des informations.');
 		}
 	}
 
@@ -132,6 +115,16 @@ class Charte extends Component {
 			snackbar: {
                 ...this.state.snackbar,
             	open: false
+			}
+		})
+	}
+
+	changeSnackbarState(open, variant, message){
+		this.setState({
+			snackbar: {
+				open: open,
+				variant: variant,
+				message: message
 			}
 		})
 	}
@@ -220,7 +213,22 @@ class Charte extends Component {
 						
 					</div>
 				)}
-			<Snackbar
+			<SnackbarComponent 
+				open={snackbar.open} 
+				variant={snackbar.variant} 
+				message={snackbar.message}
+				closeSnackbar={
+					()=>{
+						this.setState({
+							snackbar: {
+								...this.state.snackbar,
+								open: false,
+							}
+						})
+					}
+				}
+			/>
+			{/* <Snackbar
 				anchorOrigin={{
 				vertical: 'top',
 				horizontal: 'right',
@@ -234,7 +242,7 @@ class Charte extends Component {
 					variant={snackbar.variant}
 					message={snackbar.message}
 				/>
-			</Snackbar>
+			</Snackbar> */}
 				
 			</React.Fragment>
 		)
