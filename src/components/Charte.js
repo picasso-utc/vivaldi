@@ -54,7 +54,6 @@ class Charte extends Component {
 			})
 		})
 		.catch(error => {
-			console.log(error)
 			this.setState({
 				loading: false,
 			})
@@ -228,21 +227,6 @@ class Charte extends Component {
 					}
 				}
 			/>
-			{/* <Snackbar
-				anchorOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-				}}
-				open={snackbar.open}
-				autoHideDuration={6000}
-				onClose={this.handleSnackbarClose}
-			>
-				<SnackbarContentWrapper
-					onClose={this.handleSnackbarClose}
-					variant={snackbar.variant}
-					message={snackbar.message}
-				/>
-			</Snackbar> */}
 				
 			</React.Fragment>
 		)
