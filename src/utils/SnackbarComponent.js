@@ -124,7 +124,7 @@ class SnackbarComponent extends Component {
                     horizontal: 'right',
                 }}
                 open={snackbar.open}
-                autoHideDuration={6000}
+                autoHideDuration={this.props.duration? this.props.duration : 6000}
                 onClose={this.handleSnackbarClose}
             >
                 <SnackbarContentWrapper
