@@ -29,7 +29,7 @@ class Home extends React.Component {
 					
 					<Container className={classes.container}>
 						<fieldset className={classes.component}>
-							<legend className={classes.legend}>Les règles au Pic</legend>
+							<legend className={classes.legend}>Les règles</legend>
 							<Rules />
 						</fieldset>
 					</Container>
