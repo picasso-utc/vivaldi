@@ -50,7 +50,7 @@ class Home extends React.Component {
 					</Container>
 
 					<Container className={classes.container}>
-						<fieldset className={classes.component}>
+						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Tarifs</legend>
 							<PriceDisplayer />
 						</fieldset>

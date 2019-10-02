@@ -55,17 +55,17 @@ class PriceDisplayer extends React.Component {
     	return (
 			<React.Fragment>
 				{pic_articles.map(({type, content}, index) => (
-					<div key={index}>
+					<div key={index} className={classes.root}>
 						<Hidden mdUp implementation="css">
 							<Grid container direction="row" className={classes.responsive_displayer}>
 								{content.map((boisson, index) => (
 									<Grid item key={index} className={classes.responsive_displayer_item}>
-										<h2>{boisson.name}</h2>
+										<h3 className={classes.article_type}>{boisson.name}</h3>
 										<table className={classes.table}>
 											<tbody>
 												{boisson.code in articles && (
 													articles[boisson.code].map((soft, article_index) => (
-														<tr key={article_index}>
+														<tr key={article_index} className={classes.article_type}>
 															<td className={classes.article_name}>
 																{soft.name}
 															</td>
@@ -85,7 +85,7 @@ class PriceDisplayer extends React.Component {
 							<Grid container direction="row">
 								{content.map((boisson, index) => (
 									<Grid item key={index} md={3}>
-										<h2>{boisson.name}</h2>
+										<h3 className={classes.article_type}>{boisson.name}</h3>
 										<table className={classes.table}>
 											<tbody>
 												{boisson.code in articles && (
@@ -118,20 +118,27 @@ const styles = theme => ({
 	table : {
 		borderLeft: '1.5px solid #B22132',
 	},
+	root: {
+		width: '100%',
+		overflowX: 'auto',
+	},
+	article_type: {
+		minWidth: 150,
+	},
 	article_name : {
-		paddingLeft: 5,
+		paddingLeft: 10,
 		paddingRight: 5,
+		fontWeight: 200,
 	},
 	article_price : {
 		paddingRight: 15,
 		paddingLeft: 5,
 		whiteSpace: 'nowrap',
+		fontWeight: 200,
 	},
 	responsive_displayer: {
 		display: 'flex',
 		flexWrap: 'wrap',
-		justifyContent: 'space-around',
-		overflow: 'hidden',
 		flexWrap: 'nowrap',
 		transform: 'translateZ(0)',
 	},
