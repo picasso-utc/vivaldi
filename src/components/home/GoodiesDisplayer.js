@@ -58,10 +58,8 @@ class GoodiesDisplayer extends React.Component {
 							<List dense={true}>
 								{winners.slice(0,Math.ceil(winners.length/2))
 								.map((winner, index) => (
-									<ListItem key={index} className={classes.item}>
-										<ListItemText 
-											primary={winner.winner}
-											className={`${winner.picked_up && classes.validatedItem}`}/>
+									<ListItem key={index} className={`${winner.picked_up && classes.validatedItem}`} style={{fontWeight: 200}}>
+										{winner.winner}
 									</ListItem>
 								))}
 							</List>
@@ -70,11 +68,8 @@ class GoodiesDisplayer extends React.Component {
 							<List dense={true}>
 								{winners.slice(Math.ceil(winners.length/2), winners.length)
 								.map((winner, index) => (
-									<ListItem key={index} className={classes.item}>
-										<ListItemText 
-											primary={winner.winner} 
-											className={`${winner.picked_up && classes.validatedItem}`}
-										/>
+									<ListItem key={index} className={`${winner.picked_up && classes.validatedItem}`} style={{fontWeight: 200}}>
+										{winner.winner}
 									</ListItem>
 								))}
 							</List>
@@ -89,10 +84,14 @@ class GoodiesDisplayer extends React.Component {
 const styles = theme => ({
 	noWinners : {
 		fontSize: 16,
+		fontWeight: 200,
 	},
 	validatedItem: {
 		textDecoration: 'line-through',
 	},
+	item : {
+		fontWeight: 200,
+	}
 });
 
 export default withStyles (styles) (GoodiesDisplayer)
