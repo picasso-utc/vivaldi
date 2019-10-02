@@ -88,7 +88,6 @@ class GoodiesDisplayer extends React.Component {
 
 const styles = theme => ({
 	noWinners : {
-		// textAlign: 'center',
 		fontSize: 16,
 	},
 	validatedItem: {

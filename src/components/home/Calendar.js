@@ -140,14 +140,12 @@ const styles = theme => ({
 		overflowX: 'auto'
 	},
 	table : {
-		// borderSpacing: 'unset',
 		borderCollapse: 'collapse',
 		width: '90%',
 		marginRight: '5%',
 		marginLeft: '5%',
 	},
 	leftTitleCell: {
-		// textAlign: 'right',
 		fontSize: 16,
 		width: '10%',
 		minWidth: 50,
@@ -167,10 +165,8 @@ const styles = theme => ({
 		borderLeft: '2px solid #B22132',
 		width: '16%',
 		padding: 5,
-		// fontSize: 16,
 		textAlign: 'center',
 		margin: 0,
-		// backgroundColor: '#B22132',
 		color: 'white',
 		fontWeight: 200,
 		minWidth: 100,

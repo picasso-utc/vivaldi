@@ -230,7 +230,6 @@ class CalendarManagement extends Component{
 
 
     isDatePast(date){
-        console.log(date)
         if(date < new Date()){return true;}
         return false;
     }   
@@ -353,7 +352,6 @@ class CalendarManagement extends Component{
         let selected_perms = [...this.state.selected_perms];
         let unselected_perms = [...this.state.unselected_perms];
         selected_perms = selected_perms.filter(p => p.id !== perm.id);
-        console.log(selected_perms)
         unselected_perms.push(perm);
         this.setState({selected_perms: selected_perms, unselected_perms: unselected_perms});
     }
@@ -557,10 +555,8 @@ class CalendarManagement extends Component{
                                 </TableHead>
                                 <TableBody>
                                     {calendar.map((week, index) => (
-                                        // console.log(week)
                                         <TableRow key={index}>
                                             {week.map((day, index_day) => (
-                                                // console.log(day)
                                                 <TableCell key={index_day}>
                                                     <Typography variant="caption" display="block" gutterBottom className={classes.day} noWrap>
                                                         <strong>{this.formateCalendarDate(day.date)}</strong>
