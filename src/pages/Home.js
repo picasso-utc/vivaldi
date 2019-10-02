@@ -42,12 +42,12 @@ class Home extends React.Component {
 					</Container> */}
 
 
-					{/* <Container className={classes.container}>
-						<fieldset className={classes.component}>
+					<Container className={classes.container}>
+						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Calendrier</legend>
 							<Calendar />
 						</fieldset>
-					</Container> */}
+					</Container>
 
 					<Container className={classes.container}>
 						<fieldset className={classes.component}>

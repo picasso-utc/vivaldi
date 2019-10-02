@@ -4,3 +4,9 @@ export function formateToDjangoDate(date) {
     const year = date.getFullYear();
     return year + "-" + month_number + "-" + day;
 }
+
+export function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
