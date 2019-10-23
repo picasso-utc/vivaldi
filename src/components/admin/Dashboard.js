@@ -19,32 +19,42 @@ class Dashboard extends Component{
 		super(props)
 
 		this.state ={
-			creneaux : [],
+			astreintes_matin : [],
+			astreintes_midi : [],
+			astreintes_soir : [],
 		}
 		
-
-		this.loadCreneau = this.loadCreneau.bind(this);
 	}
 
 	componentDidMount(){
 		this.loadCreneau();
-		console.log(notation_perm_soir);
-
 	}
 
 
 	loadCreneau(){
-		ajaxGet('perm/creneaux').then(res => {
-			console.log(res.data) 
+		ajaxGet('perms/user/astreintes').then(res => {
 
-			this.setState({creneaux: res.data});
+			const astreintes_matin = []
+			const astreintes_midi = []
+			const astreintes_soir = []
+
+			for (let index = 0; index < res.data.astreintes.length; index++) {
+				if (res.data.astreintes[index].creneau.creneau == "M"){
+					astreintes_matin.push(res.data.astreintes[index]);
+				} else if (res.data.astreintes[index].creneau.creneau == "D"){
+					astreintes_midi.push(res.data.astreintes[index]);
+				} else {
+					astreintes_soir.push(res.data.astreintes[index]);
+				}
+			}
+			this.setState({astreintes_matin: astreintes_matin, astreintes_midi: astreintes_midi, astreintes_soir: astreintes_soir})
 		})
 	}
 
 	render(){
 		
 		const { classes } = this.props;
-		const { creneaux } = this.state;
+		const { astreintes_matin, astreintes_midi, astreintes_soir } = this.state;
 		
 
 		return (
@@ -60,34 +70,34 @@ class Dashboard extends Component{
 						Ce menu vous permet de noter les perms dont vous avez été astreinteur au cours du semestre.<br/>
 					</Grid>
 
-					<Grid className={classes.section}>
+					<Grid container direction="row" className={classes.section}>
 						<Typography variant="h6" noWrap className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du matin
 						</Typography>
 						<Grid container>
-							<CarouselItem periode="matin" grid_per_row="2" cell_height="470"/>
+							<CarouselItem periode="matin" grid_per_row="2" cell_height="470" astreintes={astreintes_matin}/>
 						</Grid>
 					</Grid>
 
-					<Grid className={classes.section}>
+					<Grid container direction="row" className={classes.section}>
 						<Typography variant="h6" noWrap className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du midi
 						</Typography>
 
 						<Grid container>
-							<CarouselItem periode="midi" grid_per_row="1.5" cell_height="500"/>
+							<CarouselItem periode="midi" grid_per_row="1.5" cell_height="500" astreintes={astreintes_midi}/>
 						</Grid>
 					</Grid>
 
-					<Grid className={classes.section}>
+					<Grid  containerdirection="row" className={classes.section}>
 						<Typography variant="h6" noWrap className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du soir
 						</Typography>
 						<div className={classes.gridList}>
-							<CarouselItem periode="soir" grid_per_row="1" cell_height="800"/>
+							<CarouselItem periode="soir" grid_per_row="1" cell_height="800" astreintes={astreintes_soir}/>
 						</div>
 					</Grid>
 				</Grid>

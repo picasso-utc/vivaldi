@@ -27,18 +27,12 @@ class CarouselItem extends Component{
 			grid_per_row : this.props.grid_per_row,
 			cell_height : this.props.cell_height,
 		}
-
-		
-
-		this.loadCreneau = this.loadCreneau.bind(this);
 	}
 
 	componentDidMount(){
-		this.loadCreneau();
-		console.log(notation_perm);
+		// Load notation json file
 		if(this.props.periode == "soir"){
 			this.setState({notation : notation_perm.soir});
-			console.log(this.notation)
 		}
 		if(this.props.periode == "midi"){
 			this.setState({notation : notation_perm.midi});
@@ -49,44 +43,37 @@ class CarouselItem extends Component{
 
 	}
 
-
-
-	loadCreneau(){
-		ajaxGet('perm/creneaux').then(res => {
-
-			this.setState({creneaux: res.data});
-		})
-	}
-
 	render(){
 		
 		const { classes, width } = this.props;
-		const { creneaux,  grid_per_row, notation, cell_height } = this.state;
+		const { grid_per_row, notation, cell_height } = this.state;
+		const astreintes = this.props.astreintes
 		let columns = width === 'xs' || width === 'sm'  ? 1 : 2;
 
 		return (
 			<div className={classes.gridList}>
-				{creneaux.map(creneau => (
-					<div key={creneau.id} cols={1} rows={1}>
-						<Card item xs={12} sm= {6} className={classes.card}>
+				{astreintes.map((astreinte, astreinte_index) => (
+					<div key={astreinte_index} cols={1} rows={1}>
+						<Card xs={12} sm= {6} className={classes.card}>
 							<Typography variant="h5" noWrap className={classes.subTitle}>
-								{creneau.perm.nom} - {creneau.date}
+								{astreinte.creneau.perm.nom} - {astreinte.creneau.date}
 							</Typography>
 							<CardContent>
 								<FormControl component="fieldset"> 
 									<Grid container direction="row">   
-									    {notation.map(perm => (
+									    {notation.map((perm,perm_index) => (
 
-											<Grid item xs={12} sm= {6} >
+											<Grid key={perm_index} item xs={12} sm= {6} >
 												<Typography variant="h6" noWrap className={classes.subTitle}>
 													{perm.categorie}
 												</Typography>
 												<RadioGroup aria-label="position" name="position" >
-													{perm.notation.map(menu => (
+													{perm.notation.map((menu, menu_index) => (
 											    		<FormControlLabel
 														value={menu.value}
 														control={<Radio color="primary" />}
 														label={menu.label}
+														key={menu_index}
 														/>
 													))}
 											    </RadioGroup>
