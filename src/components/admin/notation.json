@@ -3,6 +3,7 @@
         [
                 {
                         "categorie" : "Menu",
+                        "name": "note_menu",
                         "notation" :
                         [
                                 {
@@ -25,14 +26,15 @@
                 },
                 {
                         "categorie" : "Décoration",
+                        "name": "note_deco",
                         "notation" :
                         [
                                 {
-                                        "value" : "3",
+                                        "value" : "5",
                                         "label" : "Le pic s'est refait une beauté"
                                 },
                                 {
-                                        "value" : "2",
+                                        "value" : "3",
                                         "label" : "Quelques éléments par ci par là"
                                 },
                                 {
@@ -43,6 +45,7 @@
                 },
                 {
                         "categorie" : "Ambiance",
+                        "name": "note_anim",
                         "notation" :
                         [
                                 {
@@ -69,14 +72,15 @@
                 },
                 {
                         "categorie" : "Organisation",
+                        "name": "note_orga",
                         "notation" :
                         [
                                 {
-                                        "value" : "3",
+                                        "value" : "5",
                                         "label" : "Orga maitrisé : un shotgun réussi, un ménage et une évacuation rapide"
                                 },
                                 {
-                                        "value" : "2",
+                                        "value" : "3",
                                         "label" : "Pas de points négatifs "
                                 },
                                 {
@@ -91,6 +95,7 @@
         [
                 {
                         "categorie" : "Menu",
+                        "name": "note_menu",
                         "notation" :
                         [
                                 {
@@ -113,18 +118,19 @@
                 },
                 {
                         "categorie" : "Organisation (vaiselle, shotgun, etc.)",
+                        "name": "note_orga",
                         "notation" :
                         [
                                 {
-                                        "value" : "1",
+                                        "value" : "5",
                                         "label" : "Bonus : ils ont fait des anims et/ou log"
                                 },
                                 {
-                                        "value" : "0",
+                                        "value" : "3",
                                         "label" : "Neutre : un midi sans ennui"
                                 },
                                 {
-                                        "value" : "-1",
+                                        "value" : "1",
                                         "label" : "Malus : pire que des TC01 "
                                 }
                         ]
@@ -135,14 +141,15 @@
         [
                 {
                         "categorie" : "Organisation",
+                        "name": "note_orga",
                         "notation" :
                         [
                                 {
-                                        "value" : "0",
+                                        "value" : "3",
                                         "label" : "Rien à dire, ils savent servir des cafés"
                                 },
                                 {
-                                        "value" : "-1",
+                                        "value" : "1",
                                         "label" : "Malus : c'était nul"
                                 }
                         ]
