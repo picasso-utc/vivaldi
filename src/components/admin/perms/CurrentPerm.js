@@ -12,6 +12,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { asset_url } from '../../../utils/Config';
 
 class CurrentPerm extends Component{
@@ -28,11 +30,13 @@ class CurrentPerm extends Component{
                 stock: '',
                 prix: '',
                 creneau: '',
-            }
+            },
+            invoice_checked: false,
         }
 
         this.addArticleToPayutc = this.addArticleToPayutc.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleCheckChange = this.handleCheckChange.bind(this);
         this.saveArticle = this.saveArticle.bind(this);
     }
 
@@ -84,6 +88,12 @@ class CurrentPerm extends Component{
     }
 
 
+    handleCheckChange(event){
+        const checked = this.state.invoice_checked;
+        this.setState({invoice_checked: !checked})
+    }
+
+
     redirectToMenu(event, article){
         window.open(asset_url("/menu?selected_article=" + article.id));
     }
@@ -97,7 +107,7 @@ class CurrentPerm extends Component{
             new_article.nom = '';
             new_article.stock = '';
             new_article.prix = '';
-            this.setState({current_creneau: current_creneau, new_article: new_article})
+            this.setState({current_creneau: current_creneau, new_article: new_article, invoice_checked: false})
         })
         .catch(error => {
             console.log(error);
@@ -133,7 +143,7 @@ class CurrentPerm extends Component{
 
     render(){
 
-        const { current_creneau, loading, new_article } = this.state;
+        const { current_creneau, loading, new_article, invoice_checked } = this.state;
         
         const { classes } = this.props;
 
@@ -328,11 +338,24 @@ class CurrentPerm extends Component{
                                     InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
+                            {!current_creneau.perm.asso &&
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={invoice_checked}
+                                            onChange={this.handleCheckChange}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Facture demandée ?"
+                                />
+                            }
                             <Grid item xs={2}>
                                 <Button 
                                     variant="contained"
                                     // variant="outlined" 
                                     // size="small"
+                                    disabled={(!invoice_checked && !current_creneau.perm.asso) && true}
                                     color="primary"
                                     className={classes.saving_btn} 
                                     onClick={this.saveArticle}
