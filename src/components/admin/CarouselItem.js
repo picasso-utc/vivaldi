@@ -12,7 +12,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import withWidth from '@material-ui/core/withWidth';
 
 
-import { ajaxGet, ajaxPost } from '../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxPut } from '../../utils/Ajax';
 
 
 class CarouselItem extends Component{
@@ -27,6 +27,7 @@ class CarouselItem extends Component{
 			cell_height : this.props.cell_height,
 		}
 		this.handleChange = this.handleChange.bind(this)
+		this.addNote = this.addNote.bind(this)
 	}
 
 	componentDidMount(){
@@ -48,6 +49,16 @@ class CarouselItem extends Component{
 		const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
 		astreintes[astreinte_index][event.target.name] = event.target.value;
 	}
+
+	addNote(astreinte){
+        ajaxPut('perm/astreintes/'+astreinte['id']+'/',astreinte).then(res => {
+            console.log(astreinte['id'])
+        })
+        .catch(res => {
+            console.log(res)  
+        })
+
+    }
 
 	render(){
 		
@@ -101,7 +112,7 @@ class CarouselItem extends Component{
 									/>
 								</FormControl>
 								<CardActions style={{justifyContent: 'center'}}>
-									<Button variant="contained" size="large" color="primary" >
+									<Button variant="contained" size="large" color="primary" onClick={(event) => this.addNote(astreinte)}>
 						        		Valider
 						        	</Button>
 							  	</CardActions>
