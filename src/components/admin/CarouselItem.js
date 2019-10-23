@@ -22,11 +22,11 @@ class CarouselItem extends Component{
 		super(props)
 
 		this.state ={
-			creneaux : [],
 			notation : [],
 			grid_per_row : this.props.grid_per_row,
 			cell_height : this.props.cell_height,
 		}
+		this.handleChange = this.handleChange.bind(this)
 	}
 
 	componentDidMount(){
@@ -41,6 +41,12 @@ class CarouselItem extends Component{
 			this.setState({notation : notation_perm.matin});
 		}
 
+	}
+
+	handleChange(event, astreinte){
+		let astreintes = this.props.astreintes;
+		const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
+		astreintes[astreinte_index][event.target.name] = event.target.value;
 	}
 
 	render(){
@@ -61,19 +67,20 @@ class CarouselItem extends Component{
 							<CardContent>
 								<FormControl component="fieldset"> 
 									<Grid container direction="row">   
-									    {notation.map((perm,perm_index) => (
+									    {notation.map((perm_type,perm_type_index) => (
 
-											<Grid key={perm_index} item xs={12} sm= {6} >
+											<Grid key={perm_type_index} item xs={12} sm= {6} >
 												<Typography variant="h6" noWrap className={classes.subTitle}>
-													{perm.categorie}
+													{perm_type.categorie}
 												</Typography>
-												<RadioGroup aria-label="position" name="position" >
-													{perm.notation.map((menu, menu_index) => (
+												<RadioGroup aria-label="position" name={perm_type.name} >
+													{perm_type.notation.map((type, type_index) => (
 											    		<FormControlLabel
-														value={menu.value}
-														control={<Radio color="primary" />}
-														label={menu.label}
-														key={menu_index}
+															value={type.value}
+															control={<Radio color="primary" />}
+															onChange={(event) => this.handleChange(event, astreinte)}
+															label={type.label}
+															key={type_index}
 														/>
 													))}
 											    </RadioGroup>
@@ -82,12 +89,12 @@ class CarouselItem extends Component{
 									</Grid>
 
 									<TextField
-										id="outlined-multiline-flexible"
 										label="Commentaire"
 										multiline
 										rowsMax="4"
-										//value={values.multiline}
-										// onChange={handleChange('multiline')}
+										name="commentaire"
+										value={astreinte.commentaire}
+										onChange={(event) => this.handleChange(event, astreinte)}
 										className={classes.textField}
 										margin="normal"
 										variant="outlined"
