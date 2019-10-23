@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { addDays, formateToDjangoDate } from '../../../utils/Date';
-import { ajaxPost } from '../../../utils/Ajax'
+import { ajaxGet, ajaxPost } from '../../../utils/Ajax'
 import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
 import { ChevronRight } from '@material-ui/icons';
 
@@ -10,17 +10,33 @@ class Astreintes extends Component{
     constructor(props) {
 		super(props);
 		this.state = {
-			creneaux: [],
+            creneaux: [],
+            members: [],
 			loading: true
         }
         
         this.displayCreneau = this.displayCreneau.bind(this)
+        this.changeNewAstreinte = this.changeNewAstreinte.bind(this)
+        this.goNextWeek = this.goNextWeek.bind(this)
+        this.goPreviousWeek = this.goPreviousWeek.bind(this)
+        this.saveAstreinte = this.saveAstreinte.bind(this)
 	}
 
 	
 	componentDidMount(){
-		this.loadDates();
+        this.loadDates();
+        this.loadMembers();
 	}
+
+
+    loadMembers(){
+        ajaxGet('admin/members').then(res => {
+			this.setState({members: res.data})
+		})
+		.catch(error => {
+			// this.setState({loading: false});
+		});
+    }
 
 	loadDates(startDate=null, endDate=null){
 		if (!startDate || !endDate) {
@@ -30,15 +46,35 @@ class Astreintes extends Component{
 			// Le jour de départ doit être lundi, donc day = 1
 			// Fonction addDays qui va enlever ou ajouter le nombre de jour nécessaire
 			const startDate = addDays(currentDate, 1 - current_day);
-			// Le jour de fin doit être vendredi, donc day = 5
-			const endDate = addDays(currentDate, 5-current_day)
+			// Le jour de fin doit être samedi, donc day = 6
+			const endDate = addDays(currentDate, 6-current_day)
 
 			this.setState({startDate: startDate, endDate: endDate})
 
 			// On envoie les dates avec le format Django
 			this.loadAstreintes(formateToDjangoDate(startDate), formateToDjangoDate(endDate));
 		} 
-	}
+    }
+    
+    goNextWeek(){
+        const startDate = addDays(this.state.startDate, 7);
+        const endDate = addDays(this.state.endDate, 7); 
+        this.reloadAstreinte(startDate, endDate);
+    }
+
+    goPreviousWeek(){
+        const startDate = addDays(this.state.startDate, -7);
+        const endDate = addDays(this.state.endDate, -7); 
+        this.reloadAstreinte(startDate, endDate);
+    }
+
+    reloadAstreinte(startDate, endDate){
+        this.setState({
+            startDate: startDate,
+            endDate: endDate
+        })
+        this.loadAstreintes(formateToDjangoDate(startDate), formateToDjangoDate(endDate));
+    }
 
 	loadAstreintes(startDate, endDate){
 		ajaxPost('perms/week/astreintes', {start_date: startDate, end_date: endDate}).then(res => {
@@ -56,29 +92,53 @@ class Astreintes extends Component{
 			if (found_creneaux.length > 0) {
 				return found_creneaux[0];
             }
-            // return astreintes
 		}
 		return '';
-	}
+    }
+    
+
+    changeNewAstreinte(creneau, name, value){
+        let creneaux= [...this.state.creneaux];
+        const creneau_index = creneaux.findIndex(c => c.id == creneau.id);
+        if (creneau_index >= 0) {
+            creneaux[creneau_index][name] = value;
+        }
+        this.setState({creneaux: creneaux})
+    }
+
+
+    saveAstreinte(creneau){
+        const creneaux = [...this.state.creneaux];
+        const creneau_index = creneaux.findIndex(c => c.id == creneau.id);
+
+        const data={
+            member_id: creneau.new_member_id,
+            astreinte_type: creneau.new_astreinte_type,
+            creneau_id: creneau.id
+        }
+
+        ajaxPost('perm/astreintes/', data).then(res => {
+            const astreinte = res.data.astreinte_type + " - " + res.data.member.userright.name;
+            creneaux[creneau_index].new_astreinte_type = '';
+            creneaux[creneau_index].new_member_id = '';
+            creneaux[creneau_index].astreintes.push(astreinte);
+            this.setState({creneaux: creneaux});
+		})
+		.catch(error => {
+			// this.setState({loading: false});
+		});
+    }
 
 
     render(){
         
         const { classes } = this.props;
-        const { startDate } = this.state;
-        const members = [
-            {id: 1, name: "Jp"},
-            {id: 2, name:"aaa"}
-        ]
+        const { startDate, members } = this.state;
 
         const week_days=[0,1,2,3,4]
 		const creneau_types=[
             {code: 'M', name:'Matin'},
             {code: 'D', name:'Midi'},
-            // {code: 'M1', name:'Matin 1'},
-            // {code: 'M2', name:'Matin 2'},
-            // {code: 'D1', name:'Midi 1'},
-            // {code: 'D2', name:'Midi 2'},
 			{code: 'S', name:'Soir'}
         ];
         
@@ -120,18 +180,31 @@ class Astreintes extends Component{
                                                     {creneau.astreintes.map(astreinte => (
                                                         <span key={astreinte}>{astreinte}<br/></span>
                                                     ))}
-                                                    <select>
+                                                    <select 
+                                                        value={creneau.new_member_id} 
+                                                        name = 'new_member_id'
+                                                        onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
+                                                    >
+                                                        <option value="" defaultValue></option>
                                                         {members.map(member => (
-                                                            <option key={member.id} value={member.id}>{member.name}</option>
+                                                            <option key={member.id} value={member.id}>{member.userright.name}</option>
                                                         ))}
                                                     </select>
-                                                    <select>
+                                                    <select 
+                                                        value={creneau.new_astreinte_type} 
+                                                        name = 'new_astreinte_type'
+                                                        onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
+                                                    >
+                                                        <option value="" defaultValue></option>
                                                         {creneau.creneau == "M" && <option value="M1">Matin 1</option>}
                                                         {creneau.creneau == "M" && <option value="M2">Matin 2</option>}
                                                         {creneau.creneau == "D" && <option value="D1">Midi 1</option>}
                                                         {creneau.creneau == "D" && <option value="D2">Midi 2</option>}
                                                         {creneau.creneau == "S" && <option value="S">Soir</option>}
                                                     </select>
+                                                    <button disabled={!creneau.new_astreinte_type && !creneau.new_member_id} onClick={() => this.saveAstreinte(creneau)}>
+                                                        Ajouter
+                                                    </button>
                                                 </React.Fragment>
                                             ):(
                                                 ''  
@@ -143,7 +216,12 @@ class Astreintes extends Component{
                         ))}
                     </tbody>
                 </table>
-
+                <button onClick={this.goNextWeek}>
+                    Semaine précédente
+                </button>
+                <button onClick={this.goPreviousWeek}>
+                    Semaine suivante
+                </button>
             </div>
         );
     };
