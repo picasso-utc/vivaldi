@@ -154,7 +154,9 @@ class AdminNav extends React.Component {
 			<nav className={classes.drawer}>
 				<AdminDrawer {...this.props}>
 					<div className={classes.logo}>
-						<img src={LOGO_PATH} height="44px" />
+						<Link to="/">
+							<img src={LOGO_PATH} height="44px" />
+						</Link>
 					</div>
 					<List disablePadding>
 						{CATEGORIES.map(category => (
