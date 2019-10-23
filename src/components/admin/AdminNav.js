@@ -12,7 +12,7 @@ import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 import HomeIcon from '@material-ui/icons/Home';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
-
+import LiveTvIcon from '@material-ui/icons/LiveTv';
 import Auth from '../../utils/Auth';
 import { asset_url } from '../../utils/Config';
 
@@ -71,6 +71,16 @@ const CATEGORIES = [
 			// {id: 'Team', link: '/admin/team'},
 			{id: 'Semestres', link: '/admin/semesters'},
 			{id: 'Paramètres', link: '/admin/settings'},
+		]
+	},
+	{
+		id: 'Télés',
+		icon: <LiveTvIcon/>,
+		authorized: Auth.isUserMember,
+		children: [
+			{id: 'Gestion des télés', link: '/admin/tv/media'},
+			{id: 'Média', link: '/admin/tv/media'},
+			{id: 'URL', link: '/admin/semesters'},
 		]
 	}
 ];

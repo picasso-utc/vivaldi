@@ -17,6 +17,7 @@ import CurrentPerm from '../components/admin/perms/CurrentPerm';
 import Perms from '../components/admin/perms/Perms';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
+import Media from '../components/admin/tv/Media';
 // import Charte from '../components/admin/Charte';
 import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
@@ -39,29 +40,31 @@ class Admin extends React.Component {
 	displayScreenName() {
 		switch (window.location.pathname) {
 			case asset_url("/admin"):
-			return "Dashboard";
+				return "Dashboard";
 			case asset_url("/admin/goodies"):
-			return "Goodies";
+				return "Goodies";
 			case asset_url("/admin/polls"):
-			return "Sondages";
+				return "Sondages";
 			case asset_url("/admin/current/perm"):
-			return "Perm en cours";
+				return "Perm en cours";
 			case asset_url("/admin/calendar"):
-			return "Planning du semestre";
+				return "Planning du semestre";
 			case asset_url("/admin/astreintes"):
-			return "Astreintes";
+				return "Astreintes";
 			case asset_url("/admin/perms"):
-			return "Perms";
+				return "Perms";
 			case asset_url("/admin/charte"):
-			return "Charte";
+				return "Charte";
 			case asset_url("/admin/users"):
-			return "Utilisateurs";
+				return "Utilisateurs";
 			case asset_url("/admin/team"):
-			return "Team";
+				return "Team";
 			case asset_url("/admin/semesters"):
-			return "Semestres";
+				return "Semestres";
 			case asset_url("/admin/settings"):
-			return "Paramètres";
+				return "Paramètres";
+			case asset_url("/admin/tv/media"):
+				return "Gestion des médias TV";
 			default:
 			break;
 		}
@@ -105,6 +108,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
+						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>
@@ -134,8 +138,9 @@ const styles = theme => ({
 	toolbar: theme.mixins.toolbar,
 	content: {
 		flexGrow: 1,
+		minWidth: 1,
 		// padding: theme.spacing(2),
-		maxWidth : "None"
+		// maxWidth : "None"
 	},
 
 	windowTitle : {
