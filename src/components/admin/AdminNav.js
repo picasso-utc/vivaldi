@@ -30,7 +30,7 @@ const CATEGORIES = [
 		authorized: Auth.isUserMember,
 		children: [
 			{ id: 'Goodies', link: '/admin/goodies'},
-			{ id: 'Sondages', link: '/admin/polls'},
+			// { id: 'Sondages', link: '/admin/polls'},
 		]
 	},
 	{
@@ -73,16 +73,16 @@ const CATEGORIES = [
 			{id: 'Paramètres', link: '/admin/settings'},
 		]
 	},
-	{
-		id: 'Télés',
-		icon: <LiveTvIcon/>,
-		authorized: Auth.isUserMember,
-		children: [
-			{id: 'Gestion des télés', link: '/admin/tv/media'},
-			{id: 'Média', link: '/admin/tv/media'},
-			{id: 'URL', link: '/admin/semesters'},
-		]
-	}
+	// {
+	// 	id: 'Télés',
+	// 	icon: <LiveTvIcon/>,
+	// 	authorized: Auth.isUserMember,
+	// 	children: [
+	// 		{id: 'Gestion des télés', link: '/admin/tv/media'},
+	// 		{id: 'Média', link: '/admin/tv/media'},
+	// 		{id: 'URL', link: '/admin/semesters'},
+	// 	]
+	// }
 ];
 
 function AdminDrawer(props) {
