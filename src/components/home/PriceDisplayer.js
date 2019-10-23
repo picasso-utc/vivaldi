@@ -134,7 +134,7 @@ const styles = theme => ({
 		paddingRight: 15,
 		paddingLeft: 5,
 		whiteSpace: 'nowrap',
-		fontWeight: 200,
+		fontWeight: 300,
 	},
 	responsive_displayer: {
 		display: 'flex',

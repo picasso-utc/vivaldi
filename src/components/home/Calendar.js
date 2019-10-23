@@ -124,7 +124,7 @@ class Calendar extends React.Component {
 							alignItems="center"
 						>
 							<Grid item>
-								<Typography>Il n'y a aucune perm actuellement</Typography>
+								<Typography style={{fontWeight: 300}}>Il n'y a pas de perm cette semaine, smiley triste ... </Typography>
 							</Grid>
 						</Grid>
 					)
