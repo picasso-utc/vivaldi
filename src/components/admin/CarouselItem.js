@@ -1,16 +1,10 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
-import { ChevronRight } from '@material-ui/icons';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import { Card, CardContent, CardActions } from '@material-ui/core';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import notation_perm from './notation.json'
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import withWidth from '@material-ui/core/withWidth';
-import { formateFromDjangoDate } from '../../utils/Date';
+import { formateFromDjangoDate, compareDjangoDate } from '../../utils/Date';
 
 import { ajaxPut } from '../../utils/Ajax';
 
@@ -28,6 +22,7 @@ class CarouselItem extends Component{
 			cell_height : this.props.cell_height,
 		}
 		this.handleChange = this.handleChange.bind(this)
+		this.compareAstreinte = this.compareAstreinte.bind(this)
 		this.addNote = this.addNote.bind(this)
 	}
 
@@ -46,6 +41,38 @@ class CarouselItem extends Component{
 		this.setState({astreintes: this.props.astreintes})
 	}
 
+
+	compareAstreinte(a1, a2){
+		const a1_rated = this.isAstreinteRated(a1);
+		const a2_rated = this.isAstreinteRated(a2);
+		if (a1_rated && !a2_rated) {
+			return 1;
+		} else if (!a1_rated && a2_rated){
+			return -1;
+		}
+		if (compareDjangoDate(a1.creneau.date,a2.creneau.date)) {
+			return 1;
+		}
+		return -1;
+	}
+
+	
+	isAstreinteRated(a1){
+		
+		if (a1.not_rated) {
+			return false;
+		}
+		let rated = true;
+		const notation = this.state.notation;
+		for (let index = 0; index < notation.length; index++) {
+			const name = notation[index].name;
+			if (a1[name] == 0 ) {
+				rated = false;
+			}
+		}
+		return rated;
+	}
+
 	handleChange(event, astreinte){
 		let astreintes = this.state.astreintes;
 		const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
@@ -53,7 +80,9 @@ class CarouselItem extends Component{
 		if (event.target.name != "commentaire") {
 			value = Number(value);
 		}
-	}
+		if (astreintes[astreinte_index][event.target.name] == 0) {
+			astreintes[astreinte_index].not_rated = true;
+		}
 		astreintes[astreinte_index][event.target.name] = value;
 		this.setState({astreintes: astreintes})
 	}
@@ -73,7 +102,8 @@ class CarouselItem extends Component{
 
 		return (
 			<div className={classes.gridList}>
-				{astreintes.map((astreinte, astreinte_index) => (
+				{astreintes.sort(this.compareAstreinte)
+				.map((astreinte, astreinte_index) => (
 					<div key={astreinte_index} cols={1} rows={1}>
 						<Card xs={12} sm= {6} className={classes.card}>
 							<Typography variant="h5" noWrap className={classes.subTitle}>
