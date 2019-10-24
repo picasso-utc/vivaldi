@@ -64,6 +64,17 @@ class CarouselItem extends Component{
 							<Typography variant="h5" noWrap className={classes.subTitle}>
 								{astreinte.creneau.perm.nom} - {formateFromDjangoDate(astreinte.creneau.date)}
 							</Typography>
+							{astreinte.creneau.article_set.length > 0 &&
+								<Typography variant="body1" noWrap>
+									Article(s):
+									<ul>
+										{astreinte.creneau.article_set.map((article, article_index) => (
+											<li>{article.nom}</li>
+										))}
+									</ul>
+								</Typography>
+							}
+							
 							<CardContent>
 								<FormControl component="fieldset"> 
 									<Grid container direction="row">   
