@@ -16,3 +16,23 @@ export function formateFromDjangoDate(date) {
     const result = splitted_date[2] + "/" + splitted_date[1] + "/" + splitted_date[0];
     return result;
 }
+
+export function compareDjangoDate(d1, d2){
+    // Renvoie true si d1 est plus récente que d2
+    const splitted_d1 = d1.split('-');
+    const splitted_d2 = d2.split('-');
+    if (splitted_d1[0] > splitted_d2[0]) {
+        return true;
+    } else if (splitted_d1[0] < splitted_d2[0]) {
+        return false;
+    }
+    if (splitted_d1[1] > splitted_d2[1]){
+        return true
+    } else if (splitted_d1[1] < splitted_d2[1]) {
+
+    } 
+    if (splitted_d1[2] >= splitted_d2[2]){
+        return true
+    }
+    return false;
+}
