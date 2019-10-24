@@ -151,7 +151,7 @@ class CarouselItem extends Component{
 							}
 							
 							<CardContent>
-								<FormControl component="fieldset"> 
+								<FormControl component="fieldset" style={{width: '100%'}}> 
 									<Grid container direction="row">   
 											{notation[astreinte.astreinte_type].map((perm_type,perm_type_index) => (
 												
@@ -245,7 +245,6 @@ const styles = theme => ({
 	},
 	textField: {
 		marginTop: 16,
-		paddingRight: 15,
 		width: "100%",
 	},
 	suggestions: {
@@ -258,7 +257,8 @@ const styles = theme => ({
 	card: {
 		margin: 30,
 		padding : 10,
-		fontSize : 9
+		fontSize : 9,
+		minWidth: 400,
 	},
 	ratedAstreinte: {
 		backgroundColor: 'rgba(0,0,0, 0.05)',
