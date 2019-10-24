@@ -96,6 +96,12 @@ class CarouselItem extends Component{
 	addNote(astreinte){
         ajaxPut('perm/astreintes/'+astreinte['id']+'/',astreinte).then(() => {
 			this.changeSnackbarState(true, 'success', 'La notation a bien été enregistrée');
+			if (astreinte.not_rated) {
+				let astreintes = this.state.astreintes;
+				const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
+				astreintes[astreinte_index].not_rated = false;
+				this.setState({astreintes: astreintes})
+			}
         })
         .catch(() => {
         	this.changeSnackbarState(true, 'error', 'Une erreur est survenue lors de l\'enregistrement');
