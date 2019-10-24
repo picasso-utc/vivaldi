@@ -70,8 +70,9 @@ class CarouselItem extends Component{
 		}
 		let rated = true;
 		const notation = this.state.notation;
-		for (let index = 0; index < notation.length; index++) {
-			const name = notation[index].name;
+
+		for (let index = 0; index < notation[a1.astreinte_type].length; index++) {
+			const name = notation[a1.astreinte_type][index].name;
 			if (a1[name] == 0 ) {
 				rated = false;
 			}
@@ -152,29 +153,29 @@ class CarouselItem extends Component{
 							<CardContent>
 								<FormControl component="fieldset"> 
 									<Grid container direction="row">   
-									    {notation.map((perm_type,perm_type_index) => (
-											
-											<Grid key={perm_type_index} item xs={12} sm= {6} >
-												<Typography variant="h6" noWrap className={classes.subTitle}>
-													{perm_type.categorie}
-												</Typography>
-												<RadioGroup 
-													aria-label="position" 
-													name={perm_type.name} 
-													value={astreinte[perm_type.name]} 
-													onChange={(event) => this.handleChange(event, astreinte)}
-												>
-													{perm_type.notation.map((type, type_index) => (
-														<FormControlLabel
-															value={type.value}
-															control={<Radio color="primary" />}
-															label={type.label}
-															key={type_index}
-														/>
-													))}
-											    </RadioGroup>
-										    </Grid>
-										))}
+											{notation[astreinte.astreinte_type].map((perm_type,perm_type_index) => (
+												
+												<Grid key={perm_type_index} item xs={12} sm= {6} >
+													<Typography variant="h6" noWrap className={classes.subTitle}>
+														{perm_type.categorie}
+													</Typography>
+													<RadioGroup 
+														aria-label="position" 
+														name={perm_type.name} 
+														value={astreinte[perm_type.name]} 
+														onChange={(event) => this.handleChange(event, astreinte)}
+													>
+														{perm_type.notation.map((type, type_index) => (
+															<FormControlLabel
+																value={type.value}
+																control={<Radio color="primary" />}
+																label={type.label}
+																key={type_index}
+															/>
+														))}
+													</RadioGroup>
+												</Grid>
+											))}
 									</Grid>
 
 									<TextField
