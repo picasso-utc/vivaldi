@@ -41,7 +41,6 @@ const CATEGORIES = [
 			{ id: 'Perm en cours', link: '/admin/current/perm'},
 			{ id: 'Planning', link: '/admin/calendar'},
 			{ id: 'Menu', link: '/menu'},
-			{ id: 'Astreintes', link: '/admin/astreintes'},
 			// { id: 'Index perms', link: '/admin/perms'},
 		]
 	},
@@ -67,6 +66,7 @@ const CATEGORIES = [
 		icon: <SettingsIcon/>,
 		authorized: Auth.isUserAdmin,
 		children: [
+			{ id: 'Astreintes', link: '/admin/astreintes'},
 			{id: 'Utilisateurs', link: '/admin/users'},
 			// {id: 'Team', link: '/admin/team'},
 			{id: 'Semestres', link: '/admin/semesters'},

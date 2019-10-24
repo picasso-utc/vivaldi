@@ -106,7 +106,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/polls`} exact component={PollsManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
-						<ProtectedRoute only="member" path={`${base_url}/astreintes`} exact component={Astreintes}/>
+						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
