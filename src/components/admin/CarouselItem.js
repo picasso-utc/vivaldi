@@ -49,8 +49,12 @@ class CarouselItem extends Component{
 	handleChange(event, astreinte){
 		let astreintes = this.state.astreintes;
 		const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
-		astreintes[astreinte_index][event.target.name] = event.target.value;
+		let value = event.target.value;
+		if (event.target.name != "commentaire") {
+			value = Number(value);
+		}
 	}
+		astreintes[astreinte_index][event.target.name] = value;
 		this.setState({astreintes: astreintes})
 	}
 
@@ -97,12 +101,16 @@ class CarouselItem extends Component{
 												<Typography variant="h6" noWrap className={classes.subTitle}>
 													{perm_type.categorie}
 												</Typography>
-												<RadioGroup aria-label="position" name={perm_type.name} >
+												<RadioGroup 
+													aria-label="position" 
+													name={perm_type.name} 
+													value={astreinte[perm_type.name]} 
+													onChange={(event) => this.handleChange(event, astreinte)}
+												>
 													{perm_type.notation.map((type, type_index) => (
-											    		<FormControlLabel
+														<FormControlLabel
 															value={type.value}
 															control={<Radio color="primary" />}
-															onChange={(event) => this.handleChange(event, astreinte)}
 															label={type.label}
 															key={type_index}
 														/>
@@ -117,7 +125,7 @@ class CarouselItem extends Component{
 										multiline
 										rowsMax="4"
 										name="commentaire"
-										value={astreinte.commentaire}
+										value={astreinte.commentaire || ''}
 										onChange={(event) => this.handleChange(event, astreinte)}
 										className={classes.textField}
 										margin="normal"
