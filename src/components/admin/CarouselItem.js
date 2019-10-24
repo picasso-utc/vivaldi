@@ -12,7 +12,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import withWidth from '@material-ui/core/withWidth';
 import { formateFromDjangoDate } from '../../utils/Date';
 
-import { ajaxGet, ajaxPost, ajaxPut } from '../../utils/Ajax';
+import { ajaxPut } from '../../utils/Ajax';
 
 
 class CarouselItem extends Component{
@@ -23,6 +23,7 @@ class CarouselItem extends Component{
 
 		this.state ={
 			notation : [],
+			astreintes: [],
 			grid_per_row : this.props.grid_per_row,
 			cell_height : this.props.cell_height,
 		}
@@ -42,12 +43,15 @@ class CarouselItem extends Component{
 			this.setState({notation : notation_perm.matin});
 		}
 
+		this.setState({astreintes: this.props.astreintes})
 	}
 
 	handleChange(event, astreinte){
-		let astreintes = this.props.astreintes;
+		let astreintes = this.state.astreintes;
 		const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
 		astreintes[astreinte_index][event.target.name] = event.target.value;
+	}
+		this.setState({astreintes: astreintes})
 	}
 
 	addNote(astreinte){
@@ -60,8 +64,7 @@ class CarouselItem extends Component{
 	render(){
 		
 		const { classes, width } = this.props;
-		const { grid_per_row, notation, cell_height } = this.state;
-		const astreintes = this.props.astreintes
+		const { grid_per_row, notation, astreintes, cell_height } = this.state;
 		let columns = width === 'xs' || width === 'sm'  ? 1 : 2;
 
 		return (
