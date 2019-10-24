@@ -22,6 +22,7 @@ class Dashboard extends Component{
 			astreintes_matin : [],
 			astreintes_midi : [],
 			astreintes_soir : [],
+			loading: true,
 		}
 		
 	}
@@ -47,15 +48,20 @@ class Dashboard extends Component{
 					astreintes_soir.push(res.data.astreintes[index]);
 				}
 			}
-			this.setState({astreintes_matin: astreintes_matin, astreintes_midi: astreintes_midi, astreintes_soir: astreintes_soir})
+			this.setState({astreintes_matin: astreintes_matin, astreintes_midi: astreintes_midi, astreintes_soir: astreintes_soir, loading:false})
 		})
 	}
 
 	render(){
 		
 		const { classes } = this.props;
-		const { astreintes_matin, astreintes_midi, astreintes_soir } = this.state;
-		
+		const { astreintes_matin, astreintes_midi, astreintes_soir, loading } = this.state;
+
+		if (loading) {
+			return(
+				<p>chargement...</p>
+			)
+		}
 
 		return (
 			<div className={classes.container}>
