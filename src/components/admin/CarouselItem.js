@@ -24,6 +24,7 @@ class CarouselItem extends Component{
 		this.handleChange = this.handleChange.bind(this)
 		this.compareAstreinte = this.compareAstreinte.bind(this)
 		this.addNote = this.addNote.bind(this)
+		this.isAstreinteRated = this.isAstreinteRated.bind(this)
 	}
 
 	componentDidMount(){
@@ -91,8 +92,11 @@ class CarouselItem extends Component{
         ajaxPut('perm/astreintes/'+astreinte['id']+'/',astreinte).then(res => {
         })
         .catch(res => {
+        	console.log(res)
         })
     }
+
+ 
 
 	render(){
 		
@@ -105,7 +109,7 @@ class CarouselItem extends Component{
 				{astreintes.sort(this.compareAstreinte)
 				.map((astreinte, astreinte_index) => (
 					<div key={astreinte_index} cols={1} rows={1}>
-						<Card xs={12} sm= {6} className={classes.card}>
+						<Card xs={12} sm= {6} className={classes.card} style={this.isAstreinteRated(astreinte) ? {backgroundColor: 'rgba(0,0,0, 0.05'} : {backgroundColor: 'white'}  }>
 							<Typography variant="h5" noWrap className={classes.subTitle}>
 								{astreinte.creneau.perm.nom} - {formateFromDjangoDate(astreinte.creneau.date)}
 							</Typography>
@@ -153,7 +157,7 @@ class CarouselItem extends Component{
 									<TextField
 										label="Commentaire"
 										multiline
-										rowsMax="4"
+										rows="3"
 										name="commentaire"
 										value={astreinte.commentaire || ''}
 										onChange={(event) => this.handleChange(event, astreinte)}
@@ -210,6 +214,12 @@ const styles = theme => ({
 		marginRight: 15,
 	},
 	card: {
+		margin: 30,
+		padding : 10,
+		fontSize : 9
+	},
+	ratedAstreinte: {
+		backgroundColor: 'rgba(0,0,0, 0.05)',
 		margin: 30,
 		padding : 10,
 		fontSize : 9
