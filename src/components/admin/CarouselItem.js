@@ -10,7 +10,7 @@ import notation_perm from './notation.json'
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import withWidth from '@material-ui/core/withWidth';
-
+import { formateFromDjangoDate } from '../../utils/Date';
 
 import { ajaxGet, ajaxPost, ajaxPut } from '../../utils/Ajax';
 
@@ -27,7 +27,6 @@ class CarouselItem extends Component{
 			cell_height : this.props.cell_height,
 		}
 		this.handleChange = this.handleChange.bind(this)
-		this.addNote = this.addNote.bind(this)
 	}
 
 	componentDidMount(){
@@ -50,16 +49,6 @@ class CarouselItem extends Component{
 		astreintes[astreinte_index][event.target.name] = event.target.value;
 	}
 
-	addNote(astreinte){
-        ajaxPut('perm/astreintes/'+astreinte['id']+'/',astreinte).then(res => {
-            console.log(astreinte['id'])
-        })
-        .catch(res => {
-            console.log(res)  
-        })
-
-    }
-
 	render(){
 		
 		const { classes, width } = this.props;
@@ -73,7 +62,7 @@ class CarouselItem extends Component{
 					<div key={astreinte_index} cols={1} rows={1}>
 						<Card xs={12} sm= {6} className={classes.card}>
 							<Typography variant="h5" noWrap className={classes.subTitle}>
-								{astreinte.creneau.perm.nom} - {astreinte.creneau.date}
+								{astreinte.creneau.perm.nom} - {formateFromDjangoDate(astreinte.creneau.date)}
 							</Typography>
 							<CardContent>
 								<FormControl component="fieldset"> 
@@ -112,7 +101,7 @@ class CarouselItem extends Component{
 									/>
 								</FormControl>
 								<CardActions style={{justifyContent: 'center'}}>
-									<Button variant="contained" size="large" color="primary" onClick={(event) => this.addNote(astreinte)}>
+									<Button variant="contained" size="large" color="primary" >
 						        		Valider
 						        	</Button>
 							  	</CardActions>

@@ -10,3 +10,9 @@ export function addDays(date, days) {
     result.setDate(result.getDate() + days);
     return result;
 }
+
+export function formateFromDjangoDate(date) {
+    const splitted_date = date.split('-')
+    const result = splitted_date[2] + "/" + splitted_date[1] + "/" + splitted_date[0];
+    return result;
+}
