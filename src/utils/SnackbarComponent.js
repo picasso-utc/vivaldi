@@ -86,7 +86,9 @@ class SnackbarComponent extends Component {
 			snackbar: {
 				open: this.props.open,
 				variant: this.props.variant,
-				message: this.props.message,
+        message: this.props.message,
+        horizontal: 'right',
+        vertical: 'top',
 			},
 		}
 		this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
@@ -98,7 +100,9 @@ class SnackbarComponent extends Component {
                 snackbar: {
                     open: props.open,
                     variant: props.variant,
-                    message: props.message
+                    message: props.message,
+                    horizontal: props.horizontal || 'right',
+                    vertical: props.vertical || 'top',
                 } 
             }))
         }
@@ -120,8 +124,8 @@ class SnackbarComponent extends Component {
         return(
             <Snackbar
                 anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: snackbar.vertical,
+                    horizontal: snackbar.horizontal,
                 }}
                 open={snackbar.open}
                 autoHideDuration={this.props.duration? this.props.duration : 6000}
