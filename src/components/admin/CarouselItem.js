@@ -5,7 +5,7 @@ import { Card, CardContent, CardActions } from '@material-ui/core';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import notation_perm from './notation.json'
 import { formateFromDjangoDate, compareDjangoDate } from '../../utils/Date';
-
+import SnackbarComponent from '../../utils/SnackbarComponent';
 import { ajaxPut } from '../../utils/Ajax';
 
 
@@ -20,6 +20,11 @@ class CarouselItem extends Component{
 			astreintes: [],
 			grid_per_row : this.props.grid_per_row,
 			cell_height : this.props.cell_height,
+			snackbar: {
+				open: false,
+				variant: 'success',
+                message: '',
+			},
 		}
 		this.handleChange = this.handleChange.bind(this)
 		this.compareAstreinte = this.compareAstreinte.bind(this)
@@ -89,20 +94,32 @@ class CarouselItem extends Component{
 	}
 
 	addNote(astreinte){
-        ajaxPut('perm/astreintes/'+astreinte['id']+'/',astreinte).then(res => {
+        ajaxPut('perm/astreintes/'+astreinte['id']+'/',astreinte).then(() => {
+			this.changeSnackbarState(true, 'success', 'La notation a bien été enregistrée');
         })
-        .catch(res => {
-        	console.log(res)
+        .catch(() => {
+        	this.changeSnackbarState(true, 'error', 'Une erreur est survenue lors de l\'enregistrement');
         })
     }
 
- 
+	changeSnackbarState(open, variant, message){
+		this.setState({
+			snackbar: {
+				open: open,
+				variant: variant,
+				message: message
+			}
+		})
+	}
 
 	render(){
 		
 		const { classes, width } = this.props;
-		const { grid_per_row, notation, astreintes, cell_height } = this.state;
+		const { grid_per_row, notation, astreintes, cell_height, snackbar } = this.state;
 		let columns = width === 'xs' || width === 'sm'  ? 1 : 2;
+
+		const vertical = 'bottom';
+		const horizontal = 'right';
 
 		return (
 			<div className={classes.gridList}>
@@ -175,6 +192,24 @@ class CarouselItem extends Component{
 						</Card>
 					</div>
 				))}
+				<SnackbarComponent 
+                    open={snackbar.open} 
+                    variant={snackbar.variant} 
+                    message={snackbar.message}
+					duration={5000}
+					horizontal='right'
+					vertical='bottom'
+                    closeSnackbar={
+                        ()=>{
+                            this.setState({
+                                snackbar: {
+                                    ...this.state.snackbar,
+                                    open: false,
+                                }
+                            })
+                        }
+                    }
+                />
 			</div>
 		);
 	};
