@@ -7,19 +7,19 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "5",
+                                        "value" : 5,
                                         "label" : "Innovant, bon et maitrisé"
                                 },
                                 {
-                                        "value" : "4",
+                                        "value" : 4,
                                         "label" : "Bon mais pas si orginal"
                                 },
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Saitisfaisant"
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "Besoin d'un smecta orange-vanille"
                                 }
                         ]
@@ -30,15 +30,15 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "5",
+                                        "value" : 5,
                                         "label" : "Le pic s'est refait une beauté"
                                 },
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Quelques éléments par ci par là"
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "On la cherche toujours"
                                 }
                         ]
@@ -49,23 +49,23 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "5",
+                                        "value" : 5,
                                         "label" : "Dancing de folie et anims de qualité"
                                 },
                                 {
-                                        "value" : "4",
+                                        "value" : 4,
                                         "label" : "Des efforts avec des anims"
                                 },
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Un soir lambda"
                                 },
                                 {
-                                        "value" : "2",
+                                        "value" : 2,
                                         "label" : "Bof, heureusement que la playlist de Félix était là"
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "Carrément claqué au sol, même un soir de semaine blanche est mieux"
                                 }
                         ]
@@ -76,15 +76,15 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "5",
+                                        "value" : 5,
                                         "label" : "Orga maitrisé : un shotgun réussi, un ménage et une évacuation rapide"
                                 },
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Pas de points négatifs "
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "Problème de sécu (bières sorties, oublis de perm...)"
                                 }
                         ]
@@ -99,19 +99,19 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "5",
+                                        "value" : 5,
                                         "label" : "Innovant, bon et maitrisé"
                                 },
                                 {
-                                        "value" : "4",
+                                        "value" : 4,
                                         "label" : "Bon mais pas si orginal"
                                 },
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Saitisfaisant"
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "Besoin d'un smecta orange-vanille"
                                 }
                         ]
@@ -122,15 +122,15 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "5",
+                                        "value" : 5,
                                         "label" : "Bonus : ils ont fait des anims et/ou log"
                                 },
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Neutre : un midi sans ennui"
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "Malus : pire que des TC01 "
                                 }
                         ]
@@ -145,11 +145,11 @@
                         "notation" :
                         [
                                 {
-                                        "value" : "3",
+                                        "value" : 3,
                                         "label" : "Rien à dire, ils savent servir des cafés"
                                 },
                                 {
-                                        "value" : "1",
+                                        "value" : 1,
                                         "label" : "Malus : c'était nul"
                                 }
                         ]
