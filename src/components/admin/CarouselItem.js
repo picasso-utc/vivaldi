@@ -76,21 +76,23 @@ class CarouselItem extends Component{
 								{astreinte.creneau.perm.nom} - {formateFromDjangoDate(astreinte.creneau.date)}
 							</Typography>
 							{astreinte.creneau.article_set.length > 0 &&
-								<Typography variant="body1" noWrap>
-									Article(s):
+								<React.Fragment>
+									<Typography variant="body1" noWrap>
+										Article(s):
+									</Typography>
 									<ul>
 										{astreinte.creneau.article_set.map((article, article_index) => (
-											<li>{article.nom}</li>
+											<li key={article_index}><Typography variant="body1" noWrap>{article.nom}</Typography></li>
 										))}
 									</ul>
-								</Typography>
+								</React.Fragment>
 							}
 							
 							<CardContent>
 								<FormControl component="fieldset"> 
 									<Grid container direction="row">   
 									    {notation.map((perm_type,perm_type_index) => (
-
+											
 											<Grid key={perm_type_index} item xs={12} sm= {6} >
 												<Typography variant="h6" noWrap className={classes.subTitle}>
 													{perm_type.categorie}
