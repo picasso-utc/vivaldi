@@ -97,14 +97,14 @@ class Dashboard extends Component{
 						</Grid>
 					</Grid>
 
-					<Grid  containerdirection="row" className={classes.section}>
+					<Grid  container direction="row" className={classes.section}>
 						<Typography variant="h6" noWrap className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du soir
 						</Typography>
-						<div className={classes.gridList}>
-							<CarouselItem periode="soir" grid_per_row="1" cell_height="800" astreintes={astreintes_soir}/>
-						</div>
+						<Grid container>
+							<CarouselItem periode="soir" grid_per_row="1.5" cell_height="800" astreintes={astreintes_soir}/>
+						</Grid>
 					</Grid>
 				</Grid>
 				
