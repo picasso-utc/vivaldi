@@ -17,11 +17,52 @@ class TV extends React.Component {
 	}
 
 	componentDidMount(){
-        this.loadTVContent();
+        this.init();
     }
 
+    init(){
+        setInterval(() => this.loadTVContent(), 30000) 
+        
+    }
+
+
     loadTVContent(){
-        this.setState({src: asset_url('/images/halloween.png')});
+        const current_date = new Date();
+        let mode = "image"
+        if (current_date.getDate() === 31 && current_date.getMonth() === 9) {
+            mode = "video";
+            if (current_date.getHours() === 18 && current_date.getMinutes() >= 30) {
+                const path="/media/barbar.mp4";
+                if (!this.state.mode !== mode || !this.state.src !== path) {
+                    this.changeState(mode, path);
+                }
+            } else if (current_date.getHours() === 15 && current_date.getMinutes() <= 10){
+                const path="/media/barbar.mp4";
+                if (!this.state.mode !== mode || !this.state.src !== path) {
+                    this.changeState(mode, path);
+                }
+            } else if (current_date.getHours() === 19 && current_date.getMinutes() >= 30){
+                const path="/media/barbar.mp4";
+                if (!this.state.mode !== mode || !this.state.src !== path) {
+                    this.changeState(mode, path);
+                }
+            } else {
+                mode = "image"
+                const path="/images/halloween.png";
+                if (!this.state.mode !== mode || !this.state.src !== path) {
+                    this.changeState(mode, path);
+                }
+            }
+            return ; 
+        }
+        const path="/images/halloween.png";
+        if (!this.state.mode !== mode || !this.state.src !== path) {
+            this.changeState(mode, path);
+        }
+    }
+
+    changeState(mode, path){
+        this.setState({mode: mode, src: asset_url(path)});
     }
     
 
@@ -38,7 +79,7 @@ class TV extends React.Component {
                         <img src={src} style={{maxWidth: '100vw', maxHeight: '100vh'}}/>
                     }
                     {mode === "video"&&
-                        <video src="http://localhost:3000/tv/barbar.mp4" loop autoPlay muted style={{height: '100vh'}}/>
+                        <video src={src} loop autoPlay muted style={{maxWidth: '100vw', maxHeight: '100vh'}}/>
                     }
             </div>         
 		);
