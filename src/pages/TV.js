@@ -31,27 +31,27 @@ class TV extends React.Component {
         let mode = "image"
         if (current_date.getDate() === 31 && current_date.getMonth() === 9) {
             mode = "video";
-            if (current_date.getHours() === 18 && current_date.getMinutes() >= 30) {
+            if (current_date.getHours() === 17 && current_date.getMinutes() >= 30) {
                 const path="/media/gauloise.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 19 && current_date.getMinutes() <= 29){
+            } else if (current_date.getHours() === 18 && current_date.getMinutes() <= 29){
                 const path="/media/barbar.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 19 && current_date.getMinutes() >= 30){
+            } else if (current_date.getHours() === 18 && current_date.getMinutes() >= 30){
                 const path="/media/cidre.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 16 && current_date.getMinutes() <= 10){
+            } else if (current_date.getHours() === 16 && current_date.getMinutes() <= 30){
                 const path="/media/barbar.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 16 && current_date.getMinutes() <= 20){
+            } else if (current_date.getHours() === 16 && current_date.getMinutes() <= 40){
                 const path="/media/cidre.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
