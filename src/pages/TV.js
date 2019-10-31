@@ -55,6 +55,7 @@ class TV extends React.Component {
                 const path="/media/cidre.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
+                }
             } else {
                 mode = "image"
                 const path="/images/halloween.png";
