@@ -32,15 +32,15 @@ class Login extends React.Component {
         const { mode, src } = this.state;
 
 		return (
-            <div style={{textAlign: 'center', backgroundColor: '#000223'}}>
-                {mode === "image"&&
-                    <img src={src} style={{height: '100vh'}}/>
-                }
-                {mode === "video"&&
-                    <video src="http://localhost:3000/tv/barbar.mp4" loop autoPlay muted style={{height: '100vh'}}/>
-                }
-                
-            </div>            
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', 
+                        flex: 1, height: '100vh', background: '#000', position: 'absolute', top:0, left: 0, right: 0, bottom: 0}}>
+                    {mode === "image"&&
+                        <img src={src} style={{maxWidth: '100vw', maxHeight: '100vh'}}/>
+                    }
+                    {mode === "video"&&
+                        <video src="http://localhost:3000/tv/barbar.mp4" loop autoPlay muted style={{height: '100vh'}}/>
+                    }
+            </div>         
 		);
 	}
 }
