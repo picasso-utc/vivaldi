@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { asset_url } from '../utils/Config';
 
 
-class Login extends React.Component {
+class TV extends React.Component {
 
 	constructor(props) {
         super(props);
@@ -56,5 +56,5 @@ const styles = theme => ({
 	}
 });
 
-export default withStyles (styles) (Login)
+export default withStyles (styles) (TV)
 
