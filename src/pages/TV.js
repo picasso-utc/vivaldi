@@ -3,6 +3,8 @@ import Auth from '../utils/Auth';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import { asset_url } from '../utils/Config';
+
 
 class Login extends React.Component {
 
@@ -19,7 +21,7 @@ class Login extends React.Component {
     }
 
     loadTVContent(){
-        this.setState({src: '/images/halloween.png'});
+        this.setState({src: asset_url('/images/halloween.png')});
     }
     
 
