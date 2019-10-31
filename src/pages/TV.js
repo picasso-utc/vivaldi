@@ -46,12 +46,12 @@ class TV extends React.Component {
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 17 && current_date.getMinutes() <= 10){
+            } else if (current_date.getHours() === 16 && current_date.getMinutes() <= 10){
                 const path="/media/barbar.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 17 && current_date.getMinutes() <= 20){
+            } else if (current_date.getHours() === 16 && current_date.getMinutes() <= 20){
                 const path="/media/cidre.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
