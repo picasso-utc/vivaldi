@@ -27,49 +27,7 @@ class TV extends React.Component {
 
 
     loadTVContent(){
-        const current_date = new Date();
         let mode = "image"
-        if (current_date.getDate() === 31 && current_date.getMonth() === 9) {
-            mode = "video";
-            if (current_date.getHours() === 17 && current_date.getMinutes() >= 30) {
-                const path="/media/gauloise.mp4";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            } else if (current_date.getHours() === 18 && current_date.getMinutes() <= 29){
-                const path="/media/barbar.mp4";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            } else if (current_date.getHours() === 18 && current_date.getMinutes() >= 30){
-                const path="/media/cidre.mp4";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            } else if (current_date.getHours() === 17 && current_date.getMinutes() <= 20){
-                const path="/media/barbar.mp4";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            } else if (current_date.getHours() === 17 && current_date.getMinutes() <= 23){
-                const path="/media/cidre.mp4";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            } else if (current_date.getHours() === 17 && current_date.getMinutes() <= 26){
-                const path="/media/gauloise.mp4";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            } else {
-                mode = "image"
-                const path="/images/halloween.png";
-                if (!this.state.mode !== mode || !this.state.src !== path) {
-                    this.changeState(mode, path);
-                }
-            }
-            return ; 
-        }
         const path="/images/halloween.png";
         if (!this.state.mode !== mode || !this.state.src !== path) {
             this.changeState(mode, path);
