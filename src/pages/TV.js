@@ -36,7 +36,7 @@ class TV extends React.Component {
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
                 }
-            } else if (current_date.getHours() === 15 && current_date.getMinutes() <= 45){
+            } else if (current_date.getHours() === 15 && current_date.getMinutes() <= 59){
                 const path="/media/barbar.mp4";
                 if (!this.state.mode !== mode || !this.state.src !== path) {
                     this.changeState(mode, path);
