@@ -30,7 +30,7 @@ const CATEGORIES = [
 		authorized: Auth.isUserMember,
 		children: [
 			{ id: 'Goodies', link: '/admin/goodies'},
-			// { id: 'Sondages', link: '/admin/polls'},
+			{ id: 'Sondages', link: '/admin/polls'},
 		]
 	},
 	{

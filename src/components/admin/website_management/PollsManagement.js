@@ -21,6 +21,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 
@@ -35,38 +36,13 @@ class PollsManagement extends Component{
         this.state = {
             surveys: [],
             loading: true,
-            open_modal: true,
+            open_modal: false,
             survey : {
                 title: '',
                 description: '',
-                image: '',
-                items: [
-                    {
-                        title: 'Test1',
-                        description: 'Test1.1',
-                        image: null
-                    },
-                    {
-                        title: 'Test2',
-                        description: 'Test1.1',
-                        image: null
-                    },
-                    {
-                        title: 'Test3',
-                        description: 'Test1.1',
-                        image: null
-                    },
-                    {
-                        title: 'Test4',
-                        description: 'Test1.1',
-                        image: null
-                    },
-                    {
-                        title: 'Test5',
-                        description: 'Test1.1',
-                        image: null
-                    },
-                ]
+                image: null,
+                visible: false,
+                surveyitem_set: []
             },
             mode: 'create'
         }
@@ -74,6 +50,9 @@ class PollsManagement extends Component{
         this.handleModalClickClose = this.handleModalClickClose.bind(this);
         this.selectSurvey = this.selectSurvey.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSurveyItemChange = this.handleSurveyItemChange.bind(this);
+        this.addSurveyItem = this.addSurveyItem.bind(this);
+        // this.saveSurveyItem = this.saveSurveyItem.bind(this);
 
     }
 
@@ -98,8 +77,16 @@ class PollsManagement extends Component{
             title: '',
             description: '',
             image: '',
-            items: [],
+            surveyitem_set: [],
         }, mode: 'create'})
+    }
+
+
+    handleSurveyItemChange(event, index){
+        const { name, value } = event.target;
+        let surveyitem_set = [...this.state.survey.surveyitem_set];
+        surveyitem_set[index][name] = value;
+        this.setState({survey:{...this.state.survey, surveyitem_set}});
     }
 
 
@@ -113,8 +100,43 @@ class PollsManagement extends Component{
     }
 
 
+    handleFileChange(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        // const that = this;
+        let image = null;
+
+        reader.readAsDataURL(file);   
+        reader.onloadend = () => {
+            image = reader.result;
+            this.setState({
+                survey: {
+                    ...this.state.survey,
+                    image: image
+                }
+            })
+        }
+    }
+
+
+    handleItemFileChange(e, index) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        let image = null;
+
+        reader.readAsDataURL(file);   
+        reader.onloadend = () => {
+            image = reader.result;
+            let surveyitem_set = [...this.state.survey.surveyitem_set];
+            surveyitem_set[index].image = image;
+            this.setState({survey:{...this.state.survey, surveyitem_set}});
+        }
+    }
+
+
     handleModalClickClose = () => {
-        this.setState({open_modal: false})
+        this.setState({open_modal: false, loading: true})
+        this.loadSurveys();
         this.reloadNewSurvey();
     };
 
@@ -125,10 +147,164 @@ class PollsManagement extends Component{
 
 
     selectSurvey = (survey) => {
-        this.setState({survey: survey, mode: 'edit'})
-        this.handleModalClickOpen();
+        // TO DO Transform into Base64
+        var request = new XMLHttpRequest();
+        let image = null;
+        const that = this
+        request.open('GET', survey.image, true);
+        request.responseType = 'blob';
+        request.onload = function() {
+            console.log(request.response)
+            var reader = new FileReader();
+            reader.readAsDataURL(request.response);
+            reader.onload =  function(e){
+                // console.log('DataURL:', e.target.result);
+                survey.image = reader.result;
+                that.setState({survey: survey, mode: 'edit'})
+                that.handleModalClickOpen();
+            };
+        };
+        request.send();
+        // const reader = new FileReader();
+        // let image = null;
+        // reader.readAsDataURL(survey.image)
+        // reader.onloadend = () => {
+        //     image = reader.result;
+        //     console.log(image)
+        //     // let surveyitem_set = [...this.state.survey.surveyitem_set];
+        //     // surveyitem_set[index].image = image;
+        //     // this.setState({survey:{...this.state.survey, surveyitem_set}});
+        // }
+        
     }
 
+
+    addSurveyItem(){
+        const new_survey_item = {
+            name: '',
+            description: '',
+            image: null,
+            survey: this.state.survey.id
+        }
+        let surveyitem_set = [...this.state.survey.surveyitem_set];
+        surveyitem_set.push(new_survey_item);
+        this.setState({survey:{...this.state.survey, surveyitem_set}});
+    }
+
+
+    changeSurveyVisibility(index){
+        // TO DO PATCH Method
+        let surveys = [...this.state.surveys];
+        surveys[index].visible = !surveys[index].visible;
+        this.setState({surveys: surveys})
+        this.updateSurvey(index);
+    }
+
+
+    saveSurvey(){
+        if(this.state.mode == "create"){
+            ajaxPost('surveys/', this.state.survey).then((res) => {
+                this.setState({
+                    survey: {
+                        ...this.state.survey,
+                        id: res.data.id
+                    }
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })  
+        } else if (this.state.mode == "edit"){
+            ajaxPut('surveys/' + this.state.survey.id + '/', this.state.survey).then((res) => {
+                this.setState({
+                    survey: {
+                        ...this.state.survey,
+                        id: res.data.id
+                    }
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })  
+        }
+    }
+
+    updateSurvey(index){
+        ajaxPut('surveys/' + this.state.surveys[index].id + '/', this.state.surveys[index]).then((res) => {
+
+        })
+        .catch((error) => {
+            console.log(error);
+        })  
+    }
+
+
+    saveSurveyItem(index){
+        let surveyitem_set = [...this.state.survey.surveyitem_set];
+        if (surveyitem_set[index].id) {
+            // Check si l'image commence par http
+            if (surveyitem_set[index].image.startsWith('http')) {
+                let request = new XMLHttpRequest();
+                const that = this
+                request.open('GET', surveyitem_set[index].image, true);
+                request.responseType = 'blob';
+                request.onload = function() {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(request.response);
+                    reader.onload =  function(e){
+                        // console.log('DataURL:', e.target.result);
+                        surveyitem_set[index].image = reader.result;
+                        // that.setState({survey: survey, mode: 'edit'})
+                        // that.handleModalClickOpen();
+                        // Update de l'item
+                        ajaxPut('survey/items/' + surveyitem_set[index].id + '/', surveyitem_set[index]).then((res) => {
+
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                    };
+                };
+                request.send();
+            }
+            
+        } else {
+            //Création de l'item
+            ajaxPost('survey/items/', surveyitem_set[index]).then((res) => {
+                surveyitem_set[index].id = res.data.id;
+                this.setState({survey:{...this.state.survey, surveyitem_set}, mode:"edit"});
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        }        
+    }
+
+    deleteSurveyItem(index){
+        let surveyitem_set = [...this.state.survey.surveyitem_set];
+        const survey_item_id = surveyitem_set[index].id
+        ajaxDelete('survey/items/' + survey_item_id + '/').then(() => {
+            surveyitem_set = surveyitem_set.filter(s => s.id !== survey_item_id)
+            this.setState({survey:{...this.state.survey, surveyitem_set}});
+        })
+        .catch((error) => {
+
+        })
+    }
+
+
+    deleteSurvey(index){
+        const survey_id = this.state.surveys[index].id
+        ajaxDelete('surveys/' + survey_id + '/').then(() => {
+            let surveys = this.state.surveys;
+            surveys = surveys.filter(s => s.id !== survey_id)
+            this.setState({surveys: surveys})
+        })
+        .catch((error) => {
+
+        })
+        this.reloadNewSurvey();
+    }
 
     render(){
         
@@ -155,156 +331,277 @@ class PollsManagement extends Component{
             <div className={classes.container}>
                           
                 {surveys.length == 0 ? (
-                    <Grid container>
-                        <Typography variant="h5" noWrap className={classes.subTitle}>
-                            Pas de sondages pour le moment. 
-                        </Typography>
-                    </Grid>
+                    <React.Fragment>
+                        <Grid 
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Typography variant="h5" className={classes.subTitle}>
+                                Pas de sondages pour le moment. 
+                            </Typography>
+                            <br/>
+                        </Grid>
+                        <Grid 
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Button 
+                                variant="contained" 
+                                size="small" 
+                                margin="dense"
+                                className={classes.btn} 
+                                color="primary"
+                                onClick={(e) => this.handleModalClickOpen()}
+                            >
+                                Nouveau sondage
+                            </Button>
+                        </Grid>
+                    </React.Fragment>
                 ):(
                     <div>
                         <Typography variant="h5" noWrap className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Liste des sondages
+                            <Button 
+                                variant="contained"
+                                margin="dense" 
+                                size="small" 
+                                className={classes.add_item} 
+                                color="primary"
+                                onClick={(e) => this.handleModalClickOpen()}
+                            >
+                                Nouveau
+                            </Button>
                         </Typography>
-                        <Grid container direction="row" justify="center" alignItems="center">
-                            <Grid item xs={12} sm={6}>
+                        <Grid container direction="row">
+                            {/* <Grid item xs={12}> */}
                                 <Table size="small">
                                     <TableBody>
-                                        {surveys.map((survey, index) => (
-                                            <TableRow hover key={index} className={classes.row}>
+                                        {surveys.map((survey, survey_index) => (
+                                            <TableRow hover key={survey_index} className={classes.row}>
                                                 <TableCell component="th" scope="row" className={classes.cell}>
                                                     {survey.title}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" className={classes.cell}>
                                                   <Button 
-                                                        variant="outlined" 
                                                         size="small" 
+                                                        variant="contained" 
+                                                        margin="dense"
                                                         className={classes.btn} 
                                                         color="primary"
                                                         onClick={(e) => this.selectSurvey(survey)}
                                                     >
                                                         Consulter
                                                     </Button>
+                                                    <Button 
+                                                        variant="contained" 
+                                                        margin="dense"
+                                                        size="small"
+                                                        className={classes.btn} 
+                                                        color="primary"
+                                                        onClick={(e) => this.changeSurveyVisibility(survey_index)}
+                                                    >
+                                                        {survey.visible ? (<span>Masquer</span>):(<span>Rendre visible</span>)}
+                                                    </Button>
+                                                    <Button 
+                                                        size="small" 
+                                                        color="secondary"
+                                                        variant="contained" 
+                                                        margin="dense"
+                                                        size="small"
+                                                        onClick={() => this.deleteSurvey(survey_index)}
+                                                    >
+                                                        Supprimer
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
-                            </Grid>
+                            {/* </Grid> */}
                         </Grid>
-                        <Dialog onClose={this.handleModalClickClose} aria-labelledby="customized-dialog-title" open={open_modal} maxWidth="lg">
-                            <DialogTitle onClose={this.handleModalClickClose}>
-                                {mode == "edit"? (
-                                    <span>Sondage : {survey.title}</span>
-                                ):
-                                (
-                                    <span>Ajouter un nouveau sondage</span>
-                                )}
-                            </DialogTitle>
-                            <DialogContent dividers>
-                                <Typography component="h4" className={classes.modal_title}>
-                                    Sondage
-                                </Typography>
-                                <form autoComplete="off">
-                                    <TextField
-                                        label="Titre"
-                                        className={classes.textField}
-                                        value={survey.title}
-                                        onChange={this.handleChange}
-                                        name="title"
-                                        fullWidth
-                                        margin="dense"
-                                        variant="outlined"
-                                    />
-                                    <TextField
-                                        label="Description"
-                                        className={classes.textField}
-                                        value={survey.description}
-                                        onChange={this.handleChange}
-                                        name="description"
-                                        fullWidth
-                                        margin="dense"
-                                        variant="outlined"
-                                        multiline
-                                        rows="3"
-                                    />
-                                    <input
-                                        name="image"
-                                        type="file"
-                                        onChange={this.handleChange}
-                                        required
-                                    />
-                                </form>
-                                {/* <br/> */}
-                                <Typography component="h4" className={classes.modal_title}>
+                    </div>
+                )}
+                <Dialog 
+                    onClose={this.handleModalClickClose} 
+                    open={open_modal} 
+                    maxWidth="lg"
+                    width="lg"
+                    scroll="body"
+                >
+                    <DialogTitle onClose={this.handleModalClickClose}>
+                        {mode === "edit"? (
+                            <span>Sondage : {survey.title}</span>
+                        ):
+                        (
+                            <span>Ajouter un nouveau sondage</span>
+                        )}
+                    </DialogTitle>
+                    <DialogContent>
+                        <CardMedia
+                            className={classes.media}
+                            image={survey.image ? survey.image : '/images/default_image.png'}
+                        />
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <input
+                                accept="image/*"
+                                className={classes.input_file}
+                                id="contained-button-file"
+                                type="file"
+                                onChange={(event) => this.handleFileChange(event)}
+                                name="image"
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button 
+                                    variant="contained" 
+                                    component="span" 
+                                    className={classes.upload_button}
+                                    onChange={(event) => this.handleFileChange(event)}
+                                    name="image"
+                                >
+                                    Upload
+                                </Button>
+                            </label>
+                        </Grid>
+                        <Grid container direction="row">
+                            <TextField
+                                label="Titre"
+                                className={classes.textField}
+                                value={survey.title}
+                                onChange={this.handleChange}
+                                name="title"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                            />
+                            <TextField
+                                label="Description"
+                                className={classes.textField}
+                                value={survey.description}
+                                onChange={this.handleChange}
+                                name="description"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                                multiline
+                                rows="3"
+                            />   
+                        </Grid>
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Button 
+                                onClick={() => this.saveSurvey()} 
+                                variant="contained" 
+                                color="primary"
+                                margin="dense"
+                                size="small"
+                            >
+                                Enregistrer
+                            </Button>
+                        </Grid>
+                        {survey.id &&
+                            <React.Fragment>
+                                <Typography component="h3" className={classes.modal_title}>
                                     Items
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary"
+                                        margin="dense"
+                                        size="small"
+                                        className={classes.add_item}
+                                        onClick={this.addSurveyItem}
+                                    >
+                                        Nouveau
+                                    </Button>
                                 </Typography>
                                 <div className={classes.root_items}>
                                     <GridList className={classes.gridList} cols={2.5}>
-                                        {survey.items.map((item, index) => (
-                                        <GridListTile key={index} style={{height: '100%'}}>
-                                            <Card className={classes.card}>
-                                                <CardActionArea>
-                                                    <CardMedia
-                                                        className={classes.media}
-                                                        image="/images/couverture_a19.png"
-                                                        title="Contemplative Reptile"
-                                                    />
-                                                    <CardContent>
-                                                        <TextField
-                                                            label="Titre"
-                                                            className={classes.textField}
-                                                            value={item.title}
-                                                            // onChange={this.handleChange}
-                                                            name="title"
-                                                            fullWidth
+                                        {survey.surveyitem_set.map((item, index) => (
+                                            <GridListTile key={index} style={{height: '100%', minWidth: 250}}>
+                                                <Card className={classes.card}>
+                                                    <CardActionArea>
+                                                        <CardMedia
+                                                            className={classes.media}
+                                                            image={item.image ? item.image : '/images/default_image.png'}
+                                                        />
+                                                        <Grid container direction="row" justify="center" alignItems="center">
+                                                            <input
+                                                                accept="image/*"
+                                                                className={classes.input_file}
+                                                                id="item_file"
+                                                                type="file"
+                                                                onChange={(event) => this.handleItemFileChange(event, index)}
+                                                                name="image"
+                                                            />
+                                                            <label htmlFor="item_file">
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    component="span" 
+                                                                    className={classes.upload_button}
+                                                                >
+                                                                    Upload
+                                                                </Button>
+                                                            </label>
+                                                        </Grid>
+                                                        <Grid container direction="row">
+                                                            <TextField
+                                                                label="Titre"
+                                                                className={classes.textField}
+                                                                value={item.name}
+                                                                onChange={(event) => this.handleSurveyItemChange(event, index)}
+                                                                name="name"
+                                                                fullWidth
+                                                                margin="dense"
+                                                                variant="outlined"
+                                                            />
+                                                            <TextField
+                                                                label="Description"
+                                                                className={classes.textField}
+                                                                value={item.description}
+                                                                onChange={(event) => this.handleSurveyItemChange(event, index)}
+                                                                name="description"
+                                                                fullWidth
+                                                                margin="dense"
+                                                                variant="outlined"
+                                                                multiline
+                                                                rows="3"
+                                                            />
+                                                        </Grid>
+                                                    </CardActionArea>
+                                                    <CardActions>
+                                                        {item.id &&
+                                                            <Button 
+                                                                onClick={() => this.deleteSurveyItem(index)} 
+                                                                color="secondary"
+                                                                variant="contained" 
+                                                                margin="dense"
+                                                                size="small"
+                                                            >
+                                                                Supprimer
+                                                            </Button>
+                                                        }
+                                                        <Button 
+                                                            onClick={() => this.saveSurveyItem(index)} 
+                                                            color="primary"
+                                                            variant="contained" 
                                                             margin="dense"
-                                                            variant="outlined"
-                                                        />
-                                                        <TextField
-                                                            label="Description"
-                                                            className={classes.textField}
-                                                            value={item.description}
-                                                            // onChange={this.handleChange}
-                                                            name="title"
-                                                            fullWidth
-                                                            margin="dense"
-                                                            variant="outlined"
-                                                        />
-                                                        <input
-                                                            name="image"
-                                                            type="file"
-                                                            // onChange={this.handleChange}
-                                                            required
-                                                        />
-                                                    </CardContent>
-                                                </CardActionArea>
-                                                <CardActions>
-                                                    <Button size="small" variant="outlined" color="secondary">
-                                                        Supprimer
-                                                    </Button>
-                                                </CardActions>
-                                            </Card>
-                                        </GridListTile>
+                                                            size="small"
+                                                        >
+                                                            Enregistrer
+                                                        </Button>
+                                                    </CardActions>
+                                                </Card>
+                                            </GridListTile>
                                         ))}
                                     </GridList>
                                 </div>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={this.handleModalClickClose} variant="outlined">
-                                    Rendre visible
-                                </Button>
-                                <Button onClick={this.handleModalClickClose} variant="outlined" color="primary">
-                                    Sauvegarder
-                                </Button>
-                                <Button onClick={this.handleModalClickClose} variant="outlined" color="secondary">
-                                    Supprimer
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-                )}
-
+                            </React.Fragment>
+                        }
+                    </DialogContent>
+                </Dialog>
             </div>
         );
     };
@@ -321,6 +618,10 @@ const styles = theme => ({
         marginTop: 100,
         border: "1.5px solid #B22132",
     },
+    btn : {
+        marginLeft: 5,
+        marginRight: 5,
+    },
     subTitle:{
         marginBottom: 40,
     },
@@ -335,11 +636,21 @@ const styles = theme => ({
         margin: 20,
         marginTop: 30,
     },
+    input_file:{
+        display: 'None',
+    },
+    upload_button : {
+        marginTop: 15
+    },
     card: {
         maxWidth: 345,
-      },
+    },
     media: {
-        height: 200,
+        height: 150,
+        backgroundSize: 'contain',
+    },
+    add_item : {
+        marginLeft: 10,
     },
     root_items: {
         display: 'flex',
@@ -358,6 +669,9 @@ const styles = theme => ({
     titleBar: {
         background:
             'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+    },
+    modal:{
+        overflowY: 'scroll'
     },
     modal_title: {
         margin: 15
