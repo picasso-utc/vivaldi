@@ -2,7 +2,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from './Auth';
-
+import { asset_url } from '../utils/Config'
 
 class ProtectedRoute extends React.Component {
 
@@ -18,7 +18,8 @@ class ProtectedRoute extends React.Component {
 	}
 
 	render() {
-		const { auth, only, redirection, component: Component, ...routeProps } = this.props;
+		const { auth, only, component: Component, ...routeProps } = this.props;
+		const redirection = asset_url('/login?redirect=' + this.props.location.pathname);
 		return (
 			<Route
 				{...routeProps} 
@@ -34,7 +35,7 @@ class ProtectedRoute extends React.Component {
 
 ProtectedRoute.defaultProps = {
 	// only: 'member',
-	redirection: '/login',
+	// redirection: '/login',
 }
 
 export default ProtectedRoute;

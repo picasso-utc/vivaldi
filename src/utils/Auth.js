@@ -78,13 +78,21 @@ class Auth {
 
 
     static redirectUser(){
-        if (Auth.isUserMember()) {
-           // To DO rediriger en fonction des droits
-            // et en fonction d'une page d'ou le chargement à débuter 
-            window.location = asset_url('/admin')
+        const query = new URLSearchParams(window.location.search);
+        const redirect = query.get('redirect')
+        if (redirect) {
+            if (!Auth.isUserMember() && redirect.startsWith('/admin')) {
+                window.location = asset_url('/');
+            } else {
+                window.location = asset_url(redirect);
+            }
         } else {
-            window.location = asset_url('/')
-        } 
+            if (Auth.isUserMember()) {
+                window.location = asset_url('/admin');
+            } else {
+                window.location = asset_url('/');
+            } 
+        }
     }
 
 
