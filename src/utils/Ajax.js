@@ -21,9 +21,13 @@ function ajaxPut(path, data) {
     return axios.put(API_URL + path, data, defaultConfig);
 }
 
+function ajaxPatch(path, data) {
+    return axios.patch(API_URL + path, data, defaultConfig);
+}
+
 function ajaxDelete(path) {
     return axios.delete(API_URL + path, defaultConfig);
 }
 
 
-export { ajaxGet, ajaxPost, ajaxPut, ajaxDelete };
+export { ajaxGet, ajaxPost, ajaxPut, ajaxDelete, ajaxPatch };
