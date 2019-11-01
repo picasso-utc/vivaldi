@@ -26,7 +26,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 
 
-import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
 
 class PollsManagement extends Component{
  
@@ -52,8 +52,6 @@ class PollsManagement extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSurveyItemChange = this.handleSurveyItemChange.bind(this);
         this.addSurveyItem = this.addSurveyItem.bind(this);
-        // this.saveSurveyItem = this.saveSurveyItem.bind(this);
-
     }
 
 
@@ -103,7 +101,6 @@ class PollsManagement extends Component{
     handleFileChange(e) {
         const file = e.target.files[0];
         const reader = new FileReader();
-        // const that = this;
         let image = null;
 
         reader.readAsDataURL(file);   
@@ -147,35 +144,21 @@ class PollsManagement extends Component{
 
 
     selectSurvey = (survey) => {
-        // TO DO Transform into Base64
         var request = new XMLHttpRequest();
         let image = null;
         const that = this
         request.open('GET', survey.image, true);
         request.responseType = 'blob';
         request.onload = function() {
-            console.log(request.response)
             var reader = new FileReader();
             reader.readAsDataURL(request.response);
             reader.onload =  function(e){
-                // console.log('DataURL:', e.target.result);
                 survey.image = reader.result;
                 that.setState({survey: survey, mode: 'edit'})
                 that.handleModalClickOpen();
             };
         };
-        request.send();
-        // const reader = new FileReader();
-        // let image = null;
-        // reader.readAsDataURL(survey.image)
-        // reader.onloadend = () => {
-        //     image = reader.result;
-        //     console.log(image)
-        //     // let surveyitem_set = [...this.state.survey.surveyitem_set];
-        //     // surveyitem_set[index].image = image;
-        //     // this.setState({survey:{...this.state.survey, surveyitem_set}});
-        // }
-        
+        request.send(); 
     }
 
 
@@ -193,11 +176,11 @@ class PollsManagement extends Component{
 
 
     changeSurveyVisibility(index){
-        // TO DO PATCH Method
         let surveys = [...this.state.surveys];
         surveys[index].visible = !surveys[index].visible;
-        this.setState({surveys: surveys})
-        this.updateSurvey(index);
+        ajaxPatch('surveys/' + surveys[index].id + '/', {visible: surveys[index].visible}).then((res) => {
+            this.setState({surveys: surveys})
+        })
     }
 
 
@@ -252,10 +235,7 @@ class PollsManagement extends Component{
                     var reader = new FileReader();
                     reader.readAsDataURL(request.response);
                     reader.onload =  function(e){
-                        // console.log('DataURL:', e.target.result);
                         surveyitem_set[index].image = reader.result;
-                        // that.setState({survey: survey, mode: 'edit'})
-                        // that.handleModalClickOpen();
                         // Update de l'item
                         ajaxPut('survey/items/' + surveyitem_set[index].id + '/', surveyitem_set[index]).then((res) => {
 
@@ -378,7 +358,6 @@ class PollsManagement extends Component{
                             </Button>
                         </Typography>
                         <Grid container direction="row">
-                            {/* <Grid item xs={12}> */}
                                 <Table size="small">
                                     <TableBody>
                                         {surveys.map((survey, survey_index) => (
@@ -413,6 +392,7 @@ class PollsManagement extends Component{
                                                         variant="contained" 
                                                         margin="dense"
                                                         size="small"
+                                                        className={classes.btn} 
                                                         onClick={() => this.deleteSurvey(survey_index)}
                                                     >
                                                         Supprimer
@@ -422,7 +402,6 @@ class PollsManagement extends Component{
                                         ))}
                                     </TableBody>
                                 </Table>
-                            {/* </Grid> */}
                         </Grid>
                     </div>
                 )}
@@ -460,10 +439,9 @@ class PollsManagement extends Component{
                                     variant="contained" 
                                     component="span" 
                                     className={classes.upload_button}
-                                    onChange={(event) => this.handleFileChange(event)}
                                     name="image"
                                 >
-                                    Upload
+                                    Image
                                 </Button>
                             </label>
                         </Grid>
@@ -519,8 +497,8 @@ class PollsManagement extends Component{
                                 </Typography>
                                 <div className={classes.root_items}>
                                     <GridList className={classes.gridList} cols={2.5}>
-                                        {survey.surveyitem_set.map((item, index) => (
-                                            <GridListTile key={index} style={{height: '100%', minWidth: 250}}>
+                                        {survey.surveyitem_set.map((item, item_index) => (
+                                            <GridListTile key={item_index} style={{height: '100%', minWidth: 250}}>
                                                 <Card className={classes.card}>
                                                     <CardActionArea>
                                                         <CardMedia
@@ -531,16 +509,17 @@ class PollsManagement extends Component{
                                                             <input
                                                                 accept="image/*"
                                                                 className={classes.input_file}
-                                                                id="item_file"
+                                                                id={item_index}
                                                                 type="file"
-                                                                onChange={(event) => this.handleItemFileChange(event, index)}
+                                                                onChange={(event) => this.handleItemFileChange(event, item_index)}
                                                                 name="image"
                                                             />
-                                                            <label htmlFor="item_file">
+                                                            <label htmlFor={item_index}>
                                                                 <Button 
                                                                     variant="contained" 
                                                                     component="span" 
                                                                     className={classes.upload_button}
+                                                                    onChange={(event) => this.handleItemFileChange(event, item)}
                                                                 >
                                                                     Upload
                                                                 </Button>
@@ -551,7 +530,7 @@ class PollsManagement extends Component{
                                                                 label="Titre"
                                                                 className={classes.textField}
                                                                 value={item.name}
-                                                                onChange={(event) => this.handleSurveyItemChange(event, index)}
+                                                                onChange={(event) => this.handleSurveyItemChange(event, item_index)}
                                                                 name="name"
                                                                 fullWidth
                                                                 margin="dense"
@@ -561,7 +540,7 @@ class PollsManagement extends Component{
                                                                 label="Description"
                                                                 className={classes.textField}
                                                                 value={item.description}
-                                                                onChange={(event) => this.handleSurveyItemChange(event, index)}
+                                                                onChange={(event) => this.handleSurveyItemChange(event, item_index)}
                                                                 name="description"
                                                                 fullWidth
                                                                 margin="dense"
@@ -574,7 +553,7 @@ class PollsManagement extends Component{
                                                     <CardActions>
                                                         {item.id &&
                                                             <Button 
-                                                                onClick={() => this.deleteSurveyItem(index)} 
+                                                                onClick={() => this.deleteSurveyItem(item_index)} 
                                                                 color="secondary"
                                                                 variant="contained" 
                                                                 margin="dense"
@@ -584,7 +563,7 @@ class PollsManagement extends Component{
                                                             </Button>
                                                         }
                                                         <Button 
-                                                            onClick={() => this.saveSurveyItem(index)} 
+                                                            onClick={() => this.saveSurveyItem(item_index)} 
                                                             color="primary"
                                                             variant="contained" 
                                                             margin="dense"
@@ -619,8 +598,7 @@ const styles = theme => ({
         border: "1.5px solid #B22132",
     },
     btn : {
-        marginLeft: 5,
-        marginRight: 5,
+        margin: 5,
     },
     subTitle:{
         marginBottom: 40,
