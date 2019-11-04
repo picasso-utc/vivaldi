@@ -81,6 +81,11 @@ class PollsManagement extends Component{
 
 
     handleSurveyItemChange(event, index){
+
+        if (event.target.name == "name" && event.target.value > 20) {
+            return;
+        }
+
         const { name, value } = event.target;
         let surveyitem_set = [...this.state.survey.surveyitem_set];
         surveyitem_set[index][name] = value;
@@ -89,6 +94,10 @@ class PollsManagement extends Component{
 
 
     handleChange(event){
+        if (event.target.name == "title" && event.target.value.length > 20) {
+            return;
+        }
+
         this.setState({
             survey: {
                 ...this.state.survey,
@@ -521,7 +530,7 @@ class PollsManagement extends Component{
                                                                     className={classes.upload_button}
                                                                     onChange={(event) => this.handleItemFileChange(event, item)}
                                                                 >
-                                                                    Upload
+                                                                    Image
                                                                 </Button>
                                                             </label>
                                                         </Grid>
