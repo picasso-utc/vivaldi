@@ -84,7 +84,7 @@ class Auth {
             if (!Auth.isUserMember() && redirect.startsWith('/admin')) {
                 window.location = asset_url('/');
             } else {
-                window.location = redirect;
+                window.location = asset_url(redirect);
             }
         } else {
             if (Auth.isUserMember()) {
