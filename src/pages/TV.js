@@ -28,7 +28,7 @@ class TV extends React.Component {
 
     loadTVContent(){
         let mode = "image"
-        const path="/images/halloween.png";
+        const path="/images/associathon.png";
         if (!this.state.mode !== mode || !this.state.src !== path) {
             this.changeState(mode, path);
         }
