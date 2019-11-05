@@ -13,6 +13,7 @@ class TV extends React.Component {
         this.state = {
             mode : 'image',
             src : '',
+            index : 0,
         }
 	}
 
@@ -29,15 +30,17 @@ class TV extends React.Component {
 
     loadTVContent(){
         let mode = "image"
-        let path = "/images/associathon.png";
-        if (this.state.src === "/images/associathon.png") {
-            path = "/images/saucisson.png";
-        }
-        this.changeState(mode, path);
+        let index = this.state.index;
+        index = (index+1)%2
+        const images = [
+            "/images/associathon.png",
+            "/images/saucisson.png"
+        ];
+        this.changeState(mode, index, images[index]);
     }
 
-    changeState(mode, path){
-        this.setState({mode: mode, src: asset_url(path)});
+    changeState(mode, index, path){
+        this.setState({mode: mode, src: asset_url(path), index: index});
     }
     
 
