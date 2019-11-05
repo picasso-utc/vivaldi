@@ -75,7 +75,7 @@ class IndexPolls extends React.Component {
 													</Typography>
 												</Grid>
 												<Grid container direction="row" justify="center" alignItems="center">
-                                                	<img src={`${URL}${survey.image}`} className={classes.survey_img}/>
+                                                	<img src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
 												</Grid>
 												<Grid direction="row">
 													<Typography variant="body1" className={classes.survey_description}>

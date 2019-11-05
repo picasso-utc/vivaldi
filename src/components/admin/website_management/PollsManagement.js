@@ -27,6 +27,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
+import {URL, asset_url} from '../../../utils/Config';
+
 
 class PollsManagement extends Component{
  
@@ -170,13 +172,16 @@ class PollsManagement extends Component{
         var request = new XMLHttpRequest();
         let image = null;
         const that = this
-        request.open('GET', survey.image, true);
+        request.open('GET', URL + '/media/' + survey.image, true);
         request.responseType = 'blob';
         request.onload = function() {
             var reader = new FileReader();
             reader.readAsDataURL(request.response);
             reader.onload =  function(e){
                 survey.image = reader.result;
+                for (let index = 0; index < survey.surveyitem_set.length; index++) {
+                    survey.surveyitem_set[index].image = URL + '/media/' + survey.surveyitem_set[index].image;
+                }
                 that.setState({survey: survey, mode: 'edit'})
                 that.handleModalClickOpen();
             };
@@ -252,7 +257,7 @@ class PollsManagement extends Component{
             if (surveyitem_set[index].image.startsWith('http')) {
                 let request = new XMLHttpRequest();
                 const that = this
-                request.open('GET', surveyitem_set[index].image, true);
+                request.open('GET', URL + '/media/' + surveyitem_set[index].image, true);
                 request.responseType = 'blob';
                 request.onload = function() {
                     var reader = new FileReader();

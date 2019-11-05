@@ -27,7 +27,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Chip from '@material-ui/core/Chip';
-import {URL} from '../utils/Config';
+import {URL, asset_url} from '../utils/Config';
 
 
 
@@ -161,7 +161,7 @@ class Poll extends React.Component {
                                         </Typography>
                                     </Grid>
                                     <Grid container direction="row" justify="center" alignItems="center">
-                                        <img src={`${URL}${survey.image}`} className={classes.survey_img}/>
+                                        <img src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
                                     </Grid>
 
 
@@ -177,7 +177,7 @@ class Poll extends React.Component {
                                                     </Grid>
                                                     <img
                                                         className={classes.item_img}
-                                                        src={item.image ? `${URL}${item.image}` : '/images/default_image.png'}
+                                                        src={item.image ? `${URL}/media/${item.image}` : asset_url('/images/default_image.png')}
                                                     />
                                                     
                                                     <Grid container direction="row" justify="center" alignItems="center">
