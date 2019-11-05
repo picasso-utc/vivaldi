@@ -22,7 +22,7 @@ class TV extends React.Component {
 
     init(){
         this.loadTVContent()
-        setInterval(() => this.loadTVContent(), 60000*5) 
+        setInterval(() => this.loadTVContent(), 30000) 
         
     }
 
