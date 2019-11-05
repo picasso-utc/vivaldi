@@ -21,17 +21,19 @@ class TV extends React.Component {
     }
 
     init(){
-        setInterval(() => this.loadTVContent(), 30000) 
+        this.loadTVContent()
+        setInterval(() => this.loadTVContent(), 6000) 
         
     }
 
 
     loadTVContent(){
         let mode = "image"
-        const path="/images/associathon.png";
-        if (!this.state.mode !== mode || !this.state.src !== path) {
-            this.changeState(mode, path);
+        let path = "/images/associathon.png";
+        if (this.state.src === "/images/associathon.png") {
+            path = "/images/saucisson.png";
         }
+        this.changeState(mode, path);
     }
 
     changeState(mode, path){
