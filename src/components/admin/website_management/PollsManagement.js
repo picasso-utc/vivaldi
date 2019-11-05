@@ -21,8 +21,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 
@@ -42,6 +42,7 @@ class PollsManagement extends Component{
                 description: '',
                 image: null,
                 visible: false,
+                multi_choice: false,
                 surveyitem_set: []
             },
             mode: 'create'
@@ -76,6 +77,8 @@ class PollsManagement extends Component{
             description: '',
             image: '',
             surveyitem_set: [],
+            multi_choice: false,
+            visible: false
         }, mode: 'create'})
     }
 
@@ -149,6 +152,17 @@ class PollsManagement extends Component{
 
     handleModalClickOpen = () => {
         this.setState({open_modal: true})
+    }
+
+
+    handleCheckChange(event){
+        const multi_choice = this.state.survey.multi_choice;
+        this.setState({
+            survey: {
+                ...this.state.survey,
+                multi_choice: !multi_choice
+            }
+        })
     }
 
 
@@ -477,6 +491,18 @@ class PollsManagement extends Component{
                                 multiline
                                 rows="3"
                             />   
+                        </Grid>
+                        <Grid container direction="row">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={survey.multi_choice}
+                                        onChange={() => this.handleCheckChange()}
+                                        color="primary"
+                                    />
+                                }
+                                label="Choix multiple ?"
+                            />
                         </Grid>
                         <Grid container direction="row" justify="center" alignItems="center">
                             <Button 
