@@ -11,6 +11,7 @@ import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
 import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
 import Footer from '../components/Footer';
+import IndexPolls from '../components/home/IndexPolls';
 
 
 class Home extends React.Component {
@@ -46,6 +47,14 @@ class Home extends React.Component {
 						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Calendrier</legend>
 							<Calendar />
+						</fieldset>
+					</Container>
+
+
+					<Container className={classes.container}>
+						<fieldset className={classes.component} style={{minWidth: 1}}>
+							<legend className={classes.legend}>Sondages</legend>
+							<IndexPolls />
 						</fieldset>
 					</Container>
 
