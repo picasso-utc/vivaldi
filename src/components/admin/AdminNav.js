@@ -73,16 +73,16 @@ const CATEGORIES = [
 			{id: 'Paramètres', link: '/admin/settings'},
 		]
 	},
-	// {
-	// 	id: 'Télés',
-	// 	icon: <LiveTvIcon/>,
-	// 	authorized: Auth.isUserMember,
-	// 	children: [
-	// 		{id: 'Gestion des télés', link: '/admin/tv/media'},
-	// 		{id: 'Média', link: '/admin/tv/media'},
-	// 		{id: 'URL', link: '/admin/semesters'},
-	// 	]
-	// }
+	{
+		id: 'Télés',
+		icon: <LiveTvIcon/>,
+		authorized: Auth.isUserAdmin,
+		children: [
+			{id: 'Configuration', link: '/admin/tv/config'},
+			{id: 'Média', link: '/admin/tv/media'},
+			{id: 'URL', link: '/admin/tv/url'},
+		]
+	}
 ];
 
 function AdminDrawer(props) {
