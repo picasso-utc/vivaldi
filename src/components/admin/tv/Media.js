@@ -13,8 +13,17 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-
-import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import CardMedia from '@material-ui/core/CardMedia';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {URL, asset_url} from '../../../utils/Config';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { ajaxGet, ajaxPost, ajaxPatch, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
 
 class Media extends Component{
  
@@ -24,17 +33,21 @@ class Media extends Component{
 
         this.state = {
             medias : [],
-            new_media : {
-
+            media : {
+                name: '',
+                media_type: 'I',
+                media: '',
+                activate: false,
+                times: 1,
             },
             users : [],
             new_user : {
                 login: '',
                 right: 'M'
             },
-            page: 0,
-            rowsPerPage: 5,
-            autoCompleteUsers: [],
+            mode : 'create',
+            file_loading: false,
+            open_modal : false,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -45,17 +58,8 @@ class Media extends Component{
     }
 
 
-    handleChange(event){
-        this.setState({
-            new_media: {
-                ...this.state.new_media,
-                [event.target.name]: event.target.value
-            }
-        })
-    }
-
     loadMedias(){
-        ajaxGet('tv/media').then(res => {
+        ajaxGet('tv/media/').then(res => {
             this.setState({medias: res.data})
         })
         .catch(error => {
@@ -63,27 +67,142 @@ class Media extends Component{
         })
     }
 
+    reloadNewMedia = () => {
+        this.setState({media: {
+            name: '',
+            media_type: 'I',
+            media: '',
+            activate: false,
+            times: 1,      
+        }, mode: 'create'})
+    }
 
-    saveMedia(){
-        //Traiter le cas où user déjà présent
-        // ajaxPost('users/', this.state.new_user).then(res => {
-        //     const new_user = res.data.user;
-        //     let users = this.state.users;
-        //     // On vérifie que l'utilisateur n'est pas déjà dans le tableau
-        //     const index = users.findIndex(u => u.login === new_user.login);
-        //     if (index >= 0) {
-        //         users[index] = new_user;
-        //     } else {
-        //         users.push(new_user);
-        //     }
-        //     this.setState({users: users})
-        // })
-        // .catch(res => {
 
-        // })
-        // this.setState({
-        //     new_user : {login: '', right: 'M'}
-        // });
+    selectMedia = (event, media) => {
+        if(media.media){
+            media.media = URL + '/media/' + media.media;
+        }
+        this.setState({media: media, mode: 'edit'})
+        this.handleModalClickOpen();
+    }
+
+    
+    handleChange(event){
+        this.setState({
+            media: {
+                ...this.state.media,
+                [event.target.name]: event.target.value
+            }
+        })
+    };
+
+
+    handleFileChange(e) {
+        this.setState({file_loading: true})
+        const file = e.target.files[0];
+        let media_type = ""
+        if (file.type.includes('video')) {
+            media_type = "V";
+        } else if (file.type.includes('image')){
+            media_type = "I";
+        } else {
+            // Only accept video and image files
+            return;
+        }
+        const reader = new FileReader();
+        let media = null;
+        reader.readAsDataURL(file);   
+        reader.onloadend = () => {
+            media = reader.result;
+            this.setState({
+                media: {
+                    ...this.state.media,
+                    media: media,
+                    media_type: media_type,
+                    new_media: file,
+                },
+                file_loading: false
+            })
+        }
+    }
+
+
+    handleModalClickOpen = () => {
+        this.setState({open_modal: true})
+    }
+
+    handleModalClickClose = () => {
+        this.setState({open_modal: false})
+        this.loadMedias();
+        this.reloadNewMedia();
+    };
+
+    
+    changeMediaActivation(event, media_index){
+        let medias = this.state.medias;
+        medias[media_index].activate = !medias[media_index].activate;
+        ajaxPatch('tv/media/' + medias[media_index].id + '/', {activate: medias[media_index].activate}).then((res) => {
+            this.setState({medias: medias})
+        })
+    }
+    
+
+
+    saveMedia(media){
+        const ajax_media = {
+            name: media.name,
+            times: media.times,
+            media_type: media.media_type
+        }
+        if(this.state.mode == "create"){
+            ajax_media.media = null;
+            ajaxPost('tv/media/', ajax_media).then((res) => {  
+                this.setState({
+                    media: {
+                        ...this.state.media,
+                        id: res.data.id
+                    },
+                    mode: "edit",
+                })
+                this.fileUpload(media.new_media, res.data.id)
+            })
+            .catch((error) => {
+                console.log(error);
+            })  
+        } else if (this.state.mode == "edit"){
+            ajaxPatch('tv/media/' + media.id + '/', ajax_media).then((res) => {
+                if (media.new_media) {
+                    this.fileUpload(media.new_media, res.data.id)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            }) 
+        }
+    }
+
+    fileUpload = async (file, id) => {
+        const fd = new FormData();
+        fd.append('media', file);
+        ajaxPatch('tv/media/' + id + '/', fd).then(() => {
+        })
+        .catch(errors => {
+        });
+    };
+
+
+    deleteMedia(index){
+        console.log(index)
+        // console.log()
+        const media_id = this.state.medias[index].id
+        ajaxDelete('tv/media/' + media_id + '/').then(() => {
+            let medias = this.state.medias;
+            medias = medias.filter(m => m.id !== media_id)
+            this.setState({medias: medias})
+        })
+        .catch((error) => {
+
+        })
     }
 
         
@@ -92,93 +211,228 @@ class Media extends Component{
         
         const { classes } = this.props;
 
-        const {medias, new_media} = this.state;
+        const {medias, open_modal, media, mode, file_loading} = this.state;
 
 
         return (
             <div className={classes.container}>
-                {/* <Typography variant="h5" noWrap className={classes.subTitle}>
+                <Typography variant="h5" noWrap className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Ajouter un nouvel média
+                    Médias
+                    <Button 
+                        variant="contained"
+                        margin="dense" 
+                        size="small" 
+                        className={classes.add_item} 
+                        color="primary"
+                        onClick={(e) => this.handleModalClickOpen()}
+                    >
+                        Nouveau
+                    </Button>
                 </Typography>
-                <Grid container>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            label="Nom"
-                            className={classes.textField}
-                            name="name"
-                            value={new_media.name}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            label="Nom"
-                            className={classes.textField}
-                            name="name"
-                            value={new_media.name}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={4} sm={2}>
-                        <Button variant="outlined" color="primary" className={classes.addButton} size="large" onClick={this.saveMedia}>
-                            Ajouter
-                        </Button>
-                    </Grid>
-                </Grid> */}
-                
-                {/* <Typography variant="h5" noWrap className={classes.subTitle}>
-                    <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Liste des médias
-                </Typography> */}
-                <Paper className={classes.rootTable}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className={classes.cell}>
-                                    Nom
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    URL
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    Actions
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {medias.map((row, index) => (
-                                <TableRow hover key={index} className={classes.row}>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.name}
+                <Grid container direction="row">
+                    <Paper className={classes.rootTable}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell className={classes.cell}>
+                                        Nom
                                     </TableCell>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.media}
+                                    <TableCell className={classes.cell}>
+                                        URL
                                     </TableCell>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
-                                        
-                                        <Button 
-                                            variant="outlined" 
-                                            size="small" 
-                                            className={classes.btn} 
-                                            // onClick={(e) => this.downgradeUser(e, row)}
-                                        >
-                                            Rétrograder
-                                        </Button>
-                                    
-                                        
+                                    <TableCell className={classes.cell}>
+                                        Activé ?
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        Répétition
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        Actions
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Paper>
+                            </TableHead>
+                            <TableBody>
+                                {medias.map((row, index) => (
+                                    <TableRow hover key={index} className={classes.row}>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            {row.media}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            {row.activate? (
+                                                <CheckIcon/>
+                                            ):(
+                                                <CloseIcon/>
+                                            )}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            <span>
+                                                {row.times}
+                                                {row.media_type == "I" && 
+                                                    "s"
+                                                }
+                                                {row.media_type == "V" && 
+                                                    " fois"
+                                                }
+                                            </span>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            
+                                            <Button 
+                                                color="primary"
+                                                variant="contained" 
+                                                margin="dense"
+                                                size="small"
+                                                className={classes.btn} 
+                                                onClick={(e) => this.selectMedia(e, row)}
+                                            >
+                                                Consulter
+                                            </Button>
+                                            {row.activate ? (
+                                                <Button 
+                                                    color="secondary"
+                                                    variant="contained" 
+                                                    margin="dense"
+                                                    size="small"
+                                                    className={classes.btn} 
+                                                    onClick={(e) => this.changeMediaActivation(e, index)}
+                                                >
+                                                    Désactiver
+                                                </Button>
+                                            ):(
+                                                <Button 
+                                                    size="small" 
+                                                    color="primary"
+                                                    variant="contained" 
+                                                    margin="dense"
+                                                    className={classes.btn} 
+                                                    onClick={(e) => this.changeMediaActivation(e, index)}
+                                                >
+                                                    Activer
+                                                </Button>
+                                            )}
+                                            <Button 
+                                                color="secondary"
+                                                variant="contained" 
+                                                margin="dense"
+                                                size="small"
+                                                className={classes.btn} 
+                                                onClick={(e) => this.deleteMedia(index)}
+                                            >
+                                                Supprimer
+                                            </Button>
+                                            
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </Grid>
+                <Dialog 
+                    onClose={this.handleModalClickClose} 
+                    open={open_modal} 
+                    maxWidth="lg"
+                    width="lg"
+                    scroll="body"
+                >
+                    <DialogTitle onClose={this.handleModalClickClose}>
+                        {mode === "edit"? (
+                            <span>Média : {media.name}</span>
+                        ):
+                        (
+                            <span>Ajouter un nouveau média</span>
+                        )}
+                    </DialogTitle>
+                    <DialogContent>
+                        <Grid 
+                            container 
+                            className={classes.loader}
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            {file_loading?(
+                                <Grid item>
+                                    <CircularProgress className={classes.progress} />
+                                </Grid>
+                            ):(
+                                <React.Fragment>
+                                    {media.media_type == "I" && 
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={media.media ? media.media : '/images/default_image.png'}
+                                        />
+                                    }
+                                    {media.media_type == "V" && 
+                                        <CardMedia
+                                            component="video"
+                                            className={classes.media}
+                                            src={media.media}
+                                        />
+                                    }
+                                    <Grid container direction="row" justify="center" alignItems="center">
+                                        <input
+                                            accept="image/*;video/*"
+                                            className={classes.input_file}
+                                            id="contained-button-file"
+                                            type="file"
+                                            onChange={(event) => this.handleFileChange(event)}
+                                            name="media"
+                                        />
+                                        <label htmlFor="contained-button-file">
+                                            <Button 
+                                                variant="contained" 
+                                                component="span" 
+                                                className={classes.upload_button}
+                                                name="media"
+                                            >
+                                                Média
+                                            </Button>
+                                        </label>
+                                    </Grid>
+                                </React.Fragment>
+                            )}
+                        </Grid>
+                        <Grid container direction="row">
+                            <TextField
+                                label="Nom"
+                                className={classes.textField}
+                                value={media.name}
+                                onChange={this.handleChange}
+                                name="name"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                            />
+                            <TextField
+                                label="Répétition"
+                                className={classes.textField}
+                                value={media.times}
+                                onChange={this.handleChange}
+                                name="times"
+                                type="number"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                            />   
+                        </Grid>
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Button 
+                                onClick={() => this.saveMedia(media)} 
+                                variant="contained" 
+                                color="primary"
+                                margin="dense"
+                                size="small"
+                            >
+                                Enregistrer
+                            </Button>
+                        </Grid>
+                    </DialogContent>
+                </Dialog>
             </div>
         );
     };
@@ -196,60 +450,29 @@ const styles = theme => ({
         marginTop: 100,
         border: "1.5px solid #B22132",
     },
-    // paper: {
-    //     padding: 10
-    // },
-    // note: {
-    //     backgroundColor: 'rgba(0,0,0, 0.05)',
-    //     padding: 10
-    // },
-    // textField: {
-    //     marginTop: 16,
-    //     paddingRight: 15,
-    //     width: "100%",
-    // },
-    // suggestions: {
-    //     zIndex: 100,
-    //     position: 'absolute',
-    //     maxHeight: 200,
-    //     overflowY: 'scroll',
-    //     marginRight: 15,
-    // },
-    // suggestionItem: {
-    //     paddingLeft: 15,
-    //     paddingBottom: 0,
-    //     paddingTop: 0,
-    //     fontSize: 14,
-    //     minHeight: 30,
-    // },
-    // addButton: {
-    //     marginTop: 16,
-    //     marginBottom: 8,
-    //     height: 49,
-    //     width: "100%",
-    // },
-    // subTitle: {
-    //     marginTop: 10,
-    //     marginBottom: 10,
-    // },
-    // subTitleIcon: {
-    //     marginRight: 8,
-    //     paddingTop: 5,
-    // },
-    // row: {
-    //     height: 40,
-    // },
-    // cell: {
-    //     paddingTop: 10,
-    //     paddingBottom: 10,
-    //     paddingRight: 10,
-    //     paddingLeft: 10,
-    // },
-    // btn: {
-    //     marginLeft: 5,
-    //     marginRight: 5,
-    //     marginTop: 3,
-    // },
+    media: {
+        height: 150,
+        backgroundSize: 'contain',
+    },
+    input_file:{
+        display: 'None',
+    },
+    upload_button : {
+        marginTop: 15
+    },
+    subTitle: {
+        marginBottom: 40,
+    },
+    subTitleIcon: {
+        marginRight: 8,
+        paddingTop: 5,
+    },
+    add_item : {
+        marginLeft: 10,
+    },
+    btn : {
+        margin: 5,
+    },
 });
 
 export default withStyles (styles) (Media)
