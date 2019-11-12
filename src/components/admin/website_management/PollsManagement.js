@@ -257,7 +257,7 @@ class PollsManagement extends Component{
             if (surveyitem_set[index].image.startsWith('http')) {
                 let request = new XMLHttpRequest();
                 const that = this
-                request.open('GET', URL + '/media/' + surveyitem_set[index].image, true);
+                request.open('GET', surveyitem_set[index].image, true);
                 request.responseType = 'blob';
                 request.onload = function() {
                     var reader = new FileReader();
