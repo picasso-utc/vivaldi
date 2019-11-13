@@ -12,8 +12,8 @@ axios.interceptors.response.use( (response) => {
     switch (error.response.status) {
         case 403:
             if (uncaught_path.indexOf(window.location.pathname)==-1) {
-                const redirection = '/login?redirect=' + window.location.pathname;
-                window.location.href = redirection;
+                const redirection = asset_url('/login?redirect=' + window.location.pathname);
+                window.location = redirection;
             }
             break;
         default:
