@@ -15,9 +15,9 @@ class TV extends React.Component {
             media : [],
             params : {
                 media_type: "I",
-                index: 0,
+                index: -1,
                 times: '',
-            }
+            },
         }
 	}
 
@@ -50,7 +50,7 @@ class TV extends React.Component {
             return null;
         }
         let index = this.state.params.index;
-        index = (index + 1)%(this.state.media.length);
+        index = (index + 1)%this.state.media.length;
         const media_to_dispaly = this.state.media[index];
         const params = {
             index: index,
@@ -75,19 +75,25 @@ class TV extends React.Component {
         })
     }
 
-    endVideo(event){
-        let times = this.state.params.times;
-        if (times <= 1) {
-            this.displayMedia();
+
+    endVideo(event, index){
+        if(index == this.state.params.index){
+            let times = this.state.params.times;
+            if (times <= 1) {
+                this.displayMedia();
+                event.target.play();
+            } else {
+                this.setState({
+                    params:{
+                        ...this.state.params,
+                        times: times-1
+                    }
+                });
+                event.target.play();
+            }
         } else {
-            this.setState({
-                params:{
-                    ...this.state.params,
-                    times: times-1
-                }
-            });
             event.target.play();
-        }
+        }   
     }
 
 
@@ -97,25 +103,53 @@ class TV extends React.Component {
         const { params, media } = this.state;
 
 		return (
-            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', 
-                        flex: 1, height: '100vh', background: '#000', position: 'absolute', top:0, left: 0, right: 0, bottom: 0}}>
-                    { media.length > 0 &&
-                        <React.Fragment>
-                            {params.media_type === "I" &&
-                                <img src={URL + '/media/' + media[params.index].media} style={{maxWidth: '100vw', maxHeight: '100vh'}}/>
+            
+            <React.Fragment>
+                {media.map((m, index) => (
+                    <React.Fragment>
+                        
+                            {m.media_type === "I" &&
+                                <div style={index == params.index ?
+                                    {display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, height: '100vh', 
+                                    background: '#000', position: 'absolute', top:0, left: 0, right: 0, bottom: 0}
+                                    : {display: 'None'}
+                                }>
+                                    <img 
+                                        src={URL + '/media/' + m.media} 
+                                        style={index == params.index ? 
+                                            {maxWidth: '100vw', maxHeight: '100vh'}
+                                            : {maxWidth: '100vw', maxHeight: '100vh', display : 'none'}
+                                        }
+                                    />
+                                </div>
                             }
-                            {params.media_type === "V" &&
-                                <video 
-                                    src={URL + '/media/' + media[params.index].media} 
-                                    autoPlay
-                                    muted 
-                                    style={{maxWidth: '100vw', maxHeight: '100vh'}}
-                                    onEnded={(e) => this.endVideo(e)}
-                                />
+                            {m.media_type === "V" &&
+                                <div style={index == params.index ?
+                                    {display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, height: '100vh', background: '#000',
+                                    position: 'absolute', top:0, left: 0, right: 0, bottom: 0}
+                                    : {display: 'none'}    
+                                }>
+                                    <video 
+                                        src={URL + '/media/' + m.media} 
+                                        muted 
+                                        autoPlay
+                                        onTimeUpdate={(e) => {
+                                            if (index != params.index) {
+                                                e.target.currentTime = 0;
+                                            }
+                                            
+                                        }}
+                                        style={index == params.index ? 
+                                            {maxWidth: '100vw', maxHeight: '100vh'}
+                                            : {maxWidth: '100vw', maxHeight: '100vh', display : 'none'}
+                                        }
+                                        onEnded={(e) => this.endVideo(e, index)}
+                                    />
+                                </div>
                             }
                         </React.Fragment>
-                    }
-            </div>         
+                    ))}
+            </React.Fragment>         
 		);
 	}
 }
