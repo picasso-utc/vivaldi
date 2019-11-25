@@ -168,7 +168,7 @@ class Poll extends React.Component {
                                 <div className={classes.root_items}>
                                     <GridList className={classes.gridList} cols={2.5}>
                                         {survey.surveyitem_set.map((item, item_index) => (
-                                            <GridListTile key={item_index} style={{height: '100%', minWidth: 150}}>
+                                            <GridListTile key={item_index} style={{height: '100%', minWidth: 150, maxWidth: 300}}>
                                                 <Card className={classes.card}>
                                                     <Grid container direction="row" justify="center" alignItems="center">
                                                         <Typography variant="body1" className={classes.subTitle}>
@@ -244,7 +244,7 @@ const styles = theme => ({
         height: '100vh',
     },
     survey_img : {
-        height: 125,
+        height: 140,
         borderRadius: 5,
     },
 	header : {
@@ -304,7 +304,7 @@ const styles = theme => ({
         marginBottom: 15
     },
     item_img: {
-        height: 75,
+        height: 90,
         borderRadius: 5,
         backgroundSize: 'contain',
     },
@@ -321,6 +321,7 @@ const styles = theme => ({
     gridList: {
         flexWrap: 'nowrap',
         transform: 'translateZ(0)',
+        width: '100%'
     },
     voted_item : {
         backgroundColor : '#43A047',
