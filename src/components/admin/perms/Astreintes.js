@@ -216,10 +216,10 @@ class Astreintes extends Component{
                         ))}
                     </tbody>
                 </table>
-                <button onClick={this.goNextWeek}>
+                <button onClick={this.goPreviousWeek}>
                     Semaine précédente
                 </button>
-                <button onClick={this.goPreviousWeek}>
+                <button onClick={this.goNextWeek}>
                     Semaine suivante
                 </button>
             </div>
