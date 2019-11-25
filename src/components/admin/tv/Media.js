@@ -192,8 +192,6 @@ class Media extends Component{
 
 
     deleteMedia(index){
-        console.log(index)
-        // console.log()
         const media_id = this.state.medias[index].id
         ajaxDelete('tv/media/' + media_id + '/').then(() => {
             let medias = this.state.medias;
