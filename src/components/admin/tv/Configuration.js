@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
-import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxPut } from '../../../utils/Ajax';
 
 class Configuration extends Component{
  
@@ -23,39 +23,27 @@ class Configuration extends Component{
         super(props)
 
         this.state = {
-            links : [],
-            new_media : {
-
-            },
-            users : [],
-            new_user : {
-                login: '',
-                right: 'M'
-            },
-            page: 0,
-            rowsPerPage: 5,
-            autoCompleteUsers: [],
+            tvs : [],
+            links: [],
         }
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount(){
         this.loadTVs();
     }
 
-
-    handleChange(event){
-        this.setState({
-            new_media: {
-                ...this.state.new_media,
-                [event.target.name]: event.target.value
-            }
+    loadTVs(){
+        ajaxGet('tvs/').then(res => {
+            this.setState({tvs: res.data})
+            this.loadLinks();
+        })
+        .catch(error => {
+            console.log(error)
         })
     }
 
-    loadTVs(){
-        ajaxGet('tvs/').then(res => {
+    loadLinks(){
+        ajaxGet('tv/links/').then(res => {
             this.setState({links: res.data})
         })
         .catch(error => {
@@ -64,122 +52,68 @@ class Configuration extends Component{
     }
 
 
-    saveMedia(){
-        //Traiter le cas où user déjà présent
-        // ajaxPost('users/', this.state.new_user).then(res => {
-        //     const new_user = res.data.user;
-        //     let users = this.state.users;
-        //     // On vérifie que l'utilisateur n'est pas déjà dans le tableau
-        //     const index = users.findIndex(u => u.login === new_user.login);
-        //     if (index >= 0) {
-        //         users[index] = new_user;
-        //     } else {
-        //         users.push(new_user);
-        //     }
-        //     this.setState({users: users})
-        // })
-        // .catch(res => {
-
-        // })
-        // this.setState({
-        //     new_user : {login: '', right: 'M'}
-        // });
+    handleChangeLink(event, tv_index){
+        let tvs = this.state.tvs;
+        const links = this.state.links
+        const link_index = links.findIndex(l => l.name == event.target.value);
+        if (link_index >= 0) {
+            tvs[tv_index].link = links[link_index];
+            tvs[tv_index].link_id = links[link_index].id;
+            this.setState({tvs: tvs});
+            ajaxPut('tvs/' + tvs[tv_index].id + '/', tvs[tv_index]).then(res => {
+                
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+        
     }
-
         
 
     render(){
         
         const { classes } = this.props;
 
-        const {links, new_media} = this.state;
+        const {links, tvs} = this.state;
 
 
         return (
             <div className={classes.container}>
-                {/* <Typography variant="h5" noWrap className={classes.subTitle}>
+                <Typography variant="h5" noWrap className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Ajouter un nouvel média
+                    Gestion des télés
                 </Typography>
-                <Grid container>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            label="Nom"
-                            className={classes.textField}
-                            name="name"
-                            value={new_media.name}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            label="Nom"
-                            className={classes.textField}
-                            name="name"
-                            value={new_media.name}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={4} sm={2}>
-                        <Button variant="outlined" color="primary" className={classes.addButton} size="large" onClick={this.saveMedia}>
-                            Ajouter
-                        </Button>
-                    </Grid>
-                </Grid> */}
                 
-                {/* <Typography variant="h5" noWrap className={classes.subTitle}>
-                    <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Liste des médias
-                </Typography> */}
-                <Paper className={classes.rootTable}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className={classes.cell}>
-                                    Nom
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    URL
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    Actions
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {links.map((row, index) => (
-                                <TableRow hover key={index} className={classes.row}>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.link.url}
-                                    </TableCell>
+                {tvs.map((row, index) => (
+                    <Paper className={classes.tv_paper} xs={6} key={index}>
+                        <Grid container direction="row" key={index}>
+                            <Grid item xs={12}>
+                                <Typography variant="h5" noWrap className={classes.subTitle}>
+                                    {row.name}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    select
+                                    className={classes.textField}
+                                    name="link_id"
+                                    value={row.link.name || ''}
+                                    autoComplete="off"
+                                    fullWidth
+                                    onChange={(event) => this.handleChangeLink(event, index)}
+                                    margin="normal"
                                     
-                                    <TableCell component="th" scope="row" className={classes.cell}>
-                                        
-                                        <Button 
-                                            variant="outlined" 
-                                            size="small" 
-                                            className={classes.btn} 
-                                            // onClick={(e) => this.downgradeUser(e, row)}
-                                        >
-                                            Rétrograder
-                                        </Button>
-                                    
-                                        
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Paper>
+                                >
+                                    {links.map(link => (
+                                        <MenuItem key={link.id} value={link.name}>
+                                            {link.name} ({link.url})
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                ))}
             </div>
         );
     };
@@ -197,60 +131,10 @@ const styles = theme => ({
         marginTop: 100,
         border: "1.5px solid #B22132",
     },
-    // paper: {
-    //     padding: 10
-    // },
-    // note: {
-    //     backgroundColor: 'rgba(0,0,0, 0.05)',
-    //     padding: 10
-    // },
-    // textField: {
-    //     marginTop: 16,
-    //     paddingRight: 15,
-    //     width: "100%",
-    // },
-    // suggestions: {
-    //     zIndex: 100,
-    //     position: 'absolute',
-    //     maxHeight: 200,
-    //     overflowY: 'scroll',
-    //     marginRight: 15,
-    // },
-    // suggestionItem: {
-    //     paddingLeft: 15,
-    //     paddingBottom: 0,
-    //     paddingTop: 0,
-    //     fontSize: 14,
-    //     minHeight: 30,
-    // },
-    // addButton: {
-    //     marginTop: 16,
-    //     marginBottom: 8,
-    //     height: 49,
-    //     width: "100%",
-    // },
-    // subTitle: {
-    //     marginTop: 10,
-    //     marginBottom: 10,
-    // },
-    // subTitleIcon: {
-    //     marginRight: 8,
-    //     paddingTop: 5,
-    // },
-    // row: {
-    //     height: 40,
-    // },
-    // cell: {
-    //     paddingTop: 10,
-    //     paddingBottom: 10,
-    //     paddingRight: 10,
-    //     paddingLeft: 10,
-    // },
-    // btn: {
-    //     marginLeft: 5,
-    //     marginRight: 5,
-    //     marginTop: 3,
-    // },
+    tv_paper : {
+        margin: 20,
+        padding: 10,
+    }
 });
 
 export default withStyles (styles) (Configuration)
