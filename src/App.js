@@ -12,6 +12,8 @@ import Menu from './components/Menu';
 import Error404 from './pages/Error404';
 import ProtectedRoute from './utils/ProtectedRoute';
 import TV from './pages/TV';
+import TVContent from './pages/TVContent';
+import TVMenu from './pages/TVMenu';
 import Poll from './pages/Poll';
 
 const PUBLIC_URL = process.env.PUBLIC_URL;
@@ -29,6 +31,8 @@ class App extends React.Component {
 					<Route path="/poll/:id" exact component={Poll}/>
 					<Route path="/menu" component={Menu} />
 					<Route path="/tv" exact component={TV}/>
+					<Route path="/tv/content" exact component={TVContent}/>
+					<Route path="/tv/menu" exact component={TVMenu}/>
 					<Route component={Error404}/>
 				</Switch>
 			</BrowserRouter>
