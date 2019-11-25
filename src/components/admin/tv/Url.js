@@ -13,8 +13,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
 
 class Url extends Component{
  
@@ -24,17 +27,11 @@ class Url extends Component{
 
         this.state = {
             links : [],
-            new_media : {
-
+            link : {
+                name: '',
+                url: '',
             },
-            users : [],
-            new_user : {
-                login: '',
-                right: 'M'
-            },
-            page: 0,
-            rowsPerPage: 5,
-            autoCompleteUsers: [],
+            mode: 'create',
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -47,11 +44,27 @@ class Url extends Component{
 
     handleChange(event){
         this.setState({
-            new_media: {
-                ...this.state.new_media,
+            link: {
+                ...this.state.link,
                 [event.target.name]: event.target.value
             }
         })
+    }
+
+    handleModalClickOpen = () => {
+        this.setState({open_modal: true})
+    }
+
+    handleModalClickClose = () => {
+        this.setState({open_modal: false})
+        this.loadLinks();
+        this.reloadNewLink();
+    };
+
+
+    selectLink = (event, link) => {
+        this.setState({link: link, mode: 'edit'})
+        this.handleModalClickOpen();
     }
 
     loadLinks(){
@@ -63,27 +76,49 @@ class Url extends Component{
         })
     }
 
+    reloadNewLink(){
+        this.setState({link: {
+            name: '',
+            url: '',     
+        }, mode: 'create'})
+    }
 
-    saveMedia(){
-        //Traiter le cas où user déjà présent
-        // ajaxPost('users/', this.state.new_user).then(res => {
-        //     const new_user = res.data.user;
-        //     let users = this.state.users;
-        //     // On vérifie que l'utilisateur n'est pas déjà dans le tableau
-        //     const index = users.findIndex(u => u.login === new_user.login);
-        //     if (index >= 0) {
-        //         users[index] = new_user;
-        //     } else {
-        //         users.push(new_user);
-        //     }
-        //     this.setState({users: users})
-        // })
-        // .catch(res => {
 
-        // })
-        // this.setState({
-        //     new_user : {login: '', right: 'M'}
-        // });
+    saveLink(){
+        const link = this.state.link
+        if(this.state.mode == "create"){
+            ajaxPost('tv/links/', link).then((res) => {  
+                this.setState({
+                    link: {
+                        ...this.state.link,
+                        id: res.data.id
+                    },
+                    mode: "edit",
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })  
+        } else if (this.state.mode == "edit"){
+            ajaxPut('tv/links/' + link.id + '/', link).then((res) => {
+            })
+            .catch((error) => {
+                console.log(error);
+            }) 
+        }
+    }
+
+
+    deleteLink(index){
+        const link_id = this.state.links[index].id
+        ajaxDelete('tv/links/' + link_id + '/').then(() => {
+            let links = this.state.links;
+            links = links.filter(l => l.id !== link_id)
+            this.setState({links: links})
+        })
+        .catch((error) => {
+
+        })
     }
 
         
@@ -92,51 +127,25 @@ class Url extends Component{
         
         const { classes } = this.props;
 
-        const {links, new_media} = this.state;
+        const {links, link, mode, open_modal} = this.state;
 
 
         return (
             <div className={classes.container}>
-                {/* <Typography variant="h5" noWrap className={classes.subTitle}>
+                <Typography variant="h5" noWrap className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Ajouter un nouvel média
+                    Liste des URLs
+                    <Button 
+                        variant="contained"
+                        margin="dense" 
+                        size="small" 
+                        className={classes.add_item} 
+                        color="primary"
+                        onClick={(e) => this.handleModalClickOpen()}
+                    >
+                        Nouveau
+                    </Button>
                 </Typography>
-                <Grid container>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            label="Nom"
-                            className={classes.textField}
-                            name="name"
-                            value={new_media.name}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={5}>
-                        <TextField
-                            label="Nom"
-                            className={classes.textField}
-                            name="name"
-                            value={new_media.name}
-                            onChange={this.handleChange}
-                            autoComplete="off"
-                            margin="dense"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={4} sm={2}>
-                        <Button variant="outlined" color="primary" className={classes.addButton} size="large" onClick={this.saveMedia}>
-                            Ajouter
-                        </Button>
-                    </Grid>
-                </Grid> */}
-                
-                {/* <Typography variant="h5" noWrap className={classes.subTitle}>
-                    <ChevronRightIcon className={classes.subTitleIcon}/>
-                    Liste des médias
-                </Typography> */}
                 <Paper className={classes.rootTable}>
                     <Table>
                         <TableHead>
@@ -162,23 +171,83 @@ class Url extends Component{
                                         {row.url}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        
                                         <Button 
-                                            variant="outlined" 
-                                            size="small" 
+                                            color="primary"
+                                            variant="contained" 
+                                            margin="dense"
+                                            size="small"
                                             className={classes.btn} 
-                                            // onClick={(e) => this.downgradeUser(e, row)}
+                                            onClick={(e) => this.selectLink(e, row)}
                                         >
-                                            Rétrograder
+                                            Consulter
                                         </Button>
-                                    
-                                        
+                                        <Button 
+                                            color="secondary"
+                                            variant="contained" 
+                                            margin="dense"
+                                            size="small"
+                                            className={classes.btn} 
+                                            onClick={(e) => this.deleteLink(index)}
+                                        >
+                                            Supprimer
+                                        </Button>                                        
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </Paper>
+                <Dialog 
+                    onClose={this.handleModalClickClose} 
+                    open={open_modal} 
+                    maxWidth="lg"
+                    width="lg"
+                    scroll="body"
+                >
+                    <DialogTitle onClose={this.handleModalClickClose}>
+                        {mode === "edit"? (
+                            <span>Lien : {link.name}</span>
+                        ):
+                        (
+                            <span>Ajouter un nouveau lien</span>
+                        )}
+                    </DialogTitle>
+                    <DialogContent>
+                        <Grid container direction="row">
+                            <TextField
+                                label="Nom"
+                                className={classes.textField}
+                                value={link.name}
+                                onChange={this.handleChange}
+                                name="name"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                            />
+                            <TextField
+                                label="URL"
+                                className={classes.textField}
+                                value={link.url}
+                                onChange={this.handleChange}
+                                name="url"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                            />   
+                        </Grid>
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Button 
+                                onClick={() => this.saveLink()} 
+                                variant="contained" 
+                                color="primary"
+                                margin="dense"
+                                size="small"
+                            >
+                                Enregistrer
+                            </Button>
+                        </Grid>
+                    </DialogContent>
+                </Dialog>
             </div>
         );
     };
@@ -196,60 +265,19 @@ const styles = theme => ({
         marginTop: 100,
         border: "1.5px solid #B22132",
     },
-    // paper: {
-    //     padding: 10
-    // },
-    // note: {
-    //     backgroundColor: 'rgba(0,0,0, 0.05)',
-    //     padding: 10
-    // },
-    // textField: {
-    //     marginTop: 16,
-    //     paddingRight: 15,
-    //     width: "100%",
-    // },
-    // suggestions: {
-    //     zIndex: 100,
-    //     position: 'absolute',
-    //     maxHeight: 200,
-    //     overflowY: 'scroll',
-    //     marginRight: 15,
-    // },
-    // suggestionItem: {
-    //     paddingLeft: 15,
-    //     paddingBottom: 0,
-    //     paddingTop: 0,
-    //     fontSize: 14,
-    //     minHeight: 30,
-    // },
-    // addButton: {
-    //     marginTop: 16,
-    //     marginBottom: 8,
-    //     height: 49,
-    //     width: "100%",
-    // },
-    // subTitle: {
-    //     marginTop: 10,
-    //     marginBottom: 10,
-    // },
-    // subTitleIcon: {
-    //     marginRight: 8,
-    //     paddingTop: 5,
-    // },
-    // row: {
-    //     height: 40,
-    // },
-    // cell: {
-    //     paddingTop: 10,
-    //     paddingBottom: 10,
-    //     paddingRight: 10,
-    //     paddingLeft: 10,
-    // },
-    // btn: {
-    //     marginLeft: 5,
-    //     marginRight: 5,
-    //     marginTop: 3,
-    // },
+    subTitle: {
+        marginBottom: 40,
+    },
+    subTitleIcon: {
+        marginRight: 8,
+        paddingTop: 5,
+    },
+    add_item : {
+        marginLeft: 10,
+    },
+    btn : {
+        margin: 5,
+    },
 });
 
 export default withStyles (styles) (Url)
