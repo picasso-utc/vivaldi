@@ -19,7 +19,7 @@ class TVContent extends React.Component {
 
 	componentDidMount(){
         this.loadOrders();
-        setInterval(() => this.loadOrders(), 1000);
+        setInterval(() => this.loadOrders(), 2000);
     }
 
     loadOrders(){
@@ -105,7 +105,7 @@ const styles = theme => ({
     },
     row_cell : {
         textAlign: 'center',
-        height: 80,
+        height: 65,
     }
 });
 
