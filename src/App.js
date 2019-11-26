@@ -28,7 +28,7 @@ class App extends React.Component {
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
 					<Route path="/charte" exact component={Charte}/>
-					<Route path="/poll/:id" exact component={Poll}/>
+					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
 					<Route path="/menu" component={Menu} />
 					<Route path="/tv" exact component={TV}/>
 					<Route path="/tv/content" exact component={TVContent}/>
