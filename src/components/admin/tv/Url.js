@@ -32,6 +32,7 @@ class Url extends Component{
                 url: '',
             },
             mode: 'create',
+            open_modal: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
