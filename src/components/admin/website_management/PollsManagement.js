@@ -65,7 +65,16 @@ class PollsManagement extends Component{
 
     loadSurveys(){
         ajaxGet('surveys').then(res => {
-            this.setState({surveys: res.data, loading: false});
+            const surveys = res.data;
+            // Count total vote for each surveys
+            for (let index = 0; index < surveys.length; index++) {
+                let total_vote = 0;
+                for (let j = 0; j < surveys[index].surveyitem_set.length; j++) {
+                    total_vote += surveys[index].surveyitem_set[j].surveyitemvote_set.length;
+                }  
+                surveys[index].total_vote = total_vote;              
+            }
+            this.setState({surveys: surveys, loading: false});
         })
         .catch(error => {
             this.setState({loading: false})
@@ -589,6 +598,13 @@ class PollsManagement extends Component{
                                                                 rows="3"
                                                             />
                                                         </Grid>
+                                                        { survey.total_vote > 0 && item.surveyitemvote_set &&
+                                                            <Grid container direction="row">
+                                                                <Typography variant="body1" className={classes.vote_typo}>
+                                                                    Vote : {item.surveyitemvote_set.length}/{survey.total_vote} ({((item.surveyitemvote_set.length/survey.total_vote)*100).toFixed(2)}%)
+                                                                </Typography>
+                                                            </Grid>
+                                                        }
                                                     </CardActionArea>
                                                     <CardActions>
                                                         {item.id &&
@@ -693,6 +709,10 @@ const styles = theme => ({
     },
     modal_title: {
         margin: 15
+    },
+    vote_typo : {
+        marginTop: 10,
+        marginBottom: 10,
     }
 });
 
