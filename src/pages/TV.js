@@ -50,16 +50,20 @@ class TV extends React.Component {
 
 		return (
             
-            <React.Fragment>
+            <div className={classes.root}>
                 {tv.id &&
                     <iframe src={tv.link.url} className={classes.iframe_style}></iframe>
                 }
-            </React.Fragment>         
+            </div>         
 		);
 	}
 }
 
 const styles = theme => ({
+    root : {
+        width: '100%',
+        height: '100vh',
+    },
     iframe_style: {
         width: '100%',
         height: '100vh',
