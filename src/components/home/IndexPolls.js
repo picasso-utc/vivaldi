@@ -35,7 +35,7 @@ class IndexPolls extends React.Component {
 	
 
 	goToPoll(index){
-		const redirection = asset_url("/login?redirect=/poll/" + this.state.surveys[index].id);
+		const redirection = asset_url("/poll/" + this.state.surveys[index].id);
 		window.location = redirection;
 	}
     
