@@ -221,7 +221,12 @@ class Poll extends React.Component {
                                         ))}
                                     </GridList>
                                 </div>
-                            </fieldset>
+                                <Grid container direction="row" justify="center" alignItems="center">
+                                    <Typography className={classes.note}>
+                                        ** Note : Votre vote sera conservée durant la durée du sondage et supprimée par la suite.
+                                    </Typography>
+                                </Grid>
+                            </fieldset>   
                         </Container>
 
 				    </Container>
@@ -332,6 +337,10 @@ const styles = theme => ({
         overflowY: 'overlay',
         fontWeight: 200,
     },
+    note : {
+        fontWeight: 200,
+        fontSize: 10,
+    }
 });
 
 export default withStyles(styles)(Poll)
