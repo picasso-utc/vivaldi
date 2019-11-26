@@ -266,7 +266,8 @@ const styles = theme => ({
 	},
 	component: {
 		marginTop: 30,
-		padding: '5%',
+        padding: '5%',
+        paddingBottom: 20,
 		border: "#B22132 1.5px solid",
 		textAlign: 'center',
 	},
@@ -279,7 +280,7 @@ const styles = theme => ({
     },
     survey_description : {
         marginTop: -30,
-        maxWidth: 300,
+        maxWidth: 500,
         overflowWrap : 'break-word',
         marginBottom: 20,
         fontWeight: 300,
