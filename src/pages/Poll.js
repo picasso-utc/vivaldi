@@ -101,6 +101,17 @@ class Poll extends React.Component {
     }
 
 
+    isThereDescriptionInItems(survey){
+        let found = false;
+        for (let index = 0; index < survey.surveyitem_set.length; index++) {
+            if(survey.surveyitem_set[index].description){
+                found = true;
+            }
+        }
+        return found;
+    }
+
+
     cancelVote(item_index){
         this.setState({vote_loading: true})
         let items = [...this.state.survey.surveyitem_set];
@@ -170,20 +181,29 @@ class Poll extends React.Component {
                                         {survey.surveyitem_set.map((item, item_index) => (
                                             <GridListTile key={item_index} style={{height: '100%', minWidth: 150, maxWidth: 300}}>
                                                 <Card className={classes.card}>
-                                                    <Grid container direction="row" justify="center" alignItems="center">
-                                                        <Typography variant="body1" className={classes.subTitle}>
-                                                            {item.name}
-                                                        </Typography>
-                                                    </Grid>
+                                                    {this.isThereDescriptionInItems(survey) &&
+                                                        <Grid container direction="row" justify="center" alignItems="center">
+                                                            <Typography variant="body1" className={classes.subTitle}>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </Grid> 
+                                                    }
                                                     <img
                                                         className={classes.item_img}
                                                         src={item.image ? `${URL}/media/${item.image}` : asset_url('/images/default_image.png')}
                                                     />
+                                                    {this.isThereDescriptionInItems(survey) ? (
+                                                        <Grid container direction="row" justify="center" alignItems="center">
+                                                            <p className={classes.item_description}>{item.description}</p>
+                                                        </Grid>
+                                                    ):(
+                                                        <Grid container direction="row" justify="center" alignItems="center">
+                                                            <Typography variant="body1" className={classes.subTitle}>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </Grid>
+                                                    )}
                                                     
-                                                    <Grid container direction="row" justify="center" alignItems="center">
-                                                        <p className={classes.item_description}>{item.description}</p>
-                                                    </Grid>
-
                                                     {this.hasVote() && 
                                                         <Grid container direction="row" justify="center" alignItems="center">
                                                             <p>{this.findResult(item.id)}%</p>
