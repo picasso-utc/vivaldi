@@ -1,5 +1,6 @@
 import React from 'react'
 import Container from '@material-ui/core/Container';
+import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import { ajaxGet } from '../utils/Ajax';
@@ -11,6 +12,7 @@ import Card from '@material-ui/core/Card';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Chip from '@material-ui/core/Chip';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {URL, asset_url} from '../utils/Config';
 
 
@@ -146,13 +148,22 @@ class Poll extends React.Component {
 				):(
 				
                     <Container className={classes.root}>
-
+                        <Link to="/" color="inherit" className={classes.exit_link}>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                margin="dense"
+                                className={classes.exit_btn}
+                            >
+                                <ExitToAppIcon className={classes.exit_icon}/> Retour à l'accueil
+                            </Button>
+						</Link>
                         <Container className={classes.container}>
                             <fieldset className={classes.component} style={{minWidth: 1}}>
                                 <legend className={classes.legend}>{survey.title}</legend>
                                     <Grid container direction="row" justify="center" alignItems="center">
                                         <Typography variant="body1" className={classes.survey_description}>
-                                            {survey.description}
+                                            {survey.description}{survey.multi_choice && <span className={classes.multiple_choice}>(Choix multiple)</span>}
                                         </Typography>
                                     </Grid>
                                     <Grid container direction="row" justify="center" alignItems="center">
@@ -346,7 +357,23 @@ const styles = theme => ({
     note : {
         fontWeight: 200,
         fontSize: 10,
-    }
+    },
+    exit_link : {
+        textDecoration: 'none',
+    },
+    exit_btn : {
+        marginTop: 10,
+        marginBottom: 10,
+        fontWeight: 400,
+        textTransform: 'none',
+    },
+    exit_icon : {
+        marginRight: 5,
+    },
+    multiple_choice : {
+        fontSize: 12,
+        marginLeft: 8,
+    },
 });
 
 export default withStyles(styles)(Poll)
