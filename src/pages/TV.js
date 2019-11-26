@@ -26,9 +26,14 @@ class TV extends React.Component {
         if(tv_id){
             this.loadTV(tv_id);
             setInterval(() => this.loadTV(tv_id), 30000);
+            // Toutes les 30 minutes refresh de la page
+            setInterval(() => this.reloadTV(), 30*60*1000);
         }
     }
 
+    reloadTv(){
+        window.location.reload();
+    }
 
     loadTV(tv_id){
         ajaxGet('tvs/' + tv_id + '/').then((res) => {
