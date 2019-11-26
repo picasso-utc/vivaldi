@@ -259,7 +259,7 @@ const styles = theme => ({
 		margin: 0,
 		paddingRight: '5%',
 		paddingLeft: '5%',
-		paddingBottom: 50,
+		paddingBottom: 40,
 		backgroundColor: '#000223',
         color: 'white',
         height: '100vh',
@@ -278,10 +278,8 @@ const styles = theme => ({
 	},
 	container: {
 		padding: 0,
-		overflowX: "overlay",
 	},
 	component: {
-		marginTop: 30,
         padding: '5%',
         paddingBottom: 20,
 		border: "#B22132 1.5px solid",
@@ -343,7 +341,7 @@ const styles = theme => ({
     gridList: {
         flexWrap: 'nowrap',
         transform: 'translateZ(0)',
-        width: '100%'
+        width: '100%',
     },
     voted_item : {
         backgroundColor : '#43A047',
