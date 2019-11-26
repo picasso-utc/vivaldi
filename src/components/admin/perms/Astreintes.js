@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { addDays, formateToDjangoDate } from '../../../utils/Date';
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax'
-import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
-import { ChevronRight } from '@material-ui/icons';
 
 class Astreintes extends Component{
 
@@ -88,7 +86,7 @@ class Astreintes extends Component{
 	displayCreneau(date, creneau_type){
 		if(date){
             date = formateToDjangoDate(date);
-            const found_creneaux = this.state.creneaux.filter(c => c.date == date && c.creneau == creneau_type);
+            const found_creneaux = this.state.creneaux.filter(c => c.date === date && c.creneau === creneau_type);
 			if (found_creneaux.length > 0) {
 				return found_creneaux[0];
             }
@@ -99,7 +97,7 @@ class Astreintes extends Component{
 
     changeNewAstreinte(creneau, name, value){
         let creneaux= [...this.state.creneaux];
-        const creneau_index = creneaux.findIndex(c => c.id == creneau.id);
+        const creneau_index = creneaux.findIndex(c => c.id === creneau.id);
         if (creneau_index >= 0) {
             creneaux[creneau_index][name] = value;
         }
@@ -109,7 +107,7 @@ class Astreintes extends Component{
 
     saveAstreinte(creneau){
         const creneaux = [...this.state.creneaux];
-        const creneau_index = creneaux.findIndex(c => c.id == creneau.id);
+        const creneau_index = creneaux.findIndex(c => c.id === creneau.id);
 
         const data={
             member_id: creneau.new_member_id,
@@ -141,14 +139,6 @@ class Astreintes extends Component{
             {code: 'D', name:'Midi'},
 			{code: 'S', name:'Soir'}
         ];
-        
-        const astreinte_types = [
-            {code: 'M1', name:'Matin 1'},
-            {code: 'M2', name:'Matin 2'},
-            {code: 'D1', name:'Midi 1'},
-            {code: 'D2', name:'Midi 2'},
-			{code: 'S', name:'Soir'}
-        ]
 
         return (
             <div className={classes.container}>
@@ -196,11 +186,11 @@ class Astreintes extends Component{
                                                         onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
                                                     >
                                                         <option value="" defaultValue></option>
-                                                        {creneau.creneau == "M" && <option value="M1">Matin 1</option>}
-                                                        {creneau.creneau == "M" && <option value="M2">Matin 2</option>}
-                                                        {creneau.creneau == "D" && <option value="D1">Midi 1</option>}
-                                                        {creneau.creneau == "D" && <option value="D2">Midi 2</option>}
-                                                        {creneau.creneau == "S" && <option value="S">Soir</option>}
+                                                        {creneau.creneau === "M" && <option value="M1">Matin 1</option>}
+                                                        {creneau.creneau === "M" && <option value="M2">Matin 2</option>}
+                                                        {creneau.creneau === "D" && <option value="D1">Midi 1</option>}
+                                                        {creneau.creneau === "D" && <option value="D2">Midi 2</option>}
+                                                        {creneau.creneau === "S" && <option value="S">Soir</option>}
                                                     </select>
                                                     <button disabled={!creneau.new_astreinte_type && !creneau.new_member_id} onClick={() => this.saveAstreinte(creneau)}>
                                                         Ajouter

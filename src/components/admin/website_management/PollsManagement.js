@@ -12,12 +12,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -27,7 +25,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
-import {URL, asset_url} from '../../../utils/Config';
+import {URL} from '../../../utils/Config';
 
 
 class PollsManagement extends Component{
@@ -96,7 +94,7 @@ class PollsManagement extends Component{
 
     handleSurveyItemChange(event, index){
 
-        if (event.target.name == "name" && event.target.value > 20) {
+        if (event.target.name === "name" && event.target.value > 20) {
             return;
         }
 
@@ -108,7 +106,7 @@ class PollsManagement extends Component{
 
 
     handleChange(event){
-        if (event.target.name == "title" && event.target.value.length > 20) {
+        if (event.target.name === "title" && event.target.value.length > 20) {
             return;
         }
 
@@ -179,7 +177,6 @@ class PollsManagement extends Component{
 
     selectSurvey = (survey) => {
         var request = new XMLHttpRequest();
-        let image = null;
         const that = this
         request.open('GET', URL + '/media/' + survey.image, true);
         request.responseType = 'blob';
@@ -222,7 +219,7 @@ class PollsManagement extends Component{
 
 
     saveSurvey(){
-        if(this.state.mode == "create"){
+        if(this.state.mode === "create"){
             ajaxPost('surveys/', this.state.survey).then((res) => {
                 this.setState({
                     survey: {
@@ -234,7 +231,7 @@ class PollsManagement extends Component{
             .catch((error) => {
                 console.log(error);
             })  
-        } else if (this.state.mode == "edit"){
+        } else if (this.state.mode === "edit"){
             ajaxPut('surveys/' + this.state.survey.id + '/', this.state.survey).then((res) => {
                 this.setState({
                     survey: {
@@ -265,7 +262,6 @@ class PollsManagement extends Component{
             // Check si l'image commence par http
             if (surveyitem_set[index].image.startsWith('http')) {
                 let request = new XMLHttpRequest();
-                const that = this
                 request.open('GET', surveyitem_set[index].image, true);
                 request.responseType = 'blob';
                 request.onload = function() {
@@ -347,7 +343,7 @@ class PollsManagement extends Component{
         return (
             <div className={classes.container}>
                           
-                {surveys.length == 0 ? (
+                {surveys.length === 0 ? (
                     <React.Fragment>
                         <Grid 
                             container
@@ -428,7 +424,6 @@ class PollsManagement extends Component{
                                                         color="secondary"
                                                         variant="contained" 
                                                         margin="dense"
-                                                        size="small"
                                                         className={classes.btn} 
                                                         onClick={() => this.deleteSurvey(survey_index)}
                                                     >

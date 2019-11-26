@@ -1,9 +1,8 @@
 import React from 'react';
-import Auth from '../utils/Auth';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { asset_url, URL } from '../utils/Config';
+import { asset_url } from '../utils/Config';
 import { ajaxGet } from '../utils/Ajax';
 
 

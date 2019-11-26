@@ -8,7 +8,7 @@ import Rules from  '../components/home/Rules';
 import Calendar from '../components/home/Calendar';
 import PriceDisplayer from '../components/home/PriceDisplayer';
 import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
-import FichesPostes from '../components/home/FichesPostes';
+// import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
 import Footer from '../components/Footer';
 import IndexPolls from '../components/home/IndexPolls';

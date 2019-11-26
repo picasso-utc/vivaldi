@@ -18,11 +18,11 @@ class Auth {
     }
 
     static isUserAdmin(){
-        return localStorage.getItem('right') === 'A' && localStorage.getItem('connexion') == GENERAL_CONNEXION
+        return localStorage.getItem('right') === 'A' && localStorage.getItem('connexion') === GENERAL_CONNEXION
     }
 
     static isUserMember(){
-        return (localStorage.getItem('right') === 'A' || localStorage.getItem('right') === 'M') && localStorage.getItem('connexion') == GENERAL_CONNEXION
+        return (localStorage.getItem('right') === 'A' || localStorage.getItem('right') === 'M') && localStorage.getItem('connexion') === GENERAL_CONNEXION
     }
 
     static isConnexionRestricted(){

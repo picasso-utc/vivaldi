@@ -90,8 +90,8 @@ class GoodiesManagement extends Component{
 
     updateGoodieWinner(event, id){
         ajaxPut('payutc/goodies/' + id + '/').then(res => {
-            let winners = [ ... this.state.winners]
-            const index = winners.findIndex(w => w.id == id);
+            let winners = [...this.state.winners]
+            const index = winners.findIndex(w => w.id === id);
             if (index >= 0) {
                 winners[index].picked_up = !winners[index].picked_up
             }
@@ -127,7 +127,7 @@ class GoodiesManagement extends Component{
             <div className={classes.container}>
 
                                 
-                {winners.length == 0 ? (
+                {winners.length === 0 ? (
                     <Grid container>
                         <Typography variant="h5" noWrap className={classes.subTitle}>
                             Pas de vainqueur pour le moment. 

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
+import { Typography, TextField, Button, Grid } from '@material-ui/core';
 import { Card, CardContent, CardActions } from '@material-ui/core';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import notation_perm from './notation.json'
 import { formateFromDjangoDate, compareDjangoDate } from '../../utils/Date';
 import SnackbarComponent from '../../utils/SnackbarComponent';
@@ -34,13 +34,13 @@ class CarouselItem extends Component{
 
 	componentDidMount(){
 		// Load notation json file
-		if(this.props.periode == "soir"){
+		if(this.props.periode === "soir"){
 			this.setState({notation : notation_perm.soir});
 		}
-		if(this.props.periode == "midi"){
+		if(this.props.periode === "midi"){
 			this.setState({notation : notation_perm.midi});
 		}
-		if(this.props.periode == "matin"){
+		if(this.props.periode === "matin"){
 			this.setState({notation : notation_perm.matin});
 		}
 
@@ -73,7 +73,7 @@ class CarouselItem extends Component{
 
 		for (let index = 0; index < notation[a1.astreinte_type].length; index++) {
 			const name = notation[a1.astreinte_type][index].name;
-			if (a1[name] == 0 ) {
+			if (a1[name] === 0 ) {
 				rated = false;
 			}
 		}
@@ -82,12 +82,12 @@ class CarouselItem extends Component{
 
 	handleChange(event, astreinte){
 		let astreintes = this.state.astreintes;
-		const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
+		const astreinte_index = astreintes.findIndex(a => a.id === astreinte.id);
 		let value = event.target.value;
-		if (event.target.name != "commentaire") {
+		if (event.target.name !== "commentaire") {
 			value = Number(value);
 		}
-		if (astreintes[astreinte_index][event.target.name] == 0) {
+		if (astreintes[astreinte_index][event.target.name] === 0) {
 			astreintes[astreinte_index].not_rated = true;
 		}
 		astreintes[astreinte_index][event.target.name] = value;
@@ -99,7 +99,7 @@ class CarouselItem extends Component{
 			this.changeSnackbarState(true, 'success', 'La notation a bien été enregistrée');
 			if (astreinte.not_rated) {
 				let astreintes = this.state.astreintes;
-				const astreinte_index = astreintes.findIndex(a => a.id == astreinte.id);
+				const astreinte_index = astreintes.findIndex(a => a.id === astreinte.id);
 				astreintes[astreinte_index].not_rated = false;
 				this.setState({astreintes: astreintes})
 			}
@@ -121,12 +121,8 @@ class CarouselItem extends Component{
 
 	render(){
 		
-		const { classes, width } = this.props;
-		const { grid_per_row, notation, astreintes, cell_height, snackbar } = this.state;
-		let columns = width === 'xs' || width === 'sm'  ? 1 : 2;
-
-		const vertical = 'bottom';
-		const horizontal = 'right';
+		const { classes } = this.props;
+		const { notation, astreintes, snackbar } = this.state;
 
 		return (
 			<div className={classes.gridList}>

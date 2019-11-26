@@ -8,10 +8,8 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
@@ -19,11 +17,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CardMedia from '@material-ui/core/CardMedia';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {URL, asset_url} from '../../../utils/Config';
+import {URL} from '../../../utils/Config';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { ajaxGet, ajaxPost, ajaxPatch, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxPatch, ajaxDelete } from '../../../utils/Ajax';
 
 class Media extends Component{
  
@@ -154,7 +150,7 @@ class Media extends Component{
             times: media.times,
             media_type: media.media_type
         }
-        if(this.state.mode == "create"){
+        if(this.state.mode === "create"){
             ajax_media.media = null;
             ajaxPost('tv/media/', ajax_media).then((res) => {  
                 this.setState({
@@ -169,7 +165,7 @@ class Media extends Component{
             .catch((error) => {
                 console.log(error);
             })  
-        } else if (this.state.mode == "edit"){
+        } else if (this.state.mode === "edit"){
             ajaxPatch('tv/media/' + media.id + '/', ajax_media).then((res) => {
                 if (media.new_media) {
                     this.fileUpload(media.new_media, res.data.id)
@@ -269,10 +265,10 @@ class Media extends Component{
                                         <TableCell component="th" scope="row" className={classes.cell}>
                                             <span>
                                                 {row.times}
-                                                {row.media_type == "I" && 
+                                                {row.media_type === "I" && 
                                                     "s"
                                                 }
-                                                {row.media_type == "V" && 
+                                                {row.media_type === "V" && 
                                                     " fois"
                                                 }
                                             </span>
@@ -359,13 +355,13 @@ class Media extends Component{
                                 </Grid>
                             ):(
                                 <React.Fragment>
-                                    {media.media_type == "I" && 
+                                    {media.media_type === "I" && 
                                         <CardMedia
                                             className={classes.media}
                                             image={media.media ? media.media : '/images/default_image.png'}
                                         />
                                     }
-                                    {media.media_type == "V" && 
+                                    {media.media_type === "V" && 
                                         <CardMedia
                                             component="video"
                                             className={classes.media}

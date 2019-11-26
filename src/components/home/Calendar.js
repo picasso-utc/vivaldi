@@ -42,7 +42,6 @@ class Calendar extends React.Component {
 	loadCalendar(startDate, endDate){
 		ajaxPost('perms/calendar', {start_date: startDate, end_date: endDate}).then(res => {
 			this.setState({creneaux: res.data.creneaux, loading: false})
-			const creneaux = res.data.creneaux;
 		})
 		.catch(error => {
 			this.setState({loading: false});
@@ -52,7 +51,7 @@ class Calendar extends React.Component {
 	displayCreneau(date, creneau_type){
 		if(date){
 			date = formateToDjangoDate(date);
-			const found_creneaux = this.state.creneaux.filter(c => c.date == date && c.creneau == creneau_type);
+			const found_creneaux = this.state.creneaux.filter(c => c.date === date && c.creneau === creneau_type);
 			if (found_creneaux.length > 0) {
 				return found_creneaux[0].perm.nom;
 			}
@@ -62,7 +61,7 @@ class Calendar extends React.Component {
 
   	render() {
 
-		const { startDate, endDate, loading, creneaux } = this.state;
+		const { startDate, loading, creneaux } = this.state;
 
 		const { classes } = this.props;
 

@@ -3,11 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 
 class TeamManagement extends Component{
  
-    
-    constructor(props) {
-        super(props)
-    }
-
     render(){
         
         const { classes } = this.props;

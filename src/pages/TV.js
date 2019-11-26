@@ -1,9 +1,5 @@
 import React from 'react';
-import Auth from '../utils/Auth';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import { asset_url, URL } from '../utils/Config';
 import { ajaxGet } from '../utils/Ajax';
 
 
@@ -57,7 +53,7 @@ class TV extends React.Component {
             
             <div className={classes.root}>
                 {tv.id &&
-                    <iframe src={tv.link.url} className={classes.iframe_style}></iframe>
+                    <iframe title="main" src={tv.link.url} className={classes.iframe_style}></iframe>
                 }
             </div>         
 		);

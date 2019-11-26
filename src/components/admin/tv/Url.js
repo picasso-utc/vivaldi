@@ -8,10 +8,8 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -87,7 +85,7 @@ class Url extends Component{
 
     saveLink(){
         const link = this.state.link
-        if(this.state.mode == "create"){
+        if(this.state.mode === "create"){
             ajaxPost('tv/links/', link).then((res) => {  
                 this.setState({
                     link: {
@@ -100,7 +98,7 @@ class Url extends Component{
             .catch((error) => {
                 console.log(error);
             })  
-        } else if (this.state.mode == "edit"){
+        } else if (this.state.mode === "edit"){
             ajaxPut('tv/links/' + link.id + '/', link).then((res) => {
             })
             .catch((error) => {

@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { ChevronRight } from '@material-ui/icons';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { Card, CardContent, CardActions } from '@material-ui/core';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
-import notation_perm_soir from './notation.json'
 import CarouselItem from './CarouselItem.js'
 
-import { ajaxGet, ajaxPost } from '../../utils/Ajax';
+import { ajaxGet } from '../../utils/Ajax';
 
 
 class Dashboard extends Component{
@@ -40,9 +35,9 @@ class Dashboard extends Component{
 			const astreintes_soir = []
 
 			for (let index = 0; index < res.data.astreintes.length; index++) {
-				if (res.data.astreintes[index].creneau.creneau == "M"){
+				if (res.data.astreintes[index].creneau.creneau === "M"){
 					astreintes_matin.push(res.data.astreintes[index]);
-				} else if (res.data.astreintes[index].creneau.creneau == "D"){
+				} else if (res.data.astreintes[index].creneau.creneau === "D"){
 					astreintes_midi.push(res.data.astreintes[index]);
 				} else {
 					astreintes_soir.push(res.data.astreintes[index]);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, TextField, Button, Grid, Menu, MenuItem, Paper } from '@material-ui/core';
+import { Typography, TextField, Button, Grid, MenuItem } from '@material-ui/core';
 import { ChevronRight } from '@material-ui/icons';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -189,8 +189,6 @@ class Semesters extends Component{
                                 margin="dense"
                                 variant="outlined"
                                 onChange={this.handleChangeCurrentSemester}
-                                margin="dense"
-                                variant="outlined"
                             >
                                 {semesters.map(semesters => (
                                 <MenuItem key={semesters.id} value={semesters.id}>

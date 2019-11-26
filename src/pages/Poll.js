@@ -7,25 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Chip from '@material-ui/core/Chip';
 import {URL, asset_url} from '../utils/Config';
 
@@ -83,7 +67,7 @@ class Poll extends React.Component {
 
     canVote(){
         if (!this.state.survey.multi_choice) {
-            const index = this.state.survey.surveyitem_set.findIndex(s => s.voted == true)
+            const index = this.state.survey.surveyitem_set.findIndex(s => s.voted === true)
             if (index > -1) {
                 return false;
             }
@@ -93,7 +77,7 @@ class Poll extends React.Component {
 
 
     hasVote(){
-        const index = this.state.survey.surveyitem_set.findIndex(s => s.voted == true)
+        const index = this.state.survey.surveyitem_set.findIndex(s => s.voted === true)
         if (index > -1) {
             return true;
         }
@@ -172,7 +156,7 @@ class Poll extends React.Component {
                                         </Typography>
                                     </Grid>
                                     <Grid container direction="row" justify="center" alignItems="center">
-                                        <img src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
+                                        <img alt={survey.title} src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
                                     </Grid>
 
 
@@ -189,6 +173,7 @@ class Poll extends React.Component {
                                                         </Grid> 
                                                     }
                                                     <img
+                                                        alt={item.name}
                                                         className={classes.item_img}
                                                         src={item.image ? `${URL}/media/${item.image}` : asset_url('/images/default_image.png')}
                                                     />

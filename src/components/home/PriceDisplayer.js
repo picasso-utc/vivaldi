@@ -138,7 +138,6 @@ const styles = theme => ({
 	},
 	responsive_displayer: {
 		display: 'flex',
-		flexWrap: 'wrap',
 		flexWrap: 'nowrap',
 		transform: 'translateZ(0)',
 	},

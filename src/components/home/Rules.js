@@ -6,6 +6,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 
 export const YoutubeIframe =  <iframe 
+	title="rules"
 	width = "100%"
 	height = "100%"
 	src="https://www.youtube.com/embed/b3qqC5aZ0c8"
@@ -15,10 +16,6 @@ export const YoutubeIframe =  <iframe
 </iframe>
 
 class Rules extends React.Component {
-
-    constructor(props) {
-		super(props);
-    }
     
 	render() {
 

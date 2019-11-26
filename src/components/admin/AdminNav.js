@@ -155,7 +155,7 @@ class AdminNav extends React.Component {
 				<AdminDrawer {...this.props}>
 					<div className={classes.logo}>
 						<Link to="/">
-							<img src={LOGO_PATH} height="44px" />
+							<img alt="logo" src={LOGO_PATH} height="44px" />
 						</Link>
 					</div>
 					<List disablePadding>

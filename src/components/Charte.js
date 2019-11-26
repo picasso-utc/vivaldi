@@ -82,7 +82,7 @@ class Charte extends Component {
 
 	saveSignature() {
 		const new_signature = this.state.newSignature;
-		if (new_signature.nom && new_signature. login) {
+		if (new_signature.nom && new_signature.login) {
 			this.setState({saving: true})
 			ajaxPost('signatures/', new_signature).then(res => {
 				const current_creneau = this.state.currentCreneau;

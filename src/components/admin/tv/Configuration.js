@@ -2,19 +2,12 @@ import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
-import { ajaxGet, ajaxPost, ajaxPut } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPut } from '../../../utils/Ajax';
 
 class Configuration extends Component{
  
@@ -55,7 +48,7 @@ class Configuration extends Component{
     handleChangeLink(event, tv_index){
         let tvs = this.state.tvs;
         const links = this.state.links
-        const link_index = links.findIndex(l => l.name == event.target.value);
+        const link_index = links.findIndex(l => l.name === event.target.value);
         if (link_index >= 0) {
             tvs[tv_index].link = links[link_index];
             tvs[tv_index].link_id = links[link_index].id;

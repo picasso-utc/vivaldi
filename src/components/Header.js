@@ -32,7 +32,7 @@ class Header extends React.Component {
 					<AppBar position="fixed" className={classes.appBar}>
 						<Toolbar>
 							<div className={classes.logo}>
-								<img src={LOGO_PATH} height="60px"/>
+								<img alt="logo_pic" src={LOGO_PATH} height="60px"/>
 							</div>
 							<Hidden xsDown implementation="css">
 								<IconButton href="https://payutc.nemopay.net" target="_blank" className={classes.menuButton} aria-label="Calendar">
@@ -49,10 +49,10 @@ class Header extends React.Component {
 				
 				<div className = {classes.imgContainer}>
 					<Hidden smUp implementation="css">
-						<img src={COUVERTURE_PATH_XS} className={classes.couverture}/>
+						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture}/>
 					</Hidden>
 					<Hidden xsDown implementation="css">
-						<img src={COUVERTURE_PATH} className={classes.couverture}/>
+						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture}/>
 					</Hidden>
 				</div>
 			</React.Fragment>

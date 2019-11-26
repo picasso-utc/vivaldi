@@ -119,10 +119,10 @@ class Menu extends Component {
                 let orders = res.data.orders;
                 for (let index = 0; index < stack_information.length; index++) {
                     const stack = stack_information[index];
-                    const order_index = orders.find(order => order.id_transaction == stack.id_transaction);
+                    const order_index = orders.find(order => order.id_transaction === stack.id_transaction);
                     if (order_index > -1) {
                         // Si la commande existe bien on compare les informations avec ce qu'il y a dans le stack
-                        if (orders[order_index].served == stack.served && orders[order_index].is_staff == stack.is_staff) {
+                        if (orders[order_index].served === stack.served && orders[order_index].is_staff === stack.is_staff) {
                             // Si les informations sont calés entre l'API et le stack on supprime l'élément du stack
                             stack_index_to_remove.push(stack.id_transaction);
                         }
@@ -159,7 +159,7 @@ class Menu extends Component {
         // On récupère le stack et on cherche la commande dans les commandes du state
         let stack_information = [...this.state.stack_information];
         let orders = [...this.state.orders];
-        let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction == order.id_transaction)
+        let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction === order.id_transaction)
 
         if (order_index > - 1) {
             // On modifie la commande en changeant son attribut served 
@@ -199,7 +199,7 @@ class Menu extends Component {
         let stack_information = [...this.state.stack_information];
         let orders = [...this.state.orders];
         stack_information.push(order);
-        let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction == order.id_transaction)
+        let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction === order.id_transaction)
 
         if (order_index > - 1) {
             // On modifie la commande en changeant son attribut is_staff 

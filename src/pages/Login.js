@@ -6,10 +6,6 @@ import Typography from '@material-ui/core/Typography';
 
 class Login extends React.Component {
 
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount(){
 		this.loginUser();
 	}

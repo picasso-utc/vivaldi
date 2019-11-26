@@ -95,7 +95,7 @@ class SnackbarComponent extends Component {
     }
     
     componentDidUpdate(prevProps) {
-        if (this.props.open !== prevProps.open && this.props.open === true && this.state.snackbar.open == false){
+        if (this.props.open !== prevProps.open && this.props.open === true && this.state.snackbar.open === false){
             this.setState((state, props) => ({ 
                 snackbar: {
                     open: props.open,

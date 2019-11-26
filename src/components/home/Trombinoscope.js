@@ -124,7 +124,7 @@ class Trombinoscope extends React.Component {
 						<Grid xs={4} sm={3} item className={classes.card} key={index}>
 							<div className={classes.card_content}>
 								<div className={classes.card_img}>
-									<img src={asset_url(member.image)} className={classes.img}/>
+									<img src={asset_url(member.image)} alt={member.nom} className={classes.img}/>
 								</div>
 								<div className={classes.card_description}>
 									<Hidden smUp implementation="css">

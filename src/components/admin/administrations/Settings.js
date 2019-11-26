@@ -82,7 +82,7 @@ class Settings extends Component{
                 [event.target.name]: event.target.value
             }
         })
-        if (event.target.name == 'login' && event.target.value) {
+        if (event.target.name === 'login' && event.target.value) {
             this.autoCompleteQuery(event.target.value)
         }
     }
@@ -134,7 +134,7 @@ class Settings extends Component{
         
         const { classes } = this.props;
 
-        const {settings, semesters, autoCompleteUsers, user} = this.state;
+        const {settings, autoCompleteUsers, user} = this.state;
 
         return (
             <div className={classes.container}>

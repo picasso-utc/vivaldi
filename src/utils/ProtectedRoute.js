@@ -2,7 +2,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from './Auth';
-import { asset_url } from '../utils/Config'
 
 class ProtectedRoute extends React.Component {
 

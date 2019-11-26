@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles'
-import { addDays, formateToDjangoDate } from '../../utils/Date';
 import { ajaxGet } from '../../utils/Ajax';
 import { asset_url } from '../../utils/Config';
 import Grid from '@material-ui/core/Grid';
@@ -75,7 +74,7 @@ class IndexPolls extends React.Component {
 													</Typography>
 												</Grid>
 												<Grid container direction="row" justify="center" alignItems="center">
-                                                	<img src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
+                                                	<img alt={survey.title} src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
 												</Grid>
 												<Grid direction="row">
 													<Typography variant="body1" className={classes.survey_description}>

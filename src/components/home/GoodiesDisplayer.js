@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { ajaxGet } from '../../utils/Ajax';
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 
 class GoodiesDisplayer extends React.Component {
   

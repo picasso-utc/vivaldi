@@ -1,9 +1,5 @@
 import React from 'react';
-import Auth from '../utils/Auth';
-import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import { asset_url, URL } from '../utils/Config';
+import { URL } from '../utils/Config';
 import { ajaxGet } from '../utils/Ajax';
 
 
@@ -35,11 +31,11 @@ class TVContent extends React.Component {
 
         const params = this.loadNextMedia()
         if(params){
-            if (params.media_type == "I") {
+            if (params.media_type === "I") {
                 setTimeout(() => {
                     this.displayMedia();
                 }, 1000*params.times)
-            } else if (params.media_type == "V"){
+            } else if (params.media_type === "V"){
                 const video = document.getElementById('video-' + params.media_id);
                 video.currentTime = 0;
                 video.play();
@@ -49,7 +45,7 @@ class TVContent extends React.Component {
 
 
     loadNextMedia(){
-        if (this.state.media.length == 0) {
+        if (this.state.media.length === 0) {
             this.setState({index: 0});
             return null;
         }
@@ -73,7 +69,7 @@ class TVContent extends React.Component {
 
     loadTVContent(){
         ajaxGet('tv/public/media').then((res) => {
-            if(this.state.media.length == 0){
+            if(this.state.media.length === 0){
                 this.setState({media: res.data.media});
                 this.displayMedia();
             } else {
@@ -81,14 +77,14 @@ class TVContent extends React.Component {
                 let change = false;
                 // On vérifie que les médias dans le state sont bien tous présents dans l'appel API
                 for (let index = 0; index < media.length; index++) {
-                    const media_index = res.data.media.findIndex(m => m.id == media[index].id)
+                    const media_index = res.data.media.findIndex(m => m.id === media[index].id)
                     if (media_index < 0) {
                         change = true;
                     }
                 }
                 // On vérifie que les médians dans l'appel API sont bien tous présents dans le state
                 for (let index = 0; index < res.data.media.length; index++) {
-                    const media_index = media.findIndex(m => m.id == res.data.media[index].id);
+                    const media_index = media.findIndex(m => m.id === res.data.media[index].id);
                     if (media_index < 0) {
                         change = true;
                     }
@@ -102,7 +98,7 @@ class TVContent extends React.Component {
 
 
     endVideo(event, index){
-        if(index == this.state.params.index){
+        if(index === this.state.params.index){
             let times = this.state.params.times;
             if (times <= 1) {
                 this.displayMedia();
@@ -121,7 +117,6 @@ class TVContent extends React.Component {
 
 	render() {
 
-        const { classes } = this.props;
         const { params, media } = this.state;
 
 		return (
@@ -131,14 +126,15 @@ class TVContent extends React.Component {
                     <React.Fragment>
                         
                             {m.media_type === "I" &&
-                                <div style={index == params.index ?
+                                <div style={index === params.index ?
                                     {display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, height: '100vh', 
                                     background: '#000', position: 'absolute', top:0, left: 0, right: 0, bottom: 0}
                                     : {display: 'None'}
                                 }>
                                     <img 
+                                        alt={media.name}
                                         src={URL + '/media/' + m.media} 
-                                        style={index == params.index ? 
+                                        style={index === params.index ? 
                                             {maxWidth: '100vw', maxHeight: '100vh'}
                                             : {maxWidth: '100vw', maxHeight: '100vh', display : 'none'}
                                         }
@@ -146,7 +142,7 @@ class TVContent extends React.Component {
                                 </div>
                             }
                             {m.media_type === "V" &&
-                                <div style={index == params.index ?
+                                <div style={index === params.index ?
                                     {display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, height: '100vh', background: '#000',
                                     position: 'absolute', top:0, left: 0, right: 0, bottom: 0}
                                     : {display: 'none'}    
@@ -156,7 +152,7 @@ class TVContent extends React.Component {
                                         muted 
                                         autoPlay
                                         id={`video-${m.id}`}
-                                        style={index == params.index ? 
+                                        style={index === params.index ? 
                                             {maxWidth: '100vw', maxHeight: '100vh'}
                                             : {maxWidth: '100vw', maxHeight: '100vh', display : 'none'}
                                         }
@@ -171,16 +167,7 @@ class TVContent extends React.Component {
 	}
 }
 
-const styles = theme => ({
-    container: {
-        paddingTop: 100,
-        textAlign: 'center',
-	},
-	progress: {
-		margin: 20,
-		color: '#B22132',
-	}
-});
 
-export default withStyles (styles) (TVContent)
+
+export default (TVContent)
 
