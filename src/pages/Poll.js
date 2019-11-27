@@ -59,7 +59,6 @@ class Poll extends React.Component {
     findResult(item_id){
         const results = this.state.results;
         const item_index = results.findIndex(r => r.id === item_id);
-        console.log(item_index)
         if (item_index > -1) {
             return results[item_index].votes.toFixed(2);
         }
