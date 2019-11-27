@@ -76,7 +76,7 @@ class IndexPolls extends React.Component {
 												<Grid container direction="row" justify="center" alignItems="center">
                                                 	<img alt={survey.title} src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
 												</Grid>
-												<Grid direction="row">
+												<Grid container direction="row" justify="center" alignItems="center">
 													<Typography variant="body1" className={classes.survey_description}>
 														{survey.description.length > 50 ? (
 															<span>{survey.description.substring(0,49)} (...)</span>
