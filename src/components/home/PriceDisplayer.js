@@ -17,6 +17,12 @@ class PriceDisplayer extends React.Component {
 	
 	componentDidMount(){
 		this.loadArticles();
+		setTimeout(() => {
+			const index_drinks =  document.getElementById("index_drinks")
+			index_drinks.scrollBy({ left: 60, behavior: 'smooth'})
+			const index_snacks =  document.getElementById("index_snacks")
+			index_snacks.scrollBy({ left: 60, behavior: 'smooth'})	
+		}, 3000)
 	}
 
 	loadArticles(){
@@ -37,7 +43,7 @@ class PriceDisplayer extends React.Component {
 
 
 		const pic_articles = [
-			{type: 'boisons', content : [
+			{type: 'boissons', content : [
 				{name: 'Softs', code: 'softs'},
 				{name: 'Pampryls', code: 'pampryls'},
 				{name: 'Bières Bouteilles', code: 'bieresBouteille'},
@@ -55,7 +61,7 @@ class PriceDisplayer extends React.Component {
     	return (
 			<React.Fragment>
 				{pic_articles.map(({type, content}, index) => (
-					<div key={index} className={classes.root}>
+					<div key={index} className={classes.root} id={type==="boissons" ? "index_drinks" : "index_snacks"}>
 						<Hidden mdUp implementation="css">
 							<Grid container direction="row" className={classes.responsive_displayer}>
 								{content.map((boisson, index) => (
@@ -140,6 +146,7 @@ const styles = theme => ({
 		display: 'flex',
 		flexWrap: 'nowrap',
 		transform: 'translateZ(0)',
+		marginBottom: 10,
 	},
 	responsive_displayer_item: {
 		marginLeft: 15,
