@@ -1,6 +1,8 @@
 import React from 'react';
-import { URL } from '../utils/Config';
+import { URL, API_URL } from '../utils/Config';
 import { ajaxGet } from '../utils/Ajax';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 
 class TVContent extends React.Component {
@@ -14,6 +16,8 @@ class TVContent extends React.Component {
                 index: -1,
                 times: '',
             },
+            polls : [],
+            current_poll_index : 0
         }
 	}
 
@@ -23,7 +27,8 @@ class TVContent extends React.Component {
 
     init(){
         this.loadTVContent();
-        setInterval(() => this.loadTVContent(), 30000);
+        // Récupération des médias toutes les 30s
+        setInterval(() => this.loadTVContent(), 30 * 1000);
         this.displayMedia();
     }
 
@@ -45,24 +50,25 @@ class TVContent extends React.Component {
 
 
     loadNextMedia(){
-        if (this.state.media.length === 0) {
-            this.setState({index: 0});
-            return null;
-        }
         let index = this.state.params.index;
-        index = (index + 1)%this.state.media.length;
-        const media_to_dispaly = this.state.media[index];
-        const params = {
-            index: index,
-            media_type: media_to_dispaly.media_type,
-            times: media_to_dispaly.times,
-            media_id: media_to_dispaly.id,
+        index = index + 1;
+        // Fin de la boucle, passage aux sondages
+        if (index === this.state.media.length) {
+            this.loadSurveys();
+        } else {
+            const media_to_dispaly = this.state.media[index];
+            const params = {
+                index: index,
+                media_type: media_to_dispaly.media_type,
+                times: media_to_dispaly.times,
+                media_id: media_to_dispaly.id,
+            }
+            this.setState({
+                params: params
+            })
+            this.setState({index: index, media_type: media_to_dispaly.media_type, times: media_to_dispaly.times});
+            return params
         }
-        this.setState({
-            params: params
-        })
-        this.setState({index: index, media_type: media_to_dispaly.media_type, times: media_to_dispaly.times});
-        return params
     }
 
 
@@ -96,6 +102,52 @@ class TVContent extends React.Component {
         })
     }
 
+    loadSurveys(){
+        ajaxGet('tv/surveys').then(res => {
+            this.setState({polls: res.data.surveys}, () => {
+                this.loadNextTVSurvey(res.data.surveys, -1);
+            });
+        })
+    }
+
+    loadNextTVSurvey(polls, index){
+        if (polls.length > 0) {
+            let current_poll_index = index;
+            current_poll_index += 1;
+            if (current_poll_index < polls.length) {
+                this.setState({
+                    current_poll_index: current_poll_index, 
+                    params: {
+                        ...this.state.params,
+                        media_type : "P"
+                    }
+                }, () => {
+                    setTimeout(() => {
+                        this.loadNextTVSurvey(polls, current_poll_index);
+                    }, 15*1000)
+                })
+            } else {
+                this.reloadMediaLoop()
+            }
+        } else {
+            this.reloadMediaLoop();
+        }
+    }
+
+
+    reloadMediaLoop(){
+        // On reprend la boucle à 0
+        this.setState({
+            params : {
+                media_type: "I",
+                index: -1,
+                times: '',
+            }
+        }, () => {
+            this.displayMedia();
+        }); 
+    }
+
 
     endVideo(event, index){
         if(index === this.state.params.index){
@@ -117,13 +169,13 @@ class TVContent extends React.Component {
 
 	render() {
 
-        const { params, media } = this.state;
+        const { params, media, polls, current_poll_index } = this.state;
 
 		return (
             
             <React.Fragment>
                 {media.map((m, index) => (
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                         
                             {m.media_type === "I" &&
                                 <div style={index === params.index ?
@@ -162,6 +214,85 @@ class TVContent extends React.Component {
                             }
                         </React.Fragment>
                     ))}
+                    {params.media_type === "P" &&
+                        <div 
+                            style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, height: '100vh', background: '#000223',
+                            position: 'absolute', top:0, left: 0, right: 0, bottom: 0, overflowY: 'hidden'}}
+                        >
+                            <div 
+                                style={{margin:'auto', border : "#B22132 1px solid", padding: 15, position: 'absolute', height:'90%', 
+                                width: '95%', color: 'white'}}
+                            >
+                                
+                                <Grid 
+                                    container 
+                                    direction="row" 
+                                    justify="center" 
+                                    alignItems="center" 
+                                    style={{height: '40%', paddingTop:10, overflowY: 'hidden', overflowX: 'hidden'}}
+                                >
+                                    {polls[current_poll_index].surveyitem_set.map((item, index) => (
+                                        <div 
+                                            key={index} 
+                                            style={{height: '100%', padding: 10, width: '20%'}}
+                                        >
+                                            <Typography variant="h6" style={{height: '20%', textAlign: 'center'}}>
+                                                {item.name}
+                                            </Typography>
+                                            <div style={{height: '60%', width: '100%', textAlign: 'center'}}>
+                                                <img 
+                                                    alt={URL + '/media/' + item.image} 
+                                                    src={URL + '/media/' + item.image} 
+                                                    style={{maxWidth: '100%', height: '100%', objectFit: 'contain', borderRadius: 5}}
+                                                />
+                                            </div>
+                                            <Typography 
+                                                variant="body1" 
+                                                style={{height: '20%', marginTop: 15, textAlign: 'center'}}
+                                            >
+                                                {item.vote.toFixed(1)}%
+                                            </Typography>
+                                        </div>
+                                    ))}
+                                </Grid>
+                                
+                                <Grid 
+                                    container 
+                                    direction="row" 
+                                    justify="center" 
+                                    alignItems="center" 
+                                    style={{height: '25%'}}
+                                >
+                                    <Typography variant="h3">
+                                        {polls[current_poll_index].description}
+                                    </Typography>
+                                    
+                                </Grid>
+                                <Grid 
+                                    container 
+                                    direction="row" 
+                                    justify="center" 
+                                    alignItems="center" 
+                                    style={{height: '30%'}}
+                                >
+                                    <img 
+                                        alt="QR Cocde" 
+                                        src={API_URL + 'tv/qrcode?survey_id=' + polls[current_poll_index].id} 
+                                        style={{border: '#B22132 1.5px solid', height: '70%'}}
+                                    />
+                                </Grid>
+                                <Grid 
+                                    container 
+                                    direction="row" 
+                                    justify="center" 
+                                    alignItems="center" 
+                                    style={{height: '5%'}}
+                                >
+                                    <span style={{fontSize: 20}}>Votez ici !</span>
+                                </Grid>
+                            </div>
+                        </div>
+                    }
             </React.Fragment>         
 		);
 	}
