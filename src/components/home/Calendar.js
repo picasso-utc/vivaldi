@@ -139,6 +139,7 @@ const styles = theme => ({
 		overflowX: 'auto'
 	},
 	table : {
+		marginBottom: 10,
 		borderCollapse: 'collapse',
 		width: '90%',
 		marginRight: '5%',
