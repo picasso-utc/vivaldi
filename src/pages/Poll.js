@@ -34,7 +34,7 @@ class Poll extends React.Component {
 
 	
 	componentDidMount(){
-		this.loadSurveys();
+        this.loadSurveys();
 	}
 
 	loadSurveys(){
@@ -160,6 +160,7 @@ class Poll extends React.Component {
                         <Container className={classes.container}>
                             <fieldset className={classes.component} style={{minWidth: 1}}>
                                 <legend className={classes.legend}>{survey.title}</legend>
+                                <div style={{overflowY: 'auto', padding: 5, marginTop: -20}}>
                                     <Grid container direction="row" justify="center" alignItems="center">
                                         <Typography variant="body1" className={classes.survey_description}>
                                             {survey.description}{survey.multi_choice && <span className={classes.multiple_choice}>(Choix multiple)</span>}
@@ -170,77 +171,78 @@ class Poll extends React.Component {
                                     </Grid>
 
 
-                                <div className={classes.root_items}>
-                                    <GridList className={classes.gridList} cols={2.5}>
-                                        {survey.surveyitem_set.map((item, item_index) => (
-                                            <GridListTile key={item_index} style={{height: '100%', minWidth: 150, maxWidth: 300}}>
-                                                <Card className={classes.card}>
-                                                    {this.isThereDescriptionInItems(survey) &&
-                                                        <Grid container direction="row" justify="center" alignItems="center">
-                                                            <Typography variant="body1" className={classes.subTitle}>
-                                                                {item.name}
-                                                            </Typography>
-                                                        </Grid> 
-                                                    }
-                                                    <img
-                                                        alt={item.name}
-                                                        className={classes.item_img}
-                                                        src={item.image ? `${URL}/media/${item.image}` : asset_url('/images/default_image.png')}
-                                                    />
-                                                    {this.isThereDescriptionInItems(survey) ? (
-                                                        <Grid container direction="row" justify="center" alignItems="center">
-                                                            <p className={classes.item_description}>{item.description}</p>
-                                                        </Grid>
-                                                    ):(
-                                                        <Grid container direction="row" justify="center" alignItems="center">
-                                                            <Typography variant="body1" className={classes.subTitle}>
-                                                                {item.name}
-                                                            </Typography>
-                                                        </Grid>
-                                                    )}
-                                                    
-                                                    {this.hasVote() && 
-                                                        <Grid container direction="row" justify="center" alignItems="center">
-                                                            <p>{this.findResult(item.id)}%</p>
-                                                        </Grid>
-                                                    }
-                                                
-                                                    <Grid container direction="row" justify="center" alignItems="center">
-                                                        {item.voted ? (
-                                                            <Chip 
-                                                                label="Voté !" 
-                                                                className={classes.voted_item} 
-                                                                onDelete={() => this.cancelVote(item_index)}
-                                                            />
+                                    <div className={classes.root_items}>
+                                        <GridList className={classes.gridList} cols={3} style={{margin: 0}}>
+                                            {survey.surveyitem_set.map((item, item_index) => (
+                                                <GridListTile key={item_index} style={{height: '100%', minWidth: 150, maxWidth: 300}}>
+                                                    <Card className={classes.card}>
+                                                        {this.isThereDescriptionInItems(survey) &&
+                                                            <Grid container direction="row" justify="center" alignItems="center">
+                                                                <Typography variant="body1" className={classes.subTitle}>
+                                                                    {item.name}
+                                                                </Typography>
+                                                            </Grid> 
+                                                        }
+                                                        <img
+                                                            alt={item.name}
+                                                            className={classes.item_img}
+                                                            src={item.image ? `${URL}/media/${item.image}` : asset_url('/images/default_image.png')}
+                                                        />
+                                                        {this.isThereDescriptionInItems(survey) ? (
+                                                            <Grid container direction="row" justify="center" alignItems="center">
+                                                                <p className={classes.item_description}>{item.description}</p>
+                                                            </Grid>
                                                         ):(
-                                                            <React.Fragment>
-                                                                {this.canVote() === true ? (
-                                                                    <Button 
-                                                                        variant="contained" 
-                                                                        margin="dense"
-                                                                        size="small"
-                                                                        onClick={() => this.vote(item_index)}
-                                                                        disabled={vote_loading}
-                                                                    >
-                                                                        Voter
-                                                                    </Button>
-                                                                ):(
-                                                                    <span></span>
-                                                                )}
-                                                            </React.Fragment>
+                                                            <Grid container direction="row" justify="center" alignItems="center">
+                                                                <Typography variant="body1" className={classes.subTitle}>
+                                                                    {item.name}
+                                                                </Typography>
+                                                            </Grid>
                                                         )}
                                                         
-                                                    </Grid>
-                                                </Card>
-                                            </GridListTile>
-                                        ))}
-                                    </GridList>
+                                                        {this.hasVote() && 
+                                                            <Grid container direction="row" justify="center" alignItems="center">
+                                                                <p>{this.findResult(item.id)}%</p>
+                                                            </Grid>
+                                                        }
+                                                    
+                                                        <Grid container direction="row" justify="center" alignItems="center">
+                                                            {item.voted ? (
+                                                                <Chip 
+                                                                    label="Voté !" 
+                                                                    className={classes.voted_item} 
+                                                                    onDelete={() => this.cancelVote(item_index)}
+                                                                />
+                                                            ):(
+                                                                <React.Fragment>
+                                                                    {this.canVote() === true ? (
+                                                                        <Button 
+                                                                            variant="contained" 
+                                                                            margin="dense"
+                                                                            size="small"
+                                                                            onClick={() => this.vote(item_index)}
+                                                                            disabled={vote_loading}
+                                                                        >
+                                                                            Voter
+                                                                        </Button>
+                                                                    ):(
+                                                                        <span></span>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            )}
+                                                            
+                                                        </Grid>
+                                                    </Card>
+                                                </GridListTile>
+                                            ))}
+                                        </GridList>
+                                    </div>
+                                    <Grid container direction="row" justify="center" alignItems="center">
+                                        <Typography className={classes.note}>
+                                            ** Note : Votre vote sera conservée durant la durée du sondage et supprimée par la suite.
+                                        </Typography>
+                                    </Grid>
                                 </div>
-                                <Grid container direction="row" justify="center" alignItems="center">
-                                    <Typography className={classes.note}>
-                                        ** Note : Votre vote sera conservée durant la durée du sondage et supprimée par la suite.
-                                    </Typography>
-                                </Grid>
                             </fieldset>   
                         </Container>
 
@@ -257,15 +259,18 @@ const styles = theme => ({
 		maxWidth: '100%',
 		margin: 0,
 		paddingRight: '5%',
-		paddingLeft: '5%',
-		paddingBottom: 40,
+        paddingLeft: '5%',
+        paddingTop: 10,
+		paddingBottom: 300,
 		backgroundColor: '#000223',
         color: 'white',
-        height: '100vh',
+        height: '100%',
     },
     survey_img : {
         height: 140,
         borderRadius: 5,
+        maxWidth: '100%',
+        objectFit: 'contain'
     },
 	header : {
 		height: window.innerHeight,
@@ -292,7 +297,6 @@ const styles = theme => ({
         marginTop: 200,
     },
     survey_description : {
-        marginTop: -30,
         maxWidth: 500,
         overflowWrap : 'break-word',
         marginBottom: 20,
@@ -325,7 +329,8 @@ const styles = theme => ({
     item_img: {
         height: 90,
         borderRadius: 5,
-        backgroundSize: 'contain',
+        maxWidth: '100%',
+        objectFit: 'contain'
     },
     add_item : {
         marginLeft: 10,
@@ -335,7 +340,7 @@ const styles = theme => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflowX: 'hidden',
-        marginTop: 30,
+        marginTop: 20,
     },
     gridList: {
         flexWrap: 'nowrap',
@@ -354,6 +359,7 @@ const styles = theme => ({
     note : {
         fontWeight: 200,
         fontSize: 10,
+        marginTop: 5
     },
     exit_link : {
         textDecoration: 'none',
