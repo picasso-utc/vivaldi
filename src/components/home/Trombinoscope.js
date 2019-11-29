@@ -14,72 +14,72 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Ayman Lamdasni',
 				poste: 'Co-Président',
-				image: '/images/ayman.png',
+				image: '/images/ayman.jpg',
 			},
 			{
 				nom: 'Alix Auvin',
 				poste: 'Co-Président',
-				image: '/images/alix.png',
+				image: '/images/alix.jpg',
 			},
 			{
 				nom: 'Pauline Mandon',
 				poste: 'Trésorière',
-				image: '/images/pauline.png',
+				image: '/images/paupau.jpg',
 			},
 			{
 				nom: 'Léo Tavernier',
 				poste: 'Vice-Trésorier',
-				image: '/images/leo.png',
+				image: '/images/leo.jpg',
 			},
 			{
 				nom: 'Mathilde Petit',
 				poste: 'Resp Anim',
-				image: '/images/mathilde.png',
+				image: '/images/mathou.jpg',
 			},
 			{
 				nom: 'Maliana Hoatau',
 				poste: 'Team Anim',
-				image: '/images/maliana.png',
+				image: '/images/mali.jpg',
 			},
 			{
 				nom: 'Nicolas Théron',
 				poste: 'Team Anim',
-				image: '/images/nicolas.png',
+				image: '/images/theron.jpg',
 			},
 			{
 				nom: 'Constant Dassonville',
 				poste: 'Team Anim',
-				image: '/images/constant.png',
+				image: '/images/constant.jpg',
 			},
 			{
 				nom: 'Oubine Perrin',
 				poste: 'Team Anim',
-				image: '/images/oubine.png',
+				image: '/images/oubine.jpg',
 			},
 			{
 				nom: 'Félix Roulleaux Dugage',
 				poste: 'Resp Com',
-				image: '/images/felix.png',
+				image: '/images/felix.jpg',
 			},
 			{
 				nom: 'Reda Sarehane',
 				poste: 'Team Com',
-				image: '/images/reda.png',
+				image: '/images/reda.jpg',
 			},
 			{
 				nom: 'Florestan Biaux',
 				poste: 'Team Com',
-				image: '/images/flo.png',
+				image: '/images/flo.jpg',
 			},
 			{
 				nom: 'Ariane Lozon',
 				poste: 'Team Locaux',
-				image: '/images/ariane.png',
+				image: '/images/ariane.jpg',
 			},
 			{
 				nom: 'Léo Romanet',
 				poste: 'Team Locaux',
-				image: '/images/romanet.png',
+				image: '/images/romanet.jpg',
 			},
 			{
 				nom: 'Yanis Aboura',
@@ -89,32 +89,32 @@ class Trombinoscope extends React.Component {
 			{
 				nom: 'Alexandre Brasseur',
 				poste: 'Appro Bières',
-				image: '/images/brass.png',
+				image: '/images/brass.jpg',
 			},
 			{
 				nom: 'Jessica Guilbaud',
 				poste: 'Appro Softs',
-				image: '/images/jessica.png',
+				image: '/images/jess.jpg',
 			},
 			{
 				nom: 'Rémy Dudzik',
 				poste: 'Appro Softs',
-				image: '/images/remy.png',
+				image: '/images/remy.jpg',
 			},
 			{
 				nom: 'Corentin Martin',
 				poste: 'Appro Softs',
-				image: '/images/corentin.png',
+				image: '/images/coco.jpg',
 			},
 			{
 				nom: 'Josselin Pennors',
 				poste: 'Resp Info',
-				image: '/images/josselin.png',
+				image: '/images/jo.jpg',
 			},
 			{
 				nom: 'Capucine Martin',
 				poste: 'Team Info',
-				image: '/images/capucine.png',
+				image: '/images/capu.jpg',
 			},
 		]
     	return (
