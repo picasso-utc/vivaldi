@@ -124,7 +124,7 @@ class TVContent extends React.Component {
                 }, () => {
                     setTimeout(() => {
                         this.loadNextTVSurvey(polls, current_poll_index);
-                    }, 15*1000)
+                    }, 45*1000)
                 })
             } else {
                 this.reloadMediaLoop()
