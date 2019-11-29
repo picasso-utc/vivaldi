@@ -23,6 +23,7 @@ class IndexPolls extends React.Component {
 		this.loadSurveys();
 	}
 
+
 	loadSurveys(){
 		ajaxGet('surveys/public').then((res) => {
             this.setState({surveys: res.data.surveys, loading: false});
@@ -125,6 +126,7 @@ const styles = theme => ({
 		overflowX: 'auto'
 	},
 	table : {
+		marginBottom: 10,
 		borderCollapse: 'collapse',
 		width: '90%',
 		marginRight: '5%',
@@ -178,6 +180,8 @@ const styles = theme => ({
         height: 100,
 		borderRadius: 5,
 		marginBottom: 10,
+		maxWidth: '100%',
+        objectFit: 'contain'
 	},
 	btn : {
 		margin: 10
