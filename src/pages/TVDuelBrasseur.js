@@ -13,41 +13,41 @@ class TVDuelBrasseur extends React.Component {
                 duel_1 : {
                     delirium : {
                         id: 458,
-                        quantity : ''
+                        percentage: ''
                     },
                     cuvee: {
                         id: 457,
-                        quantity: ''
+                        percentage: ''
                     },
                 },
                 duel_2 : {
                     delired: {
                         id: 13565,
-                        quantity : ''
+                        percentage: ''
                     },
                     pechemel: {
                         id: 15707,
-                        quantity: ''
+                        percentage: ''
                     }
                 },
                 duel_3 : {
                     delinoel: {
                         id : 15705,
-                        quantity : ''
+                        percentage: ''
                     },
                     bush: {
                         id: 13798,
-                        quantity : ''
+                        percentage: ''
                     }
                 },
                 duel_4 : {
                     argentum: {
                         id: 15706,
-                        quantity : ''
+                        percentage: ''
                     },
                     surfine: {
                         id: 15704,
-                        quantity: ''
+                        percentage: ''
                     }
                 }
             }
@@ -62,7 +62,7 @@ class TVDuelBrasseur extends React.Component {
 
     loadBeerSells(){
         ajaxPost('payutc/public/beers/sells', {'beers' :this.state.beers}).then(res => {
-            const beers = res.data.beers;
+            let beers = res.data.beers;
             const duels = Object.keys(beers);
             for (let index = 0; index < duels.length; index++) {
                 const duel_beers = Object.keys(beers[duels[index]]);
@@ -75,9 +75,11 @@ class TVDuelBrasseur extends React.Component {
                     console.log(duel_beers[beer_index])
                     const beer_div = document.getElementById(duel_beers[beer_index]);
                     if (beer_sells === 0) {
+                        beers[duels[index]][duel_beers[beer_index]].percentage = "0.0%"
                         beer_div.style.width = '0%';
                     } else {
                         const percentage = 85 * (beer_sells/duel_total_sells);
+                        beers[duels[index]][duel_beers[beer_index]].percentage = (100*(beer_sells/duel_total_sells)).toFixed(1) + "%"
                         beer_div.style.width = percentage + '%';
                     }
                 }
@@ -106,7 +108,7 @@ class TVDuelBrasseur extends React.Component {
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left} id="deli">
                             <img alt="deli_beer" src="/images/delirium.jpg" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Délirium {beers.duel_1.delirium.quantity && <span>({beers.duel_1.delirium.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Délirium ({beers.duel_1.delirium.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delirium">
@@ -120,7 +122,7 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
                             <img alt="cuvee_beer" src="/images/cuvee.png" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Cuvée {beers.duel_1.cuvee.quantity && <span>({beers.duel_1.cuvee.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Cuvée ({beers.duel_1.cuvee.percentage})</span>
                         </Grid>
                     </Grid>
 
@@ -129,7 +131,7 @@ class TVDuelBrasseur extends React.Component {
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
                             <img alt="delired_beer" src="/images/deli_red.png" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Déli Red {beers.duel_2.delired.quantity && <span>({beers.duel_2.delired.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Déli Red ({beers.duel_2.delired.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delired">
@@ -143,7 +145,7 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
                             <img alt="pechemel_beer" src="/images/pechemel.jpg" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Pêche Mel {beers.duel_2.pechemel.quantity && <span>({beers.duel_2.pechemel.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Pêche Mel ({beers.duel_2.pechemel.percentage})</span>
                         </Grid>
                     </Grid>
 
@@ -152,7 +154,7 @@ class TVDuelBrasseur extends React.Component {
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
                             <img alt="delinoel_beer" src="/images/delinoel.jpg" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Déli Noël {beers.duel_3.delinoel.quantity && <span>({beers.duel_3.delinoel.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Déli Noël ({beers.duel_3.delinoel.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delinoel">
@@ -166,7 +168,7 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
                             <img alt="bush_beer" src="/images/bush.jpg" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Bush Triple {beers.duel_3.bush.quantity && <span>({(beers.duel_3.bush.quantity)})</span>}</span>
+                            <span className={classes.beer_name}>Bush Triple ({beers.duel_3.bush.percentage})</span>
                         </Grid>
                     </Grid>
                     
@@ -175,7 +177,7 @@ class TVDuelBrasseur extends React.Component {
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
                             <img alt="argentum_beer" src="/images/argentum.jpg" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Argentum {beers.duel_4.argentum.quantity && <span>({beers.duel_4.argentum.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Argentum ({beers.duel_4.argentum.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="argentum">
@@ -189,7 +191,7 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
                             <img alt="surfine_beer" src="/images/surfine.png" className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Surfine {beers.duel_4.surfine.quantity && <span>({beers.duel_4.surfine.quantity})</span>}</span>
+                            <span className={classes.beer_name}>Surfine ({beers.duel_4.surfine.percentage})</span>
                         </Grid>
                     </Grid>
 
