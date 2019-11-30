@@ -57,10 +57,25 @@ class CurrentPerm extends Component{
                     new_article.tva = 5.5;
                 }
                 this.setState({current_creneau: res.data, new_article: new_article})
+                this.loadCreneauSignature(res.data.id);
+                setInterval(() => this.loadCreneauSignature(res.data.id), 30*1000);
             }      
             this.setState({loading: false})
         })
         .catch(error => {
+            console.log(error)
+        })
+    }
+
+    loadCreneauSignature(id){
+        ajaxGet('perms/signature/' + id).then(res => {
+            this.setState({
+                current_creneau : {
+                    ...this.state.current_creneau,
+                    signature: res.data.signature_count
+                }
+            })
+        }).catch(error => {
             console.log(error)
         })
     }
@@ -147,6 +162,16 @@ class CurrentPerm extends Component{
         
         const { classes } = this.props;
 
+        let signature_message = "Chargement des signatures..."
+        if (current_creneau.signature !== null) {
+            if (current_creneau.signature > 0) {
+                signature_message = current_creneau.signature + " signature(s) de la charte"
+            } else {
+                signature_message = "Pas de signature de la charte"
+            }
+        }
+
+
         if(loading){
             return (
                 <Grid 
@@ -175,7 +200,7 @@ class CurrentPerm extends Component{
                                 <Typography variant="body1" gutterBottom>
                                     Responsable: {current_creneau.perm.nom_resp} ({current_creneau.perm.mail_resp})<br/>
                                     Date : {current_creneau.date}<br/>
-                                    ? signature(s) de la charte
+                                    {signature_message}
                                 </Typography> 
                             </Grid>
                         </Grid>
