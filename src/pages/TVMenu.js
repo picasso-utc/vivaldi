@@ -79,6 +79,7 @@ const styles = theme => ({
         marginTop: 10,
         width: '100%',
         textAlign: 'center',
+        fontSize: 80,
     },
     container: {
         width: '100%',
@@ -93,8 +94,8 @@ const styles = theme => ({
     },
     table : {
         width: '100%',
-        marginTop: 30,
-        fontSize: 30,
+        marginTop: 50,
+        fontSize: 50,
         borderCollapse: 'collapse'
     },
     title_cell : {
