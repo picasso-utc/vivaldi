@@ -96,10 +96,10 @@ class Menu extends Component {
         ajaxGet('perm/menus/').then(res => {
             const query = new URLSearchParams(this.props.location.search);
             const selected_article = query.get('selected_article');
+            this.setState({menus: res.data, loading: false, orders: [], menu: {}, stack_information:[], selected_article: ''});
             if (selected_article) {
                 this.setState({selected_article: selected_article})
             }
-            this.setState({menus: res.data, loading: false});
             this.interval = setInterval(() => this.loadSelectedMenu(), 2000);
         })
         .catch(error => {
@@ -148,8 +148,25 @@ class Menu extends Component {
                 window.location.reload();
             })  
         }
-        
     }
+
+
+    areMenusAllServed(){
+        const orders = this.state.orders;
+        if (orders.length > 0) {
+            let all_served = true;
+            for (let index = 0; index < orders.length; index++) {
+                const element = orders[index];
+                if(!element.served){
+                    all_served = false;
+                    break;
+                }
+            }
+            return all_served
+        }
+        return false;
+    }
+
 
     selectMenu(event){
         this.setState({selected_article: event.target.value, orders: [], menu: {}, stack_information:[]})
@@ -228,7 +245,18 @@ class Menu extends Component {
 				message: message
 			}
 		})
-	}
+    }
+    
+
+    deleteMenu(event, menu){
+        console.log(menu)
+        ajaxPost('perms/menu/closed/' + menu.id_payutc, {}).then(res => {
+            this.changeSnackbarState(true, 'success', 'Le menu a été supprimé');
+            this.loadMenus();
+        }).catch(error => {
+            this.changeSnackbarState(true, 'error', 'Une erreur est survenue lors de la suppression du menu');
+        })
+    }
 	
 
   	render() {
@@ -258,6 +286,24 @@ class Menu extends Component {
                                 <Typography variant="h6" className={classes.subtitle}>
                                     {menu.total_quantity} / {menu.quantity} - Menus servis : {menu.served_quantity}
                                 </Typography>
+                                {this.areMenusAllServed() && 
+                                    <Grid 
+                                        container 
+                                        direction="row"
+                                        justify="center"
+                                        alignItems="center"
+                                    >
+                                        <Button 
+                                            variant="contained" 
+                                            size="small" 
+                                            color="secondary" 
+                                            className={classes.delete_btn} 
+                                            onClick={(e) => this.deleteMenu(e, menu)}
+                                        >
+                                            Supprimer Menu
+                                        </Button>
+                                    </Grid>
+                                }
                                 <Table>
                                     <TableBody>
                                         {orders.map((order, index) => (
@@ -410,6 +456,9 @@ const styles = theme => ({
         marginLeft: 5,
         marginRight: 5,
         marginTop: 3,
+    },
+    delete_btn: {
+        marginBottom: 20,
     },
     menu_selection: {
         width: '100%'
