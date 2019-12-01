@@ -419,7 +419,7 @@ class PollsManagement extends Component{
                                                     >
                                                         {survey.visible ? (<span>Masquer</span>):(<span>Rendre visible</span>)}
                                                     </Button>
-                                                    <Button 
+                                                    {/* <Button 
                                                         size="small" 
                                                         color="secondary"
                                                         variant="contained" 
@@ -428,7 +428,7 @@ class PollsManagement extends Component{
                                                         onClick={() => this.deleteSurvey(survey_index)}
                                                     >
                                                         Supprimer
-                                                    </Button>
+                                                    </Button> */}
                                                 </TableCell>
                                             </TableRow>
                                         ))}
