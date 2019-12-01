@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { ajaxPost } from '../utils/Ajax';
+import { asset_url } from '../utils/Config';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -143,33 +144,36 @@ class TVDuelBrasseur extends React.Component {
 
         const { classes } = this.props;
         const { beers } = this.state;
+        const backgroundImage = {
+            backgroundImage: 'url(\'' + asset_url('/images/background_logo.png') + '\')'
+        }
 
 		return (
             
-            <div className={classes.main}>
+            <div className={classes.main} style={backgroundImage}>
                 
-                <div style={{height: '100%', border: '1.5px solid #B22132'}} className={classes.pic}>
+                <div style={backgroundImage} className={classes.pic}>
                     <Grid container direction="row" style={{height: '15%'}}></Grid>
 
 
                     {/* DUEL 1 */}
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left} id="deli">
-                            <img alt="deli_beer" src="/images/delirium.jpg" className={classes.beer_img}/>
+                            <img alt="deli_beer" src={asset_url("/images/delirium.jpg")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Délirium ({beers.duel_1.delirium.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delirium">
-                                <img alt="deli_score" src="/images/beer_3.jpg" className={classes.left_score_img}/>
+                                <img alt="deli_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="cuvee">
-                                <img alt="cuvee_score" src="/images/beer_3.jpg" className={classes.right_score_img}/>
+                                <img alt="cuvee_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
-                            <img alt="cuvee_beer" src="/images/cuvee.png" className={classes.beer_img}/>
+                            <img alt="cuvee_beer" src={asset_url("/images/cuvee.png")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Cuvée ({beers.duel_1.cuvee.percentage})</span>
                         </Grid>
                     </Grid>
@@ -178,21 +182,21 @@ class TVDuelBrasseur extends React.Component {
                     {/* DUEL 2 */}
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
-                            <img alt="delired_beer" src="/images/deli_red.png" className={classes.beer_img}/>
+                            <img alt="delired_beer" src={asset_url("/images/deli_red.png")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Déli Red ({beers.duel_2.delired.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delired">
-                                <img alt="delired_score" src="/images/beer_3.jpg" className={classes.left_score_img}/>
+                                <img alt="delired_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="pechemel">
-                                <img alt="pechemel_score" src="/images/beer_3.jpg" className={classes.right_score_img}/>
+                                <img alt="pechemel_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
-                            <img alt="pechemel_beer" src="/images/pechemel.jpg" className={classes.beer_img}/>
+                            <img alt="pechemel_beer" src={asset_url("/images/pechemel.jpg")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Pêche Mel ({beers.duel_2.pechemel.percentage})</span>
                         </Grid>
                     </Grid>
@@ -201,21 +205,21 @@ class TVDuelBrasseur extends React.Component {
                     {/* DUEL 3 */}
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
-                            <img alt="delinoel_beer" src="/images/delinoel.jpg" className={classes.beer_img}/>
+                            <img alt="delinoel_beer" src={asset_url("/images/delinoel.jpg")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Déli Noël ({beers.duel_3.delinoel.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delinoel">
-                                <img alt="delinoel_score" src="/images/beer_3.jpg" className={classes.left_score_img}/>
+                                <img alt="delinoel_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="bush">
-                                <img alt="bush_score" src="/images/beer_3.jpg" className={classes.right_score_img}/>
+                                <img alt="bush_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
-                            <img alt="bush_beer" src="/images/bush.jpg" className={classes.beer_img}/>
+                            <img alt="bush_beer" src={asset_url("/images/bush.jpg")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Bush Triple ({beers.duel_3.bush.percentage})</span>
                         </Grid>
                     </Grid>
@@ -224,21 +228,21 @@ class TVDuelBrasseur extends React.Component {
                     {/* DUEL 4 */}
                     <Grid container direction="row" style={{height: '20%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
-                            <img alt="argentum_beer" src="/images/argentum.jpg" className={classes.beer_img}/>
+                            <img alt="argentum_beer" src={asset_url("/images/argentum.jpg")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Argentum ({beers.duel_4.argentum.percentage})</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="argentum">
-                                <img alt="argentum_score" src="/images/beer_3.jpg" className={classes.left_score_img}/>
+                                <img alt="argentum_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="surfine">
-                                <img alt="surfine_score" src="/images/beer_3.jpg" className={classes.right_score_img}/>
+                                <img alt="surfine_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
-                            <img alt="surfine_beer" src="/images/surfine.png" className={classes.beer_img}/>
+                            <img alt="surfine_beer" src={asset_url("/images/surfine.png")} className={classes.beer_img}/>
                             <span className={classes.beer_name}>Surfine ({beers.duel_4.surfine.percentage})</span>
                         </Grid>
                     </Grid>
@@ -262,18 +266,18 @@ const styles = theme => ({
         color: 'white', 
         padding: '2% 1%',
         fontWeight: 600,
-        backgroundImage: 'url(\'/images/background_logo.png\')',
         backgroundAttachment: 'fixed',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: '5% 50%',
         backgroundSize: '10%',
     },       
     pic : {
-        backgroundImage: 'url(\'/images/background_logo.png\')',
         backgroundAttachment: 'fixed',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: '95% 50%',
         backgroundSize: '10%',
+        height: '100%', 
+        border: '1.5px solid #B22132'
     },    
     img_div_left : {
         height: '100%', 
@@ -288,7 +292,6 @@ const styles = theme => ({
         paddingTop: 15,
     },
     beer_img : {
-        // padding: '10px 0', 
         objectFit: 'contain', 
         height: '80%',
         borderRadius: 5,
