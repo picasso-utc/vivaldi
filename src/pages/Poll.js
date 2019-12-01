@@ -239,7 +239,7 @@ class Poll extends React.Component {
                                     </div>
                                     <Grid container direction="row" justify="center" alignItems="center">
                                         <Typography className={classes.note}>
-                                            ** Note : Votre vote sera conservée durant la durée du sondage et supprimée par la suite.
+                                            ** Note : Votre vote sera conservé durant la durée du sondage et supprimé par la suite.
                                         </Typography>
                                     </Grid>
                                 </div>
@@ -345,7 +345,7 @@ const styles = theme => ({
     gridList: {
         flexWrap: 'nowrap',
         transform: 'translateZ(0)',
-        width: '100%',
+        width: 'min-content',
     },
     voted_item : {
         backgroundColor : '#43A047',
