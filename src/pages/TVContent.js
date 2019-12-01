@@ -250,7 +250,7 @@ class TVContent extends React.Component {
                                                 variant="body1" 
                                                 style={{height: '20%', marginTop: 15, textAlign: 'center'}}
                                             >
-                                                {item.vote.toFixed(1)}%
+                                                {(100*item.vote).toFixed(1)}%
                                             </Typography>
                                         </div>
                                     ))}
