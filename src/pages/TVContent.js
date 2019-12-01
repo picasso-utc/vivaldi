@@ -236,7 +236,7 @@ class TVContent extends React.Component {
                                             key={index} 
                                             style={{height: '100%', padding: 10, width: '20%'}}
                                         >
-                                            <Typography variant="h6" style={{height: '20%', textAlign: 'center'}}>
+                                            <Typography variant="h5" style={{height: '20%', textAlign: 'center'}}>
                                                 {item.name}
                                             </Typography>
                                             <div style={{height: '60%', width: '100%', textAlign: 'center'}}>
@@ -247,7 +247,7 @@ class TVContent extends React.Component {
                                                 />
                                             </div>
                                             <Typography 
-                                                variant="body1" 
+                                                variant="h6" 
                                                 style={{height: '20%', marginTop: 15, textAlign: 'center'}}
                                             >
                                                 {(100*item.vote).toFixed(1)}%
@@ -288,7 +288,9 @@ class TVContent extends React.Component {
                                     alignItems="center" 
                                     style={{height: '5%'}}
                                 >
-                                    <span style={{fontSize: 20}}>Votez ici !</span>
+                                    <Typography variant="h4">
+                                        Votez ici !
+                                    </Typography>
                                 </Grid>
                             </div>
                         </div>
