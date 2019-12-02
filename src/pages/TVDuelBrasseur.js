@@ -121,7 +121,6 @@ class TVDuelBrasseur extends React.Component {
                 }
                 for (let beer_index = 0; beer_index < duel_beers.length; beer_index++) {
                     const beer_sells = beers[duels[index]][duel_beers[beer_index]].quantity;
-                    console.log(duel_beers[beer_index])
                     const beer_div = document.getElementById(duel_beers[beer_index]);
                     if (beer_sells === 0) {
                         beers[duels[index]][duel_beers[beer_index]].percentage = "0.0%"
