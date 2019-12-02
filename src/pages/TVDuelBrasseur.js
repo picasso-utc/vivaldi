@@ -164,12 +164,12 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delirium">
-                                <img alt="deli_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
+                                <img alt="deli_score" src={asset_url("/images/beer.gif")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="cuvee">
-                                <img alt="cuvee_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
+                                <img alt="cuvee_score" src={asset_url("/images/beer.gif")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
@@ -187,12 +187,12 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delired">
-                                <img alt="delired_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
+                                <img alt="delired_score" src={asset_url("/images/beer.gif")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="pechemel">
-                                <img alt="pechemel_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
+                                <img alt="pechemel_score" src={asset_url("/images/beer.gif")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
@@ -210,12 +210,12 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="delinoel">
-                                <img alt="delinoel_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
+                                <img alt="delinoel_score" src={asset_url("/images/beer.gif")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="bush">
-                                <img alt="bush_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
+                                <img alt="bush_score" src={asset_url("/images/beer.gif")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
@@ -233,12 +233,12 @@ class TVDuelBrasseur extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="argentum">
-                                <img alt="argentum_score" src={asset_url("/images/beer_3.jpg")} className={classes.left_score_img}/>
+                                <img alt="argentum_score" src={asset_url("/images/beer.gif")} className={classes.left_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.right_score} id="surfine">
-                                <img alt="surfine_score" src={asset_url("/images/beer_3.jpg")} className={classes.right_score_img}/>
+                                <img alt="surfine_score" src={asset_url("/images/beer.gif")} className={classes.right_score_img}/>
                             </div>
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
