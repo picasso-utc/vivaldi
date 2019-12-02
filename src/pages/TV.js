@@ -69,6 +69,7 @@ const styles = theme => ({
     iframe_style: {
         width: '100%',
         height: '100%',
+        border: 'None',
     }
 });
 
