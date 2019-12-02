@@ -236,7 +236,7 @@ class TVContent extends React.Component {
                                             key={index} 
                                             style={{height: '100%', padding: 10, width: '20%'}}
                                         >
-                                            <Typography variant="h4" style={{height: '20%', textAlign: 'center', fontWeight: 600}}>
+                                            <Typography variant="h4" style={{height: '20%', textAlign: 'center', fontWeight: 500}}>
                                                 {item.name}
                                             </Typography>
                                             <div style={{height: '60%', width: '100%', textAlign: 'center'}}>
@@ -247,8 +247,8 @@ class TVContent extends React.Component {
                                                 />
                                             </div>
                                             <Typography 
-                                                variant="h5" 
-                                                style={{height: '20%', marginTop: 15, textAlign: 'center'}}
+                                                variant="h4" 
+                                                style={{height: '20%', marginTop: 15, textAlign: 'center', fontWeight: 400}}
                                             >
                                                 {(100*item.vote).toFixed(1)}%
                                             </Typography>
@@ -263,7 +263,7 @@ class TVContent extends React.Component {
                                     alignItems="center" 
                                     style={{height: '25%'}}
                                 >
-                                    <Typography variant="h2" style={{fontWeight: 600}}>
+                                    <Typography variant="h2" style={{fontWeight: 500}}>
                                         {polls[current_poll_index].description}
                                     </Typography>
                                     
