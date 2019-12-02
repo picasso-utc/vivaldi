@@ -289,7 +289,7 @@ class TVContent extends React.Component {
                                     style={{height: '5%'}}
                                 >
                                     <Typography variant="h4" style={{fontWeight: 300}}>
-                                        Votez ici !
+                                        Vote ici !
                                     </Typography>
                                 </Grid>
                             </div>
