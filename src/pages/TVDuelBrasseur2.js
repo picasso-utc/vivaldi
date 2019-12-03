@@ -23,83 +23,35 @@ class TVDuelBrasseur2 extends React.Component {
                 },
                 duel_2 : {
                     delired: {
-                        id: 15479,
+                        id: 13565,
                         percentage: ''
                     },
-                    // AtyPic
                     pechemel: {
-                        id: 1403,
+                        id: 15707,
                         percentage: ''
                     }
-                    // Barbar
                 },
                 duel_3 : {
                     delinoel: {
-                        id : 13896,
+                        id : 15705,
                         percentage: ''
                     },
-                    // Friels
                     bush: {
-                        id: 1399,
+                        id: 13798,
                         percentage: ''
                     }
-                    // Chimay bleu
                 },
                 duel_4 : {
                     argentum: {
-                        id: 1394,
+                        id: 15706,
                         percentage: ''
                     },
-                    // Carolus Bouteille
                     surfine: {
-                        id: 1398,
+                        id: 15704,
                         percentage: ''
                     }
-                    // Westmalle triple
                 }
             }
-            // beers : {
-            //     duel_1 : {
-            //         delirium : {
-            //             id: 458,
-            //             percentage: ''
-            //         },
-            //         cuvee: {
-            //             id: 457,
-            //             percentage: ''
-            //         },
-            //     },
-            //     duel_2 : {
-            //         delired: {
-            //             id: 13565,
-            //             percentage: ''
-            //         },
-            //         pechemel: {
-            //             id: 15707,
-            //             percentage: ''
-            //         }
-            //     },
-            //     duel_3 : {
-            //         delinoel: {
-            //             id : 15705,
-            //             percentage: ''
-            //         },
-            //         bush: {
-            //             id: 13798,
-            //             percentage: ''
-            //         }
-            //     },
-            //     duel_4 : {
-            //         argentum: {
-            //             id: 15706,
-            //             percentage: ''
-            //         },
-            //         surfine: {
-            //             id: 15704,
-            //             percentage: ''
-            //         }
-            //     }
-            // }
         }
 	}
 
