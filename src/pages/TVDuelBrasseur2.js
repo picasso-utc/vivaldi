@@ -105,7 +105,11 @@ class TVDuelBrasseur2 extends React.Component {
             <div className={classes.main} style={backgroundImage}>
                 
                 <div style={backgroundImage} className={classes.pic}>
-                    <Grid container direction="row" style={{height: '15%'}}></Grid>
+                    <Grid container direction="row" style={{height: '3%'}}>
+                    </Grid>
+                    <Grid container direction="row" style={{height: '12%'}}>
+                        <img src={asset_url("/images/duel_fredo.png")} className={classes.duel_img} alt="Duel des brasseurs"/>
+                    </Grid>
 
 
                     {/* DUEL 1 */}
@@ -230,6 +234,11 @@ const styles = theme => ({
         backgroundSize: '10%',
         height: '100%', 
         border: '1.5px solid #B22132'
+    }, 
+    duel_img : {
+        objectFit: 'contain', 
+        height: '100%',
+        width: '100%',
     },    
     img_div_left : {
         height: '100%', 
