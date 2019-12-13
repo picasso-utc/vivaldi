@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles'
-import postes from '../../utils/postes.json'
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Typography } from "@material-ui/core";
@@ -22,20 +21,10 @@ class FichesPostes extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			postes: [],
 			poste_selected: false,
 			poste_index: '',
 			be_member_selected: false
 		}
-	}
-
-	
-	componentDidMount(){
-		this.setState({
-			postes: postes.postes
-		}, () => {
-			this.setState({loading: false})
-		})
 	}
 
 	seeBeMemberSection(){
