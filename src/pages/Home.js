@@ -8,7 +8,7 @@ import Rules from  '../components/home/Rules';
 import Calendar from '../components/home/Calendar';
 import PriceDisplayer from '../components/home/PriceDisplayer';
 import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
-// import FichesPostes from '../components/home/FichesPostes';
+import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
 import Footer from '../components/Footer';
 import IndexPolls from '../components/home/IndexPolls';
@@ -72,12 +72,12 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					{/* <Container className={classes.container}>
-						<fieldset className={classes.component}>
-							<legend className={classes.legend}>Devenir membre du Pic</legend>
+					<Container className={classes.container}>
+						<fieldset className={classes.component} style={{minWidth: 1}}>
+							<legend className={classes.legend}>Postes</legend>
 							<FichesPostes />
 						</fieldset>
-					</Container> */}
+					</Container>
 
 					<Container className={classes.container}>
 						<fieldset className={classes.component}>
