@@ -8,6 +8,9 @@ import axios from 'axios';
 
 const defaultConfig = {withCredentials: true}
 
+function ajaxPortal(full_path){
+    return axios.get(full_path)
+}
 
 function ajaxGet(path) {
     return axios.get(API_URL + path, defaultConfig);
@@ -30,4 +33,4 @@ function ajaxDelete(path) {
 }
 
 
-export { ajaxGet, ajaxPost, ajaxPut, ajaxDelete, ajaxPatch };
+export { ajaxGet, ajaxPost, ajaxPut, ajaxDelete, ajaxPatch, ajaxPortal };
