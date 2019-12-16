@@ -26,6 +26,12 @@
   background-color: #90a4ae ;
 }
 
+
+.responsive_table {
+  width: 100%;
+  overflow-x: auto;
+}
+
 /* ADMIN SIDE  */
 .admin_container {
   padding: 3%;
