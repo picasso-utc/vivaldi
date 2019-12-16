@@ -32,6 +32,12 @@
   overflow-x: auto;
 }
 
+.basic_container {
+  padding: 3%;
+  margin: 4%;
+  border: 2px solid #B22132;
+}
+
 /* ADMIN SIDE  */
 .admin_container {
   padding: 3%;
