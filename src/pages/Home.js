@@ -23,27 +23,19 @@ class Home extends React.Component {
 			<React.Fragment>
 				<CssBaseline />
 				
-				<Container className={classes.root}>
+				<Container id="home" className={classes.root}>
 					<Container className={classes.header} id="header" fixed>
 						<Header/>
 					</Container>
 					
-					<Container className={classes.container}>
+					<Container id="rules" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Les règles</legend>
 							<Rules />
 						</fieldset>
 					</Container>
-					
-					{/* <Typography variant="h4" className={classes.title}>
-						Les règles au Pic
-                	</Typography>
-					<Container className={classes.component}>
-						<Rules />
-					</Container> */}
 
-
-					<Container className={classes.container}>
+					<Container id="calendar" className={classes.container}>
 						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Calendrier</legend>
 							<Calendar />
@@ -51,21 +43,21 @@ class Home extends React.Component {
 					</Container>
 
 
-					<Container className={classes.container}>
+					<Container id="polls" className={classes.container}>
 						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Sondages</legend>
 							<IndexPolls />
 						</fieldset>
 					</Container>
 
-					<Container className={classes.container}>
+					<Container id="prices" className={classes.container}>
 						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Tarifs</legend>
 							<PriceDisplayer />
 						</fieldset>
 					</Container>
 
-					<Container className={classes.container}>
+					<Container id="goodies" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Goodies</legend>
 							<GoodiesDisplayer />
@@ -79,7 +71,7 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					<Container className={classes.container}>
+					<Container id="team" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>La Team</legend>
 							<Trombinoscope />
@@ -87,7 +79,7 @@ class Home extends React.Component {
 					</Container>
 
 				</Container>
-				<Container direction="row">
+				<Container id="footer" direction="row">
 					<Footer/>
 				</Container>
 			</React.Fragment>
@@ -119,7 +111,7 @@ const styles = theme => ({
 		overflowX: "overlay",
 	},
 	component: {
-		marginTop: 30,
+		marginTop: 40,
 		padding: '5%',
 		border: "#B22132 1.5px solid",
 		textAlign: 'left',
