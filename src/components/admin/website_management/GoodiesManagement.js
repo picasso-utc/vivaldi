@@ -206,7 +206,7 @@ class GoodiesManagement extends Component{
                                                     <TableCell component="th" scope="row" className={classes.cell}>
                                                         {row.picked_up?(
                                                             <Button 
-                                                                variant="outlined" 
+                                                                variant="contained" 
                                                                 size="small" 
                                                                 className={classes.btn} 
                                                                 color="secondary"
@@ -216,7 +216,7 @@ class GoodiesManagement extends Component{
                                                             </Button>
                                                         ):(
                                                             <Button 
-                                                                variant="outlined" 
+                                                                variant="contained" 
                                                                 size="small" 
                                                                 className={classes.btn} 
                                                                 color="primary"
@@ -246,7 +246,7 @@ class GoodiesManagement extends Component{
                                                     <TableCell component="th" scope="row" className={classes.cell}>
                                                         {row.picked_up?(
                                                             <Button 
-                                                                variant="outlined" 
+                                                                variant="contained" 
                                                                 size="small" 
                                                                 className={classes.btn} 
                                                                 color="secondary"
@@ -256,7 +256,7 @@ class GoodiesManagement extends Component{
                                                             </Button>
                                                         ):(
                                                             <Button 
-                                                                variant="outlined" 
+                                                                variant="contained" 
                                                                 size="small" 
                                                                 className={classes.btn} 
                                                                 color="primary"
