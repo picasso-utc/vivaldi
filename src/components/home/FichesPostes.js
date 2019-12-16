@@ -10,7 +10,6 @@ import BuildIcon from '@material-ui/icons/Build';
 import GroupIcon from '@material-ui/icons/Group';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
 import LocalBarIcon from '@material-ui/icons/LocalBar';
-import MovieCreationIcon from '@material-ui/icons/MovieCreation';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import SchoolIcon from '@material-ui/icons/School';
 import SportsKabaddiIcon from '@material-ui/icons/SportsKabaddi';
