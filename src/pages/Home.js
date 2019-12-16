@@ -12,6 +12,7 @@ import FichesPostes from '../components/home/FichesPostes';
 import Trombinoscope from '../components/home/Trombinoscope';
 import Footer from '../components/Footer';
 import IndexPolls from '../components/home/IndexPolls';
+import PermRequest from '../components/home/PermRequest'
 
 
 class Home extends React.Component {
@@ -64,7 +65,14 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					<Container className={classes.container}>
+					<Container id="perm" className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Perm au Pic</legend>
+							<PermRequest />
+						</fieldset>
+					</Container>
+
+					<Container id="postes" className={classes.container}>
 						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Postes</legend>
 							<FichesPostes />
