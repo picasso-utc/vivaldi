@@ -59,11 +59,11 @@ class Dashboard extends Component{
 		}
 
 		return (
-			<div className={classes.container}>
+			<div className="admin_container">
 				
 
 				<Grid container className={classes.section}>
-					<Typography variant="h5" noWrap className={classes.subTitle}>
+					<Typography variant="h5" noWrap className={classes.title}>
 						<ChevronRight className={classes.subTitleIcon}/>
 						Notation des perms
 					</Typography>
@@ -110,14 +110,8 @@ class Dashboard extends Component{
 }
 
 const styles = theme => ({
-	container: {
-		padding: 20,
-		margin: 30,
-		marginTop: 100,
-		border: "2px solid #B22132",
-	},
 	section:{
-		paddingBottom :70,
+		paddingBottom : 10,
 	},
 	paper: {
 		padding: 10
@@ -152,9 +146,13 @@ const styles = theme => ({
 		height: 49,
 		width: "100%",
 	},
+	title : {
+		fontWeight: 400,
+	},
 	subTitle: {
 		marginTop: 10,
 		marginBottom: 10,
+		fontWeight: 400
 	},
 	subTitleIcon: {
 		marginRight: 8,
