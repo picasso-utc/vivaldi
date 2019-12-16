@@ -29,10 +29,17 @@ class Astreintes extends Component{
 
     loadMembers(){
         ajaxGet('admin/members').then(res => {
-			this.setState({members: res.data})
+            let members = res.data;
+            members = members.sort(function(a,b){
+                if (a.userright.name > b.userright.name) {
+                    return 1
+                }
+                return -1
+            })
+			this.setState({members: members, loading: false})
 		})
 		.catch(error => {
-			// this.setState({loading: false});
+			this.setState({loading: false});
 		});
     }
 
