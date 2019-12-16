@@ -64,7 +64,7 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					<Container className={classes.container}>
+					<Container id="postes" className={classes.container}>
 						<fieldset className={classes.component} style={{minWidth: 1}}>
 							<legend className={classes.legend}>Postes</legend>
 							<FichesPostes />
