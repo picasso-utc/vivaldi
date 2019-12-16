@@ -124,12 +124,12 @@ class GoodiesManagement extends Component{
         }
 
         return (
-            <div className={classes.container}>
+            <div className="admin_container">
 
                                 
                 {winners.length === 0 ? (
                     <Grid container>
-                        <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <Typography variant="h6" className={classes.subTitle}>
                             Pas de vainqueur pour le moment. 
                         </Typography>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -179,11 +179,11 @@ class GoodiesManagement extends Component{
                     </Grid>
                 ):(
                     <div>
-                        <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Liste des vainqueurs
                             <Button 
-                                variant="outlined" 
+                                variant="contained" 
                                 size="small" 
                                 className={classes.title_btn} 
                                 color="secondary"
@@ -194,80 +194,84 @@ class GoodiesManagement extends Component{
                         </Typography>
                         <Grid container>
                             <Grid item xs={12} sm={6}>
-                                <Table size="small">
-                                    <TableBody>
-                                        {winners.slice(0,Math.ceil(winners.length/2))
-                                        .map((row, index) => (
-                                            <TableRow hover key={index} className={classes.row}>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {row.winner}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {row.picked_up?(
-                                                        <Button 
-                                                            variant="outlined" 
-                                                            size="small" 
-                                                            className={classes.btn} 
-                                                            color="secondary"
-                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
-                                                        >
-                                                            Annuler
-                                                        </Button>
-                                                    ):(
-                                                        <Button 
-                                                            variant="outlined" 
-                                                            size="small" 
-                                                            className={classes.btn} 
-                                                            color="primary"
-                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
-                                                        >
-                                                            Reçu
-                                                        </Button>
-                                                    )
-                                                }
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                <div className="responsive_table">
+                                    <Table size="small">
+                                        <TableBody>
+                                            {winners.slice(0,Math.ceil(winners.length/2))
+                                            .map((row, index) => (
+                                                <TableRow hover key={index} className={classes.row}>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {row.winner}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {row.picked_up?(
+                                                            <Button 
+                                                                variant="outlined" 
+                                                                size="small" 
+                                                                className={classes.btn} 
+                                                                color="secondary"
+                                                                onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                            >
+                                                                Annuler
+                                                            </Button>
+                                                        ):(
+                                                            <Button 
+                                                                variant="outlined" 
+                                                                size="small" 
+                                                                className={classes.btn} 
+                                                                color="primary"
+                                                                onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                            >
+                                                                Reçu
+                                                            </Button>
+                                                        )
+                                                    }
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Table size="small">
-                                    <TableBody>
-                                        {winners.slice(Math.ceil(winners.length/2), winners.length)
-                                        .map((row, index) => (
-                                            <TableRow hover key={index} className={classes.row}>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {row.winner}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {row.picked_up?(
-                                                        <Button 
-                                                            variant="outlined" 
-                                                            size="small" 
-                                                            className={classes.btn} 
-                                                            color="secondary"
-                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
-                                                        >
-                                                            Annuler
-                                                        </Button>
-                                                    ):(
-                                                        <Button 
-                                                            variant="outlined" 
-                                                            size="small" 
-                                                            className={classes.btn} 
-                                                            color="primary"
-                                                            onClick={(e) => this.updateGoodieWinner(e, row.id)}
-                                                        >
-                                                            Reçu
-                                                        </Button>
-                                                    )
-                                                }
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                <div className="responsive_table">
+                                    <Table size="small">
+                                        <TableBody>
+                                            {winners.slice(Math.ceil(winners.length/2), winners.length)
+                                            .map((row, index) => (
+                                                <TableRow hover key={index} className={classes.row}>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {row.winner}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {row.picked_up?(
+                                                            <Button 
+                                                                variant="outlined" 
+                                                                size="small" 
+                                                                className={classes.btn} 
+                                                                color="secondary"
+                                                                onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                            >
+                                                                Annuler
+                                                            </Button>
+                                                        ):(
+                                                            <Button 
+                                                                variant="outlined" 
+                                                                size="small" 
+                                                                className={classes.btn} 
+                                                                color="primary"
+                                                                onClick={(e) => this.updateGoodieWinner(e, row.id)}
+                                                            >
+                                                                Reçu
+                                                            </Button>
+                                                        )
+                                                    }
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </Grid>
                         </Grid>
                     </div>
