@@ -17,6 +17,7 @@ import TVMenu from './pages/TVMenu';
 import TVDuelBrasseur from './pages/TVDuelBrasseur';
 import TVDuelBrasseur2 from './pages/TVDuelBrasseur2';
 import Poll from './pages/Poll';
+import PermForm from './pages/PermForm';
 
 const PUBLIC_URL = process.env.PUBLIC_URL;
 
@@ -31,6 +32,7 @@ class App extends React.Component {
 					<Route path="/login" exact component={Login}/>
 					<Route path="/charte" exact component={Charte}/>
 					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
+					<ProtectedRoute path="/perm/form" exact component={PermForm}/>
 					<Route path="/menu" component={Menu} />
 					<Route path="/tv" exact component={TV}/>
 					<Route path="/tv/content" exact component={TVContent}/>
