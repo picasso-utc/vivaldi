@@ -9,8 +9,14 @@ class Auth {
         return localStorage.getItem('auth');
     }
 
-    static getUser(){
-        return localStorage.getItem('identity');
+    static getUserInformation(){
+        const identity = {
+            login : localStorage.getItem('login'),
+            last_name : localStorage.getItem('last_name'),
+            first_name : localStorage.getItem('first_name'),
+            email : localStorage.getItem('email')
+        } 
+        return identity;
     }
 
     static getUserRight(){
@@ -53,7 +59,10 @@ class Auth {
 
     static authenticateUser(data){
         localStorage.setItem('auth', data.authenticated);
-        localStorage.setItem('identity', data.identitity);
+        localStorage.setItem('login', data.user.login);
+        localStorage.setItem('last_name', data.user.nom);
+        localStorage.setItem('first_name', data.user.prenom);
+        localStorage.setItem('email', data.user.mail);
         localStorage.setItem('right', data.right);
         localStorage.setItem('connexion', data.connexion);
     }
