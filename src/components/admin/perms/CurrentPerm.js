@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { asset_url } from '../../../utils/Config';
+import { formateFromDjangoDate } from '../../../utils/Date';
 
 class CurrentPerm extends Component{
  
@@ -159,6 +160,7 @@ class CurrentPerm extends Component{
     render(){
 
         const { current_creneau, loading, new_article, invoice_checked } = this.state;
+        const date = current_creneau.date
         
         const { classes } = this.props;
 
@@ -199,7 +201,7 @@ class CurrentPerm extends Component{
                             <Grid item>
                                 <Typography variant="body1" gutterBottom>
                                     Responsable: {current_creneau.perm.nom_resp} ({current_creneau.perm.mail_resp})<br/>
-                                    Date : {current_creneau.date}<br/>
+                                    Date : {formateFromDjangoDate(date)}<br/>
                                     {signature_message}
                                 </Typography> 
                             </Grid>
