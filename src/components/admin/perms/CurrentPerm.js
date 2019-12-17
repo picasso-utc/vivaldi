@@ -383,7 +383,7 @@ class CurrentPerm extends Component{
                             <Grid item xs={4} sm={2}>
                                 <Button 
                                     variant="contained"
-                                    // size="small"
+                                    size="small"
                                     disabled={(!invoice_checked && !current_creneau.perm.asso) && true}
                                     color="primary"
                                     className={classes.saving_btn} 
