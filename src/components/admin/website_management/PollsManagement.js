@@ -12,6 +12,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -21,9 +23,8 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
 import {URL} from '../../../utils/Config';
 
@@ -43,9 +44,10 @@ class PollsManagement extends Component{
                 image: null,
                 visible: false,
                 multi_choice: false,
-                surveyitem_set: []
+                surveyitem_set: [],
             },
-            mode: 'create'
+            mode: 'create',
+            confirm_modal: false
         }
 
         this.handleModalClickClose = this.handleModalClickClose.bind(this);
@@ -153,10 +155,15 @@ class PollsManagement extends Component{
 
 
     handleModalClickClose = () => {
-        this.setState({open_modal: false, loading: true})
+        this.setState({open_modal: false, confirm_modal: false, loading: true})
         this.loadSurveys();
         this.reloadNewSurvey();
     };
+
+
+    handleConfirmModalOpen(survey){
+        this.setState({confirm_modal: true, survey: survey})
+    }
 
 
     handleModalClickOpen = () => {
@@ -246,16 +253,6 @@ class PollsManagement extends Component{
         }
     }
 
-    updateSurvey(index){
-        ajaxPut('surveys/' + this.state.surveys[index].id + '/', this.state.surveys[index]).then((res) => {
-
-        })
-        .catch((error) => {
-            console.log(error);
-        })  
-    }
-
-
     saveSurveyItem(index){
         let surveyitem_set = [...this.state.survey.surveyitem_set];
         if (surveyitem_set[index].id) {
@@ -306,12 +303,11 @@ class PollsManagement extends Component{
     }
 
 
-    deleteSurvey(index){
-        const survey_id = this.state.surveys[index].id
+    deleteSurvey(survey_id){
         ajaxDelete('surveys/' + survey_id + '/').then(() => {
             let surveys = this.state.surveys;
             surveys = surveys.filter(s => s.id !== survey_id)
-            this.setState({surveys: surveys})
+            this.setState({surveys: surveys, confirm_modal: false})
         })
         .catch((error) => {
 
@@ -322,13 +318,13 @@ class PollsManagement extends Component{
     render(){
         
         const { classes } = this.props;
-        const { surveys, loading, open_modal, survey, mode } = this.state;
+        const { surveys, loading, open_modal, survey, mode, confirm_modal } = this.state;
 
         if (loading) {
             return (
                 <Grid 
                     container 
-                    className={classes.loader}
+                    className="admin_loader"
                     direction="row"
                     justify="center"
                     alignItems="center"
@@ -351,7 +347,7 @@ class PollsManagement extends Component{
                             justify="center"
                             alignItems="center"
                         >
-                            <Typography variant="h5" className={classes.subTitle}>
+                            <Typography variant="h6" className="admin_container">
                                 Pas de sondages pour le moment. 
                             </Typography>
                             <br/>
@@ -376,19 +372,17 @@ class PollsManagement extends Component{
                     </React.Fragment>
                 ):(
                     <div>
-                        <Typography variant="h5" noWrap className={classes.subTitle}>
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Liste des sondages
-                            <Button 
-                                variant="contained"
-                                margin="dense" 
+                            <Fab 
                                 size="small" 
-                                className={classes.add_item} 
-                                color="primary"
+                                color="primary" 
+                                className={classes.add_item}
                                 onClick={(e) => this.handleModalClickOpen()}
                             >
-                                Nouveau
-                            </Button>
+                                <AddIcon />
+                            </Fab>
                         </Typography>
                         <Grid container direction="row">
                                 <Table size="small">
@@ -414,21 +408,21 @@ class PollsManagement extends Component{
                                                         margin="dense"
                                                         size="small"
                                                         className={classes.btn} 
-                                                        color="primary"
+                                                        color={survey.visible ? "secondary" : "primary"}
                                                         onClick={(e) => this.changeSurveyVisibility(survey_index)}
                                                     >
-                                                        {survey.visible ? (<span>Masquer</span>):(<span>Rendre visible</span>)}
+                                                        {survey.visible ? (<span>Désactiver</span>):(<span>Activer</span>)}
                                                     </Button>
-                                                    {/* <Button 
+                                                    <Button 
                                                         size="small" 
                                                         color="secondary"
                                                         variant="contained" 
                                                         margin="dense"
                                                         className={classes.btn} 
-                                                        onClick={() => this.deleteSurvey(survey_index)}
+                                                        onClick={() => this.handleConfirmModalOpen(survey)}
                                                     >
                                                         Supprimer
-                                                    </Button> */}
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -631,6 +625,29 @@ class PollsManagement extends Component{
                             </React.Fragment>
                         }
                     </DialogContent>
+                </Dialog>
+                <Dialog
+                    open={confirm_modal}
+                    onClose={() => this.handleModalClickClose()}
+                >
+                    <DialogTitle>{"Suppresion: " + survey.title}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Veux-tu vraiment supprimer ce sondage ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            color="secondary"
+                            variant="contained" 
+                            margin="dense"
+                            size="small"
+                            className={classes.btn} 
+                            onClick={(e) => this.deleteSurvey(survey.id)}
+                        >
+                            Supprimer
+                        </Button>    
+                    </DialogActions>
                 </Dialog>
             </div>
         );
