@@ -238,7 +238,7 @@ class Media extends Component{
 
         return (
             <div className="admin_container">
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Médias
                     <Fab 

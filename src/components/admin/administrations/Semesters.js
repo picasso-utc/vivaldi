@@ -181,7 +181,7 @@ class Semesters extends Component{
         return (
             <div className="admin_container">
                 <Grid container className={classes.section}>
-                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                    <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRight className={classes.subTitleIcon}/>
                         Changer de semestre
                     </Typography>
@@ -221,7 +221,7 @@ class Semesters extends Component{
                 </Grid>
 
                 <Grid container className={classes.section}>
-                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                    <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRight className={classes.subTitleIcon}/>
                         Créer un semestre
                     </Typography>

@@ -88,7 +88,7 @@ class Configuration extends Component{
 
         return (
             <div className="admin_container">
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Gestion des télés
                 </Typography>
@@ -97,7 +97,7 @@ class Configuration extends Component{
                     <Paper className={classes.tv_paper} xs={6} key={index}>
                         <Grid container direction="row" key={index}>
                             <Grid item xs={12}>
-                                <Typography variant="h5" noWrap className={classes.subTitle}>
+                                <Typography variant="h6" className={classes.subTitle}>
                                     {row.name}
                                 </Typography>
                             </Grid>

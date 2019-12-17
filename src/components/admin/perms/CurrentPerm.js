@@ -194,7 +194,7 @@ class CurrentPerm extends Component{
             <div className="admin_container">
                 {current_creneau.id? (
                     <div>
-                        <Typography variant="h5" gutterBottom className={classes.title}>
+                        <Typography variant="h6" gutterBottom className={classes.title}>
                             {current_creneau.perm.nom}
                         </Typography>
                         <Grid container>
@@ -206,7 +206,7 @@ class CurrentPerm extends Component{
                                 </Typography> 
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" noWrap className={classes.subTitle}>
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Articles
                         </Typography>
@@ -307,7 +307,7 @@ class CurrentPerm extends Component{
                                 </TableBody>
                             </Table>
                         </div>
-                        <Typography variant="h6" noWrap className={classes.subTitle}>
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Ajouter un article
                         </Typography>

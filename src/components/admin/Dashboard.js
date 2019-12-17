@@ -63,7 +63,7 @@ class Dashboard extends Component{
 				
 
 				<Grid container className={classes.section}>
-					<Typography variant="h5" noWrap className={classes.title}>
+					<Typography variant="h5" className={classes.title}>
 						<ChevronRight className={classes.subTitleIcon}/>
 						Notation des perms
 					</Typography>
@@ -72,7 +72,7 @@ class Dashboard extends Component{
 					</Grid>
 
 					<Grid container direction="row" className={classes.section}>
-						<Typography variant="h6" noWrap className={classes.subTitle}>
+						<Typography variant="h6" className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du matin
 						</Typography>
@@ -82,7 +82,7 @@ class Dashboard extends Component{
 					</Grid>
 
 					<Grid container direction="row" className={classes.section}>
-						<Typography variant="h6" noWrap className={classes.subTitle}>
+						<Typography variant="h6" className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du midi
 						</Typography>
@@ -93,7 +93,7 @@ class Dashboard extends Component{
 					</Grid>
 
 					<Grid  container direction="row" className={classes.section}>
-						<Typography variant="h6" noWrap className={classes.subTitle}>
+						<Typography variant="h6" className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du soir
 						</Typography>

@@ -151,7 +151,7 @@ class Settings extends Component{
         return (
             <div className="admin_container">
                 <Grid container className={classes.section}>
-                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                    <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRightIcon className={classes.subTitleIcon}/>
                         Badge PayUTC
                     </Typography>
@@ -219,7 +219,7 @@ class Settings extends Component{
                 </Grid>
 
                 <Grid container className={classes.section}>
-                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                    <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRightIcon className={classes.subTitleIcon}/>
                         API Ginger
                     </Typography>
@@ -257,7 +257,7 @@ class Settings extends Component{
                 </Grid>
 
                 <Grid container className={classes.section}>
-                    <Typography variant="h5" noWrap className={classes.subTitle}>
+                    <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRightIcon className={classes.subTitleIcon}/>
                         API PayUTC
                     </Typography>
