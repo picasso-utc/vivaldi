@@ -337,7 +337,7 @@ class PollsManagement extends Component{
         }
 
         return (
-            <div className={classes.container}>
+            <div className="admin_container">
                           
                 {surveys.length === 0 ? (
                     <React.Fragment>
@@ -347,7 +347,7 @@ class PollsManagement extends Component{
                             justify="center"
                             alignItems="center"
                         >
-                            <Typography variant="h6" className="admin_container">
+                            <Typography variant="h6">
                                 Pas de sondages pour le moment. 
                             </Typography>
                             <br/>
