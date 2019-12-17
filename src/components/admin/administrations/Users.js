@@ -13,7 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 
 class Users extends Component{
@@ -31,6 +31,7 @@ class Users extends Component{
             page: 0,
             rowsPerPage: 5,
             autoCompleteUsers: [],
+            loading: true
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -180,7 +181,7 @@ class Users extends Component{
         
         const { classes } = this.props;
 
-        const {users, new_user, autoCompleteUsers, page, rowsPerPage} = this.state;
+        const {users, new_user, autoCompleteUsers, page, rowsPerPage, loading} = this.state;
 
         const rights = [
             { value: 'N', label: 'Aucun droit' },
@@ -188,9 +189,25 @@ class Users extends Component{
             { value: 'A', label: 'Administrateur' },
         ];
 
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
+
         return (
-            <div className={classes.container}>
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+            <div className="admin_container">
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Ajouter un nouvel utilisateur
                 </Typography>
@@ -239,13 +256,13 @@ class Users extends Component{
                         </TextField>
                     </Grid>
                     <Grid item xs={4} sm={2}>
-                        <Button variant="outlined" color="primary" className={classes.addButton} size="large" onClick={this.saveUser}>
+                        <Button variant="contained" color="primary" className={classes.addButton} size="small" onClick={this.saveUser}>
                             Ajouter
                         </Button>
                     </Grid>
                 </Grid>
                 
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Liste des utilisateurs
                 </Typography>
@@ -276,7 +293,7 @@ class Users extends Component{
                                 <TableCell component="th" scope="row" className={classes.cell}>
                                     {row.right === "A" && (
                                         <Button 
-                                            variant="outlined" 
+                                            variant="contained" 
                                             size="small" 
                                             className={classes.btn} 
                                             onClick={(e) => this.downgradeUser(e, row)}
@@ -286,7 +303,7 @@ class Users extends Component{
                                     )}
                                     {row.right === "M" && (
                                         <Button 
-                                            variant="outlined" 
+                                            variant="contained" 
                                             size="small" 
                                             color="primary" 
                                             className={classes.btn} 
@@ -297,7 +314,7 @@ class Users extends Component{
                                     )}
                                     {row.right === "N" ? (
                                         <Button 
-                                            variant="outlined" 
+                                            variant="contained" 
                                             size="small" 
                                             color="primary" 
                                             className={classes.btn} 
@@ -307,7 +324,7 @@ class Users extends Component{
                                         </Button>
                                     ): (
                                         <Button 
-                                            variant="outlined" 
+                                            variant="contained" 
                                             size="small" 
                                             color="secondary" 
                                             className={classes.btn} 
@@ -352,10 +369,6 @@ const styles = theme => ({
     paper: {
         padding: 10
     },
-    // note: {
-    //     backgroundColor: 'rgba(0,0,0, 0.05)',
-    //     padding: 10
-    // },
     textField: {
         marginTop: 16,
         paddingRight: 15,
@@ -378,8 +391,6 @@ const styles = theme => ({
     addButton: {
         marginTop: 16,
         marginBottom: 8,
-        height: 49,
-        width: "100%",
     },
     subTitle: {
         marginTop: 10,
@@ -399,9 +410,7 @@ const styles = theme => ({
         paddingLeft: 10,
     },
     btn: {
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 3,
+        margin: 5
     },
 });
 
