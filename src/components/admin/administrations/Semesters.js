@@ -4,7 +4,7 @@ import { Typography, TextField, Button, Grid, MenuItem } from '@material-ui/core
 import { ChevronRight } from '@material-ui/icons';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 
 
@@ -30,7 +30,7 @@ class Semesters extends Component{
             },
             selectedDate: null,
             semesters : [],
-            
+            loading: true
         }
 
         this.handleDateDebutChange = this.handleDateDebutChange.bind(this);
@@ -98,7 +98,7 @@ class Semesters extends Component{
 
     loadSemester(){
         ajaxGet('semesters').then(res => {
-            this.setState({semesters:res.data}) 
+            this.setState({semesters:res.data, loading: false}) 
         })
         ajaxGet('current/semester').then(res => {
             this.setState({current_semester:res.data}) 
@@ -150,22 +150,36 @@ class Semesters extends Component{
 
     render() {
         const { classes } = this.props;
-        const { semesters, current_semester, new_semester } = this.state;
+        const { semesters, current_semester, new_semester, loading } = this.state;
         const periode = [
-        {
-            value : 'Automne',
-            key : 'A'
-        },
-        {
-            value : 'Printemps',
-            key : 'P'
-        }
+            {
+                value : 'Automne',
+                key : 'A'
+            },
+            {
+                value : 'Printemps',
+                key : 'P'
+            }
         ]
 
-        return (
-            <div className={classes.container}>
-                
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
+        return (
+            <div className="admin_container">
                 <Grid container className={classes.section}>
                     <Typography variant="h5" noWrap className={classes.subTitle}>
                         <ChevronRight className={classes.subTitleIcon}/>
@@ -179,7 +193,7 @@ class Semesters extends Component{
                         Ne changez pas de semestre si vous souhaitez juste consulter les informations d'un semestre ! Pour cela, utilisez le menu déroulant.
                     </Grid>
                     <Grid container>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={8} sm={6}>
                             <TextField
                                 select
                                 className={classes.textField}
@@ -187,6 +201,7 @@ class Semesters extends Component{
                                 value={current_semester.id || ''}
                                 autoComplete="off"
                                 margin="dense"
+                                fullWidth
                                 variant="outlined"
                                 onChange={this.handleChangeCurrentSemester}
                             >
@@ -197,8 +212,8 @@ class Semesters extends Component{
                                 ))}
                             </TextField>
                         </Grid> 
-                        <Grid>
-                            <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.changeSemester}> 
+                        <Grid item xs={4} sm={2}>
+                            <Button variant="contained" size="small" color="primary" className={classes.addButton} onClick={this.changeSemester}> 
                                 Changer
                             </Button>
                         </Grid>             
@@ -222,7 +237,8 @@ class Semesters extends Component{
                                 value={new_semester.periode || ''}
                                 autoComplete="off"
                                 onChange={this.handleChangeNewSemester}
-                                margin="normal"
+                                margin="dense"
+                                fullWidth
                                 
                             >
                                 {periode.map(periode => (
@@ -240,7 +256,8 @@ class Semesters extends Component{
                                 value={new_semester.annee}
                                 className={classes.textField}
                                 onChange={this.handleChangeNewSemester}
-                                margin="normal"
+                                margin="dense"
+                                fullWidth
                               />
                         </Grid>
 
@@ -278,8 +295,8 @@ class Semesters extends Component{
                             </Grid>
                         </MuiPickersUtilsProvider>
 
-                        <Grid item xs={4} sm={2}>
-                            <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.saveNewSemester}> 
+                        <Grid item xs={4} sm={2}> 
+                            <Button variant="contained" size="small" color="primary" className={classes.addButton} onClick={this.saveNewSemester}> 
                                 Ajouter
                             </Button>
                         </Grid>
@@ -316,7 +333,6 @@ const styles = theme => ({
     textField: {
         marginTop: 16,
         paddingRight: 15,
-        width: "100%",
     },
     suggestions: {
         zIndex: 100,
@@ -335,8 +351,6 @@ const styles = theme => ({
     addButton: {
         marginTop: 16,
         marginBottom: 8,
-        height: 49,
-        width: "100%",
     },
     subTitle: {
         marginTop: 10,
