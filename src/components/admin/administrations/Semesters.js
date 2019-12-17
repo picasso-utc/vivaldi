@@ -317,9 +317,6 @@ const styles = theme => ({
         marginTop: 100,
         border: "2px solid #B22132",
     },
-    section:{
-        paddingBottom :70,
-    },
     paper: {
         padding: 10
     },
