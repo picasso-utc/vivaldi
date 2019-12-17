@@ -7,6 +7,7 @@ import './App.css';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Charte from './components/Charte';
 import Menu from './components/Menu';
 import Error404 from './pages/Error404';
@@ -29,6 +30,7 @@ class App extends React.Component {
 					<Route path="/" exact component={Home}/>
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
+					<Route path="/logout" exact component={Logout}/>
 					<Route path="/charte" exact component={Charte}/>
 					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
 					<Route path="/menu" component={Menu} />
