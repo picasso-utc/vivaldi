@@ -7,7 +7,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 
 class Settings extends Component{
@@ -30,6 +30,7 @@ class Settings extends Component{
                 login : ''
             },
             autoCompleteUsers: [],
+            loading: true
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -111,33 +112,44 @@ class Settings extends Component{
     loadSettings(){
 
         ajaxGet('admin/settings', this.state.settings).then(res => {
-            console.log(res.data.settings)
             const new_user = {
                 login : '',
                 badge : res.data.settings.PAYUTC_CONNECTION_UID,
                 pin : res.data.settings.PAYUTC_CONNECTION_PIN
             }
-            this.setState({settings:res.data.settings, user : new_user}) 
+            this.setState({settings:res.data.settings, user : new_user, loading: false}) 
         })
         .catch(res => {
             console.log(res)  
         })
  
     }
-
-
-
-
  
 
     render(){
         
         const { classes } = this.props;
 
-        const {settings, autoCompleteUsers, user} = this.state;
+        const {settings, autoCompleteUsers, user, loading} = this.state;
+
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return (
-            <div className={classes.container}>
+            <div className="admin_container">
                 <Grid container className={classes.section}>
                     <Typography variant="h5" noWrap className={classes.subTitle}>
                         <ChevronRightIcon className={classes.subTitleIcon}/>
@@ -151,13 +163,14 @@ class Settings extends Component{
                         <Grid item xs={12}>
                             <TextField
                                 label="Chercher un utilisateur ..."
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="login"
                                 value={user.login|| ''}
                                 onChange={this.handleChange}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
+                                fullWidth
                             />
                             <Paper className={classes.suggestions}>
                                 {autoCompleteUsers.map((suggestion, index)=> (
@@ -176,19 +189,20 @@ class Settings extends Component{
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Badge de connexion (UID)"
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="PAYUTC_CONNECTION_UID"
                                 value={settings.PAYUTC_CONNECTION_UID|| ''}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
+                                fullWidth
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Code PIN de l'utilisateur"
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="PAYUTC_CONNECTION_PIN"
                                 value={settings.PAYUTC_CONNECTION_PIN|| ''}
                                 onChange={this.handleChangeSetting}
@@ -196,6 +210,7 @@ class Settings extends Component{
                                 margin="dense"
                                 variant="outlined"
                                 type="password"
+                                fullWidth
                             />
                             
                         </Grid>
@@ -215,25 +230,27 @@ class Settings extends Component{
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="URL de l'API"
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="GINGER_URL"
                                 value={settings.GINGER_URL}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
+                                fullWidth
                                 variant="outlined"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Clé de connexion"
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="GINGER_KEY"
                                 value={settings.GINGER_KEY}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
+                                fullWidth
                             />
                         </Grid>              
                     </Grid>
@@ -251,36 +268,42 @@ class Settings extends Component{
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="URL de l'API"
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="PAYUTC_APP_URL"
                                 value={settings.PAYUTC_APP_URL}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
+                                fullWidth
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Clé de connexion"
-                                className={classes.textField}
+                                className={classes.inputField}
                                 name="PAYUTC_APP_KEY"
                                 value={settings.PAYUTC_APP_KEY}
                                 onChange={this.handleChangeSetting}
                                 autoComplete="off"
                                 margin="dense"
                                 variant="outlined"
+                                fullWidth
                             />
                         </Grid>              
                     </Grid>
                 </Grid>
 
-                
-                <Button variant="outlined" color="primary" className={classes.addButton} onClick={this.saveSettings}> 
-                    Sauvegarder
-                </Button>
-            
-                
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Button variant="contained" color="primary" className={classes.addButton} onClick={this.saveSettings}> 
+                        Sauvegarder
+                    </Button>
+                </Grid>
                 
             </div>
         );
@@ -296,7 +319,7 @@ const styles = theme => ({
         border: "2px solid #B22132",
     },
     section:{
-        paddingBottom :70,
+        paddingBottom :30,
     },
     paper: {
         padding: 10
@@ -308,10 +331,10 @@ const styles = theme => ({
         marginTop: 16,
         marginBottom: 8,
     },
-    textField: {
+    inputField: {
         marginTop: 16,
-        // paddingRight: 15,
-        width: "100%",
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     suggestions: {
         zIndex: 100,
@@ -330,8 +353,6 @@ const styles = theme => ({
     addButton: {
         marginTop: 16,
         marginBottom: 8,
-        height: 49,
-        width: "100%",
     },
     subTitle: {
         marginTop: 10,
