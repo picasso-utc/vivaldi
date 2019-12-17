@@ -180,7 +180,7 @@ class Semesters extends Component{
 
         return (
             <div className="admin_container">
-                <Grid container className={classes.section}>
+                <Grid container>
                     <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRight className={classes.subTitleIcon}/>
                         Changer de semestre
