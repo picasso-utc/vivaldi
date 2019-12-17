@@ -68,7 +68,7 @@ class Dashboard extends Component{
 						Notation des perms
 					</Typography>
 					<Grid container className={classes.note}>
-						Ce menu vous permet de noter les perms dont vous avez été astreinteur au cours du semestre.<br/>
+						Ce menu vous permet de noter les perms dont tu as été astreinteur au cours du semestre.<br/>
 					</Grid>
 
 					<Grid container direction="row" className={classes.section}>
