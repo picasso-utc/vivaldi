@@ -81,7 +81,14 @@ class Users extends Component{
 
     loadUsers(){
         ajaxGet('users').then(res => {
-            this.setState({users: res.data.users})
+            let users = res.data.users;
+            users = users.sort(function(a,b){
+                if (a.user.prenom > b.user.prenom) {
+                    return 1
+                }
+                return -1
+            })
+            this.setState({users: users, loading: false})
         })
         .catch(error => {
             console.log(error)
