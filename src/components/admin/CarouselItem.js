@@ -185,7 +185,7 @@ class CarouselItem extends Component{
 									/>
 								</FormControl>
 								<CardActions style={{justifyContent: 'center'}}>
-									<Button variant="contained" size="large" color="primary" onClick={(event) => this.addNote(astreinte)}>
+									<Button variant="contained" size="small" color="primary" onClick={(event) => this.addNote(astreinte)}>
 						        		Valider
 						        	</Button>
 							  	</CardActions>
