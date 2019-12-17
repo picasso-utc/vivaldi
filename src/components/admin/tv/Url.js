@@ -18,6 +18,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
 
 class Url extends Component{
@@ -35,6 +36,7 @@ class Url extends Component{
             mode: 'create',
             open_modal: false,
             confirm_modal: false,
+            loading: true,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -76,7 +78,7 @@ class Url extends Component{
 
     loadLinks(){
         ajaxGet('tv/links/').then(res => {
-            this.setState({links: res.data})
+            this.setState({links: res.data, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -95,14 +97,14 @@ class Url extends Component{
         const link = this.state.link
         if(this.state.mode === "create"){
             ajaxPost('tv/links/', link).then((res) => {  
-                this.handleModalClickClose()
+                this.handleModalClickClose();
             })
             .catch((error) => {
                 console.log(error);
             })  
         } else if (this.state.mode === "edit"){
             ajaxPut('tv/links/' + link.id + '/', link).then((res) => {
-                this.handleModalClickClose()
+                this.handleModalClickClose();
             })
             .catch((error) => {
                 console.log(error);
@@ -128,8 +130,24 @@ class Url extends Component{
         
         const { classes } = this.props;
 
-        const {links, link, mode, open_modal, confirm_modal} = this.state;
+        const {links, link, mode, open_modal, confirm_modal, loading} = this.state;
 
+
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return (
             <div className="admin_container">
@@ -251,10 +269,10 @@ class Url extends Component{
                     open={confirm_modal}
                     onClose={() => this.handleModalClickClose()}
                 >
-                    <DialogTitle id="alert-dialog-title">{"Suppresion: " + link.name}</DialogTitle>
+                    <DialogTitle>{"Suppresion: " + link.name}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Veux-tu vraiment supprimer cette URL ?
+                        <DialogContentText>
+                            Veux-tu vraiment supprimer ce média ?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
