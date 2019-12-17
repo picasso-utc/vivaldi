@@ -258,7 +258,6 @@ class CurrentPerm extends Component{
                                                         Le {article.ventes_last_formatted_update}
                                                         <Button 
                                                             variant="contained"
-                                                            // variant="outlined" 
                                                             size="small"
                                                             color="primary"
                                                             className={classes.btn} 
@@ -281,7 +280,6 @@ class CurrentPerm extends Component{
                                                 ):(
                                                     <Button 
                                                         variant="contained"
-                                                        // variant="outlined" 
                                                         size="small"
                                                         color="primary"
                                                         className={classes.btn} 
@@ -294,7 +292,7 @@ class CurrentPerm extends Component{
                                             <TableCell component="th" scope="row" className={classes.cell}>
                                                 {article.menu.length > 0 &&
                                                     <Button 
-                                                            variant="contained" 
+                                                        variant="contained" 
                                                         size="small" 
                                                         color="secondary"
                                                         className={classes.btn} 
