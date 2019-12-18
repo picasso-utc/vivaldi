@@ -166,7 +166,7 @@ class GoodiesManagement extends Component{
                             justify="center"
                             alignItems="center">
                                 <Button 
-                                    variant="outlined" 
+                                    variant="contained" 
                                     size="small" 
                                     color="primary"
                                     className={classes.generate_btn}
