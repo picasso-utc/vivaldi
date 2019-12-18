@@ -37,6 +37,7 @@ class Header extends React.Component {
 	handleCloseMenu(event, link=null){
 		this.setState({anchor: null})
 		if (link) {
+			window.location.hash = null;
 			window.location.hash=link;
 		}
 	}

@@ -45,7 +45,8 @@ class FichesPostes extends React.Component {
 			poste_selected: false,
 			be_member_selected: false
 		})
-		window.location.hash = "#postes"
+		window.location.hash = null;
+		window.location.hash = "#postes";
 	}
 
   	render() {
