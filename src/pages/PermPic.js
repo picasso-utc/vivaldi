@@ -64,8 +64,8 @@ class PermPic extends React.Component {
             for (let index = 0; index < duels.length; index++) {
                 const duel_beers = Object.keys(beers[duels[index]]);
 
-                duel_score[0] += beers[duels[index]][duel_beers[0]].quantity;
-                duel_score[1] += beers[duels[index]][duel_beers[1]].quantity;
+                duel_score[0] += beers[duels[index]][duel_beers[1]].quantity;
+                duel_score[1] += beers[duels[index]][duel_beers[0]].quantity;
                 duel_total_sells += beers[duels[index]][duel_beers[0]].quantity;
                 duel_total_sells += beers[duels[index]][duel_beers[1]].quantity;
 
