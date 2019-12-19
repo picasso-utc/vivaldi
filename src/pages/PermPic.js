@@ -212,16 +212,14 @@ const styles = theme => ({
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10,
         width: '100%',
-        height: '60%',
-        marginTop: '20%',
+        height: '75%',
         objectFit: 'cover',
     },    
     right_score_img : {
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
         width: '100%',
-        height: '60%',
-        marginTop: '20%',
+        height: '75%',
         objectFit: 'cover',
     },    
     left_score : {
