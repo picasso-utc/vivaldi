@@ -122,7 +122,7 @@ class PermPic extends React.Component {
                     <Grid container direction="row" style={{height: '30%'}}>
                         <Grid item xs={3} className={classes.img_div_left}>
                             <img alt="delired_beer" src={asset_url("/images/team_vollaile.png")} className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Volaille ({duel.score_1})</span>
+                            <span className={classes.beer_name}>Volaille ({duel.score_1})<br/>Cuvée, Cidre, Val Dieu</span>
                         </Grid>
                         <Grid item xs={3} className={classes.div_score}>
                             <div className={classes.left_score} id="vollaile">
@@ -136,7 +136,7 @@ class PermPic extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.img_div_right}>
                             <img alt="pechemel_beer" src={asset_url("/images/team_cochons.png")} className={classes.beer_img}/>
-                            <span className={classes.beer_name}>Cochons ({duel.score_2})</span>
+                            <span className={classes.beer_name}>Cochons ({duel.score_2})<br/>Délirium, Gauloise, Barbar</span>
                         </Grid>
                     </Grid>
 
@@ -194,7 +194,7 @@ const styles = theme => ({
     },    
     beer_name : {
         height: '20%',
-        fontSize: 20,
+        fontSize: 35,
         display: 'block',
         marginTop: -5,
     },
