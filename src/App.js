@@ -17,6 +17,7 @@ import TVContent from './pages/TVContent';
 import TVMenu from './pages/TVMenu';
 import TVDuelBrasseur from './pages/TVDuelBrasseur';
 import TVDuelBrasseur2 from './pages/TVDuelBrasseur2';
+import PermPic from './pages/PermPic';
 import Poll from './pages/Poll';
 
 const PUBLIC_URL = process.env.PUBLIC_URL;
@@ -38,6 +39,7 @@ class App extends React.Component {
 					<Route path="/tv/content" exact component={TVContent}/>
 					<Route path="/tv/menu" exact component={TVMenu}/>
 					<Route path="/tv/duelbrasseur" exact component={TVDuelBrasseur}/>
+					<Route path="/tv/pic" exact component={PermPic}/>
 					<Route path="/tv/duelbrasseur2" exact component={TVDuelBrasseur2}/>
 					<Route component={Error404}/>
 				</Switch>
