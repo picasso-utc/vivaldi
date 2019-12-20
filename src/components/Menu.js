@@ -277,7 +277,7 @@ class Menu extends Component {
 						</Grid>
 					</Grid>
 				):(
-					<div className={classes.container}>
+					<div className="basic_container">
                         {selected_article &&
                             <React.Fragment>
                                 <Typography variant="h4" className={classes.title}>
@@ -304,54 +304,56 @@ class Menu extends Component {
                                         </Button>
                                     </Grid>
                                 }
-                                <Table>
-                                    <TableBody>
-                                        {orders.map((order, index) => (
-                                            <TableRow hover key={index} className={classes.row}>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {order.first_name} {order.last_name}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {order.quantity}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {order.served? (
-                                                        <Button 
-                                                            variant="contained" 
-                                                            size="small" 
-                                                            color="secondary" 
-                                                            className={classes.btn} 
-                                                            onClick={(e) => this.servedMenu(e, order)}
-                                                        >
-                                                            Annuler
-                                                        </Button>
-                                                    ):(
-                                                        <React.Fragment>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                size="small" 
-                                                                color="primary" 
-                                                                className={classes.btn} 
-                                                                onClick={(e) => this.servedMenu(e, order)}
-                                                            >
-                                                                Valider
-                                                            </Button>
+                                <div className="responsive_table">
+                                    <Table>
+                                        <TableBody>
+                                            {orders.map((order, index) => (
+                                                <TableRow hover key={index} className={classes.row}>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {order.first_name} {order.last_name}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {order.quantity}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {order.served? (
                                                             <Button 
                                                                 variant="contained" 
                                                                 size="small" 
                                                                 color="secondary" 
                                                                 className={classes.btn} 
-                                                                onClick={(e) => this.staffMenu(e, order)}
+                                                                onClick={(e) => this.servedMenu(e, order)}
                                                             >
-                                                                Reporter
+                                                                Annuler
                                                             </Button>
-                                                        </React.Fragment>
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                                        ):(
+                                                            <React.Fragment>
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    size="small" 
+                                                                    color="primary" 
+                                                                    className={classes.btn} 
+                                                                    onClick={(e) => this.servedMenu(e, order)}
+                                                                >
+                                                                    Valider
+                                                                </Button>
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    size="small" 
+                                                                    color="secondary" 
+                                                                    className={classes.btn} 
+                                                                    onClick={(e) => this.staffMenu(e, order)}
+                                                                >
+                                                                    Reporter
+                                                                </Button>
+                                                            </React.Fragment>
+                                                        )}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </React.Fragment>
                         }
                         <Grid 

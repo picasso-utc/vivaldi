@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { addDays, formateToDjangoDate } from '../../../utils/Date';
 import { ajaxGet, ajaxPost } from '../../../utils/Ajax'
 
@@ -29,10 +31,17 @@ class Astreintes extends Component{
 
     loadMembers(){
         ajaxGet('admin/members').then(res => {
-			this.setState({members: res.data})
+            let members = res.data;
+            members = members.sort(function(a,b){
+                if (a.userright.name > b.userright.name) {
+                    return 1
+                }
+                return -1
+            })
+			this.setState({members: members, loading: false})
 		})
 		.catch(error => {
-			// this.setState({loading: false});
+			this.setState({loading: false});
 		});
     }
 
@@ -69,7 +78,8 @@ class Astreintes extends Component{
     reloadAstreinte(startDate, endDate){
         this.setState({
             startDate: startDate,
-            endDate: endDate
+            endDate: endDate,
+            loading: true
         })
         this.loadAstreintes(formateToDjangoDate(startDate), formateToDjangoDate(endDate));
     }
@@ -131,7 +141,7 @@ class Astreintes extends Component{
     render(){
         
         const { classes } = this.props;
-        const { startDate, members } = this.state;
+        const { startDate, members, loading } = this.state;
 
         const week_days=[0,1,2,3,4]
 		const creneau_types=[
@@ -140,78 +150,98 @@ class Astreintes extends Component{
 			{code: 'S', name:'Soir'}
         ];
 
-        return (
-            <div className={classes.container}>
+        if(loading){
+            return (
+                <Grid 
+                    container 
+                    className={classes.loader}
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress  className="admin_loader" color="secondary"/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Lundi</th>
-                            <th>Mardi</th>
-                            <th>Mercredi</th>
-                            <th>Jeudi</th>
-                            <th>Vendredi</th>
-                            <th>Samedi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {creneau_types.map((creneau_type) => (
-                            <tr key={creneau_type.code}>
-                                <th className={classes.leftTitleCell}>{creneau_type.name}</th>
-                                {week_days.map((week_day, index)=> {
-                                    const creneau = this.displayCreneau(addDays(startDate, week_day), creneau_type.code)
-                                    return (
-                                        <td key={index} className={classes.cell}>                                        
-                                            {creneau ? (
-                                                <React.Fragment>
-                                                    <span>{creneau.perm.nom}</span>
-                                                    <hr/>
-                                                    {creneau.astreintes.map(astreinte => (
-                                                        <span key={astreinte}>{astreinte}<br/></span>
-                                                    ))}
-                                                    <select 
-                                                        value={creneau.new_member_id} 
-                                                        name = 'new_member_id'
-                                                        onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
-                                                    >
-                                                        <option value="" defaultValue></option>
-                                                        {members.map(member => (
-                                                            <option key={member.id} value={member.id}>{member.userright.name}</option>
-                                                        ))}
-                                                    </select>
-                                                    <select 
-                                                        value={creneau.new_astreinte_type} 
-                                                        name = 'new_astreinte_type'
-                                                        onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
-                                                    >
-                                                        <option value="" defaultValue></option>
-                                                        {creneau.creneau === "M" && <option value="M1">Matin 1</option>}
-                                                        {creneau.creneau === "M" && <option value="M2">Matin 2</option>}
-                                                        {creneau.creneau === "D" && <option value="D1">Midi 1</option>}
-                                                        {creneau.creneau === "D" && <option value="D2">Midi 2</option>}
-                                                        {creneau.creneau === "S" && <option value="S">Soir</option>}
-                                                    </select>
-                                                    <button disabled={!creneau.new_astreinte_type && !creneau.new_member_id} onClick={() => this.saveAstreinte(creneau)}>
-                                                        Ajouter
-                                                    </button>
-                                                </React.Fragment>
-                                            ):(
-                                                ''  
-                                            )}
-                                        </td>        
-                                    )
-                                })}
+        return (
+            <div className="admin_container">
+                <div className="responsive_table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Lundi</th>
+                                <th>Mardi</th>
+                                <th>Mercredi</th>
+                                <th>Jeudi</th>
+                                <th>Vendredi</th>
+                                <th>Samedi</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <button onClick={this.goPreviousWeek}>
-                    Semaine précédente
-                </button>
-                <button onClick={this.goNextWeek}>
-                    Semaine suivante
-                </button>
+                        </thead>
+                        <tbody>
+                            {creneau_types.map((creneau_type) => (
+                                <tr key={creneau_type.code}>
+                                    <th className={classes.leftTitleCell}>{creneau_type.name}</th>
+                                    {week_days.map((week_day, index)=> {
+                                        const creneau = this.displayCreneau(addDays(startDate, week_day), creneau_type.code)
+                                        return (
+                                            <td key={index} className={classes.cell}>                                        
+                                                {creneau ? (
+                                                    <React.Fragment>
+                                                        <span>{creneau.perm.nom}</span>
+                                                        <hr/>
+                                                        {creneau.astreintes.map(astreinte => (
+                                                            <span key={astreinte}>{astreinte}<br/></span>
+                                                        ))}
+                                                        <select 
+                                                            value={creneau.new_member_id} 
+                                                            name = 'new_member_id'
+                                                            onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
+                                                        >
+                                                            <option value="" defaultValue></option>
+                                                            {members.map(member => (
+                                                                <option key={member.id} value={member.id}>{member.userright.name}</option>
+                                                            ))}
+                                                        </select>
+                                                        <select 
+                                                            value={creneau.new_astreinte_type} 
+                                                            name = 'new_astreinte_type'
+                                                            onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
+                                                            defaultValue={creneau.creneau === "S" ? "S" : (creneau.creneau === "D" ? "D1" : "M1")}
+                                                        >
+                                                            <option value="" defaultValue></option>
+                                                            {creneau.creneau === "M" && <option value="M1">Matin 1</option>}
+                                                            {creneau.creneau === "M" && <option value="M2">Matin 2</option>}
+                                                            {creneau.creneau === "D" && <option value="D1">Midi 1</option>}
+                                                            {creneau.creneau === "D" && <option value="D2">Midi 2</option>}
+                                                            {creneau.creneau === "S" && <option value="S">Soir</option>}
+                                                        </select>
+                                                        <button disabled={!creneau.new_astreinte_type && !creneau.new_member_id} onClick={() => this.saveAstreinte(creneau)}>
+                                                            Ajouter
+                                                        </button>
+                                                    </React.Fragment>
+                                                ):(
+                                                    ''  
+                                                )}
+                                            </td>        
+                                        )
+                                    })}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <Grid container direction="row" justify="center" alignItems="center" className="top10">
+                    <button onClick={this.goPreviousWeek} className="margin10">
+                        Semaine précédente
+                    </button>
+                    <button onClick={this.goNextWeek} className="margin10">
+                        Semaine suivante
+                    </button>
+                </Grid>
             </div>
         );
     };

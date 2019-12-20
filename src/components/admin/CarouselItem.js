@@ -129,34 +129,32 @@ class CarouselItem extends Component{
 				{astreintes.sort(this.compareAstreinte)
 				.map((astreinte, astreinte_index) => (
 					<div key={astreinte_index} cols={1} rows={1}>
-						<Card xs={12} sm= {6} className={classes.card} style={this.isAstreinteRated(astreinte) ? {backgroundColor: 'rgba(0,0,0, 0.05'} : {backgroundColor: 'white'}  }>
-							<Typography variant="h5" noWrap className={classes.subTitle}>
+						<Card xs={8} sm={6} className={classes.card} style={this.isAstreinteRated(astreinte) ? {backgroundColor: 'rgba(0,0,0, 0.15'} : {backgroundColor: 'white'}  }>
+							<Typography variant="h6" className={classes.subTitle}>
 								{astreinte.creneau.perm.nom} - {formateFromDjangoDate(astreinte.creneau.date)}
 							</Typography>
 							{astreinte.creneau.article_set.length > 0 &&
 								<React.Fragment>
-									<Typography variant="body1" noWrap>
+									<Typography variant="body1" className={classes.categoryTitle}>
 										Article(s):
 									</Typography>
 									<ul>
 										{astreinte.creneau.article_set.map((article, article_index) => (
-											<li key={article_index}><Typography variant="body1" noWrap>{article.nom}</Typography></li>
+											<li key={article_index}><Typography variant="body1">{article.nom}</Typography></li>
 										))}
 									</ul>
 								</React.Fragment>
 							}
 							
-							<CardContent>
+							<CardContent style={{padding: 0}}>
 								<FormControl component="fieldset" style={{width: '100%'}}> 
 									<Grid container direction="row">   
 											{notation[astreinte.astreinte_type].map((perm_type,perm_type_index) => (
-												
-												<Grid key={perm_type_index} item xs={12} sm= {6} >
-													<Typography variant="h6" noWrap className={classes.subTitle}>
+												<Grid key={perm_type_index} item xs={12}>
+													<Typography variant="body1" noWrap className={classes.categoryTitle}>
 														{perm_type.categorie}
 													</Typography>
 													<RadioGroup 
-														aria-label="position" 
 														name={perm_type.name} 
 														value={astreinte[perm_type.name]} 
 														onChange={(event) => this.handleChange(event, astreinte)}
@@ -187,7 +185,7 @@ class CarouselItem extends Component{
 									/>
 								</FormControl>
 								<CardActions style={{justifyContent: 'center'}}>
-									<Button variant="contained" size="large" color="primary" onClick={(event) => this.addNote(astreinte)}>
+									<Button variant="contained" size="small" color="primary" onClick={(event) => this.addNote(astreinte)}>
 						        		Valider
 						        	</Button>
 							  	</CardActions>
@@ -220,12 +218,6 @@ class CarouselItem extends Component{
 }
 
 const styles = theme => ({
-	container: {
-		padding: 20,
-		margin: 30,
-		marginTop: 100,
-		border: "2px solid #B22132",
-	},
 	section:{
 		paddingBottom :70,
 	},
@@ -240,7 +232,7 @@ const styles = theme => ({
 		marginBottom: 8,
 	},
 	textField: {
-		marginTop: 16,
+		marginTop: 8,
 		width: "100%",
 	},
 	suggestions: {
@@ -251,10 +243,14 @@ const styles = theme => ({
 		marginRight: 15,
 	},
 	card: {
-		margin: 30,
+		marginBottom: 10,
+		marginRight: 5,
+		marginLeft: 5,
 		padding : 10,
+		paddingBottom: 0,
 		fontSize : 9,
-		minWidth: 400,
+		minWidth: 300,
+		width: 'min-content'
 	},
 	ratedAstreinte: {
 		backgroundColor: 'rgba(0,0,0, 0.05)',
@@ -269,8 +265,13 @@ const styles = theme => ({
 		width: "100%",
 	},
 	subTitle: {
-		marginTop: 10,
-		marginBottom: 10,
+		// marginTop: 10,
+		// marginBottom: 10,
+	},
+	categoryTitle : {
+		fontWeight: 600,
+		marginTop:5,
+		marginBottom: 5
 	},
 	subTitleIcon: {
 		marginRight: 8,
