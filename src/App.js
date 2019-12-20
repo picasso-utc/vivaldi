@@ -14,6 +14,8 @@ import Error404 from './pages/Error404';
 import ProtectedRoute from './utils/ProtectedRoute';
 import Poll from './pages/Poll';
 
+React.lazy(() => import('./pages/Admin'))
+
 const PUBLIC_URL = process.env.PUBLIC_URL;
 
 class App extends React.Component {
@@ -21,6 +23,8 @@ class App extends React.Component {
 		return (
 			<BrowserRouter basename={PUBLIC_URL}>
 				<CssBaseline />
+				<React.Suspense fallback={<div>Loading</div>}>
+
 				<Switch>
 					<Route path="/" exact component={Home}/>
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
@@ -31,6 +35,7 @@ class App extends React.Component {
 					<Route path="/menu" component={Menu} />
 					<Route component={Error404}/>
 				</Switch>
+				</React.Suspense>
 			</BrowserRouter>
 		)
 	}
