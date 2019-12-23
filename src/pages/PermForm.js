@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import { ajaxGet, ajaxPortal, ajaxPost } from '../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxPut } from '../utils/Ajax';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
@@ -18,6 +18,7 @@ import Slider from '@material-ui/core/Slider';
 import MenuItem from '@material-ui/core/MenuItem';
 import Auth from '../utils/Auth';
 import Paper from '@material-ui/core/Paper';
+import {isStringEmpty} from '../utils/String';
 
 class PermForm extends React.Component {
 
@@ -31,6 +32,7 @@ class PermForm extends React.Component {
                 type: "friend",
                 nom : "",
                 asso_login: "",
+                mail_asso : "",
                 ambiance: 3,
                 description: "",
                 theme: "",
@@ -40,8 +42,12 @@ class PermForm extends React.Component {
                 mail_resp_2: "",
                 membres: "",
                 periode : "",
+                founder_login: ""
             },
-            sent : false
+            errors: [],
+            saving: false,
+            mode : "create",
+            saved: false,
         }
 	}
 
@@ -60,7 +66,8 @@ class PermForm extends React.Component {
                 window.location.href = "/404"
             }
 		}).catch(error => {
-			console.log(error)
+            console.log(error)
+            // TO DO Redirection en cas d'erreur
 		})
     }
 
@@ -71,24 +78,48 @@ class PermForm extends React.Component {
             new_perm: {
                 ...this.state.new_perm,
                 nom_resp : user.first_name + " " + user.last_name,
-                mail_resp: user.email
+                mail_resp: user.email,
+                founder_login: user.login,
             }
         })
     }
     
     loadAssos(){
-        ajaxPortal('https://cors-anywhere.herokuapp.com/https://assos.utc.fr/api/v1/assos').then(res => {
-            let assos = res.data;
+        ajaxGet('perms/assos').then(res => {
+            let assos = res.data.assos;
             assos = assos.sort(function(a,b){
                 if (a.shortname > b.shortname) {
                     return 1
                 }
                 return -1
             })
-            this.setState({assos: assos, loading: false})
+            this.setState({assos: assos})
+            this.isFormExisting()
         }).catch(error => {
             console.log(error)
         })
+    }
+
+    isFormExisting(){
+        const query = new URLSearchParams(this.props.location.search);
+        const form_id = query.get('form_id');
+        if(form_id){
+            ajaxGet('request/perm/' + form_id + "/").then(res => {
+                let perm = res.data.perm;
+                if (perm.asso) {
+                    perm.type = "asso";
+                    perm.asso_login = perm.mail_asso.split("@")[0]
+                } else {
+                    perm.type = "friend";
+                }
+                this.setState({new_perm: perm, loading: false, mode: "edit"})
+            })
+            .catch(error => {
+                window.location.href = "/"
+            })
+        } else {
+            this.setState({loading: false})
+        }
     }
 
     handleNewPermChange(event){
@@ -163,26 +194,100 @@ class PermForm extends React.Component {
 
 
     saveRequestedPerm(){
+        
+        this.setState({saving: true});
 
-        let new_perm = this.state.new_perm;
-        if (new_perm.type === "friend") {
-            new_perm.asso = false
-        } else {
-            new_perm.asso = true;
-            new_perm.mail_asso = new_perm.asso_login + "@assos.utc.fr";
-        }
+        if(this.isFormValid()){
 
-        ajaxPost('request/perm', new_perm).then(res => {
+            let new_perm = this.state.new_perm;
+            if (new_perm.type === "friend") {
+                new_perm.asso = false
+            } else {
+                new_perm.asso = true;
+                new_perm.mail_asso = new_perm.asso_login + "@assos.utc.fr";
+            }
+
+            if (this.state.mode === "create") {
+                ajaxPost('request/perm/', new_perm).then(res => {
+                    new_perm.id = res.data.id;
+                    this.setState({saving: false, saved: true, new_perm: new_perm, mode: "edit"});
+                }).catch(error => {
+                    this.setState({saving: false});
+                })
+            } else {
+                ajaxPut('request/perm/' + new_perm.id + '/', new_perm).then(res => {
+                    this.setState({saving: false, saved: true});
+                })
+                .catch(error => {
+                    this.setState({saving: false});
+                })
+            }
+
             
-        }).catch(error => {
-            console.log(error);
+        
+        } else {
+            this.setState({saving: false});
+        }
+    }
+
+
+    isFormValid(){
+        const new_perm = this.state.new_perm;
+        let errors = [];
+        if (isStringEmpty(new_perm.nom)){
+            errors.push("Le nom de la perm est requis.")
+        }
+        if(isStringEmpty(new_perm.description)){
+            errors.push('La description de la perm est requise.')
+        }
+        if(isStringEmpty(new_perm.periode)){
+            errors.push('La période la perm n\'a pas été renseignée.')
+        }
+        if(isStringEmpty(new_perm.nom_resp_2)){
+            errors.push('Il faut un deuxième responsable de perm.')
+        }
+        if (isStringEmpty(new_perm.membres)) {
+            errors.push('Aucun permanencier n\'a pas été rentré.')
+        }
+        this.setState({errors: errors})
+        if (errors.length > 0) { 
+            return false;
+        }
+        return true;
+    }
+
+
+    backToForm(){
+        this.setState({saved: false})
+    }
+
+    newForm(){
+        this.setState({
+            new_perm : {
+                type: "friend",
+                nom : "",
+                asso_login: "",
+                mail_asso : "",
+                ambiance: 3,
+                description: "",
+                theme: "",
+                nom_resp : "",
+                mail_resp: "",
+                nom_resp_2 : "",
+                mail_resp_2: "",
+                membres: "",
+                periode : "",
+                founder_login: ""
+            },
+            mode: "create",
+            saved: false
         })
     }
 
 
 	render() {
 
-        const { loading, assos, new_perm, autocomplete_users } = this.state;
+        const { loading, assos, new_perm, autocomplete_users, errors, saving, saved, mode } = this.state;
         const { classes } = this.props;
 
 		return (
@@ -217,299 +322,344 @@ class PermForm extends React.Component {
                         <Container className={classes.container}>
                             <fieldset className={classes.component} style={{minWidth: 1}}>
                                 <legend className={classes.legend}>Demande de permanence</legend>
-                                <div style={{overflowY: 'auto', padding: 5, marginTop: -20}}>
-
-                                    <Grid container direction="row" justify="center" alignItems="center">
-                                        <Typography variant="h6" className={classes.perm_title}>
-                                            Organisateur
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <RadioGroup 
-                                            style={{display:'inline-block'}} 
-                                            value={new_perm.type} 
-                                            name="type"
-                                            onChange={(event) => this.handleNewPermChange(event)}
+                                
+                                {saved ? (
+                                    <React.Fragment>
+                                        <Grid container direction="row" justify="center" alignItems="center">
+                                            <Typography variant="h6" className={classes.perm_title}>
+                                                Demande enregitrée avec succès !
+                                            </Typography>
+                                        </Grid>
+                                        <Grid 
+                                            container 
+                                            direction="row"
+                                            justify="center"
+                                            alignItems="center"
                                         >
-                                            <FormControlLabel 
-                                                value="friend" 
-                                                labelPlacement="start"
-                                                label="Groupe de potes" 
-                                                control={
-                                                    <Radio 
-                                                        color="primary" 
-                                                        icon={
-                                                            <RadioButtonUncheckedIcon 
-                                                                fontSize="small" 
-                                                                style={{color:'white'}}
-                                                            />
-                                                        }
-                                                    />
-                                                } 
-                                            />
-                                            <FormControlLabel 
-                                                value="asso" 
-                                                labelPlacement="start"
-                                                control={
-                                                    <Radio 
-                                                        color="primary" 
-                                                        icon={
-                                                            <RadioButtonUncheckedIcon 
-                                                                fontSize="small" 
-                                                                style={{color:'white'}}
-                                                            />
-                                                        }
-                                                    />
-                                                } 
-                                                label="Associations" 
-                                            />
-                                        </RadioGroup>
-                                        {new_perm.type === "friend" && 
-                                            <Grid container direction="row">
-                                                <Grid container item xs={12} sm={6} lg={4}>
-                                                    <TextField 
-                                                        label="Nom" 
-                                                        variant="filled" 
-                                                        value={new_perm.nom}
-                                                        name="nom"
-                                                        onChange={(event) => this.handleNewPermChange(event)}
-                                                        className={classes.perm_input}
-                                                        size="small"
-                                                        margin="dense"
-                                                        fullWidth
-                                                        InputProps={{style: {
-                                                            backgroundColor: 'white',
-                                                            borderRadius: 4
-                                                        }}}
-                                                    />
+                                            <Button 
+                                                variant="contained" 
+                                                className={classes.btn}
+                                                onClick={() => this.backToForm()}
+                                            >
+                                                Revenir au formulaire
+                                            </Button>
+                                            <Button 
+                                                variant="contained" 
+                                                className={classes.btn}
+                                                onClick={() => this.newForm()}
+                                            >
+                                                Nouveau
+                                            </Button>
+                                        </Grid> 
+                                    </React.Fragment> 
+                                ): (
+
+                                    <div style={{overflowY: 'auto', padding: 5, marginTop: -20}}>
+
+                                        <Grid container direction="row" justify="center" alignItems="center">
+                                            <Typography variant="h6" className={classes.perm_title}>
+                                                Organisateur
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <RadioGroup 
+                                                style={{display:'inline-block'}} 
+                                                value={new_perm.type} 
+                                                name="type"
+                                                onChange={(event) => this.handleNewPermChange(event)}
+                                            >
+                                                <FormControlLabel 
+                                                    value="friend" 
+                                                    labelPlacement="start"
+                                                    label="Groupe de potes" 
+                                                    control={
+                                                        <Radio 
+                                                            color="primary" 
+                                                            icon={
+                                                                <RadioButtonUncheckedIcon 
+                                                                    fontSize="small" 
+                                                                    style={{color:'white'}}
+                                                                />
+                                                            }
+                                                        />
+                                                    } 
+                                                />
+                                                <FormControlLabel 
+                                                    value="asso" 
+                                                    labelPlacement="start"
+                                                    control={
+                                                        <Radio 
+                                                            color="primary" 
+                                                            icon={
+                                                                <RadioButtonUncheckedIcon 
+                                                                    fontSize="small" 
+                                                                    style={{color:'white'}}
+                                                                />
+                                                            }
+                                                        />
+                                                    } 
+                                                    label="Associations" 
+                                                />
+                                            </RadioGroup>
+                                            {new_perm.type === "friend" && 
+                                                <Grid container direction="row">
+                                                    <Grid container item xs={12} sm={6} lg={4}>
+                                                        <TextField 
+                                                            label="Nom" 
+                                                            variant="filled" 
+                                                            value={new_perm.nom}
+                                                            name="nom"
+                                                            onChange={(event) => this.handleNewPermChange(event)}
+                                                            className={classes.perm_input}
+                                                            size="small"
+                                                            margin="dense"
+                                                            fullWidth
+                                                            InputProps={{style: {
+                                                                backgroundColor: 'white',
+                                                                borderRadius: 4
+                                                            }}}
+                                                        />
+                                                    </Grid>
                                                 </Grid>
+                                            }
+                                            {new_perm.type === "asso" && 
+                                                <Grid container direction="row">
+                                                    <Grid container item xs={12} sm={6} lg={4}>
+                                                        <TextField
+                                                            select
+                                                            label="Association"
+                                                            value={new_perm.asso_login}
+                                                            onChange={(event) => this.handleAssoChange(event)}
+                                                            variant="filled"
+                                                            name="asso_login"
+                                                            className={classes.perm_input}
+                                                            size="small"
+                                                            margin="dense"
+                                                            fullWidth
+                                                            InputProps={{style: {
+                                                                backgroundColor: 'white',
+                                                                borderRadius: 4
+                                                            }}}
+                                                        >
+                                                            {assos.map(asso => (
+                                                                <MenuItem key={asso.login} value={asso.login}>
+                                                                    {asso.shortname}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </TextField>
+                                                    </Grid>
+                                                </Grid>
+                                            }
+                                        </Grid>
+                                        <Grid container direction="row" justify="center" alignItems="center">
+                                            <Typography variant="h6" className={classes.perm_title}>
+                                                Perm
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Thème de la perm : 
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Grid container item xs={12} sm={6} lg={4}>
+                                                <TextField 
+                                                    label="Thème" 
+                                                    variant="filled" 
+                                                    name="theme"
+                                                    value={new_perm.theme}
+                                                    onChange={(event) => this.handleNewPermChange(event)}
+                                                    className={classes.perm_input}
+                                                    size="small"
+                                                    margin="dense"
+                                                    fullWidth
+                                                    InputProps={{style: {
+                                                        backgroundColor: 'white',
+                                                        borderRadius: 4
+                                                    }}}
+                                                />
                                             </Grid>
-                                        }
-                                        {new_perm.type === "asso" && 
-                                            <Grid container direction="row">
-                                                <Grid container item xs={12} sm={6} lg={4}>
-                                                    <TextField
-                                                        select
-                                                        label="Association"
-                                                        value={new_perm.asso_login}
-                                                        onChange={(event) => this.handleAssoChange(event)}
-                                                        variant="filled"
-                                                        name="asso_login"
-                                                        className={classes.perm_input}
-                                                        size="small"
-                                                        margin="dense"
-                                                        fullWidth
-                                                        InputProps={{style: {
-                                                            backgroundColor: 'white',
-                                                            borderRadius: 4
-                                                        }}}
-                                                    >
-                                                        {assos.map(asso => (
-                                                            <MenuItem key={asso.login} value={asso.login}>
-                                                                {asso.shortname}
-                                                            </MenuItem>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Description de la perm (anim, repas, etc ...) 
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Grid container item xs={12}>
+                                                <TextField 
+                                                    label="Description" 
+                                                    variant="filled" 
+                                                    value={new_perm.description}
+                                                    name="description"
+                                                    onChange={(event) => this.handleNewPermChange(event)}
+                                                    className={classes.perm_input}
+                                                    size="small"
+                                                    margin="dense"
+                                                    fullWidth
+                                                    rowsMax="6"
+                                                    rows="4"
+                                                    multiline
+                                                    InputProps={{style: {
+                                                        backgroundColor: 'white',
+                                                        borderRadius: 4
+                                                    }}}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Lourdeur de la perm (de posé à giga fat): 
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Grid container item xs={12} sm={6} lg={4}>
+                                                <Slider
+                                                    name="ambiance"
+                                                    value={new_perm.ambiance}
+                                                    onChange={(event, value) => this.handleSliderChange(event, value)}
+                                                    step={1}
+                                                    valueLabelDisplay="on"
+                                                    min={1}
+                                                    max={5}
+                                                    className={classes.slider_input}
+                                                />
+                                            </Grid>
+                                        </Grid> 
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Période privilégiée dans le semestre 
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Grid container item xs={12} sm={6} lg={4}>
+                                                <TextField 
+                                                    label="Période" 
+                                                    variant="filled" 
+                                                    name="periode"
+                                                    value={new_perm.periode}
+                                                    onChange={(event) => this.handleNewPermChange(event)}
+                                                    className={classes.perm_input}
+                                                    size="small"
+                                                    margin="dense"
+                                                    fullWidth
+                                                    InputProps={{style: {
+                                                        backgroundColor: 'white',
+                                                        borderRadius: 4
+                                                    }}}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container direction="row" justify="center" alignItems="center">
+                                            <Typography variant="h6" className={classes.perm_title}>
+                                                Responsables
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Responsable 1 : {new_perm.nom_resp} 
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Responsable 2 : 
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Grid container item xs={12} sm={6} lg={4}>
+                                                <TextField
+                                                    variant="filled" 
+                                                    size="small"
+                                                    margin="dense"
+                                                    fullWidth
+                                                    label="Nom de l'étudiant"
+                                                    value={new_perm.nom_resp_2}
+                                                    onChange={(event) => this.handleAutocompleteChange(event)}
+                                                    autoComplete="off"
+                                                    InputProps={{style: {
+                                                        backgroundColor: 'white',
+                                                        borderRadius: 4
+                                                    }}}
+                                                />
+                                                <Paper className={classes.suggestions}>
+                                                    {autocomplete_users.map((suggestion, index)=> (
+                                                        <MenuItem
+                                                            className={classes.suggestionItem}
+                                                            key={index}
+                                                            component="div"
+                                                            onClick={()=>this.handleResp2Change(suggestion.name)}
+                                                        >
+                                                            {suggestion.name.split('-')[0]}
+                                                        </MenuItem>
+                                                    ))}
+                                                    
+                                                </Paper>
+                                            </Grid>
+                                        </Grid>
+
+                                        <Grid container direction="row" justify="center" alignItems="center">
+                                            <Typography variant="h6" className={classes.perm_title}>
+                                                Permanenciers
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Noms et prénoms des permanenciers (au minimum 10)
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container direction="row">
+                                            <Grid container item xs={12}>
+                                                <TextField 
+                                                    variant="filled" 
+                                                    value={new_perm.membres}
+                                                    name="membres"
+                                                    onChange={(event) => this.handleNewPermChange(event)}
+                                                    className={classes.perm_input}
+                                                    size="small"
+                                                    margin="dense"
+                                                    fullWidth
+                                                    rowsMax="20"
+                                                    rows="10"
+                                                    multiline
+                                                    InputProps={{style: {
+                                                        backgroundColor: 'white',
+                                                        borderRadius: 4
+                                                    }}}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        {errors.length > 0 &&
+                                            <Grid container direction="row" justify="center" alignItems="center">
+                                                <Paper className="errors_paper">
+                                                    <Typography variant="h6">
+                                                    Erreurs lors de l'insertion
+                                                    </Typography>
+                                                    <ul>
+                                                        {errors.map((error, index)=> (
+                                                            <li key={index}>{error}</li>
                                                         ))}
-                                                    </TextField>
-                                                </Grid>
+                                                    </ul>
+                                                </Paper>
                                             </Grid>
                                         }
-                                    </Grid>
-                                    <Grid container direction="row" justify="center" alignItems="center">
-                                        <Typography variant="h6" className={classes.perm_title}>
-                                            Perm
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Thème de la perm : 
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Grid container item xs={12} sm={6} lg={4}>
-                                            <TextField 
-                                                label="Thème" 
-                                                variant="filled" 
-                                                name="theme"
-                                                value={new_perm.theme}
-                                                onChange={(event) => this.handleNewPermChange(event)}
-                                                className={classes.perm_input}
-                                                size="small"
-                                                margin="dense"
-                                                fullWidth
-                                                InputProps={{style: {
-                                                    backgroundColor: 'white',
-                                                    borderRadius: 4
-                                                }}}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Description de la perm (anim, repas, etc ...) 
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Grid container item xs={12}>
-                                            <TextField 
-                                                label="Description" 
-                                                variant="filled" 
-                                                value={new_perm.description}
-                                                name="description"
-                                                onChange={(event) => this.handleNewPermChange(event)}
-                                                className={classes.perm_input}
-                                                size="small"
-                                                margin="dense"
-                                                fullWidth
-                                                rowsMax="6"
-                                                rows="4"
-                                                multiline
-                                                InputProps={{style: {
-                                                    backgroundColor: 'white',
-                                                    borderRadius: 4
-                                                }}}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Lourdeur de la perm (de posé à giga fat): 
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Grid container item xs={12} sm={6} lg={4}>
-                                            <Slider
-                                                name="ambiance"
-                                                value={new_perm.ambiance}
-                                                onChange={(event, value) => this.handleSliderChange(event, value)}
-                                                step={1}
-                                                valueLabelDisplay="on"
-                                                min={1}
-                                                max={5}
-                                                className={classes.slider_input}
-                                            />
-                                        </Grid>
-                                    </Grid> 
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Période privilégiée dans le semestre 
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Grid container item xs={12} sm={6} lg={4}>
-                                            <TextField 
-                                                label="Période" 
-                                                variant="filled" 
-                                                name="periode"
-                                                value={new_perm.periode}
-                                                onChange={(event) => this.handleNewPermChange(event)}
-                                                className={classes.perm_input}
-                                                size="small"
-                                                margin="dense"
-                                                fullWidth
-                                                InputProps={{style: {
-                                                    backgroundColor: 'white',
-                                                    borderRadius: 4
-                                                }}}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container direction="row" justify="center" alignItems="center">
-                                        <Typography variant="h6" className={classes.perm_title}>
-                                            Responsables
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Responsable 1 : {new_perm.nom_resp} 
-                                        </Typography>
-                                    </Grid>
-
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Responsable 2 : 
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Grid container item xs={12} sm={6} lg={4}>
-                                            <TextField
-                                                variant="filled" 
-                                                size="small"
-                                                margin="dense"
-                                                fullWidth
-                                                label="Nom de l'étudiant"
-                                                value={new_perm.nom_resp_2}
-                                                onChange={(event) => this.handleAutocompleteChange(event)}
-                                                autoComplete="off"
-                                                InputProps={{style: {
-                                                    backgroundColor: 'white',
-                                                    borderRadius: 4
-                                                }}}
-                                            />
-                                            <Paper className={classes.suggestions}>
-                                                {autocomplete_users.map((suggestion, index)=> (
-                                                    <MenuItem
-                                                        className={classes.suggestionItem}
-                                                        key={index}
-                                                        component="div"
-                                                        onClick={()=>this.handleResp2Change(suggestion.name)}
-                                                    >
-                                                        {suggestion.name.split('-')[0]}
-                                                    </MenuItem>
-                                                ))}
-                                                
-                                            </Paper>
-                                        </Grid>
-                                    </Grid>
-
-                                    <Grid container direction="row" justify="center" alignItems="center">
-                                        <Typography variant="h6" className={classes.perm_title}>
-                                            Permanenciers
-                                            {/* <Fab size="small" color="primary" aria-label="add" className={classes.add_item}>
-                                                <AddIcon />
-                                            </Fab> */}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Typography variant="body1" className={classes.perm_label}>
-                                            Noms et prénoms des permanenciers (au minimum 10)
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container direction="row">
-                                        <Grid container item xs={12}>
-                                            <TextField 
-                                                variant="filled" 
-                                                value={new_perm.membres}
-                                                name="membres"
-                                                onChange={(event) => this.handleNewPermChange(event)}
-                                                className={classes.perm_input}
-                                                size="small"
-                                                margin="dense"
-                                                fullWidth
-                                                rowsMax="20"
-                                                rows="10"
-                                                multiline
-                                                InputProps={{style: {
-                                                    backgroundColor: 'white',
-                                                    borderRadius: 4
-                                                }}}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid 
-                                        container 
-                                        direction="row"
-                                        justify="center"
-                                        alignItems="center"
-                                    >
-                                        <Button 
-                                            variant="contained" 
-                                            className={classes.btn}
-                                            onClick={() => this.saveRequestedPerm()}
+                                        <Grid 
+                                            container 
+                                            direction="row"
+                                            justify="center"
+                                            alignItems="center"
                                         >
-                                            Envoyer
-                                        </Button>
-                                    </Grid>
-                                </div>
+                                            <Button 
+                                                variant="contained" 
+                                                className={classes.btn}
+                                                disabled={saving}
+                                                onClick={() => this.saveRequestedPerm()}
+                                            >
+                                                {mode === "edit" ? (<span>Editer</span>) : (<span>Envoyer</span>)}
+                                            </Button>
+                                        </Grid>  
+                                    </div>
+                                )}
                             </fieldset>   
                         </Container>
 
@@ -522,13 +672,14 @@ class PermForm extends React.Component {
 
 const styles = theme => ({
 	root: {
-		width:'100%',
+        width:'100%',
+        minHeight: '100vh',
 		maxWidth: '100%',
 		margin: 0,
 		paddingRight: '5%',
         paddingLeft: '5%',
         paddingTop: 10,
-		paddingBottom: 300,
+		paddingBottom: 30,
 		backgroundColor: '#000223',
         color: 'white',
         height: '100%',
