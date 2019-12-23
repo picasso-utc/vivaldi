@@ -412,22 +412,10 @@ class CalendarManagement extends Component{
                         <ChevronRightIcon className={classes.titleIcon}/>
                         Ajouter une perm
                     </Typography>
-                    <Paper className={classes.paper_box}>
-
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Nom"
-                                className={classes.textField}
-                                name="nom"
-                                value={newPerm.nom}
-                                onChange={this.handleChange}
-                                autoComplete="off"
-                                margin="dense"
-                                variant="outlined"
-                                InputProps={{ style: { fontSize: 12 } }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
+                </Grid>
+                <Paper className={classes.paper_box}>
+                    <Grid container>
+                        <Grid item xs={12} sm={6} lg={3}>
                             <FormControlLabel
                                 className={classes.checkBox}
                                 name="asso"
@@ -438,9 +426,24 @@ class CalendarManagement extends Component{
                                 labelPlacement="start"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6} lg={3}>    
                             <TextField
-                                label="Responsable"
+                                label="Nom"
+                                className={classes.textField}
+                                name="nom"
+                                value={newPerm.nom}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                InputProps={{ style: { fontSize: 12 } }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6} lg={3}>
+                            <TextField
+                                label="Responsable 1"
                                 className={classes.textField}
                                 name="nom_resp"
                                 value={newPerm.nom_resp}
@@ -449,11 +452,13 @@ class CalendarManagement extends Component{
                                 margin="dense"
                                 variant="outlined"
                                 InputProps={{ style: { fontSize: 12 } }}
+                                size="small"
+                                fullWidth
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6} lg={3}>
                             <TextField
-                                label="Mail resp"
+                                label="Responsable 2"
                                 className={classes.textField}
                                 name="mail_resp"
                                 value={newPerm.mail_resp}
@@ -462,26 +467,23 @@ class CalendarManagement extends Component{
                                 margin="dense"
                                 variant="outlined"
                                 InputProps={{ style: { fontSize: 12 } }}
+                                size="small"
+                                fullWidth
                             />
                         </Grid>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
+                    </Grid>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                        <Button 
+                            variant="contained" 
+                            size="small" 
+                            color="primary" 
+                            onClick={this.savePerm}
+                            className={classes.btnAddPerm}
                         >
-                            <Button 
-                                variant="outlined" 
-                                size="small" 
-                                color="primary" 
-                                onClick={this.savePerm}
-                                className={classes.btnAddPerm}
-                            >
-                                Ajouter
-                            </Button>
-                        </Grid> 
-                    </Paper>
-                </Grid>
+                            Ajouter
+                        </Button>
+                    </Grid> 
+                </Paper>
                 <Grid container direction="row">
                     <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRightIcon className={classes.titleIcon}/>
@@ -550,69 +552,41 @@ class CalendarManagement extends Component{
                             Calendrier
                         </Typography>
                         <Paper className={classes.paper_box}>
-                        <Grid container className={classes.calendar}>
-                            <Table size="small">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell className="center side_padding8">Lundi</TableCell>
-                                        <TableCell className="center side_padding8">Mardi</TableCell>
-                                        <TableCell className="center side_padding8">Mercredi</TableCell>
-                                        <TableCell className="center side_padding8">Jeudi</TableCell>
-                                        <TableCell className="center side_padding8">Vendredi</TableCell>
-                                        <TableCell className="center side_padding8">Samedi</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {calendar.map((week, index) => (
-                                        <TableRow key={index}>
-                                            {week.map((day, index_day) => (
-                                                <TableCell className="side_padding8" key={index_day} align="center">
-                                                    <Typography variant="caption" display="block" gutterBottom className={classes.day} noWrap>
-                                                        <strong>{this.formateCalendarDate(day.date)}</strong>
-                                                    </Typography>
-                                                    <div className={classes.creneau_card}>
-                                                        {/* <Grid container direction="row" justify="center" alignItems="center" style={{height:30, width: 'fit-content'}}> */}
-                                                            {day.creneaux.matin.perm_id? (
-                                                                <Chip 
-                                                                    size="small" 
-                                                                    label={day.creneaux.matin.perm_nom} 
-                                                                    color="primary" 
-                                                                    className={classes.perm_chip}
-                                                                    onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
-                                                                />
-                                                            ) : (
-                                                                <FormControl>
-                                                                    <select 
-                                                                        className={classes.perm_select}
-                                                                        disabled={this.isDatePast(day.date)}
-                                                                        onChange={(e) => this.handlePlanningChange(e, index, index_day, 'matin')}
-                                                                    >
-                                                                        <option value="" defaultValue/>
-                                                                        {perms.map((perm, index) => (
-                                                                            <option value={perm.id} key={index}>
-                                                                                {perm.nom}
-                                                                            </option>
-                                                                        ))}
-                                                                    </select>
-                                                                </FormControl>
-                                                            )}
-                                                        {/* </Grid> */}
-                                                    </div>
-                                                    <div className={classes.creneau_card}>
-                                                        {day.creneaux.midi.perm_id?(
+                        <Table size="small">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell className="center side_padding8">Lundi</TableCell>
+                                    <TableCell className="center side_padding8">Mardi</TableCell>
+                                    <TableCell className="center side_padding8">Mercredi</TableCell>
+                                    <TableCell className="center side_padding8">Jeudi</TableCell>
+                                    <TableCell className="center side_padding8">Vendredi</TableCell>
+                                    <TableCell className="center side_padding8">Samedi</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {calendar.map((week, index) => (
+                                    <TableRow key={index}>
+                                        {week.map((day, index_day) => (
+                                            <TableCell className="side_padding8" key={index_day} align="center">
+                                                <Typography variant="caption" display="block" gutterBottom className={classes.day} noWrap>
+                                                    <strong>{this.formateCalendarDate(day.date)}</strong>
+                                                </Typography>
+                                                <div className={classes.creneau_card}>
+                                                    {/* <Grid container direction="row" justify="center" alignItems="center" style={{height:30, width: 'fit-content'}}> */}
+                                                        {day.creneaux.matin.perm_id? (
                                                             <Chip 
                                                                 size="small" 
-                                                                label={day.creneaux.midi.perm_nom} 
+                                                                label={day.creneaux.matin.perm_nom} 
                                                                 color="primary" 
-                                                                className={classes.perm_chip} 
-                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'midi', day.creneaux.midi.perm_id)}
+                                                                className={classes.perm_chip}
+                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
                                                             />
-                                                        ):(
+                                                        ) : (
                                                             <FormControl>
                                                                 <select 
                                                                     className={classes.perm_select}
                                                                     disabled={this.isDatePast(day.date)}
-                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'midi')}
+                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'matin')}
                                                                 >
                                                                     <option value="" defaultValue/>
                                                                     {perms.map((perm, index) => (
@@ -623,40 +597,66 @@ class CalendarManagement extends Component{
                                                                 </select>
                                                             </FormControl>
                                                         )}
-                                                    </div>
-                                                    <div className={classes.creneau_card}>
-                                                        {day.creneaux.soir.perm_id? (
-                                                            <Chip 
-                                                                size="small" 
-                                                                label={day.creneaux.soir.perm_nom} 
-                                                                color="primary"
-                                                                className={classes.perm_chip}
-                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'soir', day.creneaux.soir.perm_id)}
-                                                            />
-                                                        ) : (
-                                                            <FormControl>                                                 
-                                                                <select 
-                                                                    className={classes.perm_select}
-                                                                    disabled={this.isDatePast(day.date)}
-                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'soir')}
-                                                                >
-                                                                    <option value="" defaultValue/>
-                                                                    {perms.map((perm, index) => (
-                                                                        <option value={perm.id} key={index}>
-                                                                            {perm.nom}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-                                                            </FormControl>
-                                                        )}
-                                                    </div>
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Grid>
+                                                    {/* </Grid> */}
+                                                </div>
+                                                <div className={classes.creneau_card}>
+                                                    {day.creneaux.midi.perm_id?(
+                                                        <Chip 
+                                                            size="small" 
+                                                            label={day.creneaux.midi.perm_nom} 
+                                                            color="primary" 
+                                                            className={classes.perm_chip} 
+                                                            onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'midi', day.creneaux.midi.perm_id)}
+                                                        />
+                                                    ):(
+                                                        <FormControl>
+                                                            <select 
+                                                                className={classes.perm_select}
+                                                                disabled={this.isDatePast(day.date)}
+                                                                onChange={(e) => this.handlePlanningChange(e, index, index_day, 'midi')}
+                                                            >
+                                                                <option value="" defaultValue/>
+                                                                {perms.map((perm, index) => (
+                                                                    <option value={perm.id} key={index}>
+                                                                        {perm.nom}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </FormControl>
+                                                    )}
+                                                </div>
+                                                <div className={classes.creneau_card}>
+                                                    {day.creneaux.soir.perm_id? (
+                                                        <Chip 
+                                                            size="small" 
+                                                            label={day.creneaux.soir.perm_nom} 
+                                                            color="primary"
+                                                            className={classes.perm_chip}
+                                                            onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'soir', day.creneaux.soir.perm_id)}
+                                                        />
+                                                    ) : (
+                                                        <FormControl>                                                 
+                                                            <select 
+                                                                className={classes.perm_select}
+                                                                disabled={this.isDatePast(day.date)}
+                                                                onChange={(e) => this.handlePlanningChange(e, index, index_day, 'soir')}
+                                                            >
+                                                                <option value="" defaultValue/>
+                                                                {perms.map((perm, index) => (
+                                                                    <option value={perm.id} key={index}>
+                                                                        {perm.nom}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </FormControl>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </Paper>
                 </Grid>
                 <Dialog
@@ -742,14 +742,10 @@ const styles = theme => ({
     subTitle:{
         marginBottom: 5
     },
-    redBox: {
-        border: "1.5px solid #B22132",
-        // borderRadius: 5,
-        padding: 10,
-        marginTop: 20,
-    },
     textField: {
-        margin: 10,
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10,
         fontSize: 12,
     },
     checkBox: {
@@ -757,6 +753,7 @@ const styles = theme => ({
     },
     btnAddPerm: {
         marginTop: 10,
+        marginBottom: 20,
     },
     btnMail : {
         marginLeft: 10,
