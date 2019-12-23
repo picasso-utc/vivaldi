@@ -15,7 +15,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { ajaxGet, ajaxPost, ajaxPatch, ajaxDelete } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost, ajaxPatch } from '../../../utils/Ajax';
 
 class RequestedPerms extends Component{
  
