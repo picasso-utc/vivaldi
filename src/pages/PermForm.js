@@ -19,6 +19,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Auth from '../utils/Auth';
 import Paper from '@material-ui/core/Paper';
 import {isStringEmpty} from '../utils/String';
+import SnackbarComponent from '../utils/SnackbarComponent';
+
 
 class PermForm extends React.Component {
 
@@ -48,6 +50,9 @@ class PermForm extends React.Component {
             saving: false,
             mode : "create",
             saved: false,
+            snackbar: {
+				open: false,
+			},
         }
 	}
 
@@ -63,11 +68,10 @@ class PermForm extends React.Component {
 			if (res.data.perm_may_be_requested) {
                 this.loadAssos();
             } else {
-                window.location.href = "/404"
+                window.location.href = "/"
             }
 		}).catch(error => {
-            console.log(error)
-            // TO DO Redirection en cas d'erreur
+            this.openSnackbar();
 		})
     }
 
@@ -96,7 +100,7 @@ class PermForm extends React.Component {
             this.setState({assos: assos})
             this.isFormExisting()
         }).catch(error => {
-            console.log(error)
+            this.openSnackbar();
         })
     }
 
@@ -115,7 +119,7 @@ class PermForm extends React.Component {
                 this.setState({new_perm: perm, loading: false, mode: "edit"})
             })
             .catch(error => {
-                window.location.href = "/"
+                window.location.href = "/perm/form"
             })
         } else {
             this.setState({loading: false})
@@ -183,6 +187,14 @@ class PermForm extends React.Component {
         }
     }
 
+    openSnackbar(){
+		this.setState({
+			snackbar: {
+				open: true,
+			}
+		})
+	}
+
     autoCompleteQuery(query){
         ajaxGet('payutc/user/autocomplete/' + query).then(res => {
             this.setState({autocomplete_users: res.data.users});
@@ -212,6 +224,7 @@ class PermForm extends React.Component {
                     new_perm.id = res.data.id;
                     this.setState({saving: false, saved: true, new_perm: new_perm, mode: "edit"});
                 }).catch(error => {
+                    this.openSnackbar();
                     this.setState({saving: false});
                 })
             } else {
@@ -219,12 +232,10 @@ class PermForm extends React.Component {
                     this.setState({saving: false, saved: true});
                 })
                 .catch(error => {
+                    this.openSnackbar();
                     this.setState({saving: false});
                 })
-            }
-
-            
-        
+            }        
         } else {
             this.setState({saving: false});
         }
@@ -287,7 +298,7 @@ class PermForm extends React.Component {
 
 	render() {
 
-        const { loading, assos, new_perm, autocomplete_users, errors, saving, saved, mode } = this.state;
+        const { loading, assos, new_perm, autocomplete_users, errors, saving, saved, mode, snackbar } = this.state;
         const { classes } = this.props;
 
 		return (
@@ -665,6 +676,24 @@ class PermForm extends React.Component {
 
 				    </Container>
                 )}
+                <SnackbarComponent 
+                    open={snackbar.open} 
+                    variant="error" 
+                    message="Une erreur est survenue. Si cette dernière se reproduit, contacte directement le Pic !"
+					duration={10000}
+					horizontal='right'
+					vertical='top'
+                    closeSnackbar={
+                        ()=>{
+                            this.setState({
+                                snackbar: {
+                                    ...this.state.snackbar,
+                                    open: false,
+                                }
+                            })
+                        }
+                    }
+                />
 			</React.Fragment>
 		);
 	}
