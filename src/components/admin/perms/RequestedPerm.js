@@ -234,8 +234,8 @@ const styles = theme => ({
         border: "1.5px solid #B22132",
     },
     subTitle: {
-        marginBottom: 20,
-        marginTop: 10
+        marginBottom: 10,
+        marginTop: 20
     },
     subTitleIcon: {
         marginRight: 8,
