@@ -16,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { ajaxGet, ajaxPost, ajaxPatch } from '../../../utils/Ajax';
+import { API_URL } from '../../../utils/Config';
 
 class RequestedPerms extends Component{
  
@@ -63,6 +64,11 @@ class RequestedPerms extends Component{
         .catch(error => {
             console.log(error);
         })
+    }
+
+
+    getRequestedPermsPDF(){
+        window.open(API_URL + 'perms/requested/pdf')
     }
 
 
@@ -158,7 +164,7 @@ class RequestedPerms extends Component{
                         margin="dense"
                         size="small"
                         className={classes.btn} 
-                        // onClick={(e) => this.addPerm(index)}
+                        onClick={(e) => this.getRequestedPermsPDF()}
                     >
                         Télécharger les demandes
                     </Button> 
