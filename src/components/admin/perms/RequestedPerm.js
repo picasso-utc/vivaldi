@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Table from '@material-ui/core/Table';
@@ -13,16 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { ajaxGet, ajaxPost, ajaxPatch, ajaxDelete } from '../../../utils/Ajax';
 
 class RequestedPerms extends Component{
  
@@ -151,8 +144,26 @@ class RequestedPerms extends Component{
                         labelPlacement="start"
                     />
                 </Grid>
-                    Liste des demandes
-                </Typography>
+                <Grid container direction="row">
+                    <Typography variant="h6" className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        Liste des demandes
+                    </Typography>
+                </Grid>
+
+                <Grid container direction="row">
+                    <Button 
+                        color="primary"
+                        variant="contained" 
+                        margin="dense"
+                        size="small"
+                        className={classes.btn} 
+                        // onClick={(e) => this.addPerm(index)}
+                    >
+                        Télécharger les demandes
+                    </Button> 
+                </Grid>
+                
                 <Paper className={classes.rootTable}>
                     <Table>
                         <TableHead>
@@ -193,9 +204,9 @@ class RequestedPerms extends Component{
                                             variant="contained" 
                                             margin="dense"
                                             size="small"
-                                            disabled={row.added}
+                                            disabled={row.added || row.loading}
                                             className={classes.btn} 
-                                            // onClick={(e) => this.selectLink(e, row)}
+                                            onClick={(e) => this.addPerm(index)}
                                         >
                                             {row.added ? (<span>Ajouté</span>) : (<span>Ajouter</span>)}
                                         </Button>                                     
@@ -223,7 +234,8 @@ const styles = theme => ({
         border: "1.5px solid #B22132",
     },
     subTitle: {
-        marginBottom: 40,
+        marginBottom: 20,
+        marginTop: 10
     },
     subTitleIcon: {
         marginRight: 8,
@@ -233,7 +245,7 @@ const styles = theme => ({
         marginLeft: 10,
     },
     btn : {
-        margin: 5,
+        margin: 10,
     },
 });
 
