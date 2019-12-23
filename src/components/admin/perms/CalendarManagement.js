@@ -85,7 +85,14 @@ class CalendarManagement extends Component{
 
     loadPerms(){
         ajaxGet('perms').then(res => {
-            const perms = res.data
+            let perms = res.data;
+            perms = perms.sort(function(a,b){
+                if (a.nom.toLowerCase() > b.nom.toLowerCase()) {
+                    return 1
+                }
+                return -1
+            })
+
             let creneaux = [];
             this.setState({perms: perms})
             for (let index = 0; index < perms.length; index++) {
