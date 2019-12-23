@@ -110,7 +110,7 @@ class IndexPolls extends React.Component {
 							alignItems="center"
 						>
 							<Grid item>
-								<Typography style={{fontWeight: 300}}>Pas de sondage actuellement ...</Typography>
+								<Typography className="fontWeight200 center">Pas de sondage actuellement ...</Typography>
 							</Grid>
 						</Grid>
 					)

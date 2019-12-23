@@ -88,7 +88,7 @@ class PermRequest extends React.Component {
 							justify="center"
 							alignItems="center"
 						>
-							<Typography style={{fontWeight: 200}}>Impossible de demander une perm actuellement ...</Typography>
+							<Typography className="fontWeight200 center">Impossible de demander une perm actuellement ...</Typography>
 						</Grid>
 					)
 				)}

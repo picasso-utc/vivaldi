@@ -27,6 +27,8 @@
 }
 
 
+
+
 .errors_paper{
   color: white !important;
   background-color: #B22132 !important;
@@ -42,6 +44,14 @@
 
 .top10{
   margin-top: 10px;
+}
+
+.center{
+  text-align: center;
+}
+
+.fontWeight200{
+  font-weight: 200 !important;
 }
 
 .margin10{
