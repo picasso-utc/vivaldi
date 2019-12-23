@@ -10,6 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -40,7 +41,8 @@ class Menu extends Component {
 				variant: 'success',
                 message: '',
 			},
-			saving: false,
+            saving: false,
+            confirm_modal: false,
         }
         
         this.handleChange = this.handleChange.bind(this)
@@ -246,6 +248,15 @@ class Menu extends Component {
 			}
 		})
     }
+
+
+    handleConfirmModalOpen(){
+        this.setState({confirm_modal: true})
+    }
+
+    handleModalClickClose = () => {
+        this.setState({confirm_modal: false})
+    };
     
 
     deleteMenu(event, menu){
@@ -253,6 +264,7 @@ class Menu extends Component {
         ajaxPost('perms/menu/closed/' + menu.id_payutc, {}).then(res => {
             this.changeSnackbarState(true, 'success', 'Le menu a été supprimé');
             this.loadMenus();
+            this.handleModalClickClose();
         }).catch(error => {
             this.changeSnackbarState(true, 'error', 'Une erreur est survenue lors de la suppression du menu');
         })
@@ -260,7 +272,7 @@ class Menu extends Component {
 	
 
   	render() {
-		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials, snackbar } = this.state
+		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials, snackbar, confirm_modal } = this.state
 		const {classes} = this.props
 		return(
 			<React.Fragment>
@@ -298,7 +310,7 @@ class Menu extends Component {
                                             size="small" 
                                             color="secondary" 
                                             className={classes.delete_btn} 
-                                            onClick={(e) => this.deleteMenu(e, menu)}
+                                            onClick={() => this.handleConfirmModalOpen()}
                                         >
                                             Supprimer Menu
                                         </Button>
@@ -410,6 +422,31 @@ class Menu extends Component {
                     <Button onClick={this.loginBadge} color="primary">
                         Se connecter
                     </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={confirm_modal}
+                    onClose={() => this.handleModalClickClose()}
+                >
+                    <DialogTitle>{"Suppresion: " + menu.name}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Veux-tu vraiment supprimer ce menu ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            color="secondary"
+                            variant="contained" 
+                            margin="dense"
+                            size="small"
+                            className={classes.btn} 
+                            // onClick={(e) => this.deleteMedia(media.id)}
+                            onClick={(e) => this.deleteMenu(e, menu)}
+                        >
+                            Supprimer
+                        </Button>    
                     </DialogActions>
                 </Dialog>
 
