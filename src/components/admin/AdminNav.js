@@ -42,6 +42,7 @@ const CATEGORIES = [
 			{ id: 'Planning', link: '/admin/calendar'},
 			{ id: 'Menu', link: '/menu'},
 			// { id: 'Index perms', link: '/admin/perms'},
+			{id: 'Demandées', link: '/admin/requested/perms'}
 		]
 	},
 	{

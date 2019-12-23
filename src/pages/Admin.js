@@ -15,6 +15,7 @@ import Astreintes from '../components/admin/perms/Astreintes';
 import CalendarManagement from '../components/admin/perms/CalendarManagement';
 import CurrentPerm from '../components/admin/perms/CurrentPerm';
 import Perms from '../components/admin/perms/Perms';
+import RequestedPerm from '../components/admin/perms/RequestedPerm';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Media from '../components/admin/tv/Media';
@@ -58,6 +59,8 @@ class Admin extends React.Component {
 				return "Astreintes";
 			case asset_url("/admin/perms"):
 				return "Perms";
+			case asset_url("/admin/requested/perms"):
+				return "Perms demandées";
 			case asset_url("/admin/charte"):
 				return "Charte";
 			case asset_url("/admin/users"):
@@ -120,6 +123,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
+						<ProtectedRoute only="member" path={`${base_url}/requested/perms`} exact component={RequestedPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/url`} exact component={Url}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/config`} exact component={Configuration}/>
