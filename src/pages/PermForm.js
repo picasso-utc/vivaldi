@@ -374,7 +374,7 @@ class PermForm extends React.Component {
                                         </Grid>
                                         <Grid container direction="row">
                                             <RadioGroup 
-                                                style={{display:'inline-block'}} 
+                                                style={{display:'inline-block', textAlign: 'left'}} 
                                                 value={new_perm.type} 
                                                 name="type"
                                                 onChange={(event) => this.handleNewPermChange(event)}
@@ -708,7 +708,7 @@ const styles = theme => ({
 		paddingRight: '5%',
         paddingLeft: '5%',
         paddingTop: 10,
-		paddingBottom: 30,
+		paddingBottom: 50,
 		backgroundColor: '#000223',
         color: 'white',
         height: '100%',
@@ -756,7 +756,6 @@ const styles = theme => ({
         marginBottom: 30
     },
     slider_input : {
-        marginLeft: '5%',
         width: '90%',
         marginBottom: 30,
         marginTop: 40

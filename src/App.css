@@ -27,6 +27,14 @@
 }
 
 
+.errors_paper{
+  color: white !important;
+  background-color: #B22132 !important;
+  text-align: left;
+  padding: 10px;
+  width: fit-content;
+}
+
 .responsive_table {
   width: 100%;
   overflow-x: auto;
