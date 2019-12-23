@@ -83,7 +83,10 @@ class RequestedPerms extends Component{
             nom : requested_perm.nom,
             asso : requested_perm.asso,
             nom_resp: requested_perm.nom_resp,
-            mail_resp : requested_perm.mail_resp
+            mail_resp : requested_perm.mail_resp,
+            nom_resp_2: requested_perm.nom_resp_2,
+            mail_resp_2 : requested_perm.mail_resp_2,
+            mail_asso: requested_perm.mail_asso
         }
 
         ajaxPost('perms/', perm).then(res => {
