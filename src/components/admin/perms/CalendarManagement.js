@@ -406,193 +406,197 @@ class CalendarManagement extends Component{
         }
 
         return (
-            <div className={classes.container}>
-                <Grid container>
-                    <Grid item xs={12} md={5} lg={4}>
-                        <Typography variant="h5" noWrap>
-                            <ChevronRightIcon className={classes.titleIcon}/>
-                            Perms
-                        </Typography>
-                        <Grid container className={classes.redBox}>
-                            <Grid item xs={12}>
-                                <Typography variant="subtitle1" noWrap className={classes.subTitle}>
-                                    Ajouter une nouvelle perm
-                                </Typography>
-                            </Grid>  
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    label="Nom"
-                                    className={classes.textField}
-                                    name="nom"
-                                    value={newPerm.nom}
-                                    onChange={this.handleChange}
-                                    autoComplete="off"
-                                    margin="dense"
-                                    variant="outlined"
-                                    InputProps={{ style: { fontSize: 12 } }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <FormControlLabel
-                                    className={classes.checkBox}
-                                    name="asso"
-                                    value={newPerm.asso}
-                                    onChange={this.handleCheckboxChange}
-                                    control={<Checkbox color="primary" />}
-                                    label="Association ?"
-                                    labelPlacement="start"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    label="Responsable"
-                                    className={classes.textField}
-                                    name="nom_resp"
-                                    value={newPerm.nom_resp}
-                                    onChange={this.handleChange}
-                                    autoComplete="off"
-                                    margin="dense"
-                                    variant="outlined"
-                                    InputProps={{ style: { fontSize: 12 } }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    label="Mail resp"
-                                    className={classes.textField}
-                                    name="mail_resp"
-                                    value={newPerm.mail_resp}
-                                    onChange={this.handleChange}
-                                    autoComplete="off"
-                                    margin="dense"
-                                    variant="outlined"
-                                    InputProps={{ style: { fontSize: 12 } }}
-                                />
-                            </Grid>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="center"
-                                alignItems="center"
+            <div className="admin_container">
+                <Grid container direction="row">
+                    <Typography variant="h6" className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.titleIcon}/>
+                        Ajouter une perm
+                    </Typography>
+                    <Paper className={classes.paper_box}>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Nom"
+                                className={classes.textField}
+                                name="nom"
+                                value={newPerm.nom}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                                InputProps={{ style: { fontSize: 12 } }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControlLabel
+                                className={classes.checkBox}
+                                name="asso"
+                                value={newPerm.asso}
+                                onChange={this.handleCheckboxChange}
+                                control={<Checkbox color="primary" />}
+                                label="Association ?"
+                                labelPlacement="start"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Responsable"
+                                className={classes.textField}
+                                name="nom_resp"
+                                value={newPerm.nom_resp}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                                InputProps={{ style: { fontSize: 12 } }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Mail resp"
+                                className={classes.textField}
+                                name="mail_resp"
+                                value={newPerm.mail_resp}
+                                onChange={this.handleChange}
+                                autoComplete="off"
+                                margin="dense"
+                                variant="outlined"
+                                InputProps={{ style: { fontSize: 12 } }}
+                            />
+                        </Grid>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Button 
+                                variant="outlined" 
+                                size="small" 
+                                color="primary" 
+                                onClick={this.savePerm}
+                                className={classes.btnAddPerm}
                             >
+                                Ajouter
+                            </Button>
+                        </Grid> 
+                    </Paper>
+                </Grid>
+                <Grid container direction="row">
+                    <Typography variant="h6" className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.titleIcon}/>
+                        Liste des perms
+                    </Typography>
+                    <Paper className={classes.paper_box}> 
+                        {/* <Grid item xs={12}>
+                            <Typography variant="subtitle1" noWrap className={classes.subTitle}>
+                                Liste des perms
                                 <Button 
                                     variant="outlined" 
                                     size="small" 
                                     color="primary" 
-                                    onClick={this.savePerm}
-                                    className={classes.btnAddPerm}
+                                    onClick={this.handleChangeOnMail}
+                                    className={classes.btnMail}
                                 >
-                                    Ajouter
+                                    Mail
                                 </Button>
-                            </Grid> 
-                        </Grid>
-                        <Grid container className={classes.redBox}>
-                            <Grid item xs={12}>
-                                <Typography variant="subtitle1" noWrap className={classes.subTitle}>
-                                    Liste des perms
-                                    <Button 
-                                        variant="outlined" 
-                                        size="small" 
-                                        color="primary" 
-                                        onClick={this.handleChangeOnMail}
-                                        className={classes.btnMail}
-                                    >
-                                        Mail
-                                    </Button>
-                                </Typography>
-                            </Grid>
-                            <List className={classes.listPerms}>
-                                {perms.map((perm, index)=> {
-                                    const M_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'M').length
-                                    const D_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'D').length
-                                    const S_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'S').length
-                                    const canDelete = (M_creneaux + D_creneaux + S_creneaux) === 0;
-                                    return (
-                                        <React.Fragment key={index}>
-                                            <ListItem
-                                                className={classes.suggestionItem}
-                                                component="div"
-                                            >
-                                                <ListItemText
-                                                    // Déterminer dynamiquement le nombre de créneaux
-                                                    primary={
-                                                        perm.nom + " (" +
-                                                        M_creneaux + '/' +
-                                                        D_creneaux + '/' +
-                                                        S_creneaux + ')'                                                  
-                                                    }
-                                                    secondary={perm.nom_resp + (perm.asso?(" - Association"):("")) }
-                                                />
-                                                {canDelete && 
-                                                    <ListItemSecondaryAction>
-                                                        <IconButton 
-                                                            edge="end" 
-                                                            aria-label="delete" 
-                                                            color="secondary"
-                                                            onClick={(e) => this.deletePerm(e, perm)}
-                                                        >
-                                                            <DeleteOutlineIcon />
-                                                        </IconButton>
-                                                    </ListItemSecondaryAction>
+                            </Typography>
+                        </Grid> */}
+                        <List className={classes.listPerms}>
+                            {perms.map((perm, index)=> {
+                                const M_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'M').length
+                                const D_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'D').length
+                                const S_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'S').length
+                                const canDelete = (M_creneaux + D_creneaux + S_creneaux) === 0;
+                                return (
+                                    <React.Fragment key={index}>
+                                        <ListItem
+                                            className={classes.suggestionItem}
+                                            component="div"
+                                        >
+                                            <ListItemText
+                                                // Déterminer dynamiquement le nombre de créneaux
+                                                primary={
+                                                    perm.nom + " (" +
+                                                    M_creneaux + '/' +
+                                                    D_creneaux + '/' +
+                                                    S_creneaux + ')'                                                  
                                                 }
-                                            </ListItem>
-                                            <Divider/>
-                                        </React.Fragment>
-                                    )
-                                })}
-                            </List>
-                        </Grid>
+                                                secondary={perm.nom_resp + (perm.asso?(" - Association"):("")) }
+                                            />
+                                            {canDelete && 
+                                                <ListItemSecondaryAction>
+                                                    <IconButton 
+                                                        edge="end" 
+                                                        aria-label="delete" 
+                                                        color="secondary"
+                                                        onClick={(e) => this.deletePerm(e, perm)}
+                                                    >
+                                                        <DeleteOutlineIcon />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            }
+                                        </ListItem>
+                                        <Divider/>
+                                    </React.Fragment>
+                                )
+                            })}
+                        </List>
+                    </Paper>
                     </Grid>
-                    <Grid item xs={12} sm={7} lg={8}>
-                        <Typography variant="h5" noWrap>
+                    <Grid container direction="row">
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.titleIcon}/>
                             Calendrier
                         </Typography>
+                        <Paper className={classes.paper_box}>
                         <Grid container className={classes.calendar}>
                             <Table size="small">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Lundi</TableCell>
-                                        <TableCell>Mardi</TableCell>
-                                        <TableCell>Mercredi</TableCell>
-                                        <TableCell>Jeudi</TableCell>
-                                        <TableCell>Vendredi</TableCell>
-                                        <TableCell>Samedi</TableCell>
+                                        <TableCell className="center side_padding8">Lundi</TableCell>
+                                        <TableCell className="center side_padding8">Mardi</TableCell>
+                                        <TableCell className="center side_padding8">Mercredi</TableCell>
+                                        <TableCell className="center side_padding8">Jeudi</TableCell>
+                                        <TableCell className="center side_padding8">Vendredi</TableCell>
+                                        <TableCell className="center side_padding8">Samedi</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {calendar.map((week, index) => (
                                         <TableRow key={index}>
                                             {week.map((day, index_day) => (
-                                                <TableCell key={index_day}>
+                                                <TableCell className="side_padding8" key={index_day} align="center">
                                                     <Typography variant="caption" display="block" gutterBottom className={classes.day} noWrap>
                                                         <strong>{this.formateCalendarDate(day.date)}</strong>
                                                     </Typography>
                                                     <div className={classes.creneau_card}>
-                                                        {day.creneaux.matin.perm_id? (
-                                                            <Chip 
-                                                                size="small" 
-                                                                label={day.creneaux.matin.perm_nom} 
-                                                                color="primary" 
-                                                                className={classes.perm_chip}
-                                                                onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
-                                                            />
-                                                        ) : (
-                                                            <FormControl className={classes.form}>
-                                                                <select 
-                                                                    className={classes.perm_select}
-                                                                    disabled={this.isDatePast(day.date)}
-                                                                    onChange={(e) => this.handlePlanningChange(e, index, index_day, 'matin')}
-                                                                >
-                                                                    <option value="" defaultValue/>
-                                                                    {perms.map((perm, index) => (
-                                                                        <option value={perm.id} key={index}>
-                                                                            {perm.nom}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-                                                            </FormControl>
-                                                        )}
+                                                        {/* <Grid container direction="row" justify="center" alignItems="center" style={{height:30, width: 'fit-content'}}> */}
+                                                            {day.creneaux.matin.perm_id? (
+                                                                <Chip 
+                                                                    size="small" 
+                                                                    label={day.creneaux.matin.perm_nom} 
+                                                                    color="primary" 
+                                                                    className={classes.perm_chip}
+                                                                    onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'matin', day.creneaux.matin.perm_id)}
+                                                                />
+                                                            ) : (
+                                                                <FormControl>
+                                                                    <select 
+                                                                        className={classes.perm_select}
+                                                                        disabled={this.isDatePast(day.date)}
+                                                                        onChange={(e) => this.handlePlanningChange(e, index, index_day, 'matin')}
+                                                                    >
+                                                                        <option value="" defaultValue/>
+                                                                        {perms.map((perm, index) => (
+                                                                            <option value={perm.id} key={index}>
+                                                                                {perm.nom}
+                                                                            </option>
+                                                                        ))}
+                                                                    </select>
+                                                                </FormControl>
+                                                            )}
+                                                        {/* </Grid> */}
                                                     </div>
                                                     <div className={classes.creneau_card}>
                                                         {day.creneaux.midi.perm_id?(
@@ -604,7 +608,7 @@ class CalendarManagement extends Component{
                                                                 onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'midi', day.creneaux.midi.perm_id)}
                                                             />
                                                         ):(
-                                                            <FormControl className={classes.form}>
+                                                            <FormControl>
                                                                 <select 
                                                                     className={classes.perm_select}
                                                                     disabled={this.isDatePast(day.date)}
@@ -630,7 +634,7 @@ class CalendarManagement extends Component{
                                                                 onDelete={this.isDatePast(day.date) ? null : (e) => this.handleDeleteCreneau(e, index, index_day, 'soir', day.creneaux.soir.perm_id)}
                                                             />
                                                         ) : (
-                                                            <FormControl className={classes.form}>                                                 
+                                                            <FormControl>                                                 
                                                                 <select 
                                                                     className={classes.perm_select}
                                                                     disabled={this.isDatePast(day.date)}
@@ -653,7 +657,7 @@ class CalendarManagement extends Component{
                                 </TableBody>
                             </Table>
                         </Grid>
-                    </Grid>
+                    </Paper>
                 </Grid>
                 <Dialog
                     // fullWidth="lg"
@@ -726,12 +730,17 @@ const styles = theme => ({
         margin: 30,
         marginTop: 100,
     },
+    paper_box : {
+        width: '100%',
+        overflowX: 'auto',
+        marginBottom: 20,
+    },
     titleIcon: {
         marginRight: 8,
         paddingTop: 5,
     },
     subTitle:{
-        paddingLeft: 10,
+        marginBottom: 5
     },
     redBox: {
         border: "1.5px solid #B22132",
@@ -757,11 +766,6 @@ const styles = theme => ({
         height: 300,
         overflowY: "scroll",
     },
-    calendar: {
-        margin: 10,
-        height: window.innerHeight - 150,
-        overflowY: "scroll",
-    },
     day: {
         fontSize: 12,
     },
@@ -773,7 +777,6 @@ const styles = theme => ({
         height: 24,
         marginTop:0,
         marginBottom: 6,
-        width: '100%',
         padding: 5,
     },
     creneau_card : {
@@ -782,9 +785,7 @@ const styles = theme => ({
     perm_select : {
         paddingLeft: '5%',
         paddingRight: '5%',
-    },
-    form: {
-        width: '100%',
+        width: 100
     },
     chip: {
         margin: 5,
