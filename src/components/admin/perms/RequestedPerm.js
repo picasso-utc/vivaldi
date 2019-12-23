@@ -21,7 +21,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 class RequestedPerms extends Component{
  
@@ -32,13 +33,25 @@ class RequestedPerms extends Component{
         this.state = {
             requested_perms : [],
             loading: true,
+            perm_may_be_requested: false
         }
 
     }
 
     componentDidMount(){
-        this.loadRequestedPerms();
+        this.loadPermMayBeRequest();
     }
+
+
+    loadPermMayBeRequest(){
+        ajaxGet('perms/public/may/request').then(res => {
+            this.setState({perm_may_be_requested: res.data.perm_may_be_requested})
+			this.loadRequestedPerms();
+		}).catch(error => {
+            console.log(error)
+		})
+    }
+
 
     loadRequestedPerms(){
         ajaxGet('request/perm/').then(res => {
@@ -49,6 +62,47 @@ class RequestedPerms extends Component{
         })
     }
 
+    handleSliderChange(){
+        const perm_may_be_requested = !this.state.perm_may_be_requested;
+        ajaxPost('perms/update/may/request', {'perm_may_be_requested': perm_may_be_requested}).then(res => {
+            this.setState({perm_may_be_requested: perm_may_be_requested})
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
+
+    addPerm(requested_perm_index){
+
+        let requested_perms = this.state.requested_perms;
+        requested_perms[requested_perm_index].loading = true;
+        this.setState({requested_perms: requested_perms})
+
+        const requested_perm = this.state.requested_perms[requested_perm_index];
+        const perm = {
+            nom : requested_perm.nom,
+            asso : requested_perm.asso,
+            nom_resp: requested_perm.nom_resp,
+            mail_resp : requested_perm.mail_resp
+        }
+
+        ajaxPost('perms/', perm).then(res => {
+            ajaxPatch('request/perm/' + requested_perm.id + '/', {}).then(res => {
+                requested_perms[requested_perm_index].added = true;
+                requested_perms[requested_perm_index].loading = false;
+                this.setState({requested_perms: requested_perms})
+            })
+            .catch(error => {
+                requested_perms[requested_perm_index].loading = false;
+                this.setState({requested_perms: requested_perms})
+            })
+        })
+        .catch(error => {
+            requested_perms[requested_perm_index].loading = false;
+            this.setState({requested_perms: requested_perms})
+        })
+    }
 
         
 
@@ -56,7 +110,7 @@ class RequestedPerms extends Component{
         
         const { classes } = this.props;
 
-        const {requested_perms, loading} = this.state;
+        const {requested_perms, loading, perm_may_be_requested} = this.state;
 
 
         if (loading) {
@@ -77,8 +131,26 @@ class RequestedPerms extends Component{
 
         return (
             <div className="admin_container">
-                <Typography variant="h6" className={classes.subTitle}>
-                    <ChevronRightIcon className={classes.subTitleIcon}/>
+                <Grid container direction="row">
+                    <Typography variant="h6" className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        Configuration
+                    </Typography>
+                </Grid>
+                <Grid container direction="row">
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                color="primary" 
+                                checked={perm_may_be_requested}
+                                value="perm_may_be_requested"
+                                onChange={() => this.handleSliderChange()}
+                            />
+                        }
+                        label="Demande de perm activée"
+                        labelPlacement="start"
+                    />
+                </Grid>
                     Liste des demandes
                 </Typography>
                 <Paper className={classes.rootTable}>
