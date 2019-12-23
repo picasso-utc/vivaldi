@@ -19,9 +19,13 @@ class PriceDisplayer extends React.Component {
 		this.loadArticles();
 		setTimeout(() => {
 			const index_drinks =  document.getElementById("index_drinks")
-			index_drinks.scrollBy({ left: 60, behavior: 'smooth'})
+			if(index_drinks){
+				index_drinks.scrollBy({ left: 60, behavior: 'smooth'})
+			}
 			const index_snacks =  document.getElementById("index_snacks")
-			index_snacks.scrollBy({ left: 60, behavior: 'smooth'})	
+			if(index_snacks){
+				index_snacks.scrollBy({ left: 60, behavior: 'smooth'})
+			}	
 		}, 3000)
 	}
 
