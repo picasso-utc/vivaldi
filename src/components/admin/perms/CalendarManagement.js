@@ -27,9 +27,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-
-
 
 import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
 
@@ -46,13 +45,18 @@ class CalendarManagement extends Component{
                 nom: '',
                 nom_resp: '',
                 mail_resp: '',
+                nom_resp_2: '',
+                mail_resp_2: '',
                 asso: false,
+                asso_login: '',
             },
             calendar : [],
             current_semester: {},
             open_mail: false,
             selected_perms: [],
             unselected_perms: [],
+            autocomplete_users_1: [],
+            autocomplete_users_2 : [],
             assos : []
         }
 
@@ -271,7 +275,8 @@ class CalendarManagement extends Component{
         this.setState(
             {newPerm:{
                 ...this.state.newPerm,
-                [event.target.name]: !asso
+                [event.target.name]: !asso,
+                nom: ''
             }
         })
     }
@@ -331,19 +336,86 @@ class CalendarManagement extends Component{
     }
 
 
+    handleAssoChange(event){
+        const assos = this.state.assos;
+        const results = assos.filter(a => a.login === event.target.value);
+        if (results.length > 0) {
+            this.setState({
+                newPerm: {
+                    ...this.state.newPerm,
+                    [event.target.name] : event.target.value
+                }
+            })
+        }
+    }
+
+
+    handleRespChange(user, nom_resp_type, mail_resp_type){
+        const data = user.split('-')
+        const nom_resp = data[0].split('(')[0]
+        const mail_resp = data[1]
+        this.setState({
+            newPerm: {
+                ...this.state.newPerm,
+                [nom_resp_type]: nom_resp,
+                [mail_resp_type]: mail_resp
+            },
+            autocomplete_users_1: [],
+            autocomplete_users_2: []
+        })
+    }
+
+
+    autoCompleteQuery(query, autocomplete_type){
+        ajaxGet('payutc/user/autocomplete/' + query).then(res => {
+            this.setState({[autocomplete_type]: res.data.users});
+        })
+        .catch(error => {
+
+        })
+    }
+
+
+    handleAutocompleteChange(event, autocomplete_type){
+        this.setState({
+            newPerm: {
+                ...this.state.newPerm,
+                [event.target.name]: event.target.value
+            }
+        })
+        if (event.target.value){
+            this.autoCompleteQuery(event.target.value, autocomplete_type)
+        } else {
+            this.setState({[autocomplete_type]: []})
+        }
+    }
+
+
     savePerm(){
-        ajaxPost('perms/', this.state.newPerm).then(res => {
+        let mail_asso = ""
+        if (this.state.newPerm.asso) {
+            mail_asso = this.state.newPerm.asso_login + "@assos.utc.fr";
+        }
+        const perm = {
+            nom: this.state.newPerm.nom,
+            asso: this.state.newPerm.asso,
+            nom_resp: this.state.newPerm.nom_resp,
+            mail_resp: this.state.newPerm.mail_resp,
+            nom_resp_2: this.state.newPerm.nom_resp_2,
+            mail_resp_2: this.state.newPerm.mail_resp_2,
+            mail_asso: mail_asso,
+        }
+        ajaxPost('perms/', perm).then(res => {
             let perms = this.state.perms;
             perms.push(res.data);
-            this.setState({perms: perms})
-            
+            this.setState({
+                perms: perms,
+                newPerm : { nom: '', nom_resp: '', mail_resp: '', asso: false, asso_login: '', nom_resp_2: '', mail_resp_2: '' }
+            })
         })
         .catch(error => {
             console.log(error);
         })
-        this.setState({
-            newPerm : { nom: '', nom_resp: '', mail_resp: '', asso: false }
-        });
     }
 
 
@@ -402,7 +474,7 @@ class CalendarManagement extends Component{
         
         const { classes } = this.props;
 
-        const { perms, newPerm, calendar, loading, open_mail, selected_perms, unselected_perms } = this.state 
+        const { perms, newPerm, calendar, loading, open_mail, selected_perms, unselected_perms, assos, autocomplete_users_1, autocomplete_users_2 } = this.state 
 
         if(loading){
             return (
@@ -430,18 +502,41 @@ class CalendarManagement extends Component{
                 </Grid>
                 <Paper className={classes.paper_box}>
                     <Grid container>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6} lg={3} className={classes.textFieldContainer}>
                             <FormControlLabel
                                 className={classes.checkBox}
                                 name="asso"
                                 value={newPerm.asso}
                                 onChange={this.handleCheckboxChange}
-                                control={<Checkbox color="primary" />}
+                                control={<Checkbox color="primary" checked={newPerm.asso} />}
                                 label="Association ?"
                                 labelPlacement="start"
-                            />
+                            />                            
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>    
+                        {newPerm.asso && (
+                            <Grid item xs={12} sm={5} lg={3} className={classes.textFieldContainer}>
+                                <TextField
+                                    select
+                                    label="Association"
+                                    value={newPerm.asso_login}
+                                    onChange={(event) => this.handleAssoChange(event)}
+                                    variant="outlined"
+                                    name="asso_login"
+                                    className={classes.textField}
+                                    size="small"
+                                    margin="dense"
+                                    fullWidth
+                                >
+                                    {assos.map(asso => (
+                                        <MenuItem key={asso.login} value={asso.login}>
+                                            {asso.shortname}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                        )}
+                        
+                        <Grid item xs={12} sm={6} lg={3} className={classes.textFieldContainer}>    
                             <TextField
                                 label="Nom"
                                 className={classes.textField}
@@ -454,37 +549,63 @@ class CalendarManagement extends Component{
                                 variant="outlined"
                                 size="small"
                                 InputProps={{ style: { fontSize: 12 } }}
-                            />
+                            />                            
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6} lg={3} className={classes.textFieldContainer}>
                             <TextField
-                                label="Responsable 1"
+                                variant="outlined" 
+                                size="small"
+                                margin="dense"
+                                fullWidth
                                 className={classes.textField}
                                 name="nom_resp"
+                                label="Responsable 1"
                                 value={newPerm.nom_resp}
-                                onChange={this.handleChange}
+                                onChange={(event) => this.handleAutocompleteChange(event, "autocomplete_users_1")}
                                 autoComplete="off"
-                                margin="dense"
-                                variant="outlined"
-                                InputProps={{ style: { fontSize: 12 } }}
-                                size="small"
-                                fullWidth
                             />
+                            { autocomplete_users_1.length > 0 && (
+                                <Paper className={classes.suggestions}>
+                                    {autocomplete_users_1.map((suggestion, index)=> (
+                                        <MenuItem
+                                            className={classes.suggestionItem}
+                                            key={index}
+                                            component="div"
+                                            onClick={()=>this.handleRespChange(suggestion.name, "nom_resp", "mail_resp")}
+                                        >
+                                            {suggestion.name.split('-')[0]}
+                                        </MenuItem>
+                                    ))}      
+                                </Paper>
+                            )}
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6} lg={3} className={classes.textFieldContainer}>
                             <TextField
-                                label="Responsable 2"
-                                className={classes.textField}
-                                name="mail_resp"
-                                value={newPerm.mail_resp}
-                                onChange={this.handleChange}
-                                autoComplete="off"
-                                margin="dense"
-                                variant="outlined"
-                                InputProps={{ style: { fontSize: 12 } }}
+                                variant="outlined" 
                                 size="small"
+                                margin="dense"
                                 fullWidth
+                                name="nom_resp_2"
+                                className={classes.textField}
+                                label="Responsable 2"
+                                value={newPerm.nom_resp_2}
+                                onChange={(event) => this.handleAutocompleteChange(event, "autocomplete_users_2")}
+                                autoComplete="off"
                             />
+                            { autocomplete_users_2.length > 0 && (
+                                <Paper className={classes.suggestions}>
+                                    {autocomplete_users_2.map((suggestion, index)=> (
+                                        <MenuItem
+                                            className={classes.suggestionItem}
+                                            key={index}
+                                            component="div"
+                                            onClick={()=>this.handleRespChange(suggestion.name, "nom_resp_2", "mail_resp_2")}
+                                        >
+                                            {suggestion.name.split('-')[0]}
+                                        </MenuItem>
+                                    ))}      
+                                </Paper>
+                            )}
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center" alignItems="center">
@@ -757,10 +878,12 @@ const styles = theme => ({
     subTitle:{
         marginBottom: 5
     },
-    textField: {
-        width: '100%',
+    textFieldContainer : {
         paddingLeft: 10,
         paddingRight: 10,
+    },
+    textField: {
+        width: '100%',
         fontSize: 12,
     },
     checkBox: {
@@ -805,6 +928,19 @@ const styles = theme => ({
     paper : {
         margin:20,
         padding: 20,
+    },
+    suggestions: {
+        zIndex: 100,
+        maxHeight: 200,
+        overflowY: 'scroll',
+        marginBottom: 30
+    },
+    suggestionItem: {
+        paddingLeft: 15,
+        paddingBottom: 0,
+        paddingTop: 0,
+        fontSize: 14,
+        minHeight: 30,
     },
 });
 
