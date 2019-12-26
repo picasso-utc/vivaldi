@@ -53,6 +53,7 @@ class CalendarManagement extends Component{
             open_mail: false,
             selected_perms: [],
             unselected_perms: [],
+            assos : []
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -68,9 +69,23 @@ class CalendarManagement extends Component{
 
 
     componentDidMount(){
-        this.loadCurrentSemester();
+        this.loadAssos();
     }
 
+
+    loadAssos(){
+        ajaxGet('perms/assos').then(res =>{
+            let assos = res.data.assos;
+            assos = assos.sort(function(a,b){
+                if (a.shortname > b.shortname) {
+                    return 1
+                }
+                return -1
+            })
+            this.setState({assos: assos});
+            this.loadCurrentSemester();
+        })
+    }
 
     loadCurrentSemester(){
         ajaxGet('current/semester').then(res => {
