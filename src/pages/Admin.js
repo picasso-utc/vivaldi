@@ -14,12 +14,12 @@ import Users from '../components/admin/administrations/Users';
 import Astreintes from '../components/admin/perms/Astreintes';
 import CalendarManagement from '../components/admin/perms/CalendarManagement';
 import CurrentPerm from '../components/admin/perms/CurrentPerm';
+import Index from '../components/admin/perms/Index';
+import Details from '../components/admin/perms/Details';
 import Perms from '../components/admin/perms/Perms';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Media from '../components/admin/tv/Media';
-import Url from '../components/admin/tv/Url';
-import Configuration from '../components/admin/tv/Configuration';
 // import Charte from '../components/admin/Charte';
 import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
@@ -55,6 +55,10 @@ class Admin extends React.Component {
 				return "Astreintes";
 			case asset_url("/admin/perms"):
 				return "Perms";
+			case asset_url("/admin/index"):
+				return "Index";
+			case asset_url("/admin/details"):
+				return "Details";
 			case asset_url("/admin/charte"):
 				return "Charte";
 			case asset_url("/admin/users"):
@@ -67,10 +71,6 @@ class Admin extends React.Component {
 				return "Paramètres";
 			case asset_url("/admin/tv/media"):
 				return "Gestion des médias TV";
-			case asset_url("/admin/tv/url"):
-				return "Gestion des URL TV";
-			case asset_url("/admin/tv/config"):
-				return "Configuration des TV";
 			default:
 			break;
 		}
@@ -114,9 +114,9 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
+						<ProtectedRoute only="member" path={`${base_url}/index`} exact component={Index}/>
+						<ProtectedRoute only="member" path={`${base_url}/details`} exact component={Details}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
-						<ProtectedRoute only="member" path={`${base_url}/tv/url`} exact component={Url}/>
-						<ProtectedRoute only="member" path={`${base_url}/tv/config`} exact component={Configuration}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>

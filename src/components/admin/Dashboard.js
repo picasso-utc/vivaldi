@@ -33,7 +33,6 @@ class Dashboard extends Component{
 			const astreintes_matin = []
 			const astreintes_midi = []
 			const astreintes_soir = []
-
 			for (let index = 0; index < res.data.astreintes.length; index++) {
 				if (res.data.astreintes[index].creneau.creneau === "M"){
 					astreintes_matin.push(res.data.astreintes[index]);

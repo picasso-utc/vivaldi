@@ -70,6 +70,8 @@ class CarouselItem extends Component{
 		}
 		let rated = true;
 		const notation = this.state.notation;
+		console.log(a1.astreinte_type)
+		console.log(notation[a1.astreinte_type])
 
 		for (let index = 0; index < notation[a1.astreinte_type].length; index++) {
 			const name = notation[a1.astreinte_type][index].name;
