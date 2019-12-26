@@ -152,7 +152,6 @@ class PermForm extends React.Component {
             this.setState({
                 new_perm: {
                     ...this.state.new_perm,
-                    nom: results[0].shortname,
                     [event.target.name] : event.target.value
                 }
             })
@@ -245,6 +244,9 @@ class PermForm extends React.Component {
     isFormValid(){
         const new_perm = this.state.new_perm;
         let errors = [];
+        if (new_perm.type === "asso" && isStringEmpty(new_perm.asso_login)){
+            errors.push("Vous devez préciser l'association.")
+        }
         if (isStringEmpty(new_perm.nom)){
             errors.push("Le nom de la perm est requis.")
         }
@@ -412,27 +414,25 @@ class PermForm extends React.Component {
                                                     label="Associations" 
                                                 />
                                             </RadioGroup>
-                                            {new_perm.type === "friend" && 
-                                                <Grid container direction="row">
-                                                    <Grid container item xs={12} sm={6} lg={4}>
-                                                        <TextField 
-                                                            label="Nom" 
-                                                            variant="filled" 
-                                                            value={new_perm.nom}
-                                                            name="nom"
-                                                            onChange={(event) => this.handleNewPermChange(event)}
-                                                            className={classes.perm_input}
-                                                            size="small"
-                                                            margin="dense"
-                                                            fullWidth
-                                                            InputProps={{style: {
-                                                                backgroundColor: 'white',
-                                                                borderRadius: 4
-                                                            }}}
-                                                        />
-                                                    </Grid>
+                                            <Grid container direction="row">
+                                                <Grid container item xs={12} sm={6} lg={4}>
+                                                    <TextField 
+                                                        label="Nom" 
+                                                        variant="filled" 
+                                                        value={new_perm.nom}
+                                                        name="nom"
+                                                        onChange={(event) => this.handleNewPermChange(event)}
+                                                        className={classes.perm_input}
+                                                        size="small"
+                                                        margin="dense"
+                                                        fullWidth
+                                                        InputProps={{style: {
+                                                            backgroundColor: 'white',
+                                                            borderRadius: 4
+                                                        }}}
+                                                    />
                                                 </Grid>
-                                            }
+                                            </Grid>
                                             {new_perm.type === "asso" && 
                                                 <Grid container direction="row">
                                                     <Grid container item xs={12} sm={6} lg={4}>
