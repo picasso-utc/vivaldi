@@ -335,7 +335,7 @@ class CalendarManagement extends Component{
     deletePerm(event, perm){
         ajaxDelete('perms/' + perm.id).then(res => {
             let perms = this.state.perms;
-            perms = perms.filter(p => p.id.toString() !== perm.id);
+            perms = perms.filter(p => p.id.toString() !== perm.id.toString());
             this.setState({perms: perms});
         })
         .catch(error => {
