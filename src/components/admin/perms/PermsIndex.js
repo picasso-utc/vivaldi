@@ -13,7 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet } from '../../../utils/Ajax';
 import { compareDjangoDate, getCurrentDate } from '../../../utils/Date';
 
-class Index extends Component{
+class PermsIndex extends Component{
     constructor(props) {
         super(props)
 
@@ -42,7 +42,7 @@ class Index extends Component{
     }
 
     consultNotation(notation_id){
-        window.open('details?id='+notation_id,'Data','height=250,width=250');
+        window.open('/admin/perm/details?id='+notation_id);
     }
 
     render(){
@@ -114,7 +114,7 @@ class Index extends Component{
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         { perm_soir = false }
                                         {row.creneau.map((cren, index) => (
-                                            <div>
+                                            <div key={index}>
                                                 {cren.creneau==="S" && perm_soir === false && compareDjangoDate(current_date, cren.date) && <span>✓</span>}
                                                 {cren.creneau==="S" && perm_soir === false && compareDjangoDate(current_date, cren.date) ? perm_soir = true : null}
                                             </div>
@@ -224,4 +224,4 @@ const styles = theme => ({
     }
 });
 
-export default withStyles (styles) (Index)
+export default withStyles (styles) (PermsIndex)

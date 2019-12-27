@@ -43,7 +43,7 @@ function afficheNote(creneau, notation){
     return "green";
 }
 
-class Details extends Component{
+class PermDetails extends Component{
     constructor(props) {
         super(props)
 
@@ -277,4 +277,4 @@ const styles = theme => ({
     }
 });
 
-export default withStyles (styles) (Details)
+export default withStyles (styles) (PermDetails)
