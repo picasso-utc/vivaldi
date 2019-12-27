@@ -69,7 +69,7 @@ const CATEGORIES = [
 		children: [
 			{ id: 'Astreintes', link: '/admin/astreintes'},
 			{id: 'Utilisateurs', link: '/admin/users'},
-			// {id: 'Team', link: '/admin/team'},
+			{id: 'Team', link: '/admin/team'},
 			{id: 'Semestres', link: '/admin/semesters'},
 			{id: 'Paramètres', link: '/admin/settings'},
 		]
