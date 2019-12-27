@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet } from '../../../utils/Ajax';
+import { asset_url } from '../../../utils/Config';
 import { compareDjangoDate, getCurrentDate } from '../../../utils/Date';
 
 class PermsIndex extends Component{
@@ -42,7 +43,7 @@ class PermsIndex extends Component{
     }
 
     consultNotation(notation_id){
-        window.open('/admin/perm/details?id='+notation_id);
+        window.open(asset_url('/admin/perm/details?id=' + notation_id));
     }
 
     render(){
