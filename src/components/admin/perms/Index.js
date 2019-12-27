@@ -16,6 +16,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Details from './Details';
 import { ajaxGet } from '../../../utils/Ajax';
+import { compareDjangoDate, getCurrentDate } from '../../../utils/Date';
 
 class Index extends Component{
     constructor(props) {
@@ -49,8 +50,9 @@ class Index extends Component{
         
         const { classes } = this.props;
 
-        const {notations} = this.state;
-        console.log(notations)
+        const { notations } = this.state;
+        const current_date = getCurrentDate()
+        let perm_soir = false;
 
 
         return (
@@ -63,8 +65,11 @@ class Index extends Component{
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell className={classes.cell}>
+                                <TableCell className={classes.cellLeft}>
                                     Perm
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Perm du soir
                                 </TableCell>
                                 <TableCell className={classes.cell}>
                                     Organisation
@@ -78,13 +83,25 @@ class Index extends Component{
                                 <TableCell className={classes.cell}>
                                     Ambiance
                                 </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Notation
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {notations.map((row, index) => (
                                 <TableRow hover key={index} className={classes.row} onClick={(event) => this.consultNotation(row.id)}>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                    <TableCell component="th" scope="row" className={classes.cellLeft}>
                                         {row.nom} - {row.nom_resp}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        { perm_soir = false }
+                                        {row.creneau.map((cren, index) => (
+                                            <div>
+                                                {cren.creneau=="S" && perm_soir == false && compareDjangoDate(current_date, cren.date) && <span>✓</span>}
+                                                {cren.creneau=="S" && perm_soir == false && compareDjangoDate(current_date, cren.date) ? perm_soir = true : null}
+                                            </div>
+                                        ))}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         {row.note_orga == 0 && <span className={classes.dot}></span>}
@@ -114,6 +131,9 @@ class Index extends Component{
                                         {row.note_anim < 4 && row.note_anim >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {row.note_anim >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.nb_note_orga}/{row.nb_astreintes}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -129,6 +149,12 @@ const styles = theme => ({
     rootTable : {
         width: '100%',
         overflowX: 'auto'
+    },
+    cell : {
+        textAlign : 'center'
+    },
+    cellLeft : {
+        textAlign : 'left'
     },
     container: {
         padding: 20,
