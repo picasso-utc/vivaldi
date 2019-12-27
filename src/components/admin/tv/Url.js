@@ -14,7 +14,11 @@ import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
 
 class Url extends Component{
@@ -31,6 +35,8 @@ class Url extends Component{
             },
             mode: 'create',
             open_modal: false,
+            confirm_modal: false,
+            loading: true,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -54,8 +60,12 @@ class Url extends Component{
         this.setState({open_modal: true})
     }
 
+    handleConfirmModalOpen(link){
+        this.setState({link: link, confirm_modal: true})
+    }
+
     handleModalClickClose = () => {
-        this.setState({open_modal: false})
+        this.setState({open_modal: false, confirm_modal: false})
         this.loadLinks();
         this.reloadNewLink();
     };
@@ -68,7 +78,7 @@ class Url extends Component{
 
     loadLinks(){
         ajaxGet('tv/links/').then(res => {
-            this.setState({links: res.data})
+            this.setState({links: res.data, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -87,19 +97,14 @@ class Url extends Component{
         const link = this.state.link
         if(this.state.mode === "create"){
             ajaxPost('tv/links/', link).then((res) => {  
-                this.setState({
-                    link: {
-                        ...this.state.link,
-                        id: res.data.id
-                    },
-                    mode: "edit",
-                })
+                this.handleModalClickClose();
             })
             .catch((error) => {
                 console.log(error);
             })  
         } else if (this.state.mode === "edit"){
             ajaxPut('tv/links/' + link.id + '/', link).then((res) => {
+                this.handleModalClickClose();
             })
             .catch((error) => {
                 console.log(error);
@@ -108,12 +113,11 @@ class Url extends Component{
     }
 
 
-    deleteLink(index){
-        const link_id = this.state.links[index].id
+    deleteLink(link_id){
         ajaxDelete('tv/links/' + link_id + '/').then(() => {
             let links = this.state.links;
             links = links.filter(l => l.id !== link_id)
-            this.setState({links: links})
+            this.setState({links: links, confirm_modal: false})
         })
         .catch((error) => {
 
@@ -126,24 +130,38 @@ class Url extends Component{
         
         const { classes } = this.props;
 
-        const {links, link, mode, open_modal} = this.state;
+        const {links, link, mode, open_modal, confirm_modal, loading} = this.state;
 
+
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return (
-            <div className={classes.container}>
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+            <div className="admin_container">
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Liste des URLs
-                    <Button 
-                        variant="contained"
-                        margin="dense" 
+                    <Fab 
                         size="small" 
-                        className={classes.add_item} 
-                        color="primary"
+                        color="primary" 
+                        className={classes.add_item}
                         onClick={(e) => this.handleModalClickOpen()}
                     >
-                        Nouveau
-                    </Button>
+                        <AddIcon />
+                    </Fab>
                 </Typography>
                 <Paper className={classes.rootTable}>
                     <Table>
@@ -186,7 +204,7 @@ class Url extends Component{
                                             margin="dense"
                                             size="small"
                                             className={classes.btn} 
-                                            onClick={(e) => this.deleteLink(index)}
+                                            onClick={() => this.handleConfirmModalOpen(row)}
                                         >
                                             Supprimer
                                         </Button>                                        
@@ -246,6 +264,29 @@ class Url extends Component{
                             </Button>
                         </Grid>
                     </DialogContent>
+                </Dialog>
+                <Dialog
+                    open={confirm_modal}
+                    onClose={() => this.handleModalClickClose()}
+                >
+                    <DialogTitle>{"Suppresion: " + link.name}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Veux-tu vraiment supprimer ce média ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            color="secondary"
+                            variant="contained" 
+                            margin="dense"
+                            size="small"
+                            className={classes.btn} 
+                            onClick={(e) => this.deleteLink(link.id)}
+                        >
+                            Supprimer
+                        </Button>    
+                    </DialogActions>
                 </Dialog>
             </div>
         );

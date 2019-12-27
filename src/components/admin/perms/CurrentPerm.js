@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { asset_url } from '../../../utils/Config';
+import { formateFromDjangoDate } from '../../../utils/Date';
 
 class CurrentPerm extends Component{
  
@@ -159,6 +160,7 @@ class CurrentPerm extends Component{
     render(){
 
         const { current_creneau, loading, new_article, invoice_checked } = this.state;
+        const date = current_creneau.date
         
         const { classes } = this.props;
 
@@ -189,128 +191,128 @@ class CurrentPerm extends Component{
         }
 
         return (
-            <div className={classes.container}>
+            <div className="admin_container">
                 {current_creneau.id? (
                     <div>
-                        <Typography variant="h5" gutterBottom className={classes.title}>
+                        <Typography variant="h6" gutterBottom className={classes.title}>
                             {current_creneau.perm.nom}
                         </Typography>
                         <Grid container>
                             <Grid item>
                                 <Typography variant="body1" gutterBottom>
                                     Responsable: {current_creneau.perm.nom_resp} ({current_creneau.perm.mail_resp})<br/>
-                                    Date : {current_creneau.date}<br/>
+                                    Date : {formateFromDjangoDate(date)}<br/>
                                     {signature_message}
                                 </Typography> 
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" noWrap className={classes.subTitle}>
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Articles
                         </Typography>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.cell}>
-                                        Nom
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        Prix TTC
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        TVA
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        Ventes
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        Dernière mise à jour
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        PayUTC
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        Actions
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {current_creneau.article_set.map((article, index) => (
-                                    <TableRow hover key={index} className={classes.row}>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.nom}
+                        <div className="responsive_table">
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell className={classes.cell}>
+                                            Nom
                                         </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.prix.toFixed(2)}€
+                                        <TableCell className={classes.cell}>
+                                            Prix TTC
                                         </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.tva}%
+                                        <TableCell className={classes.cell}>
+                                            TVA
                                         </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.ventes}/{article.stock}
+                                        <TableCell className={classes.cell}>
+                                            Ventes
                                         </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            { article.id_payutc ? (
-                                                <div>
-                                                    Le {article.ventes_last_formatted_update}
+                                        <TableCell className={classes.cell}>
+                                            Dernière mise à jour
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            PayUTC
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            Actions
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {current_creneau.article_set.map((article, index) => (
+                                        <TableRow hover key={index} className={classes.row}>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                {article.nom}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                {article.prix.toFixed(2)}€
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                {article.tva}%
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                {article.ventes}/{article.stock}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                { article.id_payutc ? (
+                                                    <div>
+                                                        Le {article.ventes_last_formatted_update}
+                                                        <Button 
+                                                            variant="contained"
+                                                            size="small"
+                                                            color="primary"
+                                                            className={classes.btn} 
+                                                            onClick={(e) => this.updateArticleSales(article, index)}
+                                                        >
+                                                            Mettre à jour
+                                                        </Button> 
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        Pas synchronisé à PayUTC !
+                                                    </div>
+                                                )}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                {article.id_payutc? (
+                                                    <div>
+                                                        Ajouté !
+                                                    </div>
+                                                ):(
                                                     <Button 
                                                         variant="contained"
-                                                        // variant="outlined" 
                                                         size="small"
                                                         color="primary"
                                                         className={classes.btn} 
-                                                        onClick={(e) => this.updateArticleSales(article, index)}
+                                                        onClick={(e) => this.addArticleToPayutc(article, index)}
                                                     >
-                                                        Mettre à jour
+                                                        Ajouter à PayUTC
                                                     </Button> 
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    Pas synchronisé à PayUTC !
-                                                </div>
-                                            )}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.id_payutc? (
-                                                <div>
-                                                    Ajouté !
-                                                </div>
-                                            ):(
-                                                <Button 
-                                                    variant="contained"
-                                                    // variant="outlined" 
-                                                    size="small"
-                                                    color="primary"
-                                                    className={classes.btn} 
-                                                    onClick={(e) => this.addArticleToPayutc(article, index)}
-                                                >
-                                                    Ajouter à PayUTC
-                                                </Button> 
-                                            )}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {article.menu.length > 0 &&
-                                                <Button 
+                                                )}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" className={classes.cell}>
+                                                {article.menu.length > 0 &&
+                                                    <Button 
                                                         variant="contained" 
-                                                    size="small" 
-                                                    color="secondary"
-                                                    className={classes.btn} 
-                                                    onClick={(e) => this.redirectToMenu(e, article)}
-                                                >
-                                                    Consulter
-                                                </Button>
-                                            }
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                        <Typography variant="h6" noWrap className={classes.subTitle}>
+                                                        size="small" 
+                                                        color="secondary"
+                                                        className={classes.btn} 
+                                                        onClick={(e) => this.redirectToMenu(e, article)}
+                                                    >
+                                                        Consulter
+                                                    </Button>
+                                                }
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                        <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Ajouter un article
                         </Typography>
                         <Grid container>
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={4} md={2}>
                                 <TextField
                                     label="Nom"
                                     className={classes.textField}
@@ -323,7 +325,7 @@ class CurrentPerm extends Component{
                                     InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4} sm={3} md={2}>
                                 <TextField
                                     label="Prix TTC"
                                     className={classes.textField}
@@ -337,7 +339,7 @@ class CurrentPerm extends Component{
                                     InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={4} sm={2} md={2}>
                                 <TextField
                                     label="TVA"
                                     disabled
@@ -349,7 +351,7 @@ class CurrentPerm extends Component{
                                     InputProps={{ style: { fontSize: 12 } }}
                                 />
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={4} sm={3} md={2}>
                                 <TextField
                                     label="Stock"
                                     className={classes.textField}
@@ -364,22 +366,24 @@ class CurrentPerm extends Component{
                                 />
                             </Grid>
                             {!current_creneau.perm.asso &&
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={invoice_checked}
-                                            onChange={this.handleCheckChange}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Facture demandée ?"
-                                />
+                                <Grid item xs={8} sm={4} md={3} lg={2}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={invoice_checked}
+                                                onChange={this.handleCheckChange}
+                                                color="primary"
+                                            />
+                                        }
+                                        labelPlacement="start"
+                                        label="Facture demandée ?"
+                                    />
+                                </Grid>
                             }
-                            <Grid item xs={2}>
+                            <Grid item xs={4} sm={2}>
                                 <Button 
                                     variant="contained"
-                                    // variant="outlined" 
-                                    // size="small"
+                                    size="small"
                                     disabled={(!invoice_checked && !current_creneau.perm.asso) && true}
                                     color="primary"
                                     className={classes.saving_btn} 
@@ -404,12 +408,6 @@ class CurrentPerm extends Component{
 const styles = theme => ({
     loader: {
         marginTop: 200,
-    },
-    container: {
-        padding: 20,
-        margin: 30,
-        marginTop: 100,
-        border: "1.5px solid #B22132",
     },
     title: {
         textAlign: 'center',

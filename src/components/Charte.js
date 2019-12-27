@@ -146,7 +146,7 @@ class Charte extends Component {
 						</Grid>
 					</Grid>
 				):(
-					<div className={classes.container}>
+					<div className="basic_container">
 						<Typography variant="h4" className={classes.title}>
 							Charte du permanencier
 						</Typography>

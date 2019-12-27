@@ -16,9 +16,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import CardMedia from '@material-ui/core/CardMedia';
 import {URL} from '../../../utils/Config';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { ajaxGet, ajaxPost, ajaxPatch, ajaxDelete } from '../../../utils/Ajax';
 
 class Media extends Component{
@@ -44,6 +48,8 @@ class Media extends Component{
             mode : 'create',
             file_loading: false,
             open_modal : false,
+            confirm_modal: false,
+            loading: true,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -56,7 +62,7 @@ class Media extends Component{
 
     loadMedias(){
         ajaxGet('tv/media/').then(res => {
-            this.setState({medias: res.data})
+            this.setState({medias: res.data, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -127,8 +133,12 @@ class Media extends Component{
         this.setState({open_modal: true})
     }
 
+    handleConfirmModalOpen(media){
+        this.setState({media: media, confirm_modal: true})
+    }
+
     handleModalClickClose = () => {
-        this.setState({open_modal: false})
+        this.setState({open_modal: false, confirm_modal: false})
         this.loadMedias();
         this.reloadNewMedia();
     };
@@ -169,6 +179,8 @@ class Media extends Component{
             ajaxPatch('tv/media/' + media.id + '/', ajax_media).then((res) => {
                 if (media.new_media) {
                     this.fileUpload(media.new_media, res.data.id)
+                } else {
+                    this.handleModalClickClose();
                 }
             })
             .catch((error) => {
@@ -181,18 +193,18 @@ class Media extends Component{
         const fd = new FormData();
         fd.append('media', file);
         ajaxPatch('tv/media/' + id + '/', fd).then(() => {
+            this.handleModalClickClose();
         })
         .catch(errors => {
         });
     };
 
 
-    deleteMedia(index){
-        const media_id = this.state.medias[index].id
+    deleteMedia(media_id){
         ajaxDelete('tv/media/' + media_id + '/').then(() => {
             let medias = this.state.medias;
             medias = medias.filter(m => m.id !== media_id)
-            this.setState({medias: medias})
+            this.setState({medias: medias, confirm_modal: false})
         })
         .catch((error) => {
 
@@ -205,24 +217,38 @@ class Media extends Component{
         
         const { classes } = this.props;
 
-        const {medias, open_modal, media, mode, file_loading} = this.state;
+        const {medias, open_modal, media, mode, file_loading, confirm_modal, loading} = this.state;
 
+
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return (
-            <div className={classes.container}>
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+            <div className="admin_container">
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Médias
-                    <Button 
-                        variant="contained"
-                        margin="dense" 
+                    <Fab 
                         size="small" 
-                        className={classes.add_item} 
-                        color="primary"
+                        color="primary" 
+                        className={classes.add_item}
                         onClick={(e) => this.handleModalClickOpen()}
                     >
-                        Nouveau
-                    </Button>
+                        <AddIcon />
+                    </Fab>
                 </Typography>
                 <Grid container direction="row">
                     <Paper className={classes.rootTable}>
@@ -231,9 +257,6 @@ class Media extends Component{
                                 <TableRow>
                                     <TableCell className={classes.cell}>
                                         Nom
-                                    </TableCell>
-                                    <TableCell className={classes.cell}>
-                                        URL
                                     </TableCell>
                                     <TableCell className={classes.cell}>
                                         Activé ?
@@ -251,9 +274,6 @@ class Media extends Component{
                                     <TableRow hover key={index} className={classes.row}>
                                         <TableCell component="th" scope="row" className={classes.cell}>
                                             {row.name}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row" className={classes.cell}>
-                                            {row.media}
                                         </TableCell>
                                         <TableCell component="th" scope="row" className={classes.cell}>
                                             {row.activate? (
@@ -314,7 +334,7 @@ class Media extends Component{
                                                 margin="dense"
                                                 size="small"
                                                 className={classes.btn} 
-                                                onClick={(e) => this.deleteMedia(index)}
+                                                onClick={() => this.handleConfirmModalOpen(row)}
                                             >
                                                 Supprimer
                                             </Button>
@@ -426,6 +446,29 @@ class Media extends Component{
                             </Button>
                         </Grid>
                     </DialogContent>
+                </Dialog>
+                <Dialog
+                    open={confirm_modal}
+                    onClose={() => this.handleModalClickClose()}
+                >
+                    <DialogTitle id="alert-dialog-title">{"Suppresion: " + media.name}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Veux-tu vraiment supprimer cette URL ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            color="secondary"
+                            variant="contained" 
+                            margin="dense"
+                            size="small"
+                            className={classes.btn} 
+                            onClick={(e) => this.deleteMedia(media.id)}
+                        >
+                            Supprimer
+                        </Button>    
+                    </DialogActions>
                 </Dialog>
             </div>
         );

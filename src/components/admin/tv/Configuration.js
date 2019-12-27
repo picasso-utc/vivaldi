@@ -6,7 +6,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPut } from '../../../utils/Ajax';
 
 class Configuration extends Component{
@@ -18,6 +18,7 @@ class Configuration extends Component{
         this.state = {
             tvs : [],
             links: [],
+            loading: true
         }
     }
 
@@ -37,7 +38,7 @@ class Configuration extends Component{
 
     loadLinks(){
         ajaxGet('tv/links/').then(res => {
-            this.setState({links: res.data})
+            this.setState({links: res.data, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -67,12 +68,27 @@ class Configuration extends Component{
         
         const { classes } = this.props;
 
-        const {links, tvs} = this.state;
+        const {links, tvs, loading} = this.state;
 
+        if (loading) {
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress/>
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return (
-            <div className={classes.container}>
-                <Typography variant="h5" noWrap className={classes.subTitle}>
+            <div className="admin_container">
+                <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Gestion des télés
                 </Typography>
@@ -81,7 +97,7 @@ class Configuration extends Component{
                     <Paper className={classes.tv_paper} xs={6} key={index}>
                         <Grid container direction="row" key={index}>
                             <Grid item xs={12}>
-                                <Typography variant="h5" noWrap className={classes.subTitle}>
+                                <Typography variant="h6" className={classes.subTitle}>
                                     {row.name}
                                 </Typography>
                             </Grid>

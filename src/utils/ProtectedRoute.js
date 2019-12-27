@@ -18,7 +18,8 @@ class ProtectedRoute extends React.Component {
 
 	render() {
 		const { auth, only, component: Component, ...routeProps } = this.props;
-		const redirection = '/login?redirect=' + window.location.pathname;
+		const redirection = '/login?redirect=' + window.location.pathname + window.location.search;
+
 		return (
 			<Route
 				{...routeProps} 

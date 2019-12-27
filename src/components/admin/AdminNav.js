@@ -42,6 +42,7 @@ const CATEGORIES = [
 			{ id: 'Planning', link: '/admin/calendar'},
 			{ id: 'Menu', link: '/menu'},
 			{ id: 'Index', link: '/admin/index'},
+			{id: 'Demandées', link: '/admin/requested/perms'}
 		]
 	},
 	{
@@ -68,7 +69,7 @@ const CATEGORIES = [
 		children: [
 			{ id: 'Astreintes', link: '/admin/astreintes'},
 			{id: 'Utilisateurs', link: '/admin/users'},
-			// {id: 'Team', link: '/admin/team'},
+			{id: 'Team', link: '/admin/team'},
 			{id: 'Semestres', link: '/admin/semesters'},
 			{id: 'Paramètres', link: '/admin/settings'},
 		]

@@ -47,7 +47,7 @@ class GoodiesDisplayer extends React.Component {
 						alignItems="center"
 					>
 						<Grid item>
-							<Typography variant="body1" style={{fontWeight: 300}}>
+							<Typography variant="body1" className="fontWeight200 center">
 								Pas de gagnants des goodies pour le moment. 
 							</Typography>
 						</Grid>

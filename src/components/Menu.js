@@ -10,6 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -40,7 +41,8 @@ class Menu extends Component {
 				variant: 'success',
                 message: '',
 			},
-			saving: false,
+            saving: false,
+            confirm_modal: false,
         }
         
         this.handleChange = this.handleChange.bind(this)
@@ -246,6 +248,15 @@ class Menu extends Component {
 			}
 		})
     }
+
+
+    handleConfirmModalOpen(){
+        this.setState({confirm_modal: true})
+    }
+
+    handleModalClickClose = () => {
+        this.setState({confirm_modal: false})
+    };
     
 
     deleteMenu(event, menu){
@@ -253,6 +264,7 @@ class Menu extends Component {
         ajaxPost('perms/menu/closed/' + menu.id_payutc, {}).then(res => {
             this.changeSnackbarState(true, 'success', 'Le menu a été supprimé');
             this.loadMenus();
+            this.handleModalClickClose();
         }).catch(error => {
             this.changeSnackbarState(true, 'error', 'Une erreur est survenue lors de la suppression du menu');
         })
@@ -260,7 +272,7 @@ class Menu extends Component {
 	
 
   	render() {
-		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials, snackbar } = this.state
+		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials, snackbar, confirm_modal } = this.state
 		const {classes} = this.props
 		return(
 			<React.Fragment>
@@ -277,7 +289,7 @@ class Menu extends Component {
 						</Grid>
 					</Grid>
 				):(
-					<div className={classes.container}>
+					<div className="basic_container">
                         {selected_article &&
                             <React.Fragment>
                                 <Typography variant="h4" className={classes.title}>
@@ -298,60 +310,62 @@ class Menu extends Component {
                                             size="small" 
                                             color="secondary" 
                                             className={classes.delete_btn} 
-                                            onClick={(e) => this.deleteMenu(e, menu)}
+                                            onClick={() => this.handleConfirmModalOpen()}
                                         >
                                             Supprimer Menu
                                         </Button>
                                     </Grid>
                                 }
-                                <Table>
-                                    <TableBody>
-                                        {orders.map((order, index) => (
-                                            <TableRow hover key={index} className={classes.row}>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {order.first_name} {order.last_name}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {order.quantity}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" className={classes.cell}>
-                                                    {order.served? (
-                                                        <Button 
-                                                            variant="contained" 
-                                                            size="small" 
-                                                            color="secondary" 
-                                                            className={classes.btn} 
-                                                            onClick={(e) => this.servedMenu(e, order)}
-                                                        >
-                                                            Annuler
-                                                        </Button>
-                                                    ):(
-                                                        <React.Fragment>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                size="small" 
-                                                                color="primary" 
-                                                                className={classes.btn} 
-                                                                onClick={(e) => this.servedMenu(e, order)}
-                                                            >
-                                                                Valider
-                                                            </Button>
+                                <div className="responsive_table">
+                                    <Table>
+                                        <TableBody>
+                                            {orders.map((order, index) => (
+                                                <TableRow hover key={index} className={classes.row}>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {order.first_name} {order.last_name}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {order.quantity}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                                        {order.served? (
                                                             <Button 
                                                                 variant="contained" 
                                                                 size="small" 
                                                                 color="secondary" 
                                                                 className={classes.btn} 
-                                                                onClick={(e) => this.staffMenu(e, order)}
+                                                                onClick={(e) => this.servedMenu(e, order)}
                                                             >
-                                                                Reporter
+                                                                Annuler
                                                             </Button>
-                                                        </React.Fragment>
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                                        ):(
+                                                            <React.Fragment>
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    size="small" 
+                                                                    color="primary" 
+                                                                    className={classes.btn} 
+                                                                    onClick={(e) => this.servedMenu(e, order)}
+                                                                >
+                                                                    Valider
+                                                                </Button>
+                                                                <Button 
+                                                                    variant="contained" 
+                                                                    size="small" 
+                                                                    color="secondary" 
+                                                                    className={classes.btn} 
+                                                                    onClick={(e) => this.staffMenu(e, order)}
+                                                                >
+                                                                    Reporter
+                                                                </Button>
+                                                            </React.Fragment>
+                                                        )}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </React.Fragment>
                         }
                         <Grid 
@@ -408,6 +422,31 @@ class Menu extends Component {
                     <Button onClick={this.loginBadge} color="primary">
                         Se connecter
                     </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={confirm_modal}
+                    onClose={() => this.handleModalClickClose()}
+                >
+                    <DialogTitle>{"Suppresion: " + menu.name}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Veux-tu vraiment supprimer ce menu ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            color="secondary"
+                            variant="contained" 
+                            margin="dense"
+                            size="small"
+                            className={classes.btn} 
+                            // onClick={(e) => this.deleteMedia(media.id)}
+                            onClick={(e) => this.deleteMenu(e, menu)}
+                        >
+                            Supprimer
+                        </Button>    
                     </DialogActions>
                 </Dialog>
 

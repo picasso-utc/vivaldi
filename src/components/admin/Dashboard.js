@@ -61,20 +61,20 @@ class Dashboard extends Component{
 		}
 
 		return (
-			<div className={classes.container}>
+			<div className="admin_container">
 				
 
 				<Grid container className={classes.section}>
-					<Typography variant="h5" noWrap className={classes.subTitle}>
+					<Typography variant="h5" className={classes.title}>
 						<ChevronRight className={classes.subTitleIcon}/>
 						Notation des perms
 					</Typography>
 					<Grid container className={classes.note}>
-						Ce menu vous permet de noter les perms dont vous avez été astreinteur au cours du semestre.<br/>
+						Ce menu vous permet de noter les perms dont tu as été astreinteur au cours du semestre.<br/>
 					</Grid>
 
 					<Grid container direction="row" className={classes.section}>
-						<Typography variant="h6" noWrap className={classes.subTitle}>
+						<Typography variant="h6" className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du matin
 						</Typography>
@@ -84,7 +84,7 @@ class Dashboard extends Component{
 					</Grid>
 
 					<Grid container direction="row" className={classes.section}>
-						<Typography variant="h6" noWrap className={classes.subTitle}>
+						<Typography variant="h6" className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du midi
 						</Typography>
@@ -95,7 +95,7 @@ class Dashboard extends Component{
 					</Grid>
 
 					<Grid  container direction="row" className={classes.section}>
-						<Typography variant="h6" noWrap className={classes.subTitle}>
+						<Typography variant="h6" className={classes.subTitle}>
 							<ChevronRight className={classes.subTitleIcon}/>
 							Perms du soir
 						</Typography>
@@ -112,14 +112,8 @@ class Dashboard extends Component{
 }
 
 const styles = theme => ({
-	container: {
-		padding: 20,
-		margin: 30,
-		marginTop: 100,
-		border: "2px solid #B22132",
-	},
 	section:{
-		paddingBottom :70,
+		paddingBottom : 10,
 	},
 	paper: {
 		padding: 10
@@ -154,9 +148,13 @@ const styles = theme => ({
 		height: 49,
 		width: "100%",
 	},
+	title : {
+		fontWeight: 400,
+	},
 	subTitle: {
 		marginTop: 10,
 		marginBottom: 10,
+		fontWeight: 400
 	},
 	subTitleIcon: {
 		marginRight: 8,

@@ -8,7 +8,6 @@ import axios from 'axios';
 
 const defaultConfig = {withCredentials: true}
 
-
 function ajaxGet(path) {
     return axios.get(API_URL + path, defaultConfig);
 }

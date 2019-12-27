@@ -123,7 +123,7 @@ class Calendar extends React.Component {
 							alignItems="center"
 						>
 							<Grid item>
-								<Typography style={{fontWeight: 300}}>Il n'y a pas de perm cette semaine, smiley triste ... </Typography>
+								<Typography className="fontWeight200 center">Il n'y a pas de perm cette semaine, smiley triste ... </Typography>
 							</Grid>
 						</Grid>
 					)

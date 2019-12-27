@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import AdminNav from '../components/admin/AdminNav';
 import Dashboard from '../components/admin/Dashboard';
 import Semesters from '../components/admin/administrations/Semesters';
@@ -17,14 +17,20 @@ import CurrentPerm from '../components/admin/perms/CurrentPerm';
 import Index from '../components/admin/perms/Index';
 import Details from '../components/admin/perms/Details';
 import Perms from '../components/admin/perms/Perms';
+import RequestedPerm from '../components/admin/perms/RequestedPerm';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Media from '../components/admin/tv/Media';
-// import Charte from '../components/admin/Charte';
+import Url from '../components/admin/tv/Url';
+import Configuration from '../components/admin/tv/Configuration';
+import { Link } from 'react-router-dom'
 import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
 import { asset_url } from '../utils/Config';
 
+export function IconButtonLink(props) {
+	return <IconButton component={Link} {...props} />
+}
 
 class Admin extends React.Component {
 
@@ -55,10 +61,6 @@ class Admin extends React.Component {
 				return "Astreintes";
 			case asset_url("/admin/perms"):
 				return "Perms";
-			case asset_url("/admin/index"):
-				return "Index";
-			case asset_url("/admin/details"):
-				return "Details";
 			case asset_url("/admin/charte"):
 				return "Charte";
 			case asset_url("/admin/users"):
@@ -97,6 +99,9 @@ class Admin extends React.Component {
 						<Typography variant="h4" noWrap className={classes.windowTitle}>
 							{this.displayScreenName()}
 						</Typography>
+						<IconButtonLink to="/logout" aria-label="Logout">
+							<PowerSettingsNewIcon/>
+						</IconButtonLink>
 					</Toolbar>
 				</AppBar>
 
@@ -114,8 +119,6 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
-						<ProtectedRoute only="member" path={`${base_url}/index`} exact component={Index}/>
-						<ProtectedRoute only="member" path={`${base_url}/details`} exact component={Details}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
@@ -134,6 +137,7 @@ const drawerWidth = 240;
 const styles = theme => ({
 	root: {
 		display: 'flex',
+		flexGrow: 1
 	},
 	appBar: {
 		marginLeft: drawerWidth,
@@ -147,13 +151,12 @@ const styles = theme => ({
 	content: {
 		flexGrow: 1,
 		minWidth: 1,
-		// padding: theme.spacing(2),
-		// maxWidth : "None"
 	},
 
 	windowTitle : {
 		textDecoration : 'underline #B22132',
 		fontSize: 24,
+		flexGrow: 1,
 	},
 
 	menuButton: {

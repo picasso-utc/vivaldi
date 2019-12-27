@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import { asset_url } from '../utils/Config';
-
-import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LockIcon from '@material-ui/icons/Lock';
-
-
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom'
 
 export function IconButtonLink(props) {
@@ -24,7 +23,30 @@ const LOGO_PATH = asset_url('/images/header_a19.png')
 
 class Header extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			open_menu : null
+		}
+	}
+
+	handleOpenMenu(event){
+		this.setState({anchor: event.currentTarget})
+	}
+
+	handleCloseMenu(event, link=null){
+		this.setState({anchor: null})
+		if (link) {
+			window.location.hash = null;
+			window.location.hash=link;
+		}
+	}
+
+
 	render() {
+
+		const { anchor } = this.state;
+
 		const { classes } = this.props;
 		return (
 			<React.Fragment>
@@ -34,11 +56,53 @@ class Header extends React.Component {
 							<div className={classes.logo}>
 								<img alt="logo_pic" src={LOGO_PATH} height="60px"/>
 							</div>
+							
 							<Hidden xsDown implementation="css">
-								<IconButton href="https://payutc.nemopay.net" target="_blank" className={classes.menuButton} aria-label="Calendar">
-									<CreditCardIcon className={classes.icon}/>
+								<Button
+									onClick={(event) => this.handleOpenMenu(event)}
+								>
+									Menu
+								</Button>
+								<Menu
+									anchorEl={anchor}
+									keepMounted
+									open={Boolean(anchor)}
+									onClose={(event) => this.handleCloseMenu(event)}
+								>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#home")}>Accueil</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#rules")}>Les règles</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#calendar")}>Calendrier</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#polls")}>Sondages</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#prices")}>Tarifs</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>
+								</Menu>	
+							</Hidden>
+
+							<Hidden smUp implementation="css">
+								<IconButton
+									onClick={(event) => this.handleOpenMenu(event)}
+								>
+									<MoreVertIcon />
 								</IconButton>
-								
+								<Menu
+									anchorEl={anchor}
+									keepMounted
+									open={Boolean(anchor)}
+									onClose={(event) => this.handleCloseMenu(event)}
+								>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#home")}>Accueil</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#rules")}>Les règles</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#calendar")}>Calendrier</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#polls")}>Sondages</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#prices")}>Tarifs</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>
+								</Menu>
 							</Hidden>
 							<IconButtonLink to="/login" className={classes.menuButton} aria-label="Login">
 								<LockIcon className={classes.icon}/>
