@@ -31,7 +31,14 @@ class Index extends Component{
 
     componentDidMount(){
         ajaxGet('perms/notation/all').then(res => {
-            this.setState({notations: res.data.perms})
+            let notations = res.data.perms
+            notations = notations.sort(function(a,b){
+                if (a.mean_note < b.mean_note) {
+                    return 1
+                }
+                return -1
+            })
+            this.setState({notations: notations})
             console.log(res.data.perms)
         })
         .catch(error => {
@@ -92,7 +99,7 @@ class Index extends Component{
                             {notations.map((row, index) => (
                                 <TableRow hover key={index} className={classes.row} onClick={(event) => this.consultNotation(row.id)}>
                                     <TableCell component="th" scope="row" className={classes.cellLeft}>
-                                        {row.nom} - {row.nom_resp} : - {row.mean_n}
+                                        {row.nom} - {row.nom_resp} 
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         { perm_soir = false }
