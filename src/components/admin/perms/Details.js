@@ -17,6 +17,33 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { ajaxGet } from '../../../utils/Ajax';
 import queryString from 'query-string';
 
+function afficheNote(creneau, notation){
+    let note;
+    switch (creneau.creneau) {
+        case "M":
+            note = notation.mean_m;
+            break;
+        case "S":
+            note = notation.mean_s;
+            break;
+        case "D":
+            note = notation.mean_d;
+            break;
+    }
+    console.log("la note est")
+    console.log(note)
+
+    if (note == null || note == 0)
+        return "grey";
+    if (note < 2 )
+        return "red";
+    if (note < 3)
+        return "orange";
+    if (note < 4)
+        return "lgreen";
+    return "green";
+}
+
 class Details extends Component{
     constructor(props) {
         super(props)
@@ -25,6 +52,7 @@ class Details extends Component{
             notation : [],
             creneau : []
         }
+
         
 
     }
@@ -39,6 +67,8 @@ class Details extends Component{
             console.log(error)
         })
     }
+
+    
 
     render(){
 
@@ -113,10 +143,13 @@ class Details extends Component{
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell className={classes.cell}>
+                                <TableCell className={classes.cellLeft}>
                                     Créneau
                                 </TableCell>
                                 <TableCell className={classes.cell}>
+                                    Avis général
+                                </TableCell>
+                                <TableCell className={classes.cellLeft}>
                                     Commentaire
                                 </TableCell>
                             </TableRow>
@@ -124,10 +157,26 @@ class Details extends Component{
                         <TableBody>
                             {creneau.map((cren, index) => (
                                 <TableRow>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                    <TableCell component="th" scope="row" className={classes.cellLeft}>
                                         {cren.creneau == "D" && <span>Midi</span>}
                                         {cren.creneau == "S" && <span>Soir</span>}
                                         {cren.creneau == "M" && <span>Matin</span>}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {(() => {
+                                            switch(afficheNote(cren, notation)) {
+                                                case "grey" :
+                                                    return <span className={classes.dot}></span>
+                                                case "red" :
+                                                    return <span className={classes.dot_red}></span>
+                                                case "orange" :
+                                                    return <span className={classes.dot_orange}></span>
+                                                case "lgree" :
+                                                    return <span className={classes.dot_lgreen}></span>
+                                                case "green" :
+                                                    return <span className={classes.dot_green}></span>
+                                            }
+                                        })()}
                                     </TableCell>
                                     <TableCell>
                                     {cren.notation.map((row, index) => (
@@ -160,6 +209,9 @@ const styles = theme => ({
     },
     cell : {
         textAlign : 'center'
+    },
+    cellLeft : {
+        textAlign : 'left'
     },
     container: {
         padding: 20,
