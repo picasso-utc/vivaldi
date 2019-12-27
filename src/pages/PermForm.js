@@ -461,6 +461,9 @@ class PermForm extends React.Component {
                                                     </Grid>
                                                 </Grid>
                                             }
+                                            <Typography variant="body1" style={{fontSize: 12}} className={classes.perm_input}>
+                                                ** Note : Si la perm recoupe plusieurs associations une seule doit être designée comme responsable ici.
+                                            </Typography>
                                         </Grid>
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             <Typography variant="h6" className={classes.perm_title}>
@@ -753,7 +756,7 @@ const styles = theme => ({
         textAlign: 'left'
     },
     perm_input : {
-        marginBottom: 30
+        marginBottom: 20
     },
     slider_input : {
         width: '90%',
