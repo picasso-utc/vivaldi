@@ -14,9 +14,8 @@ import Users from '../components/admin/administrations/Users';
 import Astreintes from '../components/admin/perms/Astreintes';
 import CalendarManagement from '../components/admin/perms/CalendarManagement';
 import CurrentPerm from '../components/admin/perms/CurrentPerm';
-import Index from '../components/admin/perms/Index';
-import Details from '../components/admin/perms/Details';
-import Perms from '../components/admin/perms/Perms';
+import PermDetails from '../components/admin/perms/PermDetails';
+import PermsIndex from '../components/admin/perms/PermsIndex';
 import RequestedPerm from '../components/admin/perms/RequestedPerm';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
@@ -118,8 +117,12 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
-						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={Perms}/>
+						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={PermsIndex}/>
+						<ProtectedRoute only="member" path={`${base_url}/perm/details`} exact component={PermDetails}/>
+						<ProtectedRoute only="member" path={`${base_url}/requested/perms`} exact component={RequestedPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
+						<ProtectedRoute only="member" path={`${base_url}/tv/url`} exact component={Url}/>
+						<ProtectedRoute only="member" path={`${base_url}/tv/config`} exact component={Configuration}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>

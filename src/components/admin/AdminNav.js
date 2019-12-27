@@ -41,7 +41,7 @@ const CATEGORIES = [
 			{ id: 'Perm en cours', link: '/admin/current/perm'},
 			{ id: 'Planning', link: '/admin/calendar'},
 			{ id: 'Menu', link: '/menu'},
-			{ id: 'Index', link: '/admin/index'},
+			{ id: 'Index', link: '/admin/perms'},
 			{id: 'Demandées', link: '/admin/requested/perms'}
 		]
 	},
