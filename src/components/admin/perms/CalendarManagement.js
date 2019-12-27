@@ -30,6 +30,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
+import SendIcon from '@material-ui/icons/Send';
 import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
 
 
@@ -624,22 +625,17 @@ class CalendarManagement extends Component{
                     <Typography variant="h6" className={classes.subTitle}>
                         <ChevronRightIcon className={classes.titleIcon}/>
                         Liste des perms
+                        <Button 
+                            variant="contained" 
+                            size="small" 
+                            color="primary" 
+                            onClick={this.handleChangeOnMail}
+                            className={classes.btnMail}
+                        >
+                            Mail <SendIcon className="left5"/>
+                        </Button>
                     </Typography>
                     <Paper className={classes.paper_box}> 
-                        {/* <Grid item xs={12}>
-                            <Typography variant="subtitle1" noWrap className={classes.subTitle}>
-                                Liste des perms
-                                <Button 
-                                    variant="outlined" 
-                                    size="small" 
-                                    color="primary" 
-                                    onClick={this.handleChangeOnMail}
-                                    className={classes.btnMail}
-                                >
-                                    Mail
-                                </Button>
-                            </Typography>
-                        </Grid> */}
                         <List className={classes.listPerms}>
                             {perms.map((perm, index)=> {
                                 const M_creneaux = perm.creneaux.filter(c => c.split(':')[1] === 'M').length
