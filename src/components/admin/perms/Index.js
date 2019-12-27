@@ -8,6 +8,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet } from '../../../utils/Ajax';
 import { compareDjangoDate, getCurrentDate } from '../../../utils/Date';
 
@@ -16,7 +18,8 @@ class Index extends Component{
         super(props)
 
         this.state = {
-            notations : []
+            notations : [],
+            loading: true
         }
         this.consultNotation = this.consultNotation.bind(this)
 
@@ -31,7 +34,7 @@ class Index extends Component{
                 }
                 return -1
             })
-            this.setState({notations: notations})
+            this.setState({notations: notations, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -48,9 +51,25 @@ class Index extends Component{
         
         const { classes } = this.props;
 
-        const { notations } = this.state;
+        const { notations, loading } = this.state;
         const current_date = getCurrentDate()
         let perm_soir = false;
+
+        if(loading){
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress className={classes.progress} />
+                    </Grid>
+                </Grid>
+            )
+        }
 
 
         return (

@@ -8,9 +8,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { ajaxGet } from '../../../utils/Ajax';
 
 function afficheNote(creneau, notation){
+
     let note;
     switch (creneau.creneau) {
         case "M":
@@ -43,18 +47,16 @@ class Details extends Component{
 
         this.state = {
             notation : [],
-            creneau : []
+            creneau : [],
+            loading: true
         }
-
-        
-
     }
 
     componentDidMount(){
         const query = new URLSearchParams(this.props.location.search);
         const id = query.get('id');
         ajaxGet('perms/notation/'+id).then(res => {
-            this.setState({notation: res.data, creneau: res.data.creneau})
+            this.setState({notation: res.data, creneau: res.data.creneau, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -66,7 +68,23 @@ class Details extends Component{
     render(){
 
         const { classes } = this.props;
-        const { notation, creneau } = this.state;
+        const { notation, creneau, loading } = this.state;
+
+        if(loading){
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress className={classes.progress} />
+                    </Grid>
+                </Grid>
+            )
+        }
 
         return(
             <div className={classes.container}>
