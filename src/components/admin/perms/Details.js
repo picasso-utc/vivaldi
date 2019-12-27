@@ -39,8 +39,11 @@ function afficheNote(creneau, notation){
         return "red";
     if (note < 3)
         return "orange";
-    if (note < 4)
-        return "lgreen";
+    if (note < 4){
+        console.log("lgreen")
+        return "lgreen";       
+    }
+
     return "green";
 }
 
@@ -171,7 +174,7 @@ class Details extends Component{
                                                     return <span className={classes.dot_red}></span>
                                                 case "orange" :
                                                     return <span className={classes.dot_orange}></span>
-                                                case "lgree" :
+                                                case "lgreen" :
                                                     return <span className={classes.dot_lgreen}></span>
                                                 case "green" :
                                                     return <span className={classes.dot_green}></span>
