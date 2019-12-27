@@ -7,6 +7,7 @@ import CarouselItem from './CarouselItem.js'
 import { ajaxGet } from '../../utils/Ajax';
 
 
+
 class Dashboard extends Component{
  
 	
@@ -42,6 +43,8 @@ class Dashboard extends Component{
 					astreintes_soir.push(res.data.astreintes[index]);
 				}
 			}
+			
+
 			this.setState({astreintes_matin: astreintes_matin, astreintes_midi: astreintes_midi, astreintes_soir: astreintes_soir, loading:false})
 		})
 	}

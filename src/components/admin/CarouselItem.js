@@ -93,6 +93,12 @@ class CarouselItem extends Component{
 			astreintes[astreinte_index].not_rated = true;
 		}
 		astreintes[astreinte_index][event.target.name] = value;
+		astreintes = astreintes.sort(function(a,b){
+            if (compareDjangoDate(a.creneau.date, b.creneau.date)) {
+                return 1
+            }
+            return -1
+        })
 		this.setState({astreintes: astreintes})
 	}
 
