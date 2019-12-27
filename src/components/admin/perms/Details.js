@@ -26,6 +26,8 @@ function afficheNote(creneau, notation){
         case "D":
             note = notation.mean_d;
             break;
+        default:
+            break;
     }
 
     if (note === null || note === 0)
@@ -184,6 +186,8 @@ class Details extends Component{
                                                     return <span className={classes.dot_lgreen}></span>
                                                 case "green" :
                                                     return <span className={classes.dot_green}></span>
+                                                default:
+                                                    return <span></span>
                                             }
                                         })()}
                                     </TableCell>
