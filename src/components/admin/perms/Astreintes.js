@@ -143,7 +143,7 @@ class Astreintes extends Component{
         const { classes } = this.props;
         const { startDate, members, loading } = this.state;
 
-        const week_days=[0,1,2,3,4]
+        const week_days=[0,1,2,3,4,5]
 		const creneau_types=[
             {code: 'M', name:'Matin'},
             {code: 'D', name:'Midi'},
