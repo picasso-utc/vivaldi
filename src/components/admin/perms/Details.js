@@ -1,21 +1,14 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { ajaxGet } from '../../../utils/Ajax';
-import queryString from 'query-string';
 
 function afficheNote(creneau, notation){
     let note;
@@ -30,17 +23,14 @@ function afficheNote(creneau, notation){
             note = notation.mean_d;
             break;
     }
-    console.log("la note est")
-    console.log(note)
 
-    if (note == null || note == 0)
+    if (note === null || note === 0)
         return "grey";
     if (note < 2 )
         return "red";
     if (note < 3)
         return "orange";
     if (note < 4){
-        console.log("lgreen")
         return "lgreen";       
     }
 
@@ -61,10 +51,10 @@ class Details extends Component{
     }
 
     componentDidMount(){
-        let id = queryString.parse(this.props.location.search).id;
+        const query = new URLSearchParams(this.props.location.search);
+        const id = query.get('id');
         ajaxGet('perms/notation/'+id).then(res => {
-            this.setState({notation: res.data})
-            this.setState({creneau: res.data.creneau})
+            this.setState({notation: res.data, creneau: res.data.creneau})
         })
         .catch(error => {
             console.log(error)
@@ -77,8 +67,6 @@ class Details extends Component{
 
         const { classes } = this.props;
         const { notation, creneau } = this.state;
-
-        console.log(creneau)
 
         return(
             <div className={classes.container}>
@@ -108,28 +96,28 @@ class Details extends Component{
                         <TableBody>
                                 <TableRow>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {notation.note_orga == 0 && <span className={classes.dot}></span>}
+                                        {notation.note_orga === 0 && <span className={classes.dot}></span>}
                                         {notation.note_orga < 2 && notation.note_orga > 0 &&<span className={classes.dot_red}></span>}
                                         {notation.note_orga < 3 && notation.note_orga >= 2 &&<span className={classes.dot_orange}></span>}
                                         {notation.note_orga < 4 && notation.note_orga >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {notation.note_orga >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {notation.note_deco == 0 && <span className={classes.dot}></span>}
+                                        {notation.note_deco === 0 && <span className={classes.dot}></span>}
                                         {notation.note_deco < 2 && notation.note_deco > 0 &&<span className={classes.dot_red}></span>}
                                         {notation.note_deco < 3 && notation.note_deco >= 2 &&<span className={classes.dot_orange}></span>}
                                         {notation.note_deco < 4 && notation.note_deco >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {notation.note_deco >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {notation.note_menu == 0 && <span className={classes.dot}></span>}
+                                        {notation.note_menu === 0 && <span className={classes.dot}></span>}
                                         {notation.note_menu < 2 && notation.note_menu > 0 &&<span className={classes.dot_red}></span>}
                                         {notation.note_menu < 3 && notation.note_menu >= 2 &&<span className={classes.dot_orange}></span>}
                                         {notation.note_menu < 4 && notation.note_menu >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {notation.note_menu >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {notation.note_anim == 0 && <span className={classes.dot}></span>}
+                                        {notation.note_anim === 0 && <span className={classes.dot}></span>}
                                         {notation.note_anim < 2 && notation.note_anim > 0 &&<span className={classes.dot_red}></span>}
                                         {notation.note_anim < 3 && notation.note_anim >= 2 &&<span className={classes.dot_orange}></span>}
                                         {notation.note_anim < 4 && notation.note_anim >= 3 &&<span className={classes.dot_lgreen}></span>}
@@ -161,9 +149,9 @@ class Details extends Component{
                             {creneau.map((cren, index) => (
                                 <TableRow>
                                     <TableCell component="th" scope="row" className={classes.cellLeft}>
-                                        {cren.creneau == "D" && <span>Midi</span>}
-                                        {cren.creneau == "S" && <span>Soir</span>}
-                                        {cren.creneau == "M" && <span>Matin</span>}
+                                        {cren.creneau === "D" && <span>Midi</span>}
+                                        {cren.creneau === "S" && <span>Soir</span>}
+                                        {cren.creneau === "M" && <span>Matin</span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         {(() => {

@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Details from './Details';
 import { ajaxGet } from '../../../utils/Ajax';
 import { compareDjangoDate, getCurrentDate } from '../../../utils/Date';
 
@@ -39,7 +32,6 @@ class Index extends Component{
                 return -1
             })
             this.setState({notations: notations})
-            console.log(res.data.perms)
         })
         .catch(error => {
             console.log(error)
@@ -47,7 +39,6 @@ class Index extends Component{
     }
 
     consultNotation(notation_id){
-        console.log(notation_id)
         window.open('details?id='+notation_id,'Data','height=250,width=250');
     }
 
@@ -105,34 +96,34 @@ class Index extends Component{
                                         { perm_soir = false }
                                         {row.creneau.map((cren, index) => (
                                             <div>
-                                                {cren.creneau=="S" && perm_soir == false && compareDjangoDate(current_date, cren.date) && <span>✓</span>}
-                                                {cren.creneau=="S" && perm_soir == false && compareDjangoDate(current_date, cren.date) ? perm_soir = true : null}
+                                                {cren.creneau==="S" && perm_soir === false && compareDjangoDate(current_date, cren.date) && <span>✓</span>}
+                                                {cren.creneau==="S" && perm_soir === false && compareDjangoDate(current_date, cren.date) ? perm_soir = true : null}
                                             </div>
                                         ))}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.note_orga == 0 && <span className={classes.dot}></span>}
+                                        {row.note_orga === 0 && <span className={classes.dot}></span>}
                                         {row.note_orga < 2 && row.note_orga > 0 &&<span className={classes.dot_red}></span>}
                                         {row.note_orga < 3 && row.note_orga >= 2 &&<span className={classes.dot_orange}></span>}
                                         {row.note_orga < 4 && row.note_orga >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {row.note_orga >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.note_deco == 0 && <span className={classes.dot}></span>}
+                                        {row.note_deco === 0 && <span className={classes.dot}></span>}
                                         {row.note_deco < 2 && row.note_deco > 0 &&<span className={classes.dot_red}></span>}
                                         {row.note_deco < 3 && row.note_deco >= 2 &&<span className={classes.dot_orange}></span>}
                                         {row.note_deco < 4 && row.note_deco >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {row.note_deco >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.note_menu == 0 && <span className={classes.dot}></span>}
+                                        {row.note_menu === 0 && <span className={classes.dot}></span>}
                                         {row.note_menu < 2 && row.note_menu > 0 &&<span className={classes.dot_red}></span>}
                                         {row.note_menu < 3 && row.note_menu >= 2 &&<span className={classes.dot_orange}></span>}
                                         {row.note_menu < 4 && row.note_menu >= 3 &&<span className={classes.dot_lgreen}></span>}
                                         {row.note_menu >= 4 && <span className={classes.dot_green}></span>}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.note_anim == 0 && <span className={classes.dot}></span>}
+                                        {row.note_anim === 0 && <span className={classes.dot}></span>}
                                         {row.note_anim < 2 && row.note_anim > 0 &&<span className={classes.dot_red}></span>}
                                         {row.note_anim < 3 && row.note_anim >= 2 &&<span className={classes.dot_orange}></span>}
                                         {row.note_anim < 4 && row.note_anim >= 3 &&<span className={classes.dot_lgreen}></span>}
