@@ -75,6 +75,7 @@ class Header extends React.Component {
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#polls")}>Sondages</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#prices")}>Tarifs</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>
 								</Menu>	
@@ -98,6 +99,7 @@ class Header extends React.Component {
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#polls")}>Sondages</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#prices")}>Tarifs</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
+									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>
 								</Menu>
