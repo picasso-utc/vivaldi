@@ -203,7 +203,8 @@ class Astreintes extends Component{
                                                         <span>{creneau.perm.nom}</span>
                                                         <hr/>
                                                         {creneau.astreintes.map(astreinte => (
-                                                            <span key={astreinte}>{astreinte}<br/></span>
+                                                            // Astreinte de la forme astreinte_type - nom_astreinteur - id_astreinte
+                                                            <span key={astreinte}>{astreinte.split('-')[0]} - {astreinte.split('-')[1]}<br/></span>
                                                         ))}
                                                         <select 
                                                             value={creneau.new_member_id} 
