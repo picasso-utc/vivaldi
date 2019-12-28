@@ -58,8 +58,12 @@ class Admin extends React.Component {
 				return "Planning du semestre";
 			case asset_url("/admin/astreintes"):
 				return "Astreintes";
+			case asset_url("/admin/requested/perms"):
+				return "Perms demandées";
+			case asset_url("/admin/perm/details"):
+				return "Détails";
 			case asset_url("/admin/perms"):
-				return "Perms";
+				return "Index Perms";
 			case asset_url("/admin/charte"):
 				return "Charte";
 			case asset_url("/admin/users"):
