@@ -96,7 +96,12 @@ class CarouselItem extends Component{
                 return 1
             }
             return -1
-        })
+		})
+		if (event.target.name === "commentaire") {
+			if (event.target.value.length > 250) {
+				return;
+			}
+		}
 		this.setState({astreintes: astreintes})
 	}
 
@@ -179,7 +184,7 @@ class CarouselItem extends Component{
 									</Grid>
 
 									<TextField
-										label="Commentaire"
+										label="Commentaire (255 caractères max.)"
 										multiline
 										rows="3"
 										name="commentaire"
