@@ -88,9 +88,9 @@ class Astreintes extends Component{
 		ajaxPost('perms/week/astreintes', {start_date: startDate, end_date: endDate}).then(res => {
             let creneaux = res.data.creneaux;
             for (let index = 0; index < creneaux.length; index++) {
-                if (creneaux[index].creneau == "M"){
+                if (creneaux[index].creneau === "M"){
                     creneaux[index].new_astreinte_type = "M1";
-                } else if (creneaux[index].creneau == "D"){
+                } else if (creneaux[index].creneau === "D"){
                     creneaux[index].new_astreinte_type = "D1";
                 } else {
                     creneaux[index].new_astreinte_type = "S";
