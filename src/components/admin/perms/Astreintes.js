@@ -86,6 +86,16 @@ class Astreintes extends Component{
 
 	loadAstreintes(startDate, endDate){
 		ajaxPost('perms/week/astreintes', {start_date: startDate, end_date: endDate}).then(res => {
+            let creneaux = res.data.creneaux;
+            for (let index = 0; index < creneaux.length; index++) {
+                if (creneaux[index].creneau == "M"){
+                    creneaux[index].new_astreinte_type = "M1";
+                } else if (creneaux[index].creneau == "D"){
+                    creneaux[index].new_astreinte_type = "D1";
+                } else {
+                    creneaux[index].new_astreinte_type = "S";
+                }
+            }
 			this.setState({creneaux: res.data.creneaux, loading: false})
 		})
 		.catch(error => {
@@ -210,7 +220,6 @@ class Astreintes extends Component{
                                                             value={creneau.new_astreinte_type} 
                                                             name = 'new_astreinte_type'
                                                             onChange={event => this.changeNewAstreinte(creneau, event.target.name, event.target.value)}
-                                                            defaultValue={creneau.creneau === "S" ? "S" : (creneau.creneau === "D" ? "D1" : "M1")}
                                                         >
                                                             <option value="" defaultValue></option>
                                                             {creneau.creneau === "M" && <option value="M1">Matin 1</option>}
