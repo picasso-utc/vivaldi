@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Typography, Grid } from '@material-ui/core';
 import { ChevronRight } from '@material-ui/icons';
 import CarouselItem from './CarouselItem.js'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet } from '../../utils/Ajax';
 
 
@@ -54,11 +54,21 @@ class Dashboard extends Component{
 		const { classes } = this.props;
 		const { astreintes_matin, astreintes_midi, astreintes_soir, loading } = this.state;
 
-		if (loading) {
-			return(
-				<p>chargement...</p>
-			)
-		}
+		if(loading){
+            return (
+                <Grid 
+                    container 
+                    className="admin_loader"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <CircularProgress className={classes.progress} />
+                    </Grid>
+                </Grid>
+            )
+        }
 
 		return (
 			<div className="admin_container">
