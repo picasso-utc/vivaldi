@@ -136,8 +136,7 @@ class Astreintes extends Component{
         }
 
         ajaxPost('perm/astreintes/', data).then(res => {
-            const astreinte = res.data.astreinte_type + " - " + res.data.member.userright.name;
-            creneaux[creneau_index].new_astreinte_type = '';
+            const astreinte = res.data.astreinte_type + " - " + res.data.member.userright.name + " - " + res.data.id;
             creneaux[creneau_index].new_member_id = '';
             creneaux[creneau_index].astreintes.push(astreinte);
             this.setState({creneaux: creneaux});
