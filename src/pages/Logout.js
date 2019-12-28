@@ -13,9 +13,25 @@ class Logout extends React.Component {
 	}
 
 	logoutUser(){
-		ajaxGet('auth/logout').then(res => {
-			window.location = asset_url('/')
-		})
+		const query = new URLSearchParams(this.props.location.search);
+		const redirection = query.get('redirect');
+		if (redirection) {
+			window.location = "https://cas.utc.fr/cas/logout";
+		} else {
+			let logout_window = window.open(asset_url("/logout?redirect=true"));
+			setTimeout(() => {
+				if (logout_window) {
+					logout_window.close();
+					ajaxGet('auth/logout').then(res => {
+						window.location = asset_url('/')
+					})
+				} else {
+					ajaxGet('auth/logout').then(res => {
+						window.location = asset_url('/')
+					})
+				}
+			}, 2000)
+		}
     }
 
 
