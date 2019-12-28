@@ -1,6 +1,6 @@
 import {URL, asset_url} from './Config';
 import {ajaxGet, ajaxPost} from './Ajax';
-
+import { isStringEmpty } from './String';
 const GENERAL_CONNEXION = 'full';
 
 class Auth {
@@ -16,6 +16,10 @@ class Auth {
             first_name : localStorage.getItem('first_name'),
             email : localStorage.getItem('email')
         } 
+
+        if (isStringEmpty(identity.login) || isStringEmpty(identity.last_name) || isStringEmpty(identity.first_name) || isStringEmpty(identity.email)) {
+            Auth.goLogin()
+        }
         return identity;
     }
 
