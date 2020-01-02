@@ -260,7 +260,7 @@ class PermForm extends React.Component {
             errors.push('Il faut un deuxième responsable de perm.')
         }
         if (isStringEmpty(new_perm.membres)) {
-            errors.push('Aucun permanencier n\'a pas été rentré.')
+            errors.push('Aucun permanencier n\'a été rentré.')
         }
         this.setState({errors: errors})
         if (errors.length > 0) { 

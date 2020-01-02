@@ -454,7 +454,7 @@ class Media extends Component{
                     <DialogTitle id="alert-dialog-title">{"Suppresion: " + media.name}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Veux-tu vraiment supprimer cette URL ?
+                            Veux-tu vraiment supprimer ce média ?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
