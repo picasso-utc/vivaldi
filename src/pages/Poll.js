@@ -172,9 +172,9 @@ class Poll extends React.Component {
 
 
                                     <div className={classes.root_items}>
-                                        <GridList className={classes.gridList} cols={3} style={{margin: 0}}>
+                                        <GridList className={classes.gridList} style={{margin: 0}}>
                                             {survey.surveyitem_set.map((item, item_index) => (
-                                                <GridListTile key={item_index} style={{height: '100%', minWidth: 150, maxWidth: 300}}>
+                                                <GridListTile key={item_index} style={{height: '100%', minWidth: 150, maxWidth: 300, width: "auto"}}>
                                                     <Card className={classes.card}>
                                                         {this.isThereDescriptionInItems(survey) &&
                                                             <Grid container direction="row" justify="center" alignItems="center">
