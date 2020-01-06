@@ -496,7 +496,7 @@ class PollsManagement extends Component{
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         {row.description}
                                     </TableCell>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                    <TableCell component="th" scope="row" className={classes.cell} style={{minWidth: 300}}>
                                         <ul>
                                             {row.surveyitem_set.map((item_row, item_index) => (
                                                 <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.surveyitemvote_set.length/row.total_votes)*100).toFixed(1)}%</li>   
@@ -538,7 +538,7 @@ class PollsManagement extends Component{
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         {row.description}
                                     </TableCell>
-                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                    <TableCell component="th" scope="row" className={classes.cell} style={{minWidth: 300}}>
                                         <ul>
                                             {row.surveyitem_set.map((item_row, item_index) => (
                                                 <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.votes/row.total_votes)*100).toFixed(1)}%</li>   
