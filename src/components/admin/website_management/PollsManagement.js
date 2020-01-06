@@ -76,6 +76,14 @@ class PollsManagement extends Component{
                 }
                 return 1
             })
+            for (let index = 0; index < surveys_history.length; index++) {
+                surveys_history[index].surveyitem_set = surveys_history[index].surveyitem_set.sort(function(a,b){
+                    if (a.surveyitemvote_set.length > b.surveyitemvote_set.length) {
+                        return -1
+                    }
+                    return 1
+                })
+            }
             this.setState({surveys_history: surveys_history});
         })
         .catch(error => {
@@ -93,6 +101,14 @@ class PollsManagement extends Component{
                     total_votes += surveys[index].surveyitem_set[j].surveyitemvote_set.length;
                 }  
                 surveys[index].total_votes = total_votes;              
+            }
+            for (let index = 0; index < surveys.length; index++) {
+                surveys[index].surveyitem_set = surveys[index].surveyitem_set.sort(function(a,b){
+                    if (a.surveyitemvote_set.length > b.surveyitemvote_set.length) {
+                        return -1
+                    }
+                    return 1
+                })
             }
             this.setState({surveys: surveys, loading: false});
         })
