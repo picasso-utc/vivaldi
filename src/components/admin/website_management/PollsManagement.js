@@ -25,6 +25,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Paper from '@material-ui/core/Paper';
+import TableHead from '@material-ui/core/TableHead';
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
 import {URL} from '../../../utils/Config';
 
@@ -46,6 +48,7 @@ class PollsManagement extends Component{
                 multi_choice: false,
                 surveyitem_set: [],
             },
+            surveys_history : [],
             mode: 'create',
             confirm_modal: false
         }
@@ -59,9 +62,26 @@ class PollsManagement extends Component{
 
 
     componentDidMount(){
+        this.loadHistory();
         this.loadSurveys()
     }
 
+
+    loadHistory(){
+        ajaxGet('surveys/history').then(res => {
+            let surveys_history = res.data.surveys;
+            surveys_history = surveys_history.sort(function(a,b){
+                if (a.id > b.id) {
+                    return -1
+                }
+                return 1
+            })
+            this.setState({surveys_history: surveys_history});
+        })
+        .catch(error => {
+            this.setState({loading: false})
+        })
+    }
 
     loadSurveys(){
         ajaxGet('surveys').then(res => {
@@ -318,7 +338,7 @@ class PollsManagement extends Component{
     render(){
         
         const { classes } = this.props;
-        const { surveys, loading, open_modal, survey, mode, confirm_modal } = this.state;
+        const { surveys, loading, open_modal, survey, mode, confirm_modal, surveys_history } = this.state;
 
         if (loading) {
             return (
@@ -385,6 +405,7 @@ class PollsManagement extends Component{
                             </Fab>
                         </Typography>
                         <Grid container direction="row">
+                            <Paper className={classes.rootTable}>
                                 <Table size="small">
                                     <TableBody>
                                         {surveys.map((survey, survey_index) => (
@@ -428,9 +449,94 @@ class PollsManagement extends Component{
                                         ))}
                                     </TableBody>
                                 </Table>
+                            </Paper>
                         </Grid>
                     </div>
                 )}
+                <Grid container direction="row">
+                    <Typography variant="h6" className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        Sondages en cours
+                    </Typography>
+                </Grid>
+                <Paper className={classes.rootTable}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.cell}>
+                                    Nom
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Résultats
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Nombre de votes
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {surveys.map((row, index) => (
+                                <TableRow hover key={index} className={classes.row}>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.description}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        <ul>
+                                            {row.surveyitem_set.map((item_row, item_index) => (
+                                                <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.surveyitemvote_set.length/row.total_votes)*100).toFixed(1)}%</li>   
+                                            ))}
+                                        </ul>
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.total_votes}                                       
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
+                <Grid container direction="row">
+                    <Typography variant="h6" className={classes.subTitle}>
+                        <ChevronRightIcon className={classes.subTitleIcon}/>
+                        Historique
+                    </Typography>
+                </Grid>
+                <Paper className={classes.rootTable}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.cell}>
+                                    Nom
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Résultats
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Nombre de votes
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {surveys_history.map((row, index) => (
+                                <TableRow hover key={index} className={classes.row}>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.description}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        <ul>
+                                            {row.surveyitem_set.map((item_row, item_index) => (
+                                                <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.votes/row.total_votes)*100).toFixed(1)}%</li>   
+                                            ))}
+                                        </ul>
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.total_votes}                                       
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
                 <Dialog 
                     onClose={this.handleModalClickClose} 
                     open={open_modal} 
@@ -665,12 +771,17 @@ const styles = theme => ({
         marginTop: 100,
         border: "1.5px solid #B22132",
     },
+    rootTable : {
+        width: '100%',
+        overflowX: 'auto'
+    },
     btn : {
         margin: 5,
     },
-    subTitle:{
-        marginBottom: 40,
-    },
+    subTitle: {
+		marginTop: 30,
+		marginBottom: 10,
+	},
     title_btn: {
         marginLeft: 20,
     },
