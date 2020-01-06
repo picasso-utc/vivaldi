@@ -340,10 +340,11 @@ class PollsManagement extends Component{
 
 
     deleteSurvey(survey_id){
-        ajaxDelete('surveys/' + survey_id + '/').then(() => {
+        ajaxGet('surveys/delete/' + survey_id).then(() => {
             let surveys = this.state.surveys;
             surveys = surveys.filter(s => s.id !== survey_id)
             this.setState({surveys: surveys, confirm_modal: false})
+            this.loadHistory();
         })
         .catch((error) => {
 
@@ -530,6 +531,9 @@ class PollsManagement extends Component{
                                 <TableCell className={classes.cell}>
                                     Nombre de votes
                                 </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Action
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -547,6 +551,18 @@ class PollsManagement extends Component{
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
                                         {row.total_votes}                                       
+                                    </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            <Button 
+                                                size="small" 
+                                                color="secondary"
+                                                variant="contained" 
+                                                margin="dense"
+                                                className={classes.btn} 
+                                                onClick={() => this.handleConfirmModalOpen(row)}
+                                            >
+                                                Supprimer
+                                            </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
