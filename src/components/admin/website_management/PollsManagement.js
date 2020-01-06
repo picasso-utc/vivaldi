@@ -78,7 +78,7 @@ class PollsManagement extends Component{
             })
             for (let index = 0; index < surveys_history.length; index++) {
                 surveys_history[index].surveyitem_set = surveys_history[index].surveyitem_set.sort(function(a,b){
-                    if (a.surveyitemvote_set.length > b.surveyitemvote_set.length) {
+                    if (a.votes > b.votes) {
                         return -1
                     }
                     return 1
