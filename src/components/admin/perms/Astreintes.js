@@ -3,7 +3,15 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { addDays, formateToDjangoDate } from '../../../utils/Date';
-import { ajaxGet, ajaxPost } from '../../../utils/Ajax'
+import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax'
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
 
 class Astreintes extends Component{
 
@@ -12,7 +20,9 @@ class Astreintes extends Component{
 		this.state = {
             creneaux: [],
             members: [],
-			loading: true
+            loading: true,
+            astreinte_id: '',
+            confirm_modal: false
         }
         
         this.displayCreneau = this.displayCreneau.bind(this)
@@ -146,11 +156,32 @@ class Astreintes extends Component{
 		});
     }
 
+    handleModalClickClose(){
+        this.setState({astreinte_id: '', confirm_modal: false})
+    }
+
+    handleConfirmModalOpen(astreinte_id){
+        this.setState({astreinte_id: astreinte_id, confirm_modal: true})
+    }
+
+    deleteAstreinte(){
+        const astreinte_id = this.state.astreinte_id
+        if (astreinte_id) {
+            ajaxDelete('perm/astreintes/' + astreinte_id + '/').then(() => {
+                this.setState({confirm_modal: false, astreinte_id: ''})
+                this.reloadAstreinte(this.state.startDate, this.state.endDate);
+            })
+            .catch((error) => {
+            })
+        } else {
+            this.setState({confirm_modal: false, astreinte_id: ''})
+        }
+    }
 
     render(){
         
         const { classes } = this.props;
-        const { startDate, members, loading } = this.state;
+        const { startDate, members, loading, link, confirm_modal } = this.state;
 
         const week_days=[0,1,2,3,4,5]
 		const creneau_types=[
@@ -204,7 +235,19 @@ class Astreintes extends Component{
                                                         <hr/>
                                                         {creneau.astreintes.map(astreinte => (
                                                             // Astreinte de la forme astreinte_type - nom_astreinteur - id_astreinte
-                                                            <span key={astreinte}>{astreinte.split('-')[0]} - {astreinte.split('-')[1]}<br/></span>
+                                                            <span key={astreinte}>
+                                                                {astreinte.split('-')[0]} - {astreinte.split('-')[1]}
+                                                                <IconButton 
+                                                                    edge="end" 
+                                                                    aria-label="delete" 
+                                                                    color="secondary"
+                                                                    style={{padding:0}}
+                                                                    onClick={() => this.handleConfirmModalOpen(astreinte.split('-')[2])}
+                                                                >
+                                                                    <CloseIcon />
+                                                                </IconButton>
+                                                                <br/>
+                                                            </span>
                                                         ))}
                                                         <select 
                                                             value={creneau.new_member_id} 
@@ -251,6 +294,29 @@ class Astreintes extends Component{
                         Semaine suivante
                     </button>
                 </Grid>
+                <Dialog
+                    open={confirm_modal}
+                    onClose={() => this.handleModalClickClose()}
+                >
+                    <DialogTitle>Suppresion</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Veux-tu vraiment supprimer cette astreinte ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            color="secondary"
+                            variant="contained" 
+                            margin="dense"
+                            size="small"
+                            className={classes.btn} 
+                            onClick={(e) => this.deleteAstreinte()}
+                        >
+                            Supprimer
+                        </Button>    
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     };
