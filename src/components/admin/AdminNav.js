@@ -71,6 +71,7 @@ const CATEGORIES = [
 			{id: 'Utilisateurs', link: '/admin/users'},
 			{id: 'Team', link: '/admin/team'},
 			{id: 'Semestres', link: '/admin/semesters'},
+			{id: 'Blocage', link: '/admin/blocked/users'},
 			{id: 'Paramètres', link: '/admin/settings'},
 		]
 	},
