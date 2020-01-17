@@ -8,7 +8,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -202,49 +201,51 @@ class BlockedUsers extends Component{
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Liste des utilisateurs bloqués
                 </Typography>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.cell}>
-                                Utilisateur
-                            </TableCell>
-                            <TableCell className={classes.cell}>
-                                Motif
-                            </TableCell>
-                            <TableCell className={classes.cell}>
-                                Depuis le
-                            </TableCell>
-                            <TableCell className={classes.cell}>
-                                Actions
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.map((row, index) => (
-                            <TableRow hover key={index} className={classes.row}>
-                                <TableCell component="th" scope="row" className={classes.cell}>
-                                    {row.name} 
+                <Paper className={classes.rootTable}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.cell}>
+                                    Utilisateur
                                 </TableCell>
-                                <TableCell component="th" scope="row" className={classes.cell}>
-                                    {row.justification} 
+                                <TableCell className={classes.cell}>
+                                    Motif
                                 </TableCell>
-                                <TableCell component="th" scope="row" className={classes.cell}>
-                                    {formateFromDjangoDate(row.date)} 
+                                <TableCell className={classes.cell}>
+                                    Depuis le
                                 </TableCell>
-                                <TableCell component="th" scope="row" className={classes.cell}>
-                                    <Button 
-                                        variant="contained" 
-                                        size="small" 
-                                        className={classes.btn} 
-                                        onClick={() => this.deleteBlockedUser(row)}
-                                    >
-                                        Débloquer
-                                    </Button>                    
+                                <TableCell className={classes.cell}>
+                                    Actions
                                 </TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        </TableHead>
+                        <TableBody>
+                            {users.map((row, index) => (
+                                <TableRow hover key={index} className={classes.row}>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.name} 
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {row.justification} 
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        {formateFromDjangoDate(row.date)} 
+                                    </TableCell>
+                                    <TableCell component="th" scope="row" className={classes.cell}>
+                                        <Button 
+                                            variant="contained" 
+                                            size="small" 
+                                            className={classes.btn} 
+                                            onClick={() => this.deleteBlockedUser(row)}
+                                        >
+                                            Débloquer
+                                        </Button>                    
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </div>
         );
     };
@@ -257,6 +258,10 @@ const styles = theme => ({
         margin: 30,
         marginTop: 100,
         border: "1.5px solid #B22132",
+    },
+    rootTable : {
+        width: '100%',
+        overflowX: 'auto'
     },
     paper: {
         padding: 10
