@@ -71,10 +71,10 @@ class BlockedUsers extends Component{
         ajaxGet('blocked/users/').then(res => {
             let users = res.data.blocked_users;
             users = users.sort(function(a,b){
-                if (a.name > b.name) {
-                    return 1
+                if (a.date > b.date) {
+                    return -1
                 }
-                return -1
+                return 1
             })
             this.setState({users: users, loading: false})
         })
