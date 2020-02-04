@@ -12,6 +12,7 @@ import Settings from '../components/admin/administrations/Settings';
 import TeamManagement from '../components/admin/administrations/TeamManagement';
 import Users from '../components/admin/administrations/Users';
 import BlockedUsers from '../components/admin/administrations/BlockedUsers';
+import ResourcesManagement from '../components/admin/administrations/ResourcesManagement';
 import Astreintes from '../components/admin/perms/Astreintes';
 import CalendarManagement from '../components/admin/perms/CalendarManagement';
 import CurrentPerm from '../components/admin/perms/CurrentPerm';
@@ -73,6 +74,8 @@ class Admin extends React.Component {
 				return "Blocage";
 			case asset_url("/admin/team"):
 				return "Team";
+			case asset_url("/admin/resources"):
+				return "Gestion des ressources";
 			case asset_url("/admin/semesters"):
 				return "Semestres";
 			case asset_url("/admin/settings"):
@@ -131,6 +134,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/tv/url`} exact component={Url}/>
 						<ProtectedRoute only="member" path={`${base_url}/tv/config`} exact component={Configuration}/>
 						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
+						<ProtectedRoute only="admin" path={`${base_url}/resources`} exact component={ResourcesManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/blocked/users`} exact component={BlockedUsers}/>
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>
