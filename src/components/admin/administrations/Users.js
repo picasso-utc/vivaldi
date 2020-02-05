@@ -26,7 +26,8 @@ class Users extends Component{
             users : [],
             new_user : {
                 login: '',
-                right: 'M'
+                right: 'M',
+                name: ''
             },
             page: 0,
             rowsPerPage: 5,
@@ -100,10 +101,12 @@ class Users extends Component{
     selectUser(name){
         const regex = name.match(/\(.*\)/).toString()
         const login = regex.substring(1,9)
+        const user_name = name.replace(" " + regex,'');
         this.setState({
             new_user: {
                 ...this.state.new_user,
                 login: login,
+                name: user_name,
             },
             autoCompleteUsers: [],
         })
