@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { addDays, formateToDjangoDate } from '../../../utils/Date';
+import { addDays, formateToDjangoDate, calendarDate } from '../../../utils/Date';
 import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax'
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -213,12 +213,12 @@ class Astreintes extends Component{
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Lundi</th>
-                                <th>Mardi</th>
-                                <th>Mercredi</th>
-                                <th>Jeudi</th>
-                                <th>Vendredi</th>
-                                <th>Samedi</th>
+                                <th>Lundi {calendarDate(startDate)}</th>
+                                <th>Mardi {calendarDate(addDays(startDate,1))}</th>
+                                <th>Mercredi {calendarDate(addDays(startDate,2))}</th>
+                                <th>Jeudi {calendarDate(addDays(startDate,3))}</th>
+                                <th>Vendredi {calendarDate(addDays(startDate,4))}</th>
+                                <th>Samedi {calendarDate(addDays(startDate,5))}</th>
                             </tr>
                         </thead>
                         <tbody>
