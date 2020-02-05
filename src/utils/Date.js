@@ -11,6 +11,11 @@ export function addDays(date, days) {
     return result;
 }
 
+export function calendarDate(date){
+    var result = ("0" + (date.getDate())).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2);
+    return result;
+}
+
 export function formateFromDjangoDate(date) {
     const splitted_date = date.split('-')
     const result = splitted_date[2] + "/" + splitted_date[1] + "/" + splitted_date[0];
