@@ -10,6 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { ChevronRight } from '@material-ui/icons';
+import { TextField, Button, MenuItem } from '@material-ui/core';
 import { ajaxGet } from '../../../utils/Ajax';
 import { asset_url } from '../../../utils/Config';
 import { compareDjangoDate, getCurrentDate } from '../../../utils/Date';
@@ -20,6 +22,8 @@ class PermsIndex extends Component{
 
         this.state = {
             notations : [],
+            semesters: [],
+            current_semester : '',
             loading: true
         }
         this.consultNotation = this.consultNotation.bind(this)
@@ -27,6 +31,7 @@ class PermsIndex extends Component{
     }
 
     componentDidMount(){
+        this.loadSemester();
         ajaxGet('perms/notation/all').then(res => {
             let notations = res.data.perms
             notations = notations.sort(function(a,b){
@@ -42,6 +47,35 @@ class PermsIndex extends Component{
         })
     }
 
+    loadSemester(){
+        ajaxGet('semesters').then(res => {
+            this.setState({semesters:res.data}) 
+        })
+        ajaxGet('current/semester').then(res => {
+            this.setState({current_semester:res.data.id}) 
+        })
+ 
+    }
+
+    loadOtherSemester(event){
+        const semestre_id = event.target.value;
+        this.setState({loading: true, current_semester: semestre_id})
+        ajaxGet('perms/notation/all?semestre=' + semestre_id).then(res => {
+            let notations = res.data.perms
+            notations = notations.sort(function(a,b){
+                if (a.mean_note < b.mean_note) {
+                    return 1
+                }
+                return -1
+            })
+            this.setState({notations: notations, loading: false})
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+    }
+
     consultNotation(notation_id){
         window.open(asset_url('/admin/perm/details?id=' + notation_id));
     }
@@ -52,7 +86,7 @@ class PermsIndex extends Component{
         
         const { classes } = this.props;
 
-        const { notations, loading } = this.state;
+        const { notations, loading, current_semester, semesters } = this.state;
         const current_date = getCurrentDate()
         let perm_soir = false;
 
@@ -75,6 +109,32 @@ class PermsIndex extends Component{
 
         return (
             <div className={classes.container}>
+                <Grid container style={{marginBottom: 30}}>
+                    <Grid item xs={12}>
+                        <Typography variant="h6">
+                            <ChevronRight className={classes.subTitleIcon}/>
+                            Charger un autre semestre
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={8} sm={6}>
+                        <TextField
+                            select
+                            className={classes.textField}
+                            value={current_semester || ''}
+                            autoComplete="off"
+                            margin="dense"
+                            fullWidth
+                            variant="outlined"
+                            onChange={(event) => this.loadOtherSemester(event)}
+                        >
+                            {semesters.map(semesters => (
+                                <MenuItem key={semesters.id} value={semesters.id}>
+                                    {semesters.periode+semesters.annee}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid> 
+                </Grid>
                 <Typography variant="h5" noWrap className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Notation des perms
