@@ -120,7 +120,6 @@ class AdminNav extends React.Component {
 		const categoryId = event.currentTarget.getAttribute('value');
 		this.setState(prevState => ({
 			openCategories: {
-				...prevState.openCategories,
 				[categoryId]: !prevState.openCategories[categoryId]
 			},
 		}));
