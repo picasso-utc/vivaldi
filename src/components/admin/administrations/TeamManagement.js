@@ -8,9 +8,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { ajaxGet } from '../../../utils/Ajax';
+import { ajaxGet, ajaxPost } from '../../../utils/Ajax';
 
 class TeamManagement extends Component{
  
@@ -20,6 +21,7 @@ class TeamManagement extends Component{
 
         this.state = {
             team : [],
+            users: [],
             loading: true,
         }
     }
@@ -36,14 +38,38 @@ class TeamManagement extends Component{
         .catch(error => {
             console.log(error)
         })
+        ajaxGet('userrights').then(res => {
+            this.setState({users: res.data})
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
-        
+
+
+    addMember(userright_id){
+        ajaxPost('admin/members/', {userright_id: userright_id}).then(res => {
+            this.loadMembers();
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
 
     render(){
         
         const { classes } = this.props;
 
-        const {team, loading} = this.state;
+        const {team, loading, users} = this.state;
+
+        function isUserAlreadyInTeam(user_id){
+            const index = team.findIndex(t => t.userright_id === user_id);
+            if(index >= 0){
+                return true;
+            }
+            return false;
+        }
 
 
         if (loading) {
@@ -90,6 +116,54 @@ class TeamManagement extends Component{
                                         {row.rated_astreintes} / {row.total_astreintes}
                                     </TableCell>
                                 </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
+                <Typography variant="h6" className={classes.subTitle} style={{marginTop: 30}}>
+                    <ChevronRightIcon className={classes.subTitleIcon}/>
+                    Ajouter de nouveaux membres
+                </Typography>
+                <Paper className={classes.rootTable}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.cell}>
+                                    Nom
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Droit
+                                </TableCell>
+                                <TableCell className={classes.cell}>
+                                    Action
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {users.map((row, index) => 
+                                !isUserAlreadyInTeam(row.id) && (
+                                    <TableRow hover key={index} className={classes.row}>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            {row.right === "A" && <span>Administrateur</span>}
+                                            {row.right === "M" && <span>Membre</span>}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" className={classes.cell}>
+                                            <Button 
+                                                color="primary"
+                                                variant="contained" 
+                                                margin="dense"
+                                                size="small"
+                                                disabled={isUserAlreadyInTeam(row.id)}
+                                                className={classes.btn} 
+                                                onClick={() => this.addMember(row.id)}
+                                            >
+                                                Ajouter
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
                             ))}
                         </TableBody>
                     </Table>
