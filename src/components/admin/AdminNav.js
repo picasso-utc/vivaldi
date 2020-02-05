@@ -57,10 +57,11 @@ const CATEGORIES = [
 		icon: <ImportantDevicesIcon/>,
 		authorized: Auth.isUserMember,
 		children: [
-			{ id: 'Weezevent', link: 'https://admin.nemopay.net'},
-			{ id: 'Picsous', link: 'https://assos.utc.fr/picasso/picsous/'},
-			// { id: 'Ancien Picsous', link: 'https://cas.utc.fr/cas/login?service=http://assos.utc.fr/picasso/old/picsous/#/'},
-			{ id: 'Beethoven', link: 'http://beethoven.picasso-utc.fr/'},
+			{ id: 'Weezevent', link: 'https://admin.nemopay.net/#!/login?system=80405'},
+			{ id: 'Picsous', link: 'https://picsous.picasso-utc.fr'},
+			{ id: 'Beethoven', link: 'https://beethoven.picasso-utc.fr/'},
+			{ id: 'WebTV Pic Bar', link: 'https://webtv.picasso-utc.fr/?id=1'},
+			{ id: 'WebTV Pic Salle', link: 'https://webtv.picasso-utc.fr/?id=2'},
 		]
 	},
 	{
