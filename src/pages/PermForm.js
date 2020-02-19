@@ -670,6 +670,16 @@ class PermForm extends React.Component {
                                             justify="center"
                                             alignItems="center"
                                         >
+                                            <Typography variant="body1" className={classes.perm_label}>
+                                                Si tu veux nous montrer d'autres folies, n'hésite pas à nous mettre un petit lien Drive dans la description !
+                                            </Typography>
+                                        </Grid>  
+                                        <Grid 
+                                            container 
+                                            direction="row"
+                                            justify="center"
+                                            alignItems="center"
+                                        >
                                             <Button 
                                                 variant="contained" 
                                                 className={classes.btn}
