@@ -411,7 +411,7 @@ class PermForm extends React.Component {
                                                             }
                                                         />
                                                     } 
-                                                    label="Associations" 
+                                                    label="Associations UTC" 
                                                 />
                                             </RadioGroup>
                                             <Grid container direction="row">
