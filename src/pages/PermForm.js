@@ -127,6 +127,11 @@ class PermForm extends React.Component {
     }
 
     handleNewPermChange(event){
+        if (event.target.name == "membres" && event.target.value.length > 250) {return;} 
+        else if (event.target.name == "theme" && event.target.value.length > 250) {return;}
+        else if (event.target.name == "periode" && event.target.value.length > 250) {return;}
+        else if (event.target.name == "nom" && event.target.value.length > 250) {return;}
+        else if (event.target.name == "description" && event.target.value.length > 1000){return;}
         this.setState({
             new_perm: {
                 ...this.state.new_perm,
@@ -497,6 +502,7 @@ class PermForm extends React.Component {
                                         <Grid container direction="row">
                                             <Typography variant="body1" className={classes.perm_label}>
                                                 Description de la perm (anim, repas, etc ...) 
+                                                <span className={classes.form_field_length}>{new_perm.description.length}/1000 caractères max</span>
                                             </Typography>
                                         </Grid>
                                         <Grid container direction="row">
@@ -619,7 +625,8 @@ class PermForm extends React.Component {
                                         </Grid>
                                         <Grid container direction="row">
                                             <Typography variant="body1" className={classes.perm_label}>
-                                                Noms et prénoms des permanenciers (au minimum 10)
+                                                Noms et prénoms des permanenciers (au minimum 10) 
+                                                <span className={classes.form_field_length}>{new_perm.membres.length}/250 caractères max</span>
                                             </Typography>
                                         </Grid>
                                         <Grid container direction="row">
@@ -794,7 +801,11 @@ const styles = theme => ({
         fontSize: 14,
         minHeight: 30,
     },
-
+    form_field_length:{
+        fontWeight: 200,
+        fontSize: 12,
+        marginLeft: 10
+    }
 });
 
 export default withStyles(styles)(PermForm)
