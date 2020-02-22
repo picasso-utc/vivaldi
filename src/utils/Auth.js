@@ -9,7 +9,7 @@ class Auth {
         return localStorage.getItem('auth');
     }
 
-    static getUserInformation(){
+    static async getUserInformation(){
         const identity = {
             login : localStorage.getItem('login'),
             last_name : localStorage.getItem('last_name'),
@@ -18,9 +18,10 @@ class Auth {
         } 
 
         if (isStringEmpty(identity.login) || isStringEmpty(identity.last_name) || isStringEmpty(identity.first_name) || isStringEmpty(identity.email)) {
-            Auth.goLogin()
+            Auth.goLogin();
+        } else {
+            return identity;
         }
-        return identity;
     }
 
     static getUserRight(){

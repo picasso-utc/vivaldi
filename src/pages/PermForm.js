@@ -77,15 +77,17 @@ class PermForm extends React.Component {
 
 
     authUser(){
-        const user = Auth.getUserInformation();
-        this.setState({
-            new_perm: {
-                ...this.state.new_perm,
-                nom_resp : user.first_name + " " + user.last_name,
-                mail_resp: user.email,
-                founder_login: user.login,
-            }
-        })
+        Auth.getUserInformation().then((user) => {
+            this.setState({
+                new_perm: {
+                    ...this.state.new_perm,
+                    nom_resp : user.first_name + " " + user.last_name,
+                    mail_resp: user.email,
+                    founder_login: user.login,
+                }
+            })
+        });
+        
     }
     
     loadAssos(){
