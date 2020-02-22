@@ -129,11 +129,11 @@ class PermForm extends React.Component {
     }
 
     handleNewPermChange(event){
-        if (event.target.name == "membres" && event.target.value.length > 250) {return;} 
-        else if (event.target.name == "theme" && event.target.value.length > 250) {return;}
-        else if (event.target.name == "periode" && event.target.value.length > 250) {return;}
-        else if (event.target.name == "nom" && event.target.value.length > 250) {return;}
-        else if (event.target.name == "description" && event.target.value.length > 1000){return;}
+        if (event.target.name === "membres" && event.target.value.length > 250) {return;} 
+        else if (event.target.name === "theme" && event.target.value.length > 250) {return;}
+        else if (event.target.name === "periode" && event.target.value.length > 250) {return;}
+        else if (event.target.name === "nom" && event.target.value.length > 250) {return;}
+        else if (event.target.name === "description" && event.target.value.length > 1000){return;}
         this.setState({
             new_perm: {
                 ...this.state.new_perm,
