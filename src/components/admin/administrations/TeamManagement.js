@@ -39,7 +39,8 @@ class TeamManagement extends Component{
             console.log(error)
         })
         ajaxGet('userrights').then(res => {
-            this.setState({users: res.data})
+            const userrights = res.data.filter(u => u.right === "A" || u.right === "M");
+            this.setState({users: userrights})
         })
         .catch(error => {
             console.log(error)
