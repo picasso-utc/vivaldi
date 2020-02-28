@@ -297,7 +297,7 @@ class PollsManagement extends Component{
                 this.changeSnackbarState(true, "success", "Le sondage a été ajouté avec succès.")
             })
             .catch((error) => {
-                if (error.response.status == "400") {
+                if (error.response.status === "400") {
                     this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
                 } else {
                     this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
@@ -314,7 +314,7 @@ class PollsManagement extends Component{
                 this.changeSnackbarState(true, "success", "Le sondage a été mis à jour avec succès.")
             })
             .catch((error) => {
-                if (error.response.status == "400") {
+                if (error.response.status === "400") {
                     this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
                 } else {
                     this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
@@ -341,7 +341,7 @@ class PollsManagement extends Component{
                             this.changeSnackbarState(true, "success", "L'item a été mis à jour avec succès.")
                         })
                         .catch((error) => {
-                            if (error.response.status == "400") {
+                            if (error.response.status === "400") {
                                 this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
                             } else {
                                 this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
@@ -360,7 +360,7 @@ class PollsManagement extends Component{
                 this.changeSnackbarState(true, "success", "L'item a été ajouté avec succès.")
             })
             .catch((error) => {
-                if (error.response.status == "400") {
+                if (error.response.status === "400") {
                     this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
                 } else {
                     this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
