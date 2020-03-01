@@ -79,12 +79,12 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					<Container id="team" className={classes.container}>
+					{/*<Container id="team" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>La Team</legend>
 							<Trombinoscope />
 						</fieldset>
-					</Container>
+		</Container>*/}
 
 				</Container>
 				<Container id="footer" direction="row">
