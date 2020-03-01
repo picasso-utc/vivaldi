@@ -16,9 +16,9 @@ export function IconButtonLink(props) {
 }
 
 
-const COUVERTURE_PATH = asset_url('/images/couverture_a19.png')
-const COUVERTURE_PATH_XS = asset_url('/images/couverture_a19_xs.png')
-const LOGO_PATH = asset_url('/images/header_a19.png')
+const COUVERTURE_PATH = asset_url('/images/fond_site_internet_2.png')
+const COUVERTURE_PATH_XS = asset_url('/images/fond_site_internet_mobile.png')
+const LOGO_PATH = asset_url('/images/logo_site_internet.png')
 
 
 class Header extends React.Component {
@@ -77,7 +77,7 @@ class Header extends React.Component {
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>
+									{/*<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>*/}
 								</Menu>	
 							</Hidden>
 
@@ -166,7 +166,7 @@ const styles = theme => ({
 	},
 	couverture: {
 		width: '100%',
-		height: window.innerHeight - (65),
+		//height: window.innerHeight - (0),
 		objectFit: 'cover',
 	},
 });

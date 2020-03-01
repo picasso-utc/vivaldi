@@ -424,7 +424,7 @@ class PermForm extends React.Component {
                                             <Grid container direction="row">
                                                 <Grid container item xs={12} sm={6} lg={4}>
                                                     <TextField 
-                                                        label="Nom" 
+                                                        label="Nom de la Perm" 
                                                         variant="filled" 
                                                         value={new_perm.nom}
                                                         name="nom"
