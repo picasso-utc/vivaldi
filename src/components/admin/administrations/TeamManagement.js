@@ -95,6 +95,11 @@ class TeamManagement extends Component{
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Liste des membres
                 </Typography>
+                <Grid container className={classes.note}>
+                    Cet onglet permet d'ajouter à la Team tous les membres du Pic. Les personnes ayant des droits sur les systèmes du Pic
+                    (anciennes team info, ...) mais ne faisant pas partie de la vraie team du Pic ne doivent donc pas être ajoutés. Cette team
+                    a uniquement pour objectif l'attribution des astreintes et la notation des perms. 
+                </Grid>
                 <Paper className={classes.rootTable}>
                     <Table>
                         <TableHead>
@@ -188,6 +193,13 @@ const styles = theme => ({
     },
     subTitle: {
         marginBottom: 40,
+    },
+    note: {
+        backgroundColor: 'rgba(0,0,0, 0.05)',
+        padding: 10,
+        border: 'thin solid grey',
+        marginTop: 16,
+        marginBottom: 8,
     },
     subTitleIcon: {
         marginRight: 8,

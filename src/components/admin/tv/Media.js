@@ -379,6 +379,7 @@ class Media extends Component{
                                         <CardMedia
                                             className={classes.media}
                                             image={media.media ? media.media : '/images/default_image.png'}
+                                            style={{width:'100%'}}
                                         />
                                     }
                                     {media.media_type === "V" && 
@@ -386,6 +387,7 @@ class Media extends Component{
                                             component="video"
                                             className={classes.media}
                                             src={media.media}
+                                            style={{width: 'auto'}}
                                         />
                                     }
                                     <Grid container direction="row" justify="center" alignItems="center">

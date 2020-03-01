@@ -29,7 +29,7 @@ import Paper from '@material-ui/core/Paper';
 import TableHead from '@material-ui/core/TableHead';
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
 import {URL} from '../../../utils/Config';
-
+import SnackbarComponent from '../../../utils/SnackbarComponent';
 
 class PollsManagement extends Component{
  
@@ -50,7 +50,12 @@ class PollsManagement extends Component{
             },
             surveys_history : [],
             mode: 'create',
-            confirm_modal: false
+            confirm_modal: false,
+            snackbar: {
+				open: false,
+				variant: 'success',
+				message: '',
+			},
         }
 
         this.handleModalClickClose = this.handleModalClickClose.bind(this);
@@ -218,6 +223,25 @@ class PollsManagement extends Component{
     }
 
 
+    handleSnackbarClose(){
+		this.setState({
+			snackbar: {
+                ...this.state.snackbar,
+            	open: false
+			}
+		})
+	}
+
+	changeSnackbarState(open, variant, message){
+		this.setState({
+			snackbar: {
+				open: open,
+				variant: variant,
+				message: message
+			}
+		})
+	}
+
     selectSurvey = (survey) => {
         var request = new XMLHttpRequest();
         const that = this
@@ -270,9 +294,14 @@ class PollsManagement extends Component{
                         id: res.data.id
                     }
                 })
+                this.changeSnackbarState(true, "success", "Le sondage a été ajouté avec succès.")
             })
             .catch((error) => {
-                console.log(error);
+                if (error.response.status === "400") {
+                    this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
+                } else {
+                    this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
+                }
             })  
         } else if (this.state.mode === "edit"){
             ajaxPut('surveys/' + this.state.survey.id + '/', this.state.survey).then((res) => {
@@ -282,9 +311,14 @@ class PollsManagement extends Component{
                         id: res.data.id
                     }
                 })
+                this.changeSnackbarState(true, "success", "Le sondage a été mis à jour avec succès.")
             })
             .catch((error) => {
-                console.log(error);
+                if (error.response.status === "400") {
+                    this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
+                } else {
+                    this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
+                }
             })  
         }
     }
@@ -304,10 +338,14 @@ class PollsManagement extends Component{
                         surveyitem_set[index].image = reader.result;
                         // Update de l'item
                         ajaxPut('survey/items/' + surveyitem_set[index].id + '/', surveyitem_set[index]).then((res) => {
-
+                            this.changeSnackbarState(true, "success", "L'item a été mis à jour avec succès.")
                         })
                         .catch((error) => {
-                            console.log(error)
+                            if (error.response.status === "400") {
+                                this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
+                            } else {
+                                this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
+                            }
                         })
                     };
                 };
@@ -319,9 +357,14 @@ class PollsManagement extends Component{
             ajaxPost('survey/items/', surveyitem_set[index]).then((res) => {
                 surveyitem_set[index].id = res.data.id;
                 this.setState({survey:{...this.state.survey, surveyitem_set}, mode:"edit"});
+                this.changeSnackbarState(true, "success", "L'item a été ajouté avec succès.")
             })
             .catch((error) => {
-                console.log(error)
+                if (error.response.status === "400") {
+                    this.changeSnackbarState(true, "error", "Tous les champs requis n'ont pas été remplis.")
+                } else {
+                    this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
+                }
             })
         }        
     }
@@ -332,9 +375,10 @@ class PollsManagement extends Component{
         ajaxDelete('survey/items/' + survey_item_id + '/').then(() => {
             surveyitem_set = surveyitem_set.filter(s => s.id !== survey_item_id)
             this.setState({survey:{...this.state.survey, surveyitem_set}});
+            this.changeSnackbarState(true, "success", "L'item a été supprimé avec succès.")
         })
         .catch((error) => {
-
+            this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
         })
     }
 
@@ -345,9 +389,10 @@ class PollsManagement extends Component{
             surveys = surveys.filter(s => s.id !== survey_id)
             this.setState({surveys: surveys, confirm_modal: false})
             this.loadHistory();
+            this.changeSnackbarState(true, "success", "Le sondage a été supprimé avec succès.")
         })
         .catch((error) => {
-
+            this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
         })
         this.reloadNewSurvey();
     }
@@ -355,7 +400,7 @@ class PollsManagement extends Component{
     render(){
         
         const { classes } = this.props;
-        const { surveys, loading, open_modal, survey, mode, confirm_modal, surveys_history } = this.state;
+        const { surveys, loading, open_modal, survey, mode, confirm_modal, surveys_history, snackbar } = this.state;
 
         if (loading) {
             return (
@@ -713,7 +758,7 @@ class PollsManagement extends Component{
                                                                 variant="outlined"
                                                             />
                                                             <TextField
-                                                                label="Description"
+                                                                label="Description (optionnelle)"
                                                                 className={classes.textField}
                                                                 value={item.description}
                                                                 onChange={(event) => this.handleSurveyItemChange(event, item_index)}
@@ -787,6 +832,21 @@ class PollsManagement extends Component{
                         </Button>    
                     </DialogActions>
                 </Dialog>
+                <SnackbarComponent 
+                    open={snackbar.open} 
+                    variant={snackbar.variant} 
+                    message={snackbar.message}
+                    closeSnackbar={
+                        ()=>{
+                            this.setState({
+                                snackbar: {
+                                    ...this.state.snackbar,
+                                    open: false,
+                                }
+                            })
+                        }
+                    }
+                />
             </div>
         );
     };
