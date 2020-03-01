@@ -166,8 +166,8 @@ const styles = theme => ({
 	},
 	couverture: {
 		width: '100%',
-		//height: window.innerHeight - (0),
-		objectFit: 'cover',
+		height: window.innerHeight - (65),
+		//objectFit: 'cover',
 	},
 });
 

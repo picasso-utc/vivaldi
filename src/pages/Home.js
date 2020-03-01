@@ -27,7 +27,7 @@ class Home extends React.Component {
 				<Container id="home" className={classes.root}>
 					<Container className={classes.header} id="header" fixed>
 						<Header/>
-				</Container>
+					</Container>
 					
 					<Container id="rules" className={classes.container}>
 						<fieldset className={classes.component}>
@@ -79,12 +79,12 @@ class Home extends React.Component {
 						</fieldset>
 					</Container>
 
-					{/*<Container id="team" className={classes.container}>
+					<Container id="team" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>La Team</legend>
 							<Trombinoscope />
 						</fieldset>
-		</Container>*/}
+					</Container>
 
 				</Container>
 				<Container id="footer" direction="row">
@@ -108,7 +108,6 @@ const styles = theme => ({
 	},
 	header : {
 		height: window.innerHeight,
-		marginBottom: 100
 	},
 	title: {
 		color: 'white',
