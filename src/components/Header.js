@@ -123,7 +123,7 @@ class Header extends React.Component {
 				
 				<div className = {classes.imgContainer}>
 					<Hidden smUp implementation="css">
-						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture} style={{height:window.innerHeight}}/>
+						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture}/>
 					</Hidden>
 					<Hidden xsDown implementation="css">
 						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture} style={{height:height}}/>
@@ -176,7 +176,7 @@ const styles = theme => ({
 	},
 	couverture: {
 		width: '100%',
-		//height: window.innerHeight,
+		height: window.innerHeight,
 		//objectFit: 'fill',
 	},
 });

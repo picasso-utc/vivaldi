@@ -17,22 +17,10 @@ import PermRequest from '../components/home/PermRequest'
 
 
 class Home extends React.Component {
-	state = {
-		height : window.innerHeight,
-	}
-	updateSize=()=>{
-		this.setState({height : window.innerHeight})
-	}
-	componentDidMount() {
-		window.addEventListener('resize', this.updateSize);
-	}
-	componentWillUnmount(){
-		window.removeEventListener('resize', this.updateSize);
-	}
+
 	render() {
 
 		const { classes } = this.props;
-		var {height} = this.state;
 
 		return (
 			<React.Fragment>
@@ -40,7 +28,7 @@ class Home extends React.Component {
 				
 				<Container id="home" className={classes.root}>
 
-					<Container style={{height : height+65}} id="header" fixed>
+					<Container style={{height : window.innerHeight+65}} id="header" fixed>
 						<Header/>
 					</Container>
 					
@@ -122,7 +110,7 @@ const styles = theme => ({
 		color: 'white',
 	},
 	header : {
-		height: window.innerHeight+(65),
+		display: "inline-block"
 	},
 	title: {
 		color: 'white',
