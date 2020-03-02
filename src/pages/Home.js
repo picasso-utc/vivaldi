@@ -15,17 +15,32 @@ import IndexPolls from '../components/home/IndexPolls';
 import PermRequest from '../components/home/PermRequest'
 
 
+
 class Home extends React.Component {
+	state = {
+		height : window.innerHeight,
+	}
+	updateSize=()=>{
+		this.setState({height : window.innerHeight})
+	}
+	componentDidMount() {
+		window.addEventListener('resize', this.updateSize);
+	}
+	componentWillUnmount(){
+		window.removeEventListener('resize', this.updateSize);
+	}
 	render() {
 
 		const { classes } = this.props;
+		var {height} = this.state;
 
 		return (
 			<React.Fragment>
 				<CssBaseline />
 				
 				<Container id="home" className={classes.root}>
-					<Container className={classes.header} id="header" fixed>
+
+					<Container style={{height : height+65}} id="header" fixed>
 						<Header/>
 					</Container>
 					
@@ -107,7 +122,7 @@ const styles = theme => ({
 		color: 'white',
 	},
 	header : {
-		height: window.innerHeight,
+		height: window.innerHeight+(65),
 	},
 	title: {
 		color: 'white',

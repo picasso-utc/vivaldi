@@ -26,8 +26,18 @@ class Header extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			open_menu : null
+			open_menu : null,
+			height : window.innerHeight
 		}
+	}
+	updateSize=()=>{
+		this.setState({height : window.innerHeight})
+	}
+	componentDidMount() {
+		window.addEventListener('resize', this.updateSize);
+	}
+	componentWillUnmount(){
+		window.removeEventListener('resize', this.updateSize);
 	}
 
 	handleOpenMenu(event){
@@ -45,7 +55,7 @@ class Header extends React.Component {
 
 	render() {
 
-		const { anchor } = this.state;
+		const { anchor, height } = this.state;
 
 		const { classes } = this.props;
 		return (
@@ -113,10 +123,10 @@ class Header extends React.Component {
 				
 				<div className = {classes.imgContainer}>
 					<Hidden smUp implementation="css">
-						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture}/>
+						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture} style={{height:window.innerHeight}}/>
 					</Hidden>
 					<Hidden xsDown implementation="css">
-						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture}/>
+						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture} style={{height:height}}/>
 					</Hidden>
 				</div>
 			</React.Fragment>
@@ -166,8 +176,8 @@ const styles = theme => ({
 	},
 	couverture: {
 		width: '100%',
-		height: window.innerHeight - (65),
-		//objectFit: 'cover',
+		//height: window.innerHeight,
+		//objectFit: 'fill',
 	},
 });
 
