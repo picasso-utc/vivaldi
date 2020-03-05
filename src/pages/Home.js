@@ -110,8 +110,8 @@ const styles = theme => ({
 		color: 'white',
 	},
 	header : {
-		//height : window.innerHeight+65,
-		display: "inline-block"
+		height : window.innerHeight+65,
+		//display: "inline-block"
 	},
 	title: {
 		color: 'white',
