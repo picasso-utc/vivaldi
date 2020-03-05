@@ -2,7 +2,7 @@
   "name": "vivaldi",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://kraken.picasso-utc.fr/",
+  "proxy": "https://kraken.picasso-dev.fr/",
   "dependencies": {
     "@date-io/date-fns": "^1.3.9",
     "@material-ui/core": "^4.4.2",
