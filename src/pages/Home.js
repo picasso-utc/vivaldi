@@ -28,7 +28,7 @@ class Home extends React.Component {
 				
 				<Container id="home" className={classes.root}>
 
-					<Container style={{height : window.innerHeight+65}} id="header" fixed>
+					<Container className={classes.header} id="header" fixed>
 						<Header/>
 					</Container>
 					
@@ -110,6 +110,7 @@ const styles = theme => ({
 		color: 'white',
 	},
 	header : {
+		//height : window.innerHeight+65,
 		display: "inline-block"
 	},
 	title: {
