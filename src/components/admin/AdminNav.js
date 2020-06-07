@@ -13,6 +13,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import LiveTvIcon from '@material-ui/icons/LiveTv';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import Auth from '../../utils/Auth';
 import { asset_url } from '../../utils/Config';
 
@@ -86,6 +87,12 @@ const CATEGORIES = [
 			{id: 'Média', link: '/admin/tv/media'},
 			{id: 'URL', link: '/admin/tv/url'},
 		]
+	},
+	{
+		id: 'Prostate',
+		link: '/admin/prostate',
+		icon: <EqualizerIcon/>,
+		authorized: Auth.isUserAdmin,
 	}
 ];
 
