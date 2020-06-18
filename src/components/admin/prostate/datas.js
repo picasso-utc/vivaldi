@@ -86,7 +86,7 @@ export async function loadByProduct(start, end, idProduct) {
 }
 
 
-export async function getProductFamily(start, end, idFamily) {
+export async function getProductFamily(idFamily) {
     //Requete API pour avoir les produits d'une famille
     const produits = [1,2,3,4];
 

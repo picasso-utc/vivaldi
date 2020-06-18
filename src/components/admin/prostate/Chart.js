@@ -64,7 +64,7 @@ class Chart extends Component{
                         let chartDatas = {type: this.state.parameters.diagram_type, dataPoints: dataPoints}
                         let prevDatas = this.state.datas;
                         prevDatas.push(chartDatas);
-                        this.setState({datas: chartDatas}); 
+                        this.setState({datas: prevDatas}); 
                     });
                 });
             });
@@ -87,7 +87,7 @@ class Chart extends Component{
                 let chartDatas = {type: this.state.parameters.diagram_type, dataPoints: dataPoints}
                 let prevDatas = this.state.datas;
                 prevDatas.push(chartDatas);
-                this.setState({datas: chartDatas}); 
+                this.setState({datas: prevDatas}); 
             });
 
         }
