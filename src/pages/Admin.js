@@ -29,6 +29,9 @@ import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
 import { asset_url } from '../utils/Config';
 
+import Prostate from '../components/admin/prostate/Prostate';
+
+
 export function IconButtonLink(props) {
 	return <IconButton component={Link} {...props} />
 }
@@ -82,6 +85,8 @@ class Admin extends React.Component {
 				return "Paramètres";
 			case asset_url("/admin/tv/media"):
 				return "Gestion des médias TV";
+			case asset_url("/admin/prostate"):
+				return "Prostate";
 			default:
 			break;
 		}
@@ -139,6 +144,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>
 						<ProtectedRoute only="admin" path={`${base_url}/settings`} exact component={Settings}/>
+						<ProtectedRoute only="admin" path={`${base_url}/prostate`} exact component={Prostate}/>
 						<Route component={Error404}/>
 					</Switch>
 				</main>
