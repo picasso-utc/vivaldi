@@ -10,26 +10,50 @@ import { CenterFocusStrong } from '@material-ui/icons';
 import WebSocketManager from '../components/websocket'
 import { Provider } from 'react-redux';
 import {createStore} from 'redux';
+import axios from 'axios';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
+
+
+const options = {
+    position: positions.MIDDLE,
+    timeout: 2000,
+    offset: '30px',
+    // you can also just use 'scale'
+    transition: transitions.SCALE
+  }
+
+
 
 
 class Badge extends React.Component {
+    constructor(props) {
+        super(props);
+		this.state = {
+			infos : null,
+		}
+	}
 
 	render() {
 
-        const { classes } = this.props;
+        const { classes} = this.props;
 
 		return (
+            <AlertProvider template={AlertTemplate} {...options}>
+  
 			<React.Fragment>
-                <WebSocketManager/>
+                
 				<CssBaseline />
 				
 				<Container id="home" className={classes.root}>
 
 					<Container className={classes.header} id="header" fixed>
                         <div styles={{padding:"50px"}}>
-                            <h1>Veuillez déposer votre badge</h1>
+                            <h1 >Veuillez déposer votre badge</h1>
                         </div>
 					</Container>
+
+                    <WebSocketManager/>
 
 
 
@@ -38,6 +62,7 @@ class Badge extends React.Component {
 					<Footer/>
 				</Container>
 			</React.Fragment>
+            </AlertProvider>
 		);
 	}
 }
