@@ -13,7 +13,7 @@ const WebSocketManager = () => {
     const alert = useAlert()
     const onMessage = React.useCallback((badgeID) => {
     console.log(badgeID)
-    axios.get("http://kraken.picasso-dev.fr/api/core/badge_scan?badge_id=" + badgeID)
+    axios.get("https://kraken.picasso-dev.fr/api/core/badge_scan?badge_id=" + badgeID)
         .then(res => {
             const info = res.data;
             console.log(info)
