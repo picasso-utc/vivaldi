@@ -106,7 +106,7 @@ const styles = theme => ({
 		paddingRight: '5%',
 		paddingLeft: '5%',
 		paddingBottom: 50,
-		backgroundColor: '#000223',
+		backgroundColor: '#F6BB19',
 		color: 'white',
 	},
 	header : {
@@ -125,7 +125,7 @@ const styles = theme => ({
 	component: {
 		marginTop: 40,
 		padding: '5%',
-		border: "#B22132 1.5px solid",
+		border: "#000000 1.5px solid",
 		textAlign: 'left',
 	},
 	legend : {

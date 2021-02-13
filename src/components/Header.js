@@ -16,9 +16,9 @@ export function IconButtonLink(props) {
 }
 
 
-const COUVERTURE_PATH = asset_url('/images/fond_site_internet_2.png')
+const COUVERTURE_PATH = asset_url('/images/couverture_site_P21.png')
 const COUVERTURE_PATH_XS = asset_url('/images/fond_site_internet_mobile.png')
-const LOGO_PATH = asset_url('/images/logo_site_internet.png')
+const LOGO_PATH = asset_url('/images/Logo_pic_p21_sansfond.png')
 
 
 class Header extends React.Component {
@@ -145,7 +145,7 @@ const styles = theme => ({
 	},
 	appBar: {
 		backgroundColor: "white",
-		color: '#000223',
+		color: '#F6BB19',
 		
 	},
 	logo: {
