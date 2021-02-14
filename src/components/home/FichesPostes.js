@@ -15,7 +15,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import SportsKabaddiIcon from '@material-ui/icons/SportsKabaddi';
 
 class FichesPostes extends React.Component {
-  
+
 
 	constructor(props) {
 		super(props);
@@ -37,8 +37,8 @@ class FichesPostes extends React.Component {
 			this.setState({poste_selected: true})
 		})
 	}
-	
-	
+
+
 	unselect(){
 		this.setState({
 			poste_index: '',
@@ -91,14 +91,14 @@ class FichesPostes extends React.Component {
 			{
 				"name" : "Communication",
 				"icon": <CameraAltIcon className={classes.icon}/>,
-				"description": "La communication du Pic, c'est son identité. C'est le visage que tout le monde voit sur les réseaux et dans les locaux, c'est son univers, son " 
+				"description": "La communication du Pic, c'est son identité. C'est le visage que tout le monde voit sur les réseaux et dans les locaux, c'est son univers, son "
 				+ "thème, ses couleurs, ses formes, son style, son humour (ah oui oui). En tant que foyer de tous les UTCéens, il faut que chacun s'y sente bien intégré, "
-				+ "des nouveaux aux vieux cons en passant par les plus excentriques ou les plus timidounets. La com du Pic'Asso est un moyen puissant d'expression et il touche " 
+				+ "des nouveaux aux vieux cons en passant par les plus excentriques ou les plus timidounets. La com du Pic'Asso est un moyen puissant d'expression et il touche "
 				+ "du monde, soyez rigoureux, respectueux mais surtout créatifs. "
 				+ "Son but est de transmettre toutes les informations importantes en dosant un peu tout : les graphismes, les affiches, les posts facebook, les events, les stories, "
-				+ "l'humour, le sérieux, l'important, le présentiel. Il y a énormément de supports possibles, chacun ayant ses avantages et inconvénients. " 
+				+ "l'humour, le sérieux, l'important, le présentiel. Il y a énormément de supports possibles, chacun ayant ses avantages et inconvénients. "
 				+ "La particularité par rapport aux autres assos, c'est que le Pic a des choses à dire presque tous les jours, de la première à la dernière semaine du semestre "
-				+ "(et même un peu plus). Il est donc primordial de planifier les tâches et leurs supports bien en avance (on peut pas faire 5 posts Facebook par jours sur tout " 
+				+ "(et même un peu plus). Il est donc primordial de planifier les tâches et leurs supports bien en avance (on peut pas faire 5 posts Facebook par jours sur tout "
 				+ "le semestre par exemple, beaucoup d'infos seraient perdues). Sans oublier qu'il y a pas mal de travail à fournir sur les différents visuels, surtout si vous voulez "
 				+ "faire les choses bien ! Le maître mot est donc de bien hiérarchiser !",
 				"tasks": [
@@ -116,7 +116,7 @@ class FichesPostes extends React.Component {
 				"icon": <SportsKabaddiIcon className={classes.icon}/>,
 				"description": "La team anim c'est la bonne humeur, la bonne ambiance, avoir plein d'idées, laisser libre court à son imagination mais également organiser, planifier et gérer pas mal de petites choses. "
 				+ "Dès le début du semestre ça démarre fort avec la semaine de rentrée qu'il faut organiser une fois le thème choisi par la team : il faut gérer la déco, les anims, la bouffe, le planning, etc... "
-				+ "On s’occupe également de laisser la possibilité à des groupes de potes et à des assos de tenir des permanences au Pic. Pour cela c’est à nous de définir le planning général du semestre en fonction " 
+				+ "On s’occupe également de laisser la possibilité à des groupes de potes et à des assos de tenir des permanences au Pic. Pour cela c’est à nous de définir le planning général du semestre en fonction "
 				+ "des différentes contraintes et avec pour seul objectif de régaler un maximum de monde ! On se charge après de s’assurer qu’il soit tenu. "
 				+ "Ensuite, tout au long du semestre on organise tous les événements du Pic à savoir Pic nic electro, Associathon, les tournois, le gouter de Pacques/Noel, la perm du Pic, le RDP et "
 				+ "les team building !! On a également la possibilité de créer plein de nouveaux événements pour ambiancer notre foyer préféré !",
@@ -131,7 +131,7 @@ class FichesPostes extends React.Component {
 				"name" : "Informatique",
 				"icon": <ImportantDevicesIcon className={classes.icon}/>,
 				"description": "La team info du Pic a plusieurs missions distinctes. Tu devras tout d’abord au début du semestre former l’équipe aux outils informatiques du Pic "
-				+ "(après t’être toi même formé(e) bien sûr). Bien que paraissant simple, cette mission est assez complète et dense. Tu verras que tu pourras aussi avoir régulièrement un rôle " 
+				+ "(après t’être toi même formé(e) bien sûr). Bien que paraissant simple, cette mission est assez complète et dense. Tu verras que tu pourras aussi avoir régulièrement un rôle "
 				+ "de SAV/support tout au long du semestre dès qu’un membre de la team aura une question. C’est d’ailleurs toi qui aura la main mise sur Weezeevent #Payutc."
 				+ "Les outils ont été codés du mieux possible mais il arrive qu’il y ait des soucis. Tout le monde se tournera vers toi pour que tu règles les soucis, t’en fais "
 				+ "pas il y a une fat passation. Enfin, la partie la plus intéressante ! Coder des applis toujours plus folles, pour les événements tels que le duel des brasseurs, la "
@@ -216,7 +216,7 @@ class FichesPostes extends React.Component {
 			}
 		]
 
-		
+
 
     	return (
 			<React.Fragment>
@@ -238,7 +238,7 @@ class FichesPostes extends React.Component {
 											Etre membre du Pic'Asso
 										</Typography>
 									</Grid>
-									<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: '#B22132'}}>
+									<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: '#F64618'}}>
 										<GroupIcon className={classes.icon}/>
 									</Grid>
 								</td>
@@ -249,7 +249,7 @@ class FichesPostes extends React.Component {
 												{poste.name}
 											</Typography>
 										</Grid>
-										<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: '#B22132'}}>
+										<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: '#F64618'}}>
 											{poste.icon}
 										</Grid>
 									</td>
@@ -258,7 +258,7 @@ class FichesPostes extends React.Component {
 						</tbody>
 					</table>
 				</div>
-				{be_member_selected && 
+				{be_member_selected &&
 					<React.Fragment>
 						<Grid container direction="row" justify="center" alignItems="center">
 							<Typography variant="h6" className={classes.description_title}>
@@ -267,10 +267,10 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-								Être membre du Pic, c’est un véritable bonheur et énormément de libertées, 
-								mais c’est aussi un travail au quotidien et il est plus simple de les effectuer 
-								quand on a l’habitude de passer du temps dans le foyer. Avoir l’amour du Pic est 
-								donc NÉ-CE-SSAIRE! 
+								Être membre du Pic, c’est un véritable bonheur et énormément de libertées,
+								mais c’est aussi un travail au quotidien et il est plus simple de les effectuer
+								quand on a l’habitude de passer du temps dans le foyer. Avoir l’amour du Pic est
+								donc NÉ-CE-SSAIRE!
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
@@ -280,9 +280,9 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-								Tu vas pouvoir durant plus d’une semaine décorer le Pic, l’animer, le rendre beau, 
-								cuisiner, servir puis le nettoyer, mais aussi team-builder, rencontrer ta nouvelle famille 
-								et te faire à ton nouveau rôle dans le Pic’asso. 
+								Tu vas pouvoir durant plus d’une semaine décorer le Pic, l’animer, le rendre beau,
+								cuisiner, servir puis le nettoyer, mais aussi team-builder, rencontrer ta nouvelle famille
+								et te faire à ton nouveau rôle dans le Pic’asso.
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
@@ -292,10 +292,10 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-								Tout au long du semestre, le Pic’asso organisera plusieurs évènements et tu te devras 
-								d’y participer, d’être présent et de donner de ton temps afin de les rendre plus magique 
-								les uns que les autres! ESTU parking, Pic Nic Electronique, Perms du Pic, Goûter de Pâques, 
-								Associathon, Repas des permanenciers et bien d’autres ont besoin de toi pour exister! 
+								Tout au long du semestre, le Pic’asso organisera plusieurs évènements et tu te devras
+								d’y participer, d’être présent et de donner de ton temps afin de les rendre plus magique
+								les uns que les autres! ESTU parking, Pic Nic Electronique, Perms du Pic, Goûter de Pâques,
+								Associathon, Repas des permanenciers et bien d’autres ont besoin de toi pour exister!
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
@@ -305,9 +305,9 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-								Tout au long du semestre, tu vas pouvoir tenir des astreintes durant lesquelles tu seras 
-								référent au pic et tu guideras les autres étudiants afin que tout se passe bien durant 
-								les superbes permanences au Pic’asso. 
+								Tout au long du semestre, tu vas pouvoir tenir des astreintes durant lesquelles tu seras
+								référent au pic et tu guideras les autres étudiants afin que tout se passe bien durant
+								les superbes permanences au Pic’asso.
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
@@ -317,9 +317,9 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-							Le travail de toute une vie est de remplir de temps en temps le frigo de canettes, les rayons de 
-							snacks sucrées/salées et aider aux livraisons soft/bière afin que chaques utcéens soient fiers 
-							de leur épicerie étudiante &#60;3 
+							Le travail de toute une vie est de remplir de temps en temps le frigo de canettes, les rayons de
+							snacks sucrées/salées et aider aux livraisons soft/bière afin que chaques utcéens soient fiers
+							de leur épicerie étudiante &#60;3
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
@@ -329,9 +329,9 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-								En tant que membre du Pic, les locaux sont en quelques sortes ta deuxième maison. C’est pourquoi 
-								tu dois pouvoir être disponible pour le ranger si des malotrus le salissent, mettent le désordre, 
-								cassent des choses ou simplement pour répondre à toutes les demandes (emprunt de matériel, rallonges etc...). 
+								En tant que membre du Pic, les locaux sont en quelques sortes ta deuxième maison. C’est pourquoi
+								tu dois pouvoir être disponible pour le ranger si des malotrus le salissent, mettent le désordre,
+								cassent des choses ou simplement pour répondre à toutes les demandes (emprunt de matériel, rallonges etc...).
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
@@ -341,9 +341,9 @@ class FichesPostes extends React.Component {
 						</Grid>
 						<Grid container direction="row">
 							<Typography variant="body1" className={classes.survey_description}>
-								Généralement le dimanche, le Pic organise une réunion hebdomadaire où tu pourras discuter 
-								avec l’équipe de tout et de rien, tu as le devoir d’être présent pour débriefer ton travail 
-								et surtout proposer des idées innovantes afin de rendre le Pic plus beau et original que jamais!  
+								Généralement le dimanche, le Pic organise une réunion hebdomadaire où tu pourras discuter
+								avec l’équipe de tout et de rien, tu as le devoir d’être présent pour débriefer ton travail
+								et surtout proposer des idées innovantes afin de rendre le Pic plus beau et original que jamais!
 							</Typography>
 						</Grid>
 						<Grid container direction="row" justify="center" alignItems="center">
@@ -352,8 +352,8 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row" justify="center" alignItems="center">
-							<Button 
-								variant="contained" 
+							<Button
+								variant="contained"
 								className={classes.btn}
 								onClick={() => this.unselect()}
 							>
@@ -362,7 +362,7 @@ class FichesPostes extends React.Component {
 						</Grid>
 					</React.Fragment>
 				}
-				{poste_selected && 
+				{poste_selected &&
 					<React.Fragment>
 						<Grid container direction="row" justify="center" alignItems="center">
 							<Typography variant="h6" className={classes.description_title}>
@@ -391,8 +391,8 @@ class FichesPostes extends React.Component {
 							</ul>
 						</Grid>
 						<Grid container direction="row" justify="center" alignItems="center">
-							<Button 
-								variant="contained" 
+							<Button
+								variant="contained"
 								className={classes.btn}
 								onClick={() => this.unselect()}
 							>
@@ -463,7 +463,7 @@ const styles = theme => ({
 		padding: 5,
 		textAlign: 'center',
 		margin: 0,
-		color: 'white',
+		color: '#F64618',
 		fontWeight: 300,
 		minWidth: 150,
 		cursor: 'pointer'

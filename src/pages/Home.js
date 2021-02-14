@@ -25,13 +25,13 @@ class Home extends React.Component {
 		return (
 			<React.Fragment>
 				<CssBaseline />
-				
+
 				<Container id="home" className={classes.root}>
 
 					<Container className={classes.header} id="header" fixed>
 						<Header/>
 					</Container>
-					
+
 					<Container id="rules" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Les règles</legend>
@@ -106,8 +106,7 @@ const styles = theme => ({
 		paddingRight: '5%',
 		paddingLeft: '5%',
 		paddingBottom: 50,
-		backgroundColor: '#F6BB19',
-		color: 'white',
+
 	},
 	header : {
 		height : window.innerHeight+65,
@@ -125,12 +124,13 @@ const styles = theme => ({
 	component: {
 		marginTop: 40,
 		padding: '5%',
-		border: "#000000 1.5px solid",
+		border: "#F6BB19 1.5px solid",
 		textAlign: 'left',
 	},
 	legend : {
 		fontSize: 34,
 		padding: 15,
+		color: '#38A3C5',
 	},
 });
 

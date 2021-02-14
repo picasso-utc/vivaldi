@@ -66,7 +66,7 @@ class Header extends React.Component {
 							<div className={classes.logo}>
 								<img alt="logo_pic" src={LOGO_PATH} height="60px"/>
 							</div>
-							
+
 							<Hidden xsDown implementation="css">
 								<Button
 									onClick={(event) => this.handleOpenMenu(event)}
@@ -88,7 +88,7 @@ class Header extends React.Component {
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
 									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
 									{/*<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>*/}
-								</Menu>	
+								</Menu>
 							</Hidden>
 
 							<Hidden smUp implementation="css">
@@ -120,10 +120,10 @@ class Header extends React.Component {
 						</Toolbar>
 					</AppBar>
 				</div>
-				
+
 				<div className = {classes.imgContainer}>
 					<Hidden smUp implementation="css">
-						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture}/>
+						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture}/>
 					</Hidden>
 					<Hidden xsDown implementation="css">
 						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture} style={{height:height}}/>
@@ -144,21 +144,21 @@ const styles = theme => ({
 		flexGrow: 1,
 	},
 	appBar: {
-		backgroundColor: "white",
-		color: '#F6BB19',
-		
+		backgroundColor: '#F6BB19',
+		color: 'white',
+
 	},
 	logo: {
 		flexGrow: 1,
 	},
 	menuButton: {
-		color: '#B22132',
+		color: '#F64618',
 		fontSize: 35,
 		padding: "10px",
 		marginTop: 0,
 		borderRadius: 0,
 		height: 60,
-		
+
 		'&:hover': {
 			borderTop: "3px solid #B22132",
 			textDecoration: "none",
