@@ -46,7 +46,7 @@ class Footer extends React.Component {
 
 const styles = theme => ({
 	footer : {
-	    padding: '0px',
+	    padding: '10px',
         margin: '0px',
         backgroundColor: '#F6BB19',
         color: 'white',
