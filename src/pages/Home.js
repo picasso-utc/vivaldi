@@ -90,9 +90,7 @@ class Home extends React.Component {
 		</Container>*/}
 
 				</Container>
-				<Container id="footer" direction="row">
-					<Footer/>
-				</Container>
+				<Footer/>
 			</React.Fragment>
 		);
 	}
