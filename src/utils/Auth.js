@@ -15,7 +15,7 @@ class Auth {
             last_name : localStorage.getItem('last_name'),
             first_name : localStorage.getItem('first_name'),
             email : localStorage.getItem('email')
-        } 
+        }
 
         if (isStringEmpty(identity.login) || isStringEmpty(identity.last_name) || isStringEmpty(identity.first_name) || isStringEmpty(identity.email)) {
             Auth.goLogin();
@@ -43,6 +43,7 @@ class Auth {
 
     static async login(){
         this.emptyLocalStorage();
+        console.log('LOGIN')
 
         this.checkAuth()
             .then(res => {
@@ -59,6 +60,8 @@ class Auth {
     }
 
     static async checkAuth(){
+        console.log('checkauto')
+        console.log(ajaxGet('auth/me'))
         return ajaxGet('auth/me');
     }
 
@@ -70,13 +73,15 @@ class Auth {
         localStorage.setItem('email', data.user.mail);
         localStorage.setItem('right', data.right);
         localStorage.setItem('connexion', data.connexion);
+        console.log('authenticate')
     }
 
 
     static goLogin(){
         const current_url = window.location.href;
-        // Redirection vers le CAS 
+        // Redirection vers le CAS
         window.location.href = URL + '/api/auth/login?redirect=' + current_url;
+        console.log('Go LOGIn')
     }
 
 
@@ -94,6 +99,7 @@ class Auth {
     static redirectUser(){
         const query = new URLSearchParams(window.location.search);
         const redirect = query.get('redirect')
+        console.log('redirection')
         if (redirect) {
             if (!Auth.isUserMember() && redirect.startsWith('/admin')) {
                 window.location = asset_url('/');
@@ -105,7 +111,7 @@ class Auth {
                 window.location = asset_url('/admin');
             } else {
                 window.location = asset_url('/');
-            } 
+            }
         }
     }
 

@@ -12,12 +12,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {getProductsList, getTimeSets, diagramTypes} from './datas.js'
 
 class ProstateForm extends Component{
-    
-    
+
+
     constructor(props) {
         super(props)
 
-        
+
             this.state = {
                 loading: true,
                 start_date: new Date(),
@@ -30,16 +30,16 @@ class ProstateForm extends Component{
                 timeSets: [],
                 productList: []
             }
-        
-        
-        
-        
+
+
+
+
     }
 
     handleStartDate = start_date => {
         this.setState({start_date});
     }
-    
+
     handleEndDate = end_date => {
         this.setState({end_date});
     }
@@ -59,9 +59,9 @@ class ProstateForm extends Component{
 
     handlePeriod = period => {
         let i = 0;
-        let time;
-        while(time = this.state.timeSets[i]) {
-            if(time.id == period.currentTarget.dataset.value) {
+        while(i < this.state.timeSets.length) {
+            let time = this.state.timeSets.length[i];
+            if(time.id === period.currentTarget.dataset.value) {
                 this.setState({period: period.currentTarget.dataset.value, start_date: time.start, end_date: time.end});
                 break;
             }
@@ -83,33 +83,33 @@ class ProstateForm extends Component{
     }
     loadDatas(){
 
-        
-        
+
+
         getTimeSets()
 		.then((data) => {
             this.setState({timeSets: data});
             getProductsList().then((data) => {
                 this.setState({productList: data, loading: false});
-                
+
             });
         });
 
     }
 
-   
 
 
 
-    
-    
+
+
+
     render(){
-        
+
         const { classes } = this.props;
 
         if (this.state.loading) {
             return (
-                <Grid 
-                    container 
+                <Grid
+                    container
                     className="admin_loader"
                     direction="row"
                     justify="center"
@@ -128,9 +128,11 @@ class ProstateForm extends Component{
             let data = Array.from(family.products);
                 data.map(product => {
                     products.push(product);
+                    return  null;
                 })
-            }
-        );        
+                return  null;
+        }
+        );
 
 
 
@@ -169,8 +171,8 @@ class ProstateForm extends Component{
                                         'aria-label': 'change date',
                                     }}
                                 />
-                                
-                               
+
+
                             </Grid>
                             <TextField
                                     select
@@ -182,14 +184,14 @@ class ProstateForm extends Component{
                                     margin="dense"
                                     variant="outlined"
                                 >
-                                    {this.state.timeSets.map((time, key) => 
+                                    {this.state.timeSets.map((time, key) =>
                                     (
                                     <MenuItem key={key} value={time.id}>
                                         {time.name}
                                     </MenuItem>
                                     )
-                                    
-                                    
+
+
                                     )}
                                 </TextField>
 
@@ -210,10 +212,10 @@ class ProstateForm extends Component{
                             <MenuItem key="product" value="product">
                                 Produit
                             </MenuItem>
-                            
+
                         </TextField>
 
-                        { this.state.evolution_type === "family" ? 
+                        { this.state.evolution_type === "family" ?
                         <TextField
                         select
                         label="Familles de produits : "
@@ -231,8 +233,8 @@ class ProstateForm extends Component{
                         ))}
                     </TextField> : null
                     }
-                        
-                    {this.state.evolution_type === "product" ? 
+
+                    {this.state.evolution_type === "product" ?
                     <TextField
                     select
                     label="Produit : "
@@ -248,12 +250,12 @@ class ProstateForm extends Component{
                         {product.name}
                     </MenuItem>
                     ))}
-                </TextField> : 
+                </TextField> :
                 null
-                
-                
-                
-                
+
+
+
+
                 }
 
                                 <TextField
@@ -272,7 +274,7 @@ class ProstateForm extends Component{
                                     </MenuItem>
                                     ))}
                                 </TextField>
-                        
+
 
 
 
@@ -280,9 +282,9 @@ class ProstateForm extends Component{
                             direction="row"
                             justify="center"
                             alignItems="center">
-                                <Button 
-                                    variant="contained" 
-                                    size="small" 
+                                <Button
+                                    variant="contained"
+                                    size="small"
                                     color="primary"
                                     className={classes.generate_btn}
                                     onClick={(e) => this.handleSubmit(e)}
@@ -293,13 +295,13 @@ class ProstateForm extends Component{
                         </MuiPickersUtilsProvider>
                     </Grid>
 
-          
+
             </div>
             );
         };
-        
+
     }
-    
+
     const styles = theme => ({
         container: {
             padding: 20,
@@ -354,5 +356,5 @@ class ProstateForm extends Component{
             margin: 5
         },
     });
-    
+
     export default withStyles (styles) (ProstateForm)

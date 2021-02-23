@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useAlert } from 'react-alert'
 
 const WEBSOCKET_URL = 'ws://localhost:9191/events'
-const REQUEST_INSERT = Symbol('INTERNAL.REQUEST_INSERT');
+// const REQUEST_INSERT = Symbol('INTERNAL.REQUEST_INSERT');
 
 
 
@@ -34,7 +34,7 @@ const WebSocketManager = () => {
       onClose={() => console.log("disconnected")}
       onMessage={(data) => onMessage(data.substr(13, data.length))}
     />
-    
+
   )
 
 }

@@ -126,7 +126,7 @@ class PriceDisplayer extends React.Component {
 
 const styles = theme => ({
 	table : {
-		borderLeft: '1.5px solid #B22132',
+		borderLeft: '1.5px solid #000000',
 	},
 	root: {
 		width: '100%',

@@ -32,7 +32,7 @@ class Footer extends React.Component {
                         Signer la charte du permanencier <a target="_blank" rel="noopener noreferrer" href={asset_url("/charte")} className={classes.link}>ici</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom className={classes.copyright}>
-                        @2019 Copyright Pic'Asso
+                        @2021 Copyright Pic'Asso
                     </Typography>
                     </Grid>
                 </Grid>
@@ -46,13 +46,19 @@ class Footer extends React.Component {
 
 const styles = theme => ({
 	footer : {
-        backgroundColor: 'white',
+	    padding: '10px',
+        margin: '0px',
+        backgroundColor: '#F6BB19',
+        color: 'white',
+        boxShadow: '0px -2px 4px -1px rgba(0,0,0,0.2),0px -4px 5px 0px rgba(0,0,0,0.14),0px -1px 10px 0px rgba(0,0,0,0.12)',
     },
     footer_content: {
         textAlign: 'center',
+        padding: '0px',
+        margin: '0px',
     },
     copyright: {
-        color: '#B22132',
+        //color: '#B22132',
     },
     link: {
         textDecoration: 'None',

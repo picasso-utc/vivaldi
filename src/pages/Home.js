@@ -9,7 +9,7 @@ import Calendar from '../components/home/Calendar';
 import PriceDisplayer from '../components/home/PriceDisplayer';
 import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
 import FichesPostes from '../components/home/FichesPostes';
-import Trombinoscope from '../components/home/Trombinoscope';
+// import Trombinoscope from '../components/home/Trombinoscope';
 import Footer from '../components/Footer';
 import IndexPolls from '../components/home/IndexPolls';
 import PermRequest from '../components/home/PermRequest'
@@ -25,13 +25,13 @@ class Home extends React.Component {
 		return (
 			<React.Fragment>
 				<CssBaseline />
-				
+
 				<Container id="home" className={classes.root}>
 
 					<Container className={classes.header} id="header" fixed>
 						<Header/>
 					</Container>
-					
+
 					<Container id="rules" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Les règles</legend>
@@ -90,9 +90,7 @@ class Home extends React.Component {
 		</Container>*/}
 
 				</Container>
-				<Container id="footer" direction="row">
-					<Footer/>
-				</Container>
+				<Footer/>
 			</React.Fragment>
 		);
 	}
@@ -106,8 +104,7 @@ const styles = theme => ({
 		paddingRight: '5%',
 		paddingLeft: '5%',
 		paddingBottom: 50,
-		backgroundColor: '#000223',
-		color: 'white',
+
 	},
 	header : {
 		height : window.innerHeight+65,
@@ -125,12 +122,13 @@ const styles = theme => ({
 	component: {
 		marginTop: 40,
 		padding: '5%',
-		border: "#B22132 1.5px solid",
+		border: "#F6BB19 1.5px solid",
 		textAlign: 'left',
 	},
 	legend : {
 		fontSize: 34,
 		padding: 15,
+		color: '#38A3C5',
 	},
 });
 

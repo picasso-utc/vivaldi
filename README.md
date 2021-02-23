@@ -1,6 +1,5 @@
 # Vivaldi
-Webapp du PIc'Asso
-Site vitrine de l'association et partie admin pour la gestion
+Front-end part of the PicAsso WebApp
 Showcase site of the association and admin part for management
 react 16.13
 
