@@ -32,7 +32,7 @@ jobs:
       run: npm install
 
     - name: Run the tests
-      run: npm test
+      run: npm test --passWithNoTests
 
     - name: Build
       run: npm run build
