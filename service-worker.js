@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/vivaldi/precache-manifest.6cb05423494223459d34cfc25089ab72.js"
+  "/vivaldi/precache-manifest.532ac3b3afccbc135edbcedf317180d3.js"
 );
 
 self.addEventListener('message', (event) => {

@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9e1fb8ceaaeb31e4ca17a0488e2cea8c",
+    "revision": "a09e05f0586f7dca81a53daa8603207d",
     "url": "/vivaldi/index.html"
   },
   {
-    "revision": "622feb64b98fdc69d31b",
+    "revision": "e0a255ec05f6cbdd26cf",
     "url": "/vivaldi/static/css/main.0c041aa4.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vivaldi/static/js/2.30a19c1b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "622feb64b98fdc69d31b",
-    "url": "/vivaldi/static/js/main.bf17106b.chunk.js"
+    "revision": "e0a255ec05f6cbdd26cf",
+    "url": "/vivaldi/static/js/main.b66c8e97.chunk.js"
   },
   {
     "revision": "b24fa70d574d90d69373",
