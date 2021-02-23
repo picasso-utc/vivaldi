@@ -3,14 +3,9 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 
-import Header from '../components/Header';
 
 import Footer from '../components/Footer';
-import { CenterFocusStrong } from '@material-ui/icons';
 import WebSocketManager from '../components/websocket'
-import { Provider } from 'react-redux';
-import {createStore} from 'redux';
-import axios from 'axios';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 
@@ -40,11 +35,11 @@ class Badge extends React.Component {
 
 		return (
             <AlertProvider template={AlertTemplate} {...options}>
-  
+
 			<React.Fragment>
-                
+
 				<CssBaseline />
-				
+
 				<Container id="home" className={classes.root}>
 
 					<Container className={classes.header} id="header" fixed>
