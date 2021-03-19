@@ -28,6 +28,7 @@
     "react-websocket": "^2.1.0",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.5",
+    "styled-components": "^5.2.1",
     "typescript": "^3.9.7"
   },
   "scripts": {

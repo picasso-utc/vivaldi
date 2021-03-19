@@ -15,16 +15,32 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import Poll from './pages/Poll';
 import PermForm from './pages/PermForm';
 import Badge from './pages/Badge';
+import { createGlobalStyle } from 'styled-components';
 
 React.lazy(() => import('./pages/Admin'))
 
 const PUBLIC_URL = process.env.PUBLIC_URL;
+// Create a `GlobalStyles` component.
+// I usually already have this, to include a CSS
+// reset, set border-box, and other global concerns.
+const GlobalStyles = createGlobalStyle`
+  html {
+	  --color-primary: #145857;
+	  --color-secondary: #67826A;
+	  --color-third: #1D1D1B;
+	  --color-light: #DDC091;
+	  --color-warning: #DDA724;
+	  --color-important: #C28110;
+	  --color-font: #FAFAFA;
+  }
+`;
 
 class App extends React.Component {
 	render() {
 		return (
 			<BrowserRouter basename={PUBLIC_URL}>
 				<CssBaseline />
+				<GlobalStyles/>
 				<React.Suspense fallback={<div>Loading</div>}>
 
 				<Switch>
