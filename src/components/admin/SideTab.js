@@ -26,7 +26,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     jusitfyContent: "space-between",
-    backgroundColor: "white",
+    backgroundColor: "var(--color-font)",
   },
   Nav: {
     display: "flex",

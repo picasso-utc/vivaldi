@@ -44,7 +44,7 @@ class Menu extends Component {
             saving: false,
             confirm_modal: false,
         }
-        
+
         this.handleChange = this.handleChange.bind(this)
         this.selectMenu = this.selectMenu.bind(this)
         this.loginBadge = this.loginBadge.bind(this)
@@ -52,9 +52,9 @@ class Menu extends Component {
 
     componentDidMount() {
         this.checkAuth()
-       
-    }  
-    
+
+    }
+
     componentWillUnmount() {
         clearInterval(this.interval);
     }
@@ -108,7 +108,7 @@ class Menu extends Component {
             window.location.reload();
         })
     }
-    
+
 
     loadSelectedMenu(){
         const menus = [...this.state.menus];
@@ -128,10 +128,10 @@ class Menu extends Component {
                             // Si les informations sont calés entre l'API et le stack on supprime l'élément du stack
                             stack_index_to_remove.push(stack.id_transaction);
                         }
-                        // Sinon on garde l'élément dans le stack, on met à jour order  
-                        orders.splice(order_index, 1);                      
+                        // Sinon on garde l'élément dans le stack, on met à jour order
+                        orders.splice(order_index, 1);
                         if (!stack.served) {
-                            // Si le stack note la commande comme non servi, on la met en haut de la liste 
+                            // Si le stack note la commande comme non servi, on la met en haut de la liste
                             orders.splice(0,0,stack);
                         } else {
                             // Sinon on met la commande à la fin
@@ -143,12 +143,12 @@ class Menu extends Component {
                     }
                     // On met à jour les informations du stack
                     stack_information = stack_information.filter(stack =>  !stack_index_to_remove.includes(stack.id_transaction))
-                }    
+                }
                 this.setState({orders: res.data.orders, menu: res.data.menu, stack_information: stack_information, loading: false})
             })
             .catch(error => {
                 window.location.reload();
-            })  
+            })
         }
     }
 
@@ -181,10 +181,10 @@ class Menu extends Component {
         let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction === order.id_transaction)
 
         if (order_index > - 1) {
-            // On modifie la commande en changeant son attribut served 
+            // On modifie la commande en changeant son attribut served
             let order_edited = orders[order_index];
             order_edited.served = !order_edited.served;
-            // Si la commande a été servie on la met à la fin de la liste de commmande 
+            // Si la commande a été servie on la met à la fin de la liste de commmande
             if (order_edited.served) {
                 orders.splice(order_index, 1);
                 orders.push(order_edited);
@@ -209,7 +209,7 @@ class Menu extends Component {
                 window.location.reload();
             })
         }
-        
+
     }
 
 
@@ -221,11 +221,11 @@ class Menu extends Component {
         let order_index = orders.findIndex(order_in_state => order_in_state.id_transaction === order.id_transaction)
 
         if (order_index > - 1) {
-            // On modifie la commande en changeant son attribut is_staff 
+            // On modifie la commande en changeant son attribut is_staff
             let order_edited = orders[order_index];
             order_edited.is_staff = true;
             // On peut seulement déclarer un menu comme staff, par conséquent on le met à la fin de la liste
-            // Aucune posibilité de revenir en arrière et de mettre la commande en haut de la liste 
+            // Aucune posibilité de revenir en arrière et de mettre la commande en haut de la liste
             orders.splice(order_index, 1);
             orders.push(order_edited);
             this.setState({stack_information: stack_information, orders: orders});
@@ -257,7 +257,7 @@ class Menu extends Component {
     handleModalClickClose = () => {
         this.setState({confirm_modal: false})
     };
-    
+
 
     deleteMenu(event, menu){
         console.log(menu)
@@ -269,7 +269,7 @@ class Menu extends Component {
             this.changeSnackbarState(true, 'error', 'Une erreur est survenue lors de la suppression du menu');
         })
     }
-	
+
 
   	render() {
 		  const { menus, selected_article, menu, orders, loading, open_login, user_credentials, snackbar, confirm_modal } = this.state
@@ -277,8 +277,8 @@ class Menu extends Component {
 		return(
 			<React.Fragment>
 				{loading ? (
-					<Grid 
-						container 
+					<Grid
+						container
 						className={classes.loader}
 						direction="row"
 						justify="center"
@@ -298,18 +298,18 @@ class Menu extends Component {
                                 <Typography variant="h6" className={classes.subtitle}>
                                     {menu.total_quantity} / {menu.quantity} - Menus servis : {menu.served_quantity}
                                 </Typography>
-                                {this.areMenusAllServed() && 
-                                    <Grid 
-                                        container 
+                                {this.areMenusAllServed() &&
+                                    <Grid
+                                        container
                                         direction="row"
                                         justify="center"
                                         alignItems="center"
                                     >
-                                        <Button 
-                                            variant="contained" 
-                                            size="small" 
-                                            color="secondary" 
-                                            className={classes.delete_btn} 
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            color="secondary"
+                                            className={classes.delete_btn}
                                             onClick={() => this.handleConfirmModalOpen()}
                                         >
                                             Supprimer Menu
@@ -329,31 +329,31 @@ class Menu extends Component {
                                                     </TableCell>
                                                     <TableCell component="th" scope="row" className={classes.cell}>
                                                         {order.served? (
-                                                            <Button 
-                                                                variant="contained" 
-                                                                size="small" 
-                                                                color="secondary" 
-                                                                className={classes.btn} 
+                                                            <Button
+                                                                variant="contained"
+                                                                size="small"
+                                                                color="secondary"
+                                                                className={classes.btn}
                                                                 onClick={(e) => this.servedMenu(e, order)}
                                                             >
                                                                 Annuler
                                                             </Button>
                                                         ):(
                                                             <React.Fragment>
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    size="small" 
-                                                                    color="primary" 
-                                                                    className={classes.btn} 
+                                                                <Button
+                                                                    variant="contained"
+                                                                    size="small"
+                                                                    color="primary"
+                                                                    className={classes.btn}
                                                                     onClick={(e) => this.servedMenu(e, order)}
                                                                 >
                                                                     Valider
                                                                 </Button>
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    size="small" 
-                                                                    color="secondary" 
-                                                                    className={classes.btn} 
+                                                                <Button
+                                                                    variant="contained"
+                                                                    size="small"
+                                                                    color="secondary"
+                                                                    className={classes.btn}
                                                                     onClick={(e) => this.staffMenu(e, order)}
                                                                 >
                                                                     Reporter
@@ -368,7 +368,7 @@ class Menu extends Component {
                                 </div>
                             </React.Fragment>
                         }
-                        <Grid 
+                        <Grid
                             container
                             direction="row"
                             justify="center"
@@ -394,7 +394,7 @@ class Menu extends Component {
                         </Grid>
 					</div>
                 )}
-                
+
                 <Dialog open={open_login} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Connexion Badge</DialogTitle>
                     <DialogContent>
@@ -436,23 +436,23 @@ class Menu extends Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button 
+                        <Button
                             color="secondary"
-                            variant="contained" 
+                            variant="contained"
                             margin="dense"
                             size="small"
-                            className={classes.btn} 
+                            className={classes.btn}
                             // onClick={(e) => this.deleteMedia(media.id)}
                             onClick={(e) => this.deleteMenu(e, menu)}
                         >
                             Supprimer
-                        </Button>    
+                        </Button>
                     </DialogActions>
                 </Dialog>
 
-                <SnackbarComponent 
-                    open={snackbar.open} 
-                    variant={snackbar.variant} 
+                <SnackbarComponent
+                    open={snackbar.open}
+                    variant={snackbar.variant}
                     message={snackbar.message}
                     duration={2000}
                     closeSnackbar={
@@ -466,7 +466,7 @@ class Menu extends Component {
                         }
                     }
                 />
-				
+
 			</React.Fragment>
 		)
   	}
@@ -477,7 +477,7 @@ const styles = theme => ({
 		textAlign: 'justify',
 		padding: 20,
 		margin: 30,
-		border: "1.5px solid #B22132",
+		border: "1.5px solid var(--color-primary)",
 	},
 	title : {
 		textAlign: 'center',

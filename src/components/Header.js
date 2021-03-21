@@ -144,7 +144,7 @@ const styles = theme => ({
 		flexGrow: 1,
 	},
 	appBar: {
-		backgroundColor: '#F6BB19',
+		backgroundColor: 'var(--color-light)',
 		color: 'white',
 
 	},
@@ -152,15 +152,15 @@ const styles = theme => ({
 		flexGrow: 1,
 	},
 	menuButton: {
-		color: '#F64618',
+		backgroundColor: 'var(--color-light)',
 		fontSize: 35,
 		padding: "10px",
 		marginTop: 0,
 		borderRadius: 0,
 		height: 60,
-
+		color: 'var(--color-primary)',
 		'&:hover': {
-			borderTop: "3px solid #B22132",
+			borderTop: "3px solid var(--color-primary)",
 			textDecoration: "none",
 		},
 	},
@@ -173,11 +173,12 @@ const styles = theme => ({
 		right: 0,
 		left: 'auto',
 		marginTop: 65,
+
 	},
 	couverture: {
 		width: '100%',
 		height: window.innerHeight,
-		//objectFit: 'fill',
+		objectFit: 'cover',
 	},
 });
 
