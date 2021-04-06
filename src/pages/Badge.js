@@ -44,7 +44,9 @@ class Badge extends React.Component {
 
 					<Container className={classes.header} id="header" fixed>
                         <div styles={{padding:"50px"}}>
-                            <h1 >Veuillez déposer votre badge</h1>
+                            <h1 >Veuillez déposer votre (ancien) badge</h1>
+							<p>Attendez de voir Bienvenue (Votre nom) pour vous aventurer dans le pic</p>
+							<h2>Merci!!</h2>
                         </div>
 					</Container>
 
