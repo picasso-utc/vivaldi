@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Header from '../components/Header';
 import Rules from  '../components/home/Rules';
+import Covid from  '../components/home/Covid';
 import Calendar from '../components/home/Calendar';
 import PriceDisplayer from '../components/home/PriceDisplayer';
 import GoodiesDisplayer from '../components/home/GoodiesDisplayer';
@@ -30,6 +31,13 @@ class Home extends React.Component {
 
 					<Container className={classes.header} id="header" fixed>
 						<Header/>
+					</Container>
+
+					<Container id="covid" className={classes.container}>
+						<fieldset className={classes.component}>
+							<legend className={classes.legend}>Covid Stats</legend>
+							<Covid />
+						</fieldset>
 					</Container>
 
 					<Container id="rules" className={classes.container}>
