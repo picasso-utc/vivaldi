@@ -32,8 +32,8 @@ class Rules extends React.Component {
 		const { classes } = this.props;
 
 		const person = this.state.dataOccupation.person
-		const tablesExt = 0;
-		const tablesIn = 0;
+		const tablesExt = this.state.dataOccupation.tableExt;
+		const tablesIn = this.state.dataOccupation.tableIn;
 
 		return (
 			<React.Fragment>
