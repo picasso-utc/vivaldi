@@ -9,7 +9,9 @@ class Rules extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataOccupation : {}
+			dataOccupation : {
+				capacity: {}
+			}
 		}
 	}
 
@@ -31,9 +33,8 @@ class Rules extends React.Component {
 
 		const { classes } = this.props;
 
-		const person = this.state.dataOccupation.person
-		const tablesExt = this.state.dataOccupation.tableExt;
-		const tablesIn = this.state.dataOccupation.tableIn;
+		const covidStats = this.state.dataOccupation
+		const sum = covidStats.capacity
 
 		return (
 			<React.Fragment>
@@ -44,27 +45,27 @@ class Rules extends React.Component {
 					<Grid  container direction="column" alignItems="center" justify="center" className={classes.gridStats}>
 						<Grid container direction="row" alignItems="center" justify="center">
 							<Typography>
-								{person}
+								{covidStats.person}
 							</Typography>
 							<Typography>
-								/ 80 places occupées
+								/ {sum.capacity__sum} places occupées
 							</Typography>
 						</Grid>
 						<Grid container direction="row" alignItems="center" justify="center">
 							<Typography>
-								{tablesExt}
+								{covidStats.tableExt}
 							</Typography>
 							<Typography>
-								/ 20 tables extérieurs occupées
+								/ {covidStats.capacityExt} tables extérieurs occupées
 							</Typography>
 						</Grid>
 
 							<Grid container direction="row" alignItems="center" justify="center">
 								<Typography>
-									{tablesIn}
+									{covidStats.tableIn}
 								</Typography>
 								<Typography>
-									/ 20 tables intérieurs occupées
+									/ {covidStats.capacityIn} tables intérieurs occupées
 								</Typography>
 							</Grid>
 
