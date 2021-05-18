@@ -43,28 +43,28 @@ class Rules extends React.Component {
 					</Typography>
 					<Grid  container direction="column" alignItems="center" justify="center" className={classes.gridStats}>
 						<Grid container direction="row" alignItems="center" justify="center">
-							<Typography>
-								{person}
+							<Typography className={classes.gridNumber}>
+								{person} / 100
 							</Typography>
-							<Typography>
-								/ 80 places occupées
+							<Typography className={classes.typo}>
+								places occupées
 							</Typography>
 						</Grid>
 						<Grid container direction="row" alignItems="center" justify="center">
-							<Typography>
-								{tablesExt}
+							<Typography className={classes.gridNumber}>
+								{tablesExt} / 20
 							</Typography>
-							<Typography>
-								/ 20 tables extérieurs occupées
+							<Typography className={classes.typo}>
+								tables extérieurs occupées
 							</Typography>
 						</Grid>
 
 							<Grid container direction="row" alignItems="center" justify="center">
-								<Typography>
-									{tablesIn}
+								<Typography className={classes.gridNumber}>
+									{tablesIn} / 20
 								</Typography>
-								<Typography>
-									/ 20 tables intérieurs occupées
+								<Typography className={classes.typo}>
+									tables intérieurs occupées
 								</Typography>
 							</Grid>
 
@@ -81,6 +81,19 @@ class Rules extends React.Component {
 const styles = theme => ({
 	gridStats:{
 		marginTop: 20,
+	},
+	gridNumber:{
+		backgroundColor: 'var(--color-light)',
+		color: 'var(--color-primary)',
+		fontWeight: 'bold',
+		fontSize: '2rem',
+		borderRadius: '1vh',
+		paddingLeft: '1vw',
+		paddingRight: '1vw',
+		margin: '1vh',
+	},
+	typo:{
+		fontWeight: 'bold',
 	}
 });
 
