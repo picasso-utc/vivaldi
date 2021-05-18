@@ -44,28 +44,28 @@ class Rules extends React.Component {
 					</Typography>
 					<Grid  container direction="column" alignItems="center" justify="center" className={classes.gridStats}>
 						<Grid container direction="row" alignItems="center" justify="center">
-							<Typography>
-								{covidStats.person}
+							<Typography className={classes.gridNumber}>
+								{covidStats.person}/ {sum.capacity__sum}
 							</Typography>
-							<Typography>
-								/ {sum.capacity__sum} places occupées
+							<Typography className={classes.typo}>
+								places occupées
 							</Typography>
 						</Grid>
 						<Grid container direction="row" alignItems="center" justify="center">
-							<Typography>
-								{covidStats.tableExt}
+							<Typography className={classes.gridNumber}>
+								{covidStats.tableExt} / {covidStats.capacityExt}
 							</Typography>
-							<Typography>
-								/ {covidStats.capacityExt} tables extérieurs occupées
+							<Typography className={classes.typo}>
+								tables extérieurs occupées
 							</Typography>
 						</Grid>
 
 							<Grid container direction="row" alignItems="center" justify="center">
-								<Typography>
-									{covidStats.tableIn}
+								<Typography className={classes.gridNumber}>
+									{covidStats.tableIn} / {covidStats.capacityIn}
 								</Typography>
-								<Typography>
-									/ {covidStats.capacityIn} tables intérieurs occupées
+								<Typography className={classes.typo}>
+									tables intérieurs occupées
 								</Typography>
 							</Grid>
 
@@ -82,6 +82,19 @@ class Rules extends React.Component {
 const styles = theme => ({
 	gridStats:{
 		marginTop: 20,
+	},
+	gridNumber:{
+		backgroundColor: 'var(--color-light)',
+		color: 'var(--color-primary)',
+		fontWeight: 'bold',
+		fontSize: '2rem',
+		borderRadius: '1vh',
+		paddingLeft: '1vw',
+		paddingRight: '1vw',
+		margin: '1vh',
+	},
+	typo:{
+		fontWeight: 'bold',
 	}
 });
 
