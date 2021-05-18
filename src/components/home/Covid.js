@@ -69,7 +69,7 @@ class Rules extends React.Component {
 								</Typography>
 							</Grid>
 					</Grid>
-					<Typography>
+					<Typography style={{paddingTop:20}}>
 						Intérieur : 1 par table individuelle et circulaire, 2 par table de groupe. | Extérieur : 3 par table.
 					</Typography>
 				</Grid>
