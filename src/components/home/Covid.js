@@ -68,10 +68,10 @@ class Rules extends React.Component {
 									tables intérieurs occupées
 								</Typography>
 							</Grid>
-
 					</Grid>
-
-
+					<Typography>
+						Intérieur : 1 par table individuelle et circulaire, 2 par grosse table. | Extérieur : 3 par table.
+					</Typography>
 				</Grid>
 			</React.Fragment>
 		);
