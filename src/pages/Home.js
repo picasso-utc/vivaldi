@@ -122,13 +122,13 @@ const styles = theme => ({
 	component: {
 		marginTop: 40,
 		padding: '5%',
-		border: "#F6BB19 1.5px solid",
+		border: "var(--color-secondary) 1.5px solid",
 		textAlign: 'left',
 	},
 	legend : {
 		fontSize: 34,
 		padding: 15,
-		color: '#38A3C5',
+		color: 'var(--color-primary)',
 	},
 });
 

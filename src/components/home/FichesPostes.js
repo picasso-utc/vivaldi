@@ -238,7 +238,7 @@ class FichesPostes extends React.Component {
 											Etre membre du Pic'Asso
 										</Typography>
 									</Grid>
-									<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: '#F64618'}}>
+									<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: 'var(--color-warning)'}}>
 										<GroupIcon className={classes.icon}/>
 									</Grid>
 								</td>
@@ -249,7 +249,7 @@ class FichesPostes extends React.Component {
 												{poste.name}
 											</Typography>
 										</Grid>
-										<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: '#F64618'}}>
+										<Grid container direction="row" justify="center" alignItems="center" style={{height: 100, color: 'var(--color-warning)'}}>
 											{poste.icon}
 										</Grid>
 									</td>
@@ -274,7 +274,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! Semaine de rentrée !
 							</Typography>
 						</Grid>
@@ -286,7 +286,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! Évènements du Pic !
 							</Typography>
 						</Grid>
@@ -299,7 +299,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! Perms du Pic !
 							</Typography>
 						</Grid>
@@ -311,7 +311,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! Remplir les Soft/Aider aux livraisons !
 							</Typography>
 						</Grid>
@@ -323,7 +323,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! S’occuper des locaux  !
 							</Typography>
 						</Grid>
@@ -335,7 +335,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! Venir en Réunion !
 							</Typography>
 						</Grid>
@@ -375,7 +375,7 @@ class FichesPostes extends React.Component {
 							</Typography>
 						</Grid>
 						<Grid container direction="row" justify="center" alignItems="center">
-							<Typography variant="h6" className={classes.description_title} style={{color: '#B22132'}}>
+							<Typography variant="h6" className={classes.description_title} style={{color: 'var(--color-important)'}}>
 								! Important !
 							</Typography>
 						</Grid>
@@ -463,7 +463,7 @@ const styles = theme => ({
 		padding: 5,
 		textAlign: 'center',
 		margin: 0,
-		color: '#F64618',
+		color: 'var(--color-important)',
 		fontWeight: 300,
 		minWidth: 150,
 		cursor: 'pointer'
