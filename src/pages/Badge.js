@@ -25,14 +25,57 @@ class Badge extends React.Component {
     constructor(props) {
         super(props);
 		this.state = {
-			infos : null,
+			show : false,
+			infos : null
 		}
+	}
+
+	hideComponent(){
+    	console.log('cc')
+    	this.setState({show: !this.state.show})
+	}
+
+	htmlDecode(input){
+		var e = document.createElement('div');
+		e.innerHTML = input;
+		return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 	}
 
 	render() {
 
         const { classes} = this.props;
-
+        var content = "";
+		if (this.state.show){
+			content =
+				<div>
+					<button onClick={() => this.hideComponent()}>Cacher les politiques d'utilisation des données</button>
+					<h1>Politique d'utilisation des données</h1>
+					<h2>Responsables</h2>
+					<p>L'équipe informatique du Pic'Asso met en place cette collecte de donnée pour l'administration et la médecine de l'UTC.</p>
+					<h2>Finalités du traitement</h2>
+					<p>Dispositif de prévention sanitaire dans le cadre de la crise sanitaire de la covid 19.</p>
+					<h2>Personnes visées par cette collecte</h2>
+					<p>Tout membre de l'UTC (étudiants, professeurs, salariés) entrant dans le Pic'asso.</p>
+					<h2>Les données stockées</h2>
+					<p>Les données sont : date et heure du scan, login étudiant, nom et prénom de l'étudiant.</p>
+					<h2>Destinataires et utilisation des données</h2>
+					<ul>
+					<li>Médecine : contacter les potentiels cas contacts en cas d'une contamination à la COVID 19 avérée.</li>
+					<li>Administration : connaitre le nombre d'entrées (anonymement).</li>
+					</ul>
+					<p>Les données seront communiquées par l'équipe du Pic'Asso aux destinataires</p>
+					<h2>Transferts</h2>
+					<p>Les données ne feront pas objet d'un transfert dans un pays tiers ou une organisation internationale.</p>
+					<h2>Conservation des données</h2>
+					<p>Les données seront conservées 21 jours.</p>
+				</div>
+		}
+		else{
+			content =
+			<div>
+				<button onClick={() => this.hideComponent()}>Voir les politiques d'utilisation des données</button>
+			</div>
+		}
 		return (
             <AlertProvider template={AlertTemplate} {...options}>
 
@@ -47,25 +90,7 @@ class Badge extends React.Component {
                             <h1 >Veuillez déposer votre (ancien) badge</h1>
 							<p>Attendez de voir Bienvenue (Votre nom) pour vous aventurer dans le pic</p>
 							<h2>Merci!!</h2>
-							<h1>Politique d'utilisation des données</h1>
-							<h2>Responsables</h2>
-							<p>L'équipe informatique du Pic'Asso met en place cette collecte de donnée pour l'administration et la médecine de l'UTC.</p>
-							<h2>Finalités du traitement</h2>
-							<p>Dispositif de prévention sanitaire dans le cadre de la crise sanitaire de la covid 19.</p>
-							<h2>Personnes visées par cette collecte</h2>
-							<p>Tout membre de l'UTC (étudiants, professeurs, salariés) entrant dans le Pic'asso.</p>
-							<h2>Les données stockées</h2>
-							<p>Les données sont : date et heure du scan, login étudiant, nom et prénom de l'étudiant.</p>
-							<h2>Destinataires et utilisation des données</h2>
-							<ul>
-								<li>Médecine : contacter les potentiels cas contacts en cas d'une contamination à la COVID 19 avérée.</li>
-								<li>Administration : connaitre le nombre d'entrées (anonymement).</li>
-							</ul>
-							<p>Les données seront communiquées par l'équipe du Pic'Asso aux destinataires</p>
-							<h2>Transferts</h2>
-							<p>Les données ne feront pas objet d'un transfert dans un pays tiers ou une organisation internationale.</p>
-							<h2>Conservation des données</h2>
-							<p>Les données seront conservées 21 jours.</p>
+							{content}
                         </div>
 					</Container>
 
