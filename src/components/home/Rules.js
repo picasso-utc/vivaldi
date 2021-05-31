@@ -5,18 +5,18 @@ import clsx from 'clsx';
 import Hidden from '@material-ui/core/Hidden';
 
 
-export const YoutubeIframe =  <iframe 
+export const YoutubeIframe =  <iframe
 	title="rules"
 	width = "100%"
 	height = "100%"
-	src="https://www.youtube.com/embed/b3qqC5aZ0c8"
-	frameBorder="0" 
+	src="https://www.youtube.com/embed/91bKukiTL8s"
+	frameBorder="0"
 	allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
- 	allowFullScreen>	 
+ 	allowFullScreen>
 </iframe>
 
 class Rules extends React.Component {
-    
+
 	render() {
 
 		const { classes } = this.props;
@@ -40,7 +40,7 @@ class Rules extends React.Component {
 
 
 const styles = theme => ({
-	videoContainer: {	
+	videoContainer: {
 		paddingTop: 20,
 		paddingBottom: 20,
 	},

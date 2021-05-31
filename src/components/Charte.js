@@ -66,8 +66,8 @@ class Charte extends Component {
 		return(
 			<Typography variant="body1">
 				Fait le {("0" + (date.getDate())).slice(-2)}/{("0" + (date.getMonth() + 1)).slice(-2)}/{date.getFullYear()} à Compiègne
-				<br/><br/
-			></Typography>
+				<br/>
+			</Typography>
 		)
 	}
 
