@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { Typography } from "@material-ui/core";
-import {URL} from '../../utils/Config';
+import {config} from '../../utils/Config';
 
 class IndexPolls extends React.Component {
 
@@ -18,7 +18,7 @@ class IndexPolls extends React.Component {
 		}
 	}
 
-	
+
 	componentDidMount(){
 		this.loadSurveys();
 	}
@@ -32,13 +32,13 @@ class IndexPolls extends React.Component {
             console.log(error);
         })
 	}
-	
+
 
 	goToPoll(index){
 		const redirection = asset_url("/poll/" + this.state.surveys[index].id);
 		window.location = redirection;
 	}
-    
+
 
   	render() {
 
@@ -49,8 +49,8 @@ class IndexPolls extends React.Component {
     	return (
 			<React.Fragment>
 				{loading?(
-					<Grid 
-						container 
+					<Grid
+						container
 						className={classes.loader}
 						direction="row"
 						justify="center"
@@ -75,7 +75,7 @@ class IndexPolls extends React.Component {
 													</Typography>
 												</Grid>
 												<Grid container direction="row" justify="center" alignItems="center">
-                                                	<img alt={survey.title} src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
+                                                	<img alt={survey.title} src={`${config.urls.URL}/media/${survey.image}`} className={classes.survey_img}/>
 												</Grid>
 												<Grid container direction="row" justify="center" alignItems="center">
 													<Typography variant="body1" className={classes.survey_description}>
@@ -87,8 +87,8 @@ class IndexPolls extends React.Component {
 													</Typography>
 												</Grid>
 												<Grid container direction="row" justify="center" alignItems="center">
-													<Button 
-														variant="contained" 
+													<Button
+														variant="contained"
 														className={classes.btn}
 														onClick={() => this.goToPoll(index)}
 													>
@@ -102,8 +102,8 @@ class IndexPolls extends React.Component {
 							</table>
 						</div>
 					):(
-						<Grid 
-							container 
+						<Grid
+							container
 							className={classes.loader}
 							direction="row"
 							justify="center"

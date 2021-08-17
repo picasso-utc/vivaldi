@@ -2,30 +2,32 @@
  * Sends an HTTP request to the API.
  */
 
-import {API_URL} from './Config'
+import {config} from './Config'
 import axios from 'axios';
 
 
 const defaultConfig = {withCredentials: true}
 
 function ajaxGet(path) {
-    return axios.get(API_URL + path, defaultConfig);
+    console.log(process.env)
+    console.log(config.urls)
+    return axios.get(config.urls.API_URL + path, defaultConfig);
 }
 
 function ajaxPost(path, data) {
-    return axios.post(API_URL + path, data, defaultConfig);
+    return axios.post(config.urls.API_URL + path, data, defaultConfig);
 }
 
 function ajaxPut(path, data) {
-    return axios.put(API_URL + path, data, defaultConfig);
+    return axios.put(config.urls.API_URL + path, data, defaultConfig);
 }
 
 function ajaxPatch(path, data) {
-    return axios.patch(API_URL + path, data, defaultConfig);
+    return axios.patch(config.urls.API_URL + path, data, defaultConfig);
 }
 
 function ajaxDelete(path) {
-    return axios.delete(API_URL + path, defaultConfig);
+    return axios.delete(config.urls.API_URL + path, defaultConfig);
 }
 
 

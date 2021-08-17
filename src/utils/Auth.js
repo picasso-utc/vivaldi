@@ -1,4 +1,4 @@
-import {URL, asset_url} from './Config';
+import {asset_url, config} from './Config';
 import {ajaxGet, ajaxPost} from './Ajax';
 import { isStringEmpty } from './String';
 const GENERAL_CONNEXION = 'full';
@@ -80,14 +80,14 @@ class Auth {
     static goLogin(){
         const current_url = window.location.href;
         // Redirection vers le CAS
-        window.location.href = URL + '/api/auth/login?redirect=' + current_url;
+        window.location.href = config.urls.URL + '/api/auth/login?redirect=' + current_url;
         console.log('Go LOGIn')
     }
 
 
     static goLogout(){
         this.emptyLocalStorage();
-        window.location.href = URL + '/api/auth/logout';
+        window.location.href = config.urls.URL + '/api/auth/logout';
     }
 
 

@@ -13,7 +13,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Chip from '@material-ui/core/Chip';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {URL, asset_url} from '../utils/Config';
+import {config, asset_url} from '../utils/Config';
 
 
 
@@ -32,7 +32,7 @@ class Poll extends React.Component {
         this.canVote = this.canVote.bind(this);
 	}
 
-	
+
 	componentDidMount(){
         this.loadSurveys();
 	}
@@ -133,8 +133,8 @@ class Poll extends React.Component {
 				<CssBaseline />
 
                 {loading?(
-					<Grid 
-						container 
+					<Grid
+						container
 						className={classes.loader}
 						direction="row"
 						justify="center"
@@ -145,7 +145,7 @@ class Poll extends React.Component {
 						</Grid>
 					</Grid>
 				):(
-				
+
                     <Container className={classes.root}>
                         <Link to="/" color="inherit" className={classes.exit_link}>
                             <Button
@@ -167,7 +167,7 @@ class Poll extends React.Component {
                                         </Typography>
                                     </Grid>
                                     <Grid container direction="row" justify="center" alignItems="center">
-                                        <img alt={survey.title} src={`${URL}/media/${survey.image}`} className={classes.survey_img}/>
+                                        <img alt={survey.title} src={`${config.urls.URL}/media/${survey.image}`} className={classes.survey_img}/>
                                     </Grid>
 
 
@@ -181,12 +181,12 @@ class Poll extends React.Component {
                                                                 <Typography variant="body1" className={classes.subTitle}>
                                                                     {item.name}
                                                                 </Typography>
-                                                            </Grid> 
+                                                            </Grid>
                                                         }
                                                         <img
                                                             alt={item.name}
                                                             className={classes.item_img}
-                                                            src={item.image ? `${URL}/media/${item.image}` : asset_url('/images/default_image.png')}
+                                                            src={item.image ? `${config.urls.URL}/media/${item.image}` : asset_url('/images/default_image.png')}
                                                         />
                                                         {this.isThereDescriptionInItems(survey) ? (
                                                             <Grid container direction="row" justify="center" alignItems="center">
@@ -199,25 +199,25 @@ class Poll extends React.Component {
                                                                 </Typography>
                                                             </Grid>
                                                         )}
-                                                        
-                                                        {this.hasVote() && 
+
+                                                        {this.hasVote() &&
                                                             <Grid container direction="row" justify="center" alignItems="center">
                                                                 <p>{this.findResult(item.id)}%</p>
                                                             </Grid>
                                                         }
-                                                    
+
                                                         <Grid container direction="row" justify="center" alignItems="center">
                                                             {item.voted ? (
-                                                                <Chip 
-                                                                    label="Voté !" 
-                                                                    className={classes.voted_item} 
+                                                                <Chip
+                                                                    label="Voté !"
+                                                                    className={classes.voted_item}
                                                                     onDelete={() => this.cancelVote(item_index)}
                                                                 />
                                                             ):(
                                                                 <React.Fragment>
                                                                     {this.canVote() === true ? (
-                                                                        <Button 
-                                                                            variant="contained" 
+                                                                        <Button
+                                                                            variant="contained"
                                                                             margin="dense"
                                                                             size="small"
                                                                             onClick={() => this.vote(item_index)}
@@ -230,7 +230,7 @@ class Poll extends React.Component {
                                                                     )}
                                                                 </React.Fragment>
                                                             )}
-                                                            
+
                                                         </Grid>
                                                     </Card>
                                                 </GridListTile>
@@ -243,7 +243,7 @@ class Poll extends React.Component {
                                         </Typography>
                                     </Grid>
                                 </div>
-                            </fieldset>   
+                            </fieldset>
                         </Container>
 
 				    </Container>

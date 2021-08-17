@@ -32,9 +32,12 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build-assos": "export PUBLIC_URL='/picasso'; npm run build",
+    "start": "export REACT_APP_KRAKEN='prod'; react-scripts start",
+    "start-local": "export REACT_APP_KRAKEN='local'; npm run start",
+    "start-dev": "export REACT_APP_KRAKEN='dev'; npm run start ",
+    "start-prod": "export REACT_APP_KRAKEN='prod'; npm run start",
+    "build": "export REACT_APP_KRAKEN='prod'; react-scripts build",
+    "build-assos": "export REACT_APP_KRAKEN='prod'; export PUBLIC_URL='/picasso'; npm run build",
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",

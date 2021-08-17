@@ -19,15 +19,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import CardMedia from '@material-ui/core/CardMedia';
-import {URL} from '../../../utils/Config';
+import {config} from '../../../utils/Config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { ajaxGet, ajaxPost, ajaxPatch, ajaxDelete } from '../../../utils/Ajax';
 
 class Media extends Component{
- 
-    
+
+
     constructor(props) {
         super(props)
 
@@ -75,20 +75,20 @@ class Media extends Component{
             media_type: 'I',
             media: '',
             activate: false,
-            times: 1,      
+            times: 1,
         }, mode: 'create'})
     }
 
 
     selectMedia = (event, media) => {
         if(media.media){
-            media.media = URL + '/media/' + media.media;
+            media.media = config.urls.URL + '/media/' + media.media;
         }
         this.setState({media: media, mode: 'edit'})
         this.handleModalClickOpen();
     }
 
-    
+
     handleChange(event){
         this.setState({
             media: {
@@ -113,7 +113,7 @@ class Media extends Component{
         }
         const reader = new FileReader();
         let media = null;
-        reader.readAsDataURL(file);   
+        reader.readAsDataURL(file);
         reader.onloadend = () => {
             media = reader.result;
             this.setState({
@@ -143,7 +143,7 @@ class Media extends Component{
         this.reloadNewMedia();
     };
 
-    
+
     changeMediaActivation(event, media_index){
         let medias = this.state.medias;
         medias[media_index].activate = !medias[media_index].activate;
@@ -151,7 +151,7 @@ class Media extends Component{
             this.setState({medias: medias})
         })
     }
-    
+
 
 
     saveMedia(media){
@@ -162,7 +162,7 @@ class Media extends Component{
         }
         if(this.state.mode === "create"){
             ajax_media.media = null;
-            ajaxPost('tv/media/', ajax_media).then((res) => {  
+            ajaxPost('tv/media/', ajax_media).then((res) => {
                 this.setState({
                     media: {
                         ...this.state.media,
@@ -174,7 +174,7 @@ class Media extends Component{
             })
             .catch((error) => {
                 console.log(error);
-            })  
+            })
         } else if (this.state.mode === "edit"){
             ajaxPatch('tv/media/' + media.id + '/', ajax_media).then((res) => {
                 if (media.new_media) {
@@ -185,7 +185,7 @@ class Media extends Component{
             })
             .catch((error) => {
                 console.log(error);
-            }) 
+            })
         }
     }
 
@@ -211,10 +211,10 @@ class Media extends Component{
         })
     }
 
-        
+
 
     render(){
-        
+
         const { classes } = this.props;
 
         const {medias, open_modal, media, mode, file_loading, confirm_modal, loading} = this.state;
@@ -222,8 +222,8 @@ class Media extends Component{
 
         if (loading) {
             return (
-                <Grid 
-                    container 
+                <Grid
+                    container
                     className="admin_loader"
                     direction="row"
                     justify="center"
@@ -241,9 +241,9 @@ class Media extends Component{
                 <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Médias
-                    <Fab 
-                        size="small" 
-                        color="primary" 
+                    <Fab
+                        size="small"
+                        color="primary"
                         className={classes.add_item}
                         onClick={(e) => this.handleModalClickOpen()}
                     >
@@ -285,60 +285,60 @@ class Media extends Component{
                                         <TableCell component="th" scope="row" className={classes.cell}>
                                             <span>
                                                 {row.times}
-                                                {row.media_type === "I" && 
+                                                {row.media_type === "I" &&
                                                     "s"
                                                 }
-                                                {row.media_type === "V" && 
+                                                {row.media_type === "V" &&
                                                     " fois"
                                                 }
                                             </span>
                                         </TableCell>
                                         <TableCell component="th" scope="row" className={classes.cell}>
-                                            
-                                            <Button 
+
+                                            <Button
                                                 color="primary"
-                                                variant="contained" 
+                                                variant="contained"
                                                 margin="dense"
                                                 size="small"
-                                                className={classes.btn} 
+                                                className={classes.btn}
                                                 onClick={(e) => this.selectMedia(e, row)}
                                             >
                                                 Consulter
                                             </Button>
                                             {row.activate ? (
-                                                <Button 
+                                                <Button
                                                     color="secondary"
-                                                    variant="contained" 
+                                                    variant="contained"
                                                     margin="dense"
                                                     size="small"
-                                                    className={classes.btn} 
+                                                    className={classes.btn}
                                                     onClick={(e) => this.changeMediaActivation(e, index)}
                                                 >
                                                     Désactiver
                                                 </Button>
                                             ):(
-                                                <Button 
-                                                    size="small" 
+                                                <Button
+                                                    size="small"
                                                     color="primary"
-                                                    variant="contained" 
+                                                    variant="contained"
                                                     margin="dense"
-                                                    className={classes.btn} 
+                                                    className={classes.btn}
                                                     onClick={(e) => this.changeMediaActivation(e, index)}
                                                 >
                                                     Activer
                                                 </Button>
                                             )}
-                                            <Button 
+                                            <Button
                                                 color="secondary"
-                                                variant="contained" 
+                                                variant="contained"
                                                 margin="dense"
                                                 size="small"
-                                                className={classes.btn} 
+                                                className={classes.btn}
                                                 onClick={() => this.handleConfirmModalOpen(row)}
                                             >
                                                 Supprimer
                                             </Button>
-                                            
+
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -346,9 +346,9 @@ class Media extends Component{
                         </Table>
                     </Paper>
                 </Grid>
-                <Dialog 
-                    onClose={this.handleModalClickClose} 
-                    open={open_modal} 
+                <Dialog
+                    onClose={this.handleModalClickClose}
+                    open={open_modal}
                     maxWidth="lg"
                     width="lg"
                     scroll="body"
@@ -362,8 +362,8 @@ class Media extends Component{
                         )}
                     </DialogTitle>
                     <DialogContent>
-                        <Grid 
-                            container 
+                        <Grid
+                            container
                             className={classes.loader}
                             direction="row"
                             justify="center"
@@ -375,14 +375,14 @@ class Media extends Component{
                                 </Grid>
                             ):(
                                 <React.Fragment>
-                                    {media.media_type === "I" && 
+                                    {media.media_type === "I" &&
                                         <CardMedia
                                             className={classes.media}
                                             image={media.media ? media.media : '/images/default_image.png'}
                                             style={{width:'100%'}}
                                         />
                                     }
-                                    {media.media_type === "V" && 
+                                    {media.media_type === "V" &&
                                         <CardMedia
                                             component="video"
                                             className={classes.media}
@@ -400,9 +400,9 @@ class Media extends Component{
                                             name="media"
                                         />
                                         <label htmlFor="contained-button-file">
-                                            <Button 
-                                                variant="contained" 
-                                                component="span" 
+                                            <Button
+                                                variant="contained"
+                                                component="span"
                                                 className={classes.upload_button}
                                                 name="media"
                                             >
@@ -434,12 +434,12 @@ class Media extends Component{
                                 fullWidth
                                 margin="dense"
                                 variant="outlined"
-                            />   
+                            />
                         </Grid>
                         <Grid container direction="row" justify="center" alignItems="center">
-                            <Button 
-                                onClick={() => this.saveMedia(media)} 
-                                variant="contained" 
+                            <Button
+                                onClick={() => this.saveMedia(media)}
+                                variant="contained"
                                 color="primary"
                                 margin="dense"
                                 size="small"
@@ -460,16 +460,16 @@ class Media extends Component{
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button 
+                        <Button
                             color="secondary"
-                            variant="contained" 
+                            variant="contained"
                             margin="dense"
                             size="small"
-                            className={classes.btn} 
+                            className={classes.btn}
                             onClick={(e) => this.deleteMedia(media.id)}
                         >
                             Supprimer
-                        </Button>    
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>
