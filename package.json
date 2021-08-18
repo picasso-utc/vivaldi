@@ -32,7 +32,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "export REACT_APP_KRAKEN='prod'; react-scripts start",
+    "start": "react-scripts start",
     "start-local": "export REACT_APP_KRAKEN='local'; npm run start",
     "start-dev": "export REACT_APP_KRAKEN='dev'; npm run start ",
     "start-prod": "export REACT_APP_KRAKEN='prod'; npm run start",

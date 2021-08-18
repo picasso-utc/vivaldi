@@ -43,8 +43,6 @@ class Auth {
 
     static async login(){
         this.emptyLocalStorage();
-        console.log('LOGIN')
-
         this.checkAuth()
             .then(res => {
                 Auth.authenticateUser(res.data)
@@ -60,8 +58,6 @@ class Auth {
     }
 
     static async checkAuth(){
-        console.log('checkauto')
-        console.log(ajaxGet('auth/me'))
         return ajaxGet('auth/me');
     }
 
