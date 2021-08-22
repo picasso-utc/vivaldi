@@ -169,6 +169,7 @@ class AdminNav extends React.Component {
 
 	render() {
 		const { classes } = this.props;
+		let admin = localStorage.getItem('right') == 'A'
 		return (
 			<nav className={classes.drawer}>
 				<AdminDrawer {...this.props}>
@@ -178,46 +179,51 @@ class AdminNav extends React.Component {
 						</Link>
 					</div>
 					<List disablePadding>
-						{CATEGORIES.map(category => (
-							<React.Fragment key={category.id}>
-								<ListItem
-									className={classes.categoryHeader}
-									onClick={category.children && this.toggleCategoryCollapse}
-									value={category.id}
-									button
-									{...this.getLinkProps(category.link)}
-								>
-									<ListItemIcon className={classes.itemIcon}>
-										{category.icon}
-									</ListItemIcon>
-									<ListItemText classes={{ primary: classes.categoryHeaderPrimary }}>
-										{category.id}
-									</ListItemText>
-								</ListItem>
+						{CATEGORIES.map((category) => {
+							if (category.authorized()){
+								return(
+									<React.Fragment key={category.id}>
+										<ListItem
+											className={classes.categoryHeader}
+											onClick={category.children && this.toggleCategoryCollapse}
+											value={category.id}
+											button
+											{...this.getLinkProps(category.link)}
+										>
+											<ListItemIcon className={classes.itemIcon}>
+												{category.icon}
+											</ListItemIcon>
+											<ListItemText classes={{ primary: classes.categoryHeaderPrimary }}>
+												{category.id}
+											</ListItemText>
+										</ListItem>
 
-								{category.children && category.children.length && (
-									<Collapse in={Boolean(this.state.openCategories[category.id])} timeout="auto">
-										<List component="div" disablePadding>
-											{category.children.map(child => (
-												<ListItem
-													key={child.id}
-													button
-													className={classes.categoryChildren}
-													value={child.link}
-													{...this.getLinkProps(child.link)}
-												>
-													<ListItemText
-														primary={child.id}
-														classes={{ primary: classes.categoryChildrenPrimary }}
-													/>
-												</ListItem>
-											))}
-										</List>
-									</Collapse>
-								)}
-								<Divider/>
-							</React.Fragment>
-						))}
+										{category.children && category.children.length && (
+											<Collapse in={Boolean(this.state.openCategories[category.id])} timeout="auto">
+												<List component="div" disablePadding>
+													{category.children.map(child => (
+														<ListItem
+															key={child.id}
+															button
+															className={classes.categoryChildren}
+															value={child.link}
+															{...this.getLinkProps(child.link)}
+														>
+															<ListItemText
+																primary={child.id}
+																classes={{ primary: classes.categoryChildrenPrimary }}
+															/>
+														</ListItem>
+													))}
+												</List>
+											</Collapse>
+										)}
+										<Divider/>
+									</React.Fragment>
+								)
+							}
+						})
+						}
 					</List>
 				</AdminDrawer>
 			</nav>
