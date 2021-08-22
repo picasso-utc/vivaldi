@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.10.0",
+    "@uiw/react-md-editor": "^3.4.14",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "date-fns": "^2.16.1",
