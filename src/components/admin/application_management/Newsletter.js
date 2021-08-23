@@ -27,17 +27,23 @@ class Newsletter extends Component{
             text: 'Contenu de la newsletter (markdown)',
             newNews:{
                 title:'',
-                datePublication: Date.now(),
+                datePublication: this.formatDate(new Date()),
             },
+            contentEdit:'',
             editContent:{
-              title:'',
-              content:''
+                title:'',
+                author:'',
+                dateCreation:new Date(),
+                datePub:this.formatDate(new Date()),
+                id:0,
             }
         }
         this.handleChange = this.handleChange.bind(this);
         this.saveNews = this.saveNews.bind(this)
         this.deleteNews = this.deleteNews.bind(this)
         this.editNews = this.editNews.bind(this)
+        this.handleChangeEdit = this.handleChangeEdit.bind(this)
+        this.updateNews = this.updateNews.bind(this)
     }
 
     componentDidMount(){
@@ -70,9 +76,9 @@ class Newsletter extends Component{
 
     saveNews(){
         ajaxPost('newsletter/', {title: this.state.newNews.title,
-                                            publication_date: new Date(this.state.newNews.datePublication),
-                                            content:this.state.text,
-                                            author_id:localStorage.getItem('login')}).then(res =>{
+            publication_date: new Date(this.state.newNews.datePublication),
+            content:this.state.text,
+            author_id:localStorage.getItem('login')}).then(res =>{
             this.setState({
                 newNews:{
                     title:'',
@@ -93,12 +99,45 @@ class Newsletter extends Component{
         })
     }
 
+    handleChangeEdit(event){
+        this.setState({
+            editContent: {
+                ...this.state.editContent,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
+
+    formatDate(date){
+        const year = date.getFullYear()
+        const month = ("0" + (date.getMonth() + 1)).slice(-2)
+        const day = ("0" + (date.getDate())).slice(-2)
+        const hour = date.getHours()
+        const min = date.getMinutes()
+        return year+'-'+month+'-'+day+'T'+hour+':'+min
+    }
+
     editNews(index){
         this.setState({edit:true})
+        let tempPub = new Date(this.state.newsletter[index].publication_date)
+        let tempCrea = new Date(this.state.newsletter[index].creation_date)
         this.setState({editContent:{
                 title:this.state.newsletter[index].title,
-                content:this.state.newsletter[index].content
-            }})
+                author:this.state.newsletter[index].author_id,
+                dateCreation:this.formatDate(tempCrea),
+                datePub:this.formatDate(tempPub),
+                id:this.state.newsletter[index].id
+            }, contentEdit:this.state.newsletter[index].content })
+    }
+
+    updateNews(id){
+        ajaxPost('newsletter/?id='+id, {title: this.state.editContent.title,
+            publication_date: new Date(this.state.editContent.datePub),
+            content:this.state.contentEdit,
+           }).then( () =>{
+            this.handleModalClickClose()
+            this.loadNewsletter()
+        });
     }
 
     handleModalClickClose(){
@@ -154,7 +193,7 @@ class Newsletter extends Component{
                                     id="datetime-local"
                                     label="Date de publication"
                                     type="datetime-local"
-                                    defaultValue={newNews.datePublication}
+                                    value={newNews.datePublication}
                                     className={classes.textField}
                                     onChange={this.handleChange}
                                     InputLabelProps={{
@@ -235,11 +274,37 @@ class Newsletter extends Component{
                     open={edit}
                     onClose={() => this.handleModalClickClose()}
                 >
-                    <DialogTitle>{"Edition: " + editContent.title}</DialogTitle>
+                    <DialogTitle>{"Crée le: " + editContent.dateCreation + " par "+editContent.author}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            {editContent.content}
-                        </DialogContentText>
+                        <Grid container direction="row">
+                            <TextField
+                                label="Titre"
+                                className={classes.textField}
+                                value={editContent.title}
+                                onChange={this.handleChangeEdit}
+                                name="title"
+                                fullWidth
+                                margin="dense"
+                                variant="outlined"
+                            />
+                            <TextField
+                                id="datetime-local"
+                                label="Date de publication"
+                                type="datetime-local"
+                                name="datePub"
+                                value={editContent.datePub}
+                                className={classes.textField}
+                                onChange={this.handleChangeEdit}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <MDEditor
+                                className={classes.markdownEdit}
+                                value={this.state.contentEdit}
+                                onChange={(e) => this.setState({contentEdit:e})}
+                            />
+                        </Grid>
                     </DialogContent>
                     <DialogActions>
                         <Button
@@ -248,7 +313,7 @@ class Newsletter extends Component{
                             margin="dense"
                             size="small"
                             className={classes.btn}
-                            onClick={(e) => console.log('cc')}
+                            onClick={(e) => this.updateNews(editContent.id)}
                         >
                             Sauvegarder
                         </Button>
@@ -300,6 +365,10 @@ const styles = theme => ({
         marginRight:5,
         marginLeft:5,
     },
+    markdownEdit:{
+        marginTop:10,
+        width:'100%'
+    }
 });
 
 export default withStyles (styles) (Newsletter)

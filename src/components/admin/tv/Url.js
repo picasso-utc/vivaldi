@@ -22,8 +22,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { ajaxGet, ajaxPost, ajaxPut, ajaxDelete } from '../../../utils/Ajax';
 
 class Url extends Component{
- 
-    
+
+
     constructor(props) {
         super(props)
 
@@ -88,7 +88,7 @@ class Url extends Component{
     reloadNewLink(){
         this.setState({link: {
             name: '',
-            url: '',     
+            url: '',
         }, mode: 'create'})
     }
 
@@ -96,19 +96,19 @@ class Url extends Component{
     saveLink(){
         const link = this.state.link
         if(this.state.mode === "create"){
-            ajaxPost('tv/links/', link).then((res) => {  
+            ajaxPost('tv/links/', link).then((res) => {
                 this.handleModalClickClose();
             })
             .catch((error) => {
                 console.log(error);
-            })  
+            })
         } else if (this.state.mode === "edit"){
             ajaxPut('tv/links/' + link.id + '/', link).then((res) => {
                 this.handleModalClickClose();
             })
             .catch((error) => {
                 console.log(error);
-            }) 
+            })
         }
     }
 
@@ -124,10 +124,10 @@ class Url extends Component{
         })
     }
 
-        
+
 
     render(){
-        
+
         const { classes } = this.props;
 
         const {links, link, mode, open_modal, confirm_modal, loading} = this.state;
@@ -135,8 +135,8 @@ class Url extends Component{
 
         if (loading) {
             return (
-                <Grid 
-                    container 
+                <Grid
+                    container
                     className="admin_loader"
                     direction="row"
                     justify="center"
@@ -154,9 +154,9 @@ class Url extends Component{
                 <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Liste des URLs
-                    <Fab 
-                        size="small" 
-                        color="primary" 
+                    <Fab
+                        size="small"
+                        color="primary"
                         className={classes.add_item}
                         onClick={(e) => this.handleModalClickOpen()}
                     >
@@ -188,35 +188,35 @@ class Url extends Component{
                                         {row.url}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        <Button 
+                                        <Button
                                             color="primary"
-                                            variant="contained" 
+                                            variant="contained"
                                             margin="dense"
                                             size="small"
-                                            className={classes.btn} 
+                                            className={classes.btn}
                                             onClick={(e) => this.selectLink(e, row)}
                                         >
                                             Consulter
                                         </Button>
-                                        <Button 
+                                        <Button
                                             color="secondary"
-                                            variant="contained" 
+                                            variant="contained"
                                             margin="dense"
                                             size="small"
-                                            className={classes.btn} 
+                                            className={classes.btn}
                                             onClick={() => this.handleConfirmModalOpen(row)}
                                         >
                                             Supprimer
-                                        </Button>                                        
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </Paper>
-                <Dialog 
-                    onClose={this.handleModalClickClose} 
-                    open={open_modal} 
+                <Dialog
+                    onClose={this.handleModalClickClose}
+                    open={open_modal}
                     maxWidth="lg"
                     width="lg"
                     scroll="body"
@@ -250,12 +250,12 @@ class Url extends Component{
                                 fullWidth
                                 margin="dense"
                                 variant="outlined"
-                            />   
+                            />
                         </Grid>
                         <Grid container direction="row" justify="center" alignItems="center">
-                            <Button 
-                                onClick={() => this.saveLink()} 
-                                variant="contained" 
+                            <Button
+                                onClick={() => this.saveLink()}
+                                variant="contained"
                                 color="primary"
                                 margin="dense"
                                 size="small"
@@ -276,16 +276,16 @@ class Url extends Component{
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button 
+                        <Button
                             color="secondary"
-                            variant="contained" 
+                            variant="contained"
                             margin="dense"
                             size="small"
-                            className={classes.btn} 
+                            className={classes.btn}
                             onClick={(e) => this.deleteLink(link.id)}
                         >
                             Supprimer
-                        </Button>    
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>
