@@ -40,7 +40,8 @@ const CATEGORIES = [
 		icon: <PhonelinkSetup/>,
 		authorized: Auth.isUserAdmin,
 		children: [
-			{ id: 'Newsletter', link: '/admin/newsletter'}
+			{ id: 'Newsletter', link: '/admin/newsletter'},
+			{ id: 'Calendrier', link: '/admin/calendrier'}
 		]
 	},
 	{
@@ -169,7 +170,6 @@ class AdminNav extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		let admin = localStorage.getItem('right') == 'A'
 		return (
 			<nav className={classes.drawer}>
 				<AdminDrawer {...this.props}>
@@ -222,6 +222,7 @@ class AdminNav extends React.Component {
 									</React.Fragment>
 								)
 							}
+							return <></>
 						})
 						}
 					</List>

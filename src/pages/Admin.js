@@ -22,6 +22,7 @@ import RequestedPerm from '../components/admin/perms/RequestedPerm';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Newsletter from '../components/admin/application_management/Newsletter'
+import CalendarApp from '../components/admin/application_management/CalendarApp'
 import Media from '../components/admin/tv/Media';
 import Url from '../components/admin/tv/Url';
 import Configuration from '../components/admin/tv/Configuration';
@@ -90,6 +91,8 @@ class Admin extends React.Component {
 				return "Prostate";
 			case asset_url("/admin/newsletter"):
 				return "Newsletter"
+			case asset_url("/admin/calendrier"):
+				return "CalendarApp"
 			default:
 			break;
 		}
@@ -149,6 +152,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="admin" path={`${base_url}/settings`} exact component={Settings}/>
 						<ProtectedRoute only="admin" path={`${base_url}/prostate`} exact component={Prostate}/>
 						<ProtectedRoute only="admin" path={`${base_url}/newsletter`} exact component={Newsletter}/>
+						<ProtectedRoute only="admin" path={`${base_url}/calendrier`} exact component={CalendarApp}/>
 						<Route component={Error404}/>
 					</Switch>
 				</main>
