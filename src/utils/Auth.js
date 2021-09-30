@@ -77,7 +77,6 @@ class Auth {
         const current_url = window.location.href;
         // Redirection vers le CAS
         window.location.href = config.urls.URL + '/api/auth/login?redirect=' + current_url;
-        console.log('Go LOGIn')
     }
 
 
@@ -95,7 +94,6 @@ class Auth {
     static redirectUser(){
         const query = new URLSearchParams(window.location.search);
         const redirect = query.get('redirect')
-        console.log('redirection')
         if (redirect) {
             if (!Auth.isUserMember() && redirect.startsWith('/admin')) {
                 window.location = asset_url('/');

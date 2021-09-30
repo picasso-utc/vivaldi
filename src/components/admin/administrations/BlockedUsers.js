@@ -17,8 +17,8 @@ import { ajaxGet, ajaxPost, ajaxDelete } from '../../../utils/Ajax';
 import { formateFromDjangoDate } from '../../../utils/Date';
 
 class BlockedUsers extends Component{
- 
-    
+
+
     constructor(props) {
         super(props)
 
@@ -112,7 +112,7 @@ class BlockedUsers extends Component{
         });
     }
 
-    
+
 
     deleteBlockedUser(user){
         ajaxDelete('blocked/users/' + user.id + '/').then(res => {
@@ -123,18 +123,18 @@ class BlockedUsers extends Component{
 
         })
     }
-  
+
 
     render(){
-        
+
         const { classes } = this.props;
 
         const {users, new_user, autoCompleteUsers, loading} = this.state;
 
         if (loading) {
             return (
-                <Grid 
-                    container 
+                <Grid
+                    container
                     className="admin_loader"
                     direction="row"
                     justify="center"
@@ -176,7 +176,7 @@ class BlockedUsers extends Component{
                                     {suggestion.name.split('-')[0]}
                                 </MenuItem>
                             ))}
-                            
+
                         </Paper>
                     </Grid>
                     <Grid item xs={8} sm={5}>
@@ -188,7 +188,7 @@ class BlockedUsers extends Component{
                             onChange={(e) => this.handleChange(e)}
                             margin="dense"
                             variant="outlined"
-                        />    
+                        />
                     </Grid>
                     <Grid item xs={4} sm={2}>
                         <Button variant="contained" color="primary" className={classes.addButton} size="small" onClick={() => this.saveUser()}>
@@ -196,7 +196,7 @@ class BlockedUsers extends Component{
                         </Button>
                     </Grid>
                 </Grid>
-                
+
                 <Typography variant="h6" className={classes.subTitle}>
                     <ChevronRightIcon className={classes.subTitleIcon}/>
                     Liste des utilisateurs bloqués
@@ -223,23 +223,23 @@ class BlockedUsers extends Component{
                             {users.map((row, index) => (
                                 <TableRow hover key={index} className={classes.row}>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.name} 
+                                        {row.name}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.justification} 
+                                        {row.justification}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {formateFromDjangoDate(row.date)} 
+                                        {formateFromDjangoDate(row.date)}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        <Button 
-                                            variant="contained" 
-                                            size="small" 
-                                            className={classes.btn} 
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            className={classes.btn}
                                             onClick={() => this.deleteBlockedUser(row)}
                                         >
                                             Débloquer
-                                        </Button>                    
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

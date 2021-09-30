@@ -16,6 +16,7 @@ import Poll from './pages/Poll';
 import PermForm from './pages/PermForm';
 import Badge from './pages/Badge';
 import { createGlobalStyle } from 'styled-components';
+import PermGen from "./pages/PermGen";
 
 React.lazy(() => import('./pages/Admin'))
 
@@ -53,6 +54,7 @@ class App extends React.Component {
 					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
 					<ProtectedRoute path="/perm/form" exact component={PermForm}/>
 					<Route path="/menu" component={Menu} />
+					<Route path="/perm/gen/:id" component={PermGen} />
 					<Route component={Error404}/>
 				</Switch>
 				</React.Suspense>

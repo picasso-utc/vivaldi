@@ -33,6 +33,7 @@ const CATEGORIES = [
 		children: [
 			{ id: 'Goodies', link: '/admin/goodies'},
 			{ id: 'Sondages', link: '/admin/polls'},
+			{ id: 'Shotgun', link: '/admin/shotgun'},
 		]
 	},
 	{

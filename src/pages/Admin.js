@@ -20,6 +20,7 @@ import PermDetails from '../components/admin/perms/PermDetails';
 import PermsIndex from '../components/admin/perms/PermsIndex';
 import RequestedPerm from '../components/admin/perms/RequestedPerm';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
+import ShotgunManagement from '../components/admin/website_management/ShotgunManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Newsletter from '../components/admin/application_management/Newsletter'
 import CalendarApp from '../components/admin/application_management/CalendarApp'
@@ -93,6 +94,8 @@ class Admin extends React.Component {
 				return "Newsletter"
 			case asset_url("/admin/calendrier"):
 				return "CalendarApp"
+			case asset_url("/admin/shotgun"):
+				return "ShotgunManagement"
 			default:
 			break;
 		}
@@ -135,6 +138,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/`} exact component={Dashboard}/>
 						<ProtectedRoute only="member" path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/polls`} exact component={PollsManagement}/>
+						<ProtectedRoute only="member" path={`${base_url}/shotgun`} exact component={ShotgunManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
