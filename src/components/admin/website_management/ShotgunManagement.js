@@ -138,7 +138,7 @@ class PollsManagement extends Component{
 
                         {element.actif &&
                         <LinkIcon
-                            onClick={() => alert("La superbe URL")}
+                            onClick={() => alert("url: www.picasso-utc.fr/shotgun/"+element.id)}
                         />
                         }
 
