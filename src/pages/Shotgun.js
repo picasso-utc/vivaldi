@@ -36,7 +36,6 @@ class Shotgun extends React.Component {
 
     componentDidMount() {
         ajaxGet('shotgun/creneau/'+this.state.nb).then((res) => {
-            console.log(res.data)
             this.setState({text:res.data['text']})
             let date = new Date(res.data['shotgunDate'])
             if(!res.data['actif'] || date >  Date.now()){

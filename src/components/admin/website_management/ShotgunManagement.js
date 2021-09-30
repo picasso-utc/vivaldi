@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import LinkIcon from '@material-ui/icons/Link';
-
+import EmailIcon from '@material-ui/icons/Email';
 
 class PollsManagement extends Component{
 
@@ -72,6 +72,10 @@ class PollsManagement extends Component{
         ajaxDelete('shotgun/creneau/' + e.id+'/').then(r => this.loadShotgun())
     }
 
+    sendEmails(){
+        alert("coucou")
+    }
+
 
     componentDidMount(){
         this.loadShotgun()
@@ -96,7 +100,6 @@ class PollsManagement extends Component{
             let actif = []
             let inactif = []
             for (let shotgun in res.data){
-                console.log(res.data[shotgun]['actif'])
                 if (res.data[shotgun]['actif']){
                     actif.push(res.data[shotgun])
                 }else{
@@ -116,9 +119,29 @@ class PollsManagement extends Component{
         })
     }
 
+    displayPerson(classes, person){
+        return(
+            <Grid container direction="column">
+                <Typography item xs={12} sm={6}>{person.login} - {person.email}</Typography>
+                <Button
+                    item xs={12} sm={6}
+                    variant="contained"
+                    size="small"
+                    className={classes.btnAddNews}
+                    color="secondary"
+                    onClick={() => alert('TODO')}
+                >
+                    Supprimer
+                </Button>
+            </Grid>
+        )
+    }
+
     displaySotgun(element, index,classes){
         let nbPeople = 0
+        let liste = []
         if (this.state.listPeople[''+element.id]){
+            liste = this.state.listPeople[''+element.id]
             nbPeople = this.state.listPeople[''+element.id].length
         }
         return(
@@ -136,6 +159,9 @@ class PollsManagement extends Component{
                             }
                         />
 
+                        <EmailIcon
+                            onClick={() => this.sendEmails()}
+                        />
                         {element.actif &&
                         <LinkIcon
                             onClick={() => alert("url: www.picasso-utc.fr/shotgun/"+element.id)}
@@ -169,7 +195,9 @@ class PollsManagement extends Component{
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid>
-
+                            {liste.map((element,index) => {
+                                return this.displayPerson(classes,element)
+                            })}
                         </Grid>
                     </AccordionDetails>
                 </Accordion>
