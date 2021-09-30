@@ -1,4 +1,3 @@
-# Vivaldi
 Front-end part of the PicAsso WebApp
 Showcase site of the association and admin part for management
 react 16.13

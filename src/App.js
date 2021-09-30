@@ -26,12 +26,12 @@ const PUBLIC_URL = process.env.PUBLIC_URL;
 // reset, set border-box, and other global concerns.
 const GlobalStyles = createGlobalStyle`
   html {
-	  --color-primary: #145857;
-	  --color-secondary: #67826A;
+	  --color-primary: #FEB350;
+	  --color-secondary: #D4E4E0;
 	  --color-third: #1D1D1B;
-	  --color-light: #DDC091;
-	  --color-warning: #DDA724;
-	  --color-important: #C28110;
+	  --color-light: #92BBB6;
+	  --color-warning: #FEB350;
+	  --color-important: #FEB350;
 	  --color-font: #FAFAFA;
   }
 `;

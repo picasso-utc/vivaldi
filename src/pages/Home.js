@@ -33,13 +33,6 @@ class Home extends React.Component {
 						<Header/>
 					</Container>
 
-					<Container id="covid" className={classes.container}>
-						<fieldset className={classes.component}>
-							<legend className={classes.legend}>Covid Stats</legend>
-							<Covid />
-						</fieldset>
-					</Container>
-
 					<Container id="rules" className={classes.container}>
 						<fieldset className={classes.component}>
 							<legend className={classes.legend}>Les règles</legend>
