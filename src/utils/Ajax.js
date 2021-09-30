@@ -25,7 +25,6 @@ function ajaxPatch(path, data) {
 }
 
 function ajaxDelete(path) {
-
     return axios.delete(config.urls.API_URL + path, defaultConfig);
 }
 

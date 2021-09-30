@@ -6,6 +6,15 @@ import {CircularProgress, TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {ajaxGet, ajaxPost} from "../utils/Ajax";
 
+const messages = {
+    "max":"Le shotgun est déjà complet 😭",
+    "login":"Le login fourni n'est pas reconnu 😭",
+    "time":"Le shotgun n'est pas fini / n'a pas commencé ⏰",
+    "succes":"Ton shotgun a bien été pris en compte! ☑️ Nous reviendrons vers toi par mail pour te confirmer ta participation️",
+    "others":"Une erreur interne est arrivé, vérifiez votre lien ou envoyez un message au pic 🚨",
+    "notFound":"Le shotgun semble ne pas exister il est soit supprimé soit votre lien n'est pas le bon 🚧"
+}
+
 class Shotgun extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +23,7 @@ class Shotgun extends React.Component {
             loading: true,
             login: '',
             shotgun: false,
+            text:'',
         }
         this.handleChange = this.handleChange.bind(this)
     }
@@ -26,21 +36,53 @@ class Shotgun extends React.Component {
 
     componentDidMount() {
         ajaxGet('shotgun/creneau/'+this.state.nb).then((res) => {
+            console.log(res.data)
+            this.setState({text:res.data['text']})
+            if(!res.data['actif'] || res.data['shotgunDate'] >  Date.now()){
+                this.setState({loading: false})
+                this.setState({message:'time'})
+            }
             this.setState({loading: false})
-        })
+        }).catch((reason => {
+            this.setState({message:'notFound'})
+            this.setState({loading: false})
+        }))
         if(this.getCookie('SHOTGUN_'+this.state.nb)) {
-            console.log('already')
-            this.setState({shotgun: true})
-            console.log(this.state.shotgun)
-            console.log('cc')
+            this.setState({message:'succes'})
+            this.setState({loading: false})
         }
     }
 
     makeshotgun(){
+
         this.setState({loading:true})
         ajaxPost('shotgun/persons/',{login: this.state.login, id_creneau: this.state.nb, email: null}).then((res) =>{
             document.cookie = 'SHOTGUN_'+this.state.nb+'=True'
+            this.setState({message:'succes'})
             this.setState({loading:false})
+        }).catch((exeption)=>{
+            if (exeption.response) {
+                switch (exeption.response.status){
+                    case 400:
+                        this.setState({message:'succes'})
+                        document.cookie = 'SHOTGUN_'+this.state.nb+'=True'
+                        break;
+                    case 429:
+                        this.setState({message:'max'})
+                        break;
+                    case 422:
+                        this.setState({message:'login'})
+                        break;
+                    case 451:
+                        this.setState({message:'time'})
+                        break;
+                    default:
+                        this.setState({message:'others'})
+                        break;
+                }
+            }
+            this.setState({loading:false})
+
         })
 
     }
@@ -59,35 +101,24 @@ class Shotgun extends React.Component {
                 <Typography variant="h1" className={classes.title}>
                     Shotgun
                 </Typography>
-
+                <Typography variant="h4" className={classes.title}>
+                    {this.state.text}
+                </Typography>
                 <TextField value={this.state.login} onChange={this.handleChange} label="Ton login" variant="outlined" className={classes.textField} />
                 <Button variant="contained" className={classes.button} onClick={() => this.makeshotgun()}>SHOTGUN!</Button>
             </Grid>
         )
     }
 
-    renderToSoon(classes){
-        return(
-            <Grid container direction="row" className={classes.font}
-                  direction="column"
-                  alignItems="center"
-                  justify="center">
-                <Typography variant="h1" className={classes.title}>
-                    Trop tot moussaillon
-                </Typography>
-            </Grid>
-            )
-
-    }
-
-    renderAlreadySotgun(classes){
+    renderMessageShotgun(classes){
+        let customMessage = messages[this.state.message]
         return(
             <Grid container direction="row" className={classes.font}
                   direction="column"
                   alignItems="center"
                   justify="center">
                 <Typography variant="h6" className={classes.title}>
-                    Ton shotgun a été pris en compte! Tu recevras une confirmation par mail bientot :)
+                    {customMessage}
                 </Typography>
             </Grid>
         )
@@ -102,14 +133,14 @@ class Shotgun extends React.Component {
                       direction="column"
                       alignItems="center"
                       justify="center">
+                    <Typography>N'actualisez pas la page SVP (ça bosse) 😰</Typography>
                     <CircularProgress />
                 </Grid>
             )
         }
         else{
-            if(this.state.shotgun){
-                console.log('déjà')
-                return this.renderAlreadySotgun(classes)
+            if(this.state.message){
+                return this.renderMessageShotgun(classes)
             }else{
                 return this.renderShutgun(classes)
             }
