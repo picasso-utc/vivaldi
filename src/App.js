@@ -55,8 +55,8 @@ class App extends React.Component {
 					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
 					<ProtectedRoute path="/perm/form" exact component={PermForm}/>
 					<Route path="/menu" component={Menu} />
-					<Route path="/perm/gen/:id" component={PermGen} />
-					<Route path="/shotgun/:id" component={Shotgun} />
+					<Route path="/perm/gen/:id" exact component={PermGen} />
+					<Route path="/shotgun/:id" exact component={Shotgun} />
 					<Route component={Error404}/>
 				</Switch>
 				</React.Suspense>

@@ -94,33 +94,37 @@ class Shotgun extends React.Component {
 
     renderShutgun(classes){
         return(
-            <Grid container direction="row" className={classes.font}
-                  direction="column"
-                  alignItems="center"
-                  justify="center">
-                <Typography variant="h1" className={classes.title}>
-                    Shotgun
-                </Typography>
-                <Typography variant="h4" className={classes.title}>
-                    {this.state.text}
-                </Typography>
-                <TextField value={this.state.login} onChange={this.handleChange} label="Ton login" variant="outlined" className={classes.textField} />
-                <Button variant="contained" className={classes.button} onClick={() => this.makeshotgun()}>SHOTGUN!</Button>
-            </Grid>
+            <div>
+                <Grid container direction="row" className={classes.font}
+                      direction="column"
+                      alignItems="center"
+                      justify="center">
+                    <Typography variant="h1" className={classes.title}>
+                        Shotgun
+                    </Typography>
+                    <Typography variant="h4" className={classes.title}>
+                        {this.state.text}
+                    </Typography>
+                    <TextField value={this.state.login} onChange={this.handleChange} label="Ton login" variant="outlined" className={classes.textField} />
+                    <Button variant="contained" className={classes.button} onClick={() => this.makeshotgun()}>SHOTGUN!</Button>
+                </Grid>
+            </div>
         )
     }
 
     renderMessageShotgun(classes){
         let customMessage = messages[this.state.message]
         return(
-            <Grid container direction="row" className={classes.font}
-                  direction="column"
-                  alignItems="center"
-                  justify="center">
-                <Typography variant="h6" className={classes.title}>
-                    {customMessage}
-                </Typography>
-            </Grid>
+            <div>
+                <Grid container direction="row" className={classes.font}
+                      direction="column"
+                      alignItems="center"
+                      justify="center">
+                    <Typography variant="h6" className={classes.title}>
+                        {customMessage}
+                    </Typography>
+                </Grid>
+            </div>
         )
 
     }
@@ -129,13 +133,15 @@ class Shotgun extends React.Component {
         const { classes} = this.props;
         if(this.state.loading){
             return(
-                <Grid container direction="row" className={classes.font}
-                      direction="column"
-                      alignItems="center"
-                      justify="center">
-                    <Typography>N'actualisez pas la page SVP (ça bosse) 😰</Typography>
-                    <CircularProgress />
-                </Grid>
+                <div>
+                    <Grid container direction="row" className={classes.font}
+                          direction="column"
+                          alignItems="center"
+                          justify="center">
+                        <Typography>N'actualisez pas la page SVP (ça bosse) 😰</Typography>
+                        <CircularProgress />
+                    </Grid>
+                </div>
             )
         }
         else{
