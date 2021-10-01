@@ -48,7 +48,7 @@ class App extends React.Component {
 				<Switch>
 					<Route path="/" exact component={Home}/>
 					<Route path="/badge" exact component={Badge}/>
-					<Route path="/shotgun/:id" exact component={Shotgun} />
+					<Route path="/shotgun" exact component={Shotgun} />
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
 					<Route path="/logout" exact component={Logout}/>

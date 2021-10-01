@@ -5,6 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {CircularProgress, TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {ajaxGet, ajaxPost} from "../utils/Ajax";
+import * as qs from "query-string";
 
 const messages = {
     "max":"Le shotgun est déjà complet 😭",
@@ -19,13 +20,12 @@ class Shotgun extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nb: this.props.location.pathname.split('/')[2],
+            nb: qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id,
             loading: true,
             login: '',
             shotgun: false,
             text:'',
         }
-        // qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id
         this.handleChange = this.handleChange.bind(this)
     }
 
