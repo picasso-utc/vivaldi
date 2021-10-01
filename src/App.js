@@ -48,6 +48,7 @@ class App extends React.Component {
 				<Switch>
 					<Route path="/" exact component={Home}/>
 					<Route path="/badge" exact component={Badge}/>
+					<Route path="/shotgun/:id" exact component={Shotgun} />
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
 					<Route path="/logout" exact component={Logout}/>
@@ -56,7 +57,6 @@ class App extends React.Component {
 					<ProtectedRoute path="/perm/form" exact component={PermForm}/>
 					<Route path="/menu" component={Menu} />
 					<Route path="/perm/gen/:id" exact component={PermGen} />
-					<Route path="/shotgun" exact component={Shotgun} />
 					<Route component={Error404}/>
 				</Switch>
 				</React.Suspense>
