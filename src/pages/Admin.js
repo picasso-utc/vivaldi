@@ -20,7 +20,10 @@ import PermDetails from '../components/admin/perms/PermDetails';
 import PermsIndex from '../components/admin/perms/PermsIndex';
 import RequestedPerm from '../components/admin/perms/RequestedPerm';
 import GoodiesManagement from '../components/admin/website_management/GoodiesManagement';
+import ShotgunManagement from '../components/admin/website_management/ShotgunManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
+import Newsletter from '../components/admin/application_management/Newsletter'
+import CalendarApp from '../components/admin/application_management/CalendarApp'
 import Media from '../components/admin/tv/Media';
 import Url from '../components/admin/tv/Url';
 import Configuration from '../components/admin/tv/Configuration';
@@ -87,11 +90,17 @@ class Admin extends React.Component {
 				return "Gestion des médias TV";
 			case asset_url("/admin/prostate"):
 				return "Prostate";
+			case asset_url("/admin/newsletter"):
+				return "Newsletter"
+			case asset_url("/admin/calendrier"):
+				return "CalendarApp"
+			case asset_url("/admin/shotgun"):
+				return "ShotgunManagement"
 			default:
 			break;
 		}
 	}
-	
+
 	render() {
 		const { classes } = this.props;
 		const { mobileOpen } = this.state;
@@ -129,6 +138,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/`} exact component={Dashboard}/>
 						<ProtectedRoute only="member" path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/polls`} exact component={PollsManagement}/>
+						<ProtectedRoute only="member" path={`${base_url}/shotgun`} exact component={ShotgunManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
 						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
@@ -145,6 +155,8 @@ class Admin extends React.Component {
 						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>
 						<ProtectedRoute only="admin" path={`${base_url}/settings`} exact component={Settings}/>
 						<ProtectedRoute only="admin" path={`${base_url}/prostate`} exact component={Prostate}/>
+						<ProtectedRoute only="admin" path={`${base_url}/newsletter`} exact component={Newsletter}/>
+						<ProtectedRoute only="admin" path={`${base_url}/calendrier`} exact component={CalendarApp}/>
 						<Route component={Error404}/>
 					</Switch>
 				</main>

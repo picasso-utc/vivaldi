@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.10.0",
+    "@uiw/react-md-editor": "^3.4.14",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "date-fns": "^2.16.1",
@@ -33,8 +34,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build-assos": "export PUBLIC_URL='/picasso'; npm run build",
+    "start-local": "export REACT_APP_KRAKEN='local'; npm run start",
+    "start-dev": "export REACT_APP_KRAKEN='dev'; npm run start ",
+    "start-prod": "export REACT_APP_KRAKEN='prod'; npm run start",
+    "build": "export REACT_APP_KRAKEN='prod'; react-scripts build",
+    "build-assos": "export REACT_APP_KRAKEN='prod'; export PUBLIC_URL='/picasso'; npm run build",
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -51,5 +55,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "."
 }

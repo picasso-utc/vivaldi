@@ -28,12 +28,12 @@ import AddIcon from '@material-ui/icons/Add';
 import Paper from '@material-ui/core/Paper';
 import TableHead from '@material-ui/core/TableHead';
 import { ajaxGet, ajaxPost, ajaxDelete, ajaxPut, ajaxPatch } from '../../../utils/Ajax';
-import {URL} from '../../../utils/Config';
+import {config} from '../../../utils/Config';
 import SnackbarComponent from '../../../utils/SnackbarComponent';
 
 class PollsManagement extends Component{
- 
-    
+
+
     constructor(props) {
         super(props)
         this.state = {
@@ -104,8 +104,8 @@ class PollsManagement extends Component{
                 let total_votes = 0;
                 for (let j = 0; j < surveys[index].surveyitem_set.length; j++) {
                     total_votes += surveys[index].surveyitem_set[j].surveyitemvote_set.length;
-                }  
-                surveys[index].total_votes = total_votes;              
+                }
+                surveys[index].total_votes = total_votes;
             }
             for (let index = 0; index < surveys.length; index++) {
                 surveys[index].surveyitem_set = surveys[index].surveyitem_set.sort(function(a,b){
@@ -122,7 +122,7 @@ class PollsManagement extends Component{
         })
     }
 
-    
+
     reloadNewSurvey = () => {
         this.setState({survey: {
             title: '',
@@ -167,7 +167,7 @@ class PollsManagement extends Component{
         const reader = new FileReader();
         let image = null;
 
-        reader.readAsDataURL(file);   
+        reader.readAsDataURL(file);
         reader.onloadend = () => {
             image = reader.result;
             this.setState({
@@ -185,7 +185,7 @@ class PollsManagement extends Component{
         const reader = new FileReader();
         let image = null;
 
-        reader.readAsDataURL(file);   
+        reader.readAsDataURL(file);
         reader.onloadend = () => {
             image = reader.result;
             let surveyitem_set = [...this.state.survey.surveyitem_set];
@@ -245,7 +245,7 @@ class PollsManagement extends Component{
     selectSurvey = (survey) => {
         var request = new XMLHttpRequest();
         const that = this
-        request.open('GET', URL + '/media/' + survey.image, true);
+        request.open('GET', config.urls.URL + '/media/' + survey.image, true);
         request.responseType = 'blob';
         request.onload = function() {
             var reader = new FileReader();
@@ -253,13 +253,13 @@ class PollsManagement extends Component{
             reader.onload =  function(e){
                 survey.image = reader.result;
                 for (let index = 0; index < survey.surveyitem_set.length; index++) {
-                    survey.surveyitem_set[index].image = URL + '/media/' + survey.surveyitem_set[index].image;
+                    survey.surveyitem_set[index].image = config.urls.URL + '/media/' + survey.surveyitem_set[index].image;
                 }
                 that.setState({survey: survey, mode: 'edit'})
                 that.handleModalClickOpen();
             };
         };
-        request.send(); 
+        request.send();
     }
 
 
@@ -302,7 +302,7 @@ class PollsManagement extends Component{
                 } else {
                     this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
                 }
-            })  
+            })
         } else if (this.state.mode === "edit"){
             ajaxPut('surveys/' + this.state.survey.id + '/', this.state.survey).then((res) => {
                 this.setState({
@@ -319,7 +319,7 @@ class PollsManagement extends Component{
                 } else {
                     this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
                 }
-            })  
+            })
         }
     }
 
@@ -351,7 +351,7 @@ class PollsManagement extends Component{
                 };
                 request.send();
             }
-            
+
         } else {
             //Création de l'item
             ajaxPost('survey/items/', surveyitem_set[index]).then((res) => {
@@ -366,7 +366,7 @@ class PollsManagement extends Component{
                     this.changeSnackbarState(true, "error", "Une erreur s'est produite.")
                 }
             })
-        }        
+        }
     }
 
     deleteSurveyItem(index){
@@ -398,14 +398,14 @@ class PollsManagement extends Component{
     }
 
     render(){
-        
+
         const { classes } = this.props;
         const { surveys, loading, open_modal, survey, mode, confirm_modal, surveys_history, snackbar } = this.state;
 
         if (loading) {
             return (
-                <Grid 
-                    container 
+                <Grid
+                    container
                     className="admin_loader"
                     direction="row"
                     justify="center"
@@ -420,31 +420,31 @@ class PollsManagement extends Component{
 
         return (
             <div className="admin_container">
-                          
+
                 {surveys.length === 0 ? (
                     <React.Fragment>
-                        <Grid 
+                        <Grid
                             container
                             direction="row"
                             justify="center"
                             alignItems="center"
                         >
                             <Typography variant="h6">
-                                Pas de sondages pour le moment. 
+                                Pas de sondages pour le moment.
                             </Typography>
                             <br/>
                         </Grid>
-                        <Grid 
+                        <Grid
                             container
                             direction="row"
                             justify="center"
                             alignItems="center"
                         >
-                            <Button 
-                                variant="contained" 
-                                size="small" 
+                            <Button
+                                variant="contained"
+                                size="small"
                                 margin="dense"
-                                className={classes.btn} 
+                                className={classes.btn}
                                 color="primary"
                                 onClick={(e) => this.handleModalClickOpen()}
                             >
@@ -457,9 +457,9 @@ class PollsManagement extends Component{
                         <Typography variant="h6" className={classes.subTitle}>
                             <ChevronRightIcon className={classes.subTitleIcon}/>
                             Liste des sondages
-                            <Fab 
-                                size="small" 
-                                color="primary" 
+                            <Fab
+                                size="small"
+                                color="primary"
                                 className={classes.add_item}
                                 onClick={(e) => this.handleModalClickOpen()}
                             >
@@ -476,32 +476,32 @@ class PollsManagement extends Component{
                                                     {survey.title}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" className={classes.cell}>
-                                                  <Button 
-                                                        size="small" 
-                                                        variant="contained" 
+                                                  <Button
+                                                        size="small"
+                                                        variant="contained"
                                                         margin="dense"
-                                                        className={classes.btn} 
+                                                        className={classes.btn}
                                                         color="primary"
                                                         onClick={(e) => this.selectSurvey(survey)}
                                                     >
                                                         Consulter
                                                     </Button>
-                                                    <Button 
-                                                        variant="contained" 
+                                                    <Button
+                                                        variant="contained"
                                                         margin="dense"
                                                         size="small"
-                                                        className={classes.btn} 
+                                                        className={classes.btn}
                                                         color={survey.visible ? "secondary" : "primary"}
                                                         onClick={(e) => this.changeSurveyVisibility(survey_index)}
                                                     >
                                                         {survey.visible ? (<span>Désactiver</span>):(<span>Activer</span>)}
                                                     </Button>
-                                                    <Button 
-                                                        size="small" 
+                                                    <Button
+                                                        size="small"
                                                         color="secondary"
-                                                        variant="contained" 
+                                                        variant="contained"
                                                         margin="dense"
-                                                        className={classes.btn} 
+                                                        className={classes.btn}
                                                         onClick={() => this.handleConfirmModalOpen(survey)}
                                                     >
                                                         Supprimer
@@ -545,12 +545,12 @@ class PollsManagement extends Component{
                                     <TableCell component="th" scope="row" className={classes.cell} style={{minWidth: 300}}>
                                         <ul>
                                             {row.surveyitem_set.map((item_row, item_index) => (
-                                                <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.surveyitemvote_set.length/row.total_votes)*100).toFixed(1)}%</li>   
+                                                <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.surveyitemvote_set.length/row.total_votes)*100).toFixed(1)}%</li>
                                             ))}
                                         </ul>
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.total_votes}                                       
+                                        {row.total_votes}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -590,20 +590,20 @@ class PollsManagement extends Component{
                                     <TableCell component="th" scope="row" className={classes.cell} style={{minWidth: 300}}>
                                         <ul>
                                             {row.surveyitem_set.map((item_row, item_index) => (
-                                                <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.votes/row.total_votes)*100).toFixed(1)}%</li>   
+                                                <li key={item_index}><strong>{item_row.name}:</strong> {((item_row.votes/row.total_votes)*100).toFixed(1)}%</li>
                                             ))}
                                         </ul>
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        {row.total_votes}                                       
+                                        {row.total_votes}
                                     </TableCell>
                                         <TableCell className={classes.cell}>
-                                            <Button 
-                                                size="small" 
+                                            <Button
+                                                size="small"
                                                 color="secondary"
-                                                variant="contained" 
+                                                variant="contained"
                                                 margin="dense"
-                                                className={classes.btn} 
+                                                className={classes.btn}
                                                 onClick={() => this.handleConfirmModalOpen(row)}
                                             >
                                                 Supprimer
@@ -614,9 +614,9 @@ class PollsManagement extends Component{
                         </TableBody>
                     </Table>
                 </Paper>
-                <Dialog 
-                    onClose={this.handleModalClickClose} 
-                    open={open_modal} 
+                <Dialog
+                    onClose={this.handleModalClickClose}
+                    open={open_modal}
                     maxWidth="lg"
                     width="lg"
                     scroll="body"
@@ -644,9 +644,9 @@ class PollsManagement extends Component{
                                 name="image"
                             />
                             <label htmlFor="contained-button-file">
-                                <Button 
-                                    variant="contained" 
-                                    component="span" 
+                                <Button
+                                    variant="contained"
+                                    component="span"
                                     className={classes.upload_button}
                                     name="image"
                                 >
@@ -676,7 +676,7 @@ class PollsManagement extends Component{
                                 variant="outlined"
                                 multiline
                                 rows="3"
-                            />   
+                            />
                         </Grid>
                         <Grid container direction="row">
                             <FormControlLabel
@@ -691,9 +691,9 @@ class PollsManagement extends Component{
                             />
                         </Grid>
                         <Grid container direction="row" justify="center" alignItems="center">
-                            <Button 
-                                onClick={() => this.saveSurvey()} 
-                                variant="contained" 
+                            <Button
+                                onClick={() => this.saveSurvey()}
+                                variant="contained"
                                 color="primary"
                                 margin="dense"
                                 size="small"
@@ -705,8 +705,8 @@ class PollsManagement extends Component{
                             <React.Fragment>
                                 <Typography component="h3" className={classes.modal_title}>
                                     Items
-                                    <Button 
-                                        variant="contained" 
+                                    <Button
+                                        variant="contained"
                                         color="primary"
                                         margin="dense"
                                         size="small"
@@ -736,9 +736,9 @@ class PollsManagement extends Component{
                                                                 name="image"
                                                             />
                                                             <label htmlFor={item_index}>
-                                                                <Button 
-                                                                    variant="contained" 
-                                                                    component="span" 
+                                                                <Button
+                                                                    variant="contained"
+                                                                    component="span"
                                                                     className={classes.upload_button}
                                                                     onChange={(event) => this.handleItemFileChange(event, item)}
                                                                 >
@@ -780,20 +780,20 @@ class PollsManagement extends Component{
                                                     </CardActionArea>
                                                     <CardActions>
                                                         {item.id &&
-                                                            <Button 
-                                                                onClick={() => this.deleteSurveyItem(item_index)} 
+                                                            <Button
+                                                                onClick={() => this.deleteSurveyItem(item_index)}
                                                                 color="secondary"
-                                                                variant="contained" 
+                                                                variant="contained"
                                                                 margin="dense"
                                                                 size="small"
                                                             >
                                                                 Supprimer
                                                             </Button>
                                                         }
-                                                        <Button 
-                                                            onClick={() => this.saveSurveyItem(item_index)} 
+                                                        <Button
+                                                            onClick={() => this.saveSurveyItem(item_index)}
                                                             color="primary"
-                                                            variant="contained" 
+                                                            variant="contained"
                                                             margin="dense"
                                                             size="small"
                                                         >
@@ -820,21 +820,21 @@ class PollsManagement extends Component{
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button 
+                        <Button
                             color="secondary"
-                            variant="contained" 
+                            variant="contained"
                             margin="dense"
                             size="small"
-                            className={classes.btn} 
+                            className={classes.btn}
                             onClick={(e) => this.deleteSurvey(survey.id)}
                         >
                             Supprimer
-                        </Button>    
+                        </Button>
                     </DialogActions>
                 </Dialog>
-                <SnackbarComponent 
-                    open={snackbar.open} 
-                    variant={snackbar.variant} 
+                <SnackbarComponent
+                    open={snackbar.open}
+                    variant={snackbar.variant}
                     message={snackbar.message}
                     closeSnackbar={
                         ()=>{

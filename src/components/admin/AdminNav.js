@@ -8,12 +8,13 @@ import { Divider, Drawer, Collapse,
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
-import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
+import WebAsset from '@material-ui/icons/WebAsset';
 import HomeIcon from '@material-ui/icons/Home';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import LiveTvIcon from '@material-ui/icons/LiveTv';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import PhonelinkSetup from '@material-ui/icons/PhonelinkSetup'
 import Auth from '../../utils/Auth';
 import { asset_url } from '../../utils/Config';
 
@@ -27,11 +28,21 @@ const CATEGORIES = [
 	},
 	{
 		id: 'Gestion du site',
-		icon: <DeveloperModeIcon/>,
+		icon: <WebAsset/>,
 		authorized: Auth.isUserMember,
 		children: [
 			{ id: 'Goodies', link: '/admin/goodies'},
 			{ id: 'Sondages', link: '/admin/polls'},
+			{ id: 'Shotgun', link: '/admin/shotgun'},
+		]
+	},
+	{
+		id: 'Gestion de l\'application',
+		icon: <PhonelinkSetup/>,
+		authorized: Auth.isUserAdmin,
+		children: [
+			{ id: 'Newsletter', link: '/admin/newsletter'},
+			{ id: 'Calendrier', link: '/admin/calendrier'}
 		]
 	},
 	{
@@ -157,7 +168,7 @@ class AdminNav extends React.Component {
 			onClick: this.closeNav
 		}
 	}
-	
+
 	render() {
 		const { classes } = this.props;
 		return (
@@ -169,46 +180,52 @@ class AdminNav extends React.Component {
 						</Link>
 					</div>
 					<List disablePadding>
-						{CATEGORIES.map(category => (
-							<React.Fragment key={category.id}>
-								<ListItem 
-									className={classes.categoryHeader} 
-									onClick={category.children && this.toggleCategoryCollapse}
-									value={category.id}
-									button
-									{...this.getLinkProps(category.link)}
-								>
-									<ListItemIcon className={classes.itemIcon}>
-										{category.icon}
-									</ListItemIcon>
-									<ListItemText classes={{ primary: classes.categoryHeaderPrimary }}>
-										{category.id}
-									</ListItemText>
-								</ListItem>
-									
-								{category.children && category.children.length && (
-									<Collapse in={Boolean(this.state.openCategories[category.id])} timeout="auto">
-										<List component="div" disablePadding>
-											{category.children.map(child => (
-												<ListItem 
-													key={child.id} 
-													button
-													className={classes.categoryChildren}
-													value={child.link}
-													{...this.getLinkProps(child.link)}
-												>
-													<ListItemText
-														primary={child.id} 
-														classes={{ primary: classes.categoryChildrenPrimary }}
-													/>
-												</ListItem>
-											))}
-										</List>
-									</Collapse>
-								)}
-								<Divider/>
-							</React.Fragment>
-						))}
+						{CATEGORIES.map((category) => {
+							if (category.authorized()){
+								return(
+									<React.Fragment key={category.id}>
+										<ListItem
+											className={classes.categoryHeader}
+											onClick={category.children && this.toggleCategoryCollapse}
+											value={category.id}
+											button
+											{...this.getLinkProps(category.link)}
+										>
+											<ListItemIcon className={classes.itemIcon}>
+												{category.icon}
+											</ListItemIcon>
+											<ListItemText classes={{ primary: classes.categoryHeaderPrimary }}>
+												{category.id}
+											</ListItemText>
+										</ListItem>
+
+										{category.children && category.children.length && (
+											<Collapse in={Boolean(this.state.openCategories[category.id])} timeout="auto">
+												<List component="div" disablePadding>
+													{category.children.map(child => (
+														<ListItem
+															key={child.id}
+															button
+															className={classes.categoryChildren}
+															value={child.link}
+															{...this.getLinkProps(child.link)}
+														>
+															<ListItemText
+																primary={child.id}
+																classes={{ primary: classes.categoryChildrenPrimary }}
+															/>
+														</ListItem>
+													))}
+												</List>
+											</Collapse>
+										)}
+										<Divider/>
+									</React.Fragment>
+								)
+							}
+							return <></>
+						})
+						}
 					</List>
 				</AdminDrawer>
 			</nav>
@@ -281,7 +298,7 @@ const styles = theme => ({
 	categoryChildrenPrimary: {
 		color: theme.palette.common.white,
 		fontSize: 12,
-		
+
 	},
 	logo: {
 		textAlign: 'center',
@@ -295,7 +312,7 @@ const styles = theme => ({
 	},
 
 
-		
+
 });
 
 export default withStyles (styles) (AdminNav)

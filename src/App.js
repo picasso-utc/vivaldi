@@ -16,6 +16,8 @@ import Poll from './pages/Poll';
 import PermForm from './pages/PermForm';
 import Badge from './pages/Badge';
 import { createGlobalStyle } from 'styled-components';
+import PermGen from "./pages/PermGen";
+import Shotgun from "./pages/Shotgun";
 
 React.lazy(() => import('./pages/Admin'))
 
@@ -25,12 +27,12 @@ const PUBLIC_URL = process.env.PUBLIC_URL;
 // reset, set border-box, and other global concerns.
 const GlobalStyles = createGlobalStyle`
   html {
-	  --color-primary: #145857;
-	  --color-secondary: #67826A;
+	  --color-primary: #FEB350;
+	  --color-secondary: #D4E4E0;
 	  --color-third: #1D1D1B;
-	  --color-light: #DDC091;
-	  --color-warning: #DDA724;
-	  --color-important: #C28110;
+	  --color-light: #92BBB6;
+	  --color-warning: #FEB350;
+	  --color-important: #FEB350;
 	  --color-font: #FAFAFA;
   }
 `;
@@ -46,6 +48,7 @@ class App extends React.Component {
 				<Switch>
 					<Route path="/" exact component={Home}/>
 					<Route path="/badge" exact component={Badge}/>
+					<Route path="/shotgun" exact component={Shotgun} />
 					<ProtectedRoute only="member" path="/admin" component={Admin}/>
 					<Route path="/login" exact component={Login}/>
 					<Route path="/logout" exact component={Logout}/>
@@ -53,6 +56,7 @@ class App extends React.Component {
 					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
 					<ProtectedRoute path="/perm/form" exact component={PermForm}/>
 					<Route path="/menu" component={Menu} />
+					<Route path="/perm/gen/:id" exact component={PermGen} />
 					<Route component={Error404}/>
 				</Switch>
 				</React.Suspense>

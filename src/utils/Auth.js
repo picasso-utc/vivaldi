@@ -1,4 +1,4 @@
-import {URL, asset_url} from './Config';
+import {asset_url, config} from './Config';
 import {ajaxGet, ajaxPost} from './Ajax';
 import { isStringEmpty } from './String';
 const GENERAL_CONNEXION = 'full';
@@ -43,8 +43,6 @@ class Auth {
 
     static async login(){
         this.emptyLocalStorage();
-        console.log('LOGIN')
-
         this.checkAuth()
             .then(res => {
                 Auth.authenticateUser(res.data)
@@ -60,8 +58,6 @@ class Auth {
     }
 
     static async checkAuth(){
-        console.log('checkauto')
-        console.log(ajaxGet('auth/me'))
         return ajaxGet('auth/me');
     }
 
@@ -80,14 +76,13 @@ class Auth {
     static goLogin(){
         const current_url = window.location.href;
         // Redirection vers le CAS
-        window.location.href = URL + '/api/auth/login?redirect=' + current_url;
-        console.log('Go LOGIn')
+        window.location.href = config.urls.URL + '/api/auth/login?redirect=' + current_url;
     }
 
 
     static goLogout(){
         this.emptyLocalStorage();
-        window.location.href = URL + '/api/auth/logout';
+        window.location.href = config.urls.URL + '/api/auth/logout';
     }
 
 
@@ -99,7 +94,6 @@ class Auth {
     static redirectUser(){
         const query = new URLSearchParams(window.location.search);
         const redirect = query.get('redirect')
-        console.log('redirection')
         if (redirect) {
             if (!Auth.isUserMember() && redirect.startsWith('/admin')) {
                 window.location = asset_url('/');

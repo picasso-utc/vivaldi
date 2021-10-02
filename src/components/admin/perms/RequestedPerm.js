@@ -16,11 +16,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { ajaxGet, ajaxPost, ajaxPatch } from '../../../utils/Ajax';
-import { API_URL } from '../../../utils/Config';
+import { config } from '../../../utils/Config';
 
 class RequestedPerms extends Component{
- 
-    
+
+
     constructor(props) {
         super(props)
 
@@ -68,7 +68,7 @@ class RequestedPerms extends Component{
 
 
     getRequestedPermsPDF(){
-        window.open(API_URL + 'perms/requested/pdf')
+        window.open(config.urls.API_URL + 'perms/requested/pdf')
     }
 
 
@@ -106,10 +106,10 @@ class RequestedPerms extends Component{
         })
     }
 
-        
+
 
     render(){
-        
+
         const { classes } = this.props;
 
         const {requested_perms, loading, perm_may_be_requested} = this.state;
@@ -117,8 +117,8 @@ class RequestedPerms extends Component{
 
         if (loading) {
             return (
-                <Grid 
-                    container 
+                <Grid
+                    container
                     className="admin_loader"
                     direction="row"
                     justify="center"
@@ -142,8 +142,8 @@ class RequestedPerms extends Component{
                 <Grid container direction="row">
                     <FormControlLabel
                         control={
-                            <Switch 
-                                color="primary" 
+                            <Switch
+                                color="primary"
                                 checked={perm_may_be_requested}
                                 value="perm_may_be_requested"
                                 onChange={() => this.handleSliderChange()}
@@ -161,18 +161,18 @@ class RequestedPerms extends Component{
                 </Grid>
 
                 <Grid container direction="row">
-                    <Button 
+                    <Button
                         color="primary"
-                        variant="contained" 
+                        variant="contained"
                         margin="dense"
                         size="small"
-                        className={classes.btn} 
+                        className={classes.btn}
                         onClick={(e) => this.getRequestedPermsPDF()}
                     >
                         Télécharger les demandes
-                    </Button> 
+                    </Button>
                 </Grid>
-                
+
                 <Paper className={classes.rootTable}>
                     <Table>
                         <TableHead>
@@ -208,17 +208,17 @@ class RequestedPerms extends Component{
                                         {row.nom_resp}
                                     </TableCell>
                                     <TableCell component="th" scope="row" className={classes.cell}>
-                                        <Button 
+                                        <Button
                                             color="primary"
-                                            variant="contained" 
+                                            variant="contained"
                                             margin="dense"
                                             size="small"
                                             disabled={row.added || row.loading}
-                                            className={classes.btn} 
+                                            className={classes.btn}
                                             onClick={(e) => this.addPerm(index)}
                                         >
                                             {row.added ? (<span>Ajouté</span>) : (<span>Ajouter</span>)}
-                                        </Button>                                     
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
