@@ -10,10 +10,10 @@ import * as qs from "query-string";
 const messages = {
     "max":"Le shotgun est déjà complet 😭",
     "login":"Le login fourni n'est pas reconnu 😭",
-    "time":"Le shotgun n'est pas fini / n'a pas commencé ⏰",
+    "time":"Le shotgun n'a pas commencé / est fini ⏰",
     "succes":"Ton shotgun a bien été pris en compte! ☑️ Nous reviendrons vers toi par mail pour te confirmer ta participation️",
     "others":"Une erreur interne est arrivé, vérifiez votre lien ou envoyez un message au pic 🚨",
-    "notFound":"Le shotgun semble ne pas exister il est soit supprimé soit votre lien n'est pas le bon 🚧"
+    "notFound":"Le shotgun semble ne pas éxister il est soit supprimé soit votre lien n'est pas le bon 🚧"
 }
 
 class Shotgun extends React.Component {
@@ -113,7 +113,7 @@ class Shotgun extends React.Component {
         )
     }
 
-    renderMessageShotgun(classes){
+    renderMessageShotgun(classes, extraText){
         let customMessage = messages[this.state.message]
         return(
             <div>
@@ -121,6 +121,9 @@ class Shotgun extends React.Component {
                       direction="column"
                       alignItems="center"
                       justify="center">
+                    <Typography variant="h4">
+                        {extraText}
+                    </Typography>
                     <Typography variant="h6" className={classes.title}>
                         {customMessage}
                     </Typography>
@@ -147,7 +150,12 @@ class Shotgun extends React.Component {
         }
         else{
             if(this.state.message){
-                return this.renderMessageShotgun(classes)
+                if(this.state.message = 'time'){
+                    return this.renderMessageShotgun(classes,this.state.text)
+                }
+                else{
+                    return this.renderMessageShotgun(classes)
+                }
             }else{
                 return this.renderShutgun(classes)
             }

@@ -27,6 +27,7 @@ class PollsManagement extends Component{
                 nb: 10,
                 dateStart: null,
                 dateEnd: null,
+                personAdd:''
             }
         }
         this.loadShotgun = this.loadShotgun.bind(this)
@@ -65,21 +66,33 @@ class PollsManagement extends Component{
     handleSwitch(e){
         let temp = e
         temp.actif = !e.actif
-        ajaxPut('shotgun/creneau/' + e.id+'/',temp).then(r  => this.loadShotgun())
+        ajaxPut('shotgun/creneau/' + e.id+'/',temp).then(r  => this.loadAllComponent())
     }
 
     handleDelete(e){
-        ajaxDelete('shotgun/creneau/' + e.id+'/').then(r => this.loadShotgun())
+        ajaxDelete('shotgun/creneau/' + e.id+'/').then(r => this.loadAllComponent())
+    }
+
+    handleDeletePerson(e){
+        ajaxDelete('shotgun/persons/' + e.id+'/').then(r => this.loadAllComponent())
+    }
+
+    addPerson(idCreneau){
+        ajaxPost('shotgun/persons/',{id_creneau:idCreneau, login:this.state.newShotgun.personAdd}).then(r => this.loadAllComponent())
     }
 
     sendEmails(){
         alert("coucou")
     }
 
-
-    componentDidMount(){
+    loadAllComponent(){
         this.loadShotgun()
         this.loadPeople()
+    }
+
+
+    componentDidMount(){
+        this.loadAllComponent()
     }
 
     loadPeople(){
@@ -121,7 +134,9 @@ class PollsManagement extends Component{
 
     displayPerson(classes, person){
         return(
-            <Grid container direction="column">
+            <Grid container
+                  justifyContent="space-between"
+                  direction="row">
                 <Typography item xs={12} sm={6}>{person.login} - {person.email}</Typography>
                 <Button
                     item xs={12} sm={6}
@@ -129,7 +144,7 @@ class PollsManagement extends Component{
                     size="small"
                     className={classes.btnAddNews}
                     color="secondary"
-                    onClick={() => alert('TODO')}
+                    onClick={() => this.handleDeletePerson(person)}
                 >
                     Supprimer
                 </Button>
@@ -164,7 +179,7 @@ class PollsManagement extends Component{
                         />
                         {element.actif &&
                         <LinkIcon
-                            onClick={() => alert("url: www.picasso-utc.fr/shotgun?id="+element.id)}
+                            onClick={() => alert("url: picasso-utc.fr/shotgun?id="+element.id)}
                         />
                         }
 
@@ -194,11 +209,31 @@ class PollsManagement extends Component{
                         <Typography>Membres du shotgun {nbPeople} / {element.max_people}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Grid>
+                        <div>
+                            <Grid container
+                                  justifyContent="space-between"
+                                  direction="row">
+                                <TextField
+                                    item xs={12} sm={6}
+                                    label="Ajouter une personne en avance"
+                                    className={classes.textField}
+                                    name="personAdd"
+                                    value={this.state.personAdd}
+                                    onChange={this.handleChange}
+                                    autoComplete="off"
+                                    margin="dense"
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
+                                    InputProps={{ style: { fontSize: 12 } }}
+                                />
+                                <Button
+                                    item xs={12} sm={6} onClick={() => this.addPerson(element.id)}>Ajouter</Button>
+                            </Grid>
                             {liste.map((element,index) => {
                                 return this.displayPerson(classes,element)
                             })}
-                        </Grid>
+                        </div>
                     </AccordionDetails>
                 </Accordion>
             </React.Fragment>
@@ -208,7 +243,7 @@ class PollsManagement extends Component{
 
     render() {
         const {classes} = this.props;
-        const {activeShotgun, unActiveShotgun, newShotgun} = this.state
+        const {activeShotgun, unActiveShotgun, newShotgun, personAdd} = this.state
 
         return (
             <>
