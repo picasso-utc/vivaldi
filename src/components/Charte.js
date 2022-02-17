@@ -172,7 +172,8 @@ class Charte extends Component {
 									personne et le reste de mon équipe à respecter les règles suivantes lors de toutes les permanences
 									tenues au Pic’asso durant le semestre. Respecter les décisions de l’équipe d’astreinte. Notamment en ce qui
 									concerne les horaires de fermeture, le volume sonore et l’utilisation de la licence de cercle privé. Respecter le
-									matériel mis à disposition des permanenciers. Respecter les étudiants présents dans l’enceinte du foyer.
+									matériel mis à disposition des permanenciers. Respecter les étudiants présents dans l’enceinte du foyer. Vérifier
+						 			pass vaccinal de toutes les personnes entrant dans l’enceinte du Picasso pendant les heures de permanence.
 									Payer mes consommations pendant mes permanences. En effet, les permanences sont tenues bénévolement.
 									Leur but est d’assurer un service aux étudiants et non de permettre à ceux qui les tiennent d’en tirer des avantages.
 									Ne pas servir une personne qui a trop bu et prévenir l’astreinteur si l’état de la personne nécessite
