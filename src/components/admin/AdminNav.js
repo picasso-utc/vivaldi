@@ -92,7 +92,7 @@ const CATEGORIES = [
 	{
 		id: 'Télés',
 		icon: <LiveTvIcon/>,
-		authorized: Auth.isUserAdmin,
+		authorized: Auth.isUserMember,
 		children: [
 			{id: 'Configuration', link: '/admin/tv/config'},
 			{id: 'Média', link: '/admin/tv/media'},
