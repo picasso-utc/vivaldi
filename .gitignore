@@ -4,4 +4,4 @@ build/
 ./src/utils/Config.js
 ./package-lock.json
 .idea/
-
+.DS_Store
