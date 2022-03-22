@@ -141,7 +141,7 @@ class Admin extends React.Component {
 						<ProtectedRoute only="member" path={`${base_url}/shotgun`} exact component={ShotgunManagement}/>
 						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
 						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
-						<ProtectedRoute only="admin" path={`${base_url}/astreintes`} exact component={Astreintes}/>
+						<ProtectedRoute only="member" path={`${base_url}/astreintes`} exact component={Astreintes}/>
 						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={PermsIndex}/>
 						<ProtectedRoute only="member" path={`${base_url}/perm/details`} exact component={PermDetails}/>
 						<ProtectedRoute only="member" path={`${base_url}/requested/perms`} exact component={RequestedPerm}/>
