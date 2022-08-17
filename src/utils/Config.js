@@ -7,8 +7,8 @@ const prod = {
 
 const dev = {
     urls: {
-        URL:'https://kraken.picasso-dev.fr', // URL de l'API
-        API_URL:'https://kraken.picasso-dev.fr/api/' // URL de l'API
+        URL:'https://kraken-dev.picasso-utc.fr', // URL de l'API
+        API_URL:'https://kraken-dev.picasso-utc.fr/api/' // URL de l'API
     }
 }
 
