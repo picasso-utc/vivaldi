@@ -1,0 +1,23 @@
+.prostate-sub-title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.prostate-result-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.prostate-tab_container {
+    border: solid 1px black;
+    width: 80%;
+}
+
+.prostate-row-container {
+    border: solid 1px black;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}

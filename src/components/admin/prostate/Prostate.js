@@ -1,49 +1,37 @@
-import React, {Component} from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, {useEffect, useState} from 'react';
+import Grid from "@material-ui/core/Grid";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import Button from "@material-ui/core/Button";
+import {ajaxPost} from "../../../utils/Ajax";
+import "./prostate.css";
 
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
+const Prostate = () => {
+    const [loading, setLoading] = useState(false)
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
+    const [result, setResult]= useState([])
 
-import ProstateForm from './ProstateForm';
-import Chart from './Chart';
+    const handleForm = async () => {
+        setLoading(true)
 
+        await ajaxPost('treso/stats', {
+            "start_date": startDate.toISOString().split('T')[0],
+            "end_date": endDate.toISOString().split('T')[0]
+        }).then(
+            res => setResult(res.data)
+        ).catch(
+            setLoading(false)
+        )
 
-
-
-class Prostate extends Component{
-
-
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            loading: false,
-            formParameters: null
-        }
+        setLoading(false)
     }
 
-    handleSubmitParameters = (formParameters) => {
-        console.log("SUBMIT");
-        this.setState({loading: true});
-
-        this.setState({formParameters},
-            () => {
-                this.setState({loading: false});
-            });
-    }
-
-
-
-
-
-
-
-
-
-    render(){
-
-        if (this.state.loading) {
-            return (
+    if (loading) {
+        return (
+            <div className="admin_container">
                 <Grid
                     container
                     className="admin_loader"
@@ -55,88 +43,70 @@ class Prostate extends Component{
                         <CircularProgress/>
                     </Grid>
                 </Grid>
-            )
-        }
-
-        return (
-            <div className="admin_container">
-                <ProstateForm
-                    onSubmit={this.handleSubmitParameters}
-                    parameters={this.state.formParameters}
-                />
-                {this.state.formParameters ?
-                <Chart
-                    parameters={this.state.formParameters}
-                ></Chart>
-                :
-                null
-
-
-            }
-
-
-
-
-
             </div>
-            );
-        };
-
+        )
     }
 
-    const styles = theme => ({
-        container: {
-            padding: 20,
-            margin: 30,
-            marginTop: 100,
-            border: "1.5px solid #B22132",
-        },
-        paper: {
-            padding: 10
-        },
-        textField: {
-            marginTop: 16,
-            paddingRight: 15,
-            width: "100%",
-        },
-        suggestions: {
-            zIndex: 100,
-            position: 'absolute',
-            maxHeight: 200,
-            overflowY: 'scroll',
-            marginRight: 15,
-        },
-        suggestionItem: {
-            paddingLeft: 15,
-            paddingBottom: 0,
-            paddingTop: 0,
-            fontSize: 14,
-            minHeight: 30,
-        },
-        addButton: {
-            marginTop: 16,
-            marginBottom: 8,
-        },
-        subTitle: {
-            marginTop: 10,
-            marginBottom: 10,
-        },
-        subTitleIcon: {
-            marginRight: 8,
-            paddingTop: 5,
-        },
-        row: {
-            height: 40,
-        },
-        cell: {
-            paddingTop: 10,
-            paddingBottom: 10,
-            paddingRight: 10,
-            paddingLeft: 10,
-        },
-        btn: {
-            margin: 5
-        },
-    });
+    return (
+        <div className="admin_container">
+            <Grid container>
+                <Typography variant="h6" className="prostate-sub-title">
+                    Choisissez une période à étudier
+                </Typography>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            label="Date de départ"
+                            name="start_date"
+                            value={startDate}
+                            onChange={setStartDate}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            label="Date de fin"
+                            name="end_date"
+                            value={endDate}
+                            onChange={setEndDate}
 
-    export default withStyles (styles) (Prostate)
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </Grid>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="primary"
+                            onClick={() => handleForm()}
+                        >
+                            Voir
+                        </Button>
+                    </Grid>
+                </MuiPickersUtilsProvider>
+                <div className='prostate-result-container'>
+                    <Grid className='prostate-tab_container'>
+                        {result.map(({ categorie__nom, total_price }, index) => (
+                            <Grid className='prostate-row-container' item key={index}>
+                                <div><b>{categorie__nom}</b></div>
+                                <div><b>{total_price} €</b></div>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </div>
+            </Grid>
+        </div>
+    )
+}
+
+export default Prostate
