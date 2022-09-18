@@ -16,9 +16,9 @@ export function IconButtonLink(props) {
 }
 
 
-const COUVERTURE_PATH = asset_url('/images/Couverture_Site_A21.png')
-const COUVERTURE_PATH_XS = asset_url('/images/Mobile_Couverture_P21.png')
-const LOGO_PATH = asset_url('/images/Logo_Pic_A21.png')
+const COUVERTURE_PATH = asset_url('/images/background_a22.png')
+const COUVERTURE_PATH_XS = asset_url('/images/background_a22.png')
+const LOGO_PATH = asset_url('/images/logo_a22.png')
 
 
 class Header extends React.Component {
@@ -66,54 +66,6 @@ class Header extends React.Component {
 							<div className={classes.logo}>
 								<img alt="logo_pic" src={LOGO_PATH} height="60px"/>
 							</div>
-
-							<Hidden xsDown implementation="css">
-								<Button
-									onClick={(event) => this.handleOpenMenu(event)}
-								>
-									Menu
-								</Button>
-								<Menu
-									anchorEl={anchor}
-									keepMounted
-									open={Boolean(anchor)}
-									onClose={(event) => this.handleCloseMenu(event)}
-								>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#home")}>Accueil</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#rules")}>Les règles</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#calendar")}>Calendrier</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#polls")}>Sondages</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#prices")}>Tarifs</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
-									{/*<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>*/}
-								</Menu>
-							</Hidden>
-
-							<Hidden smUp implementation="css">
-								<IconButton
-									onClick={(event) => this.handleOpenMenu(event)}
-								>
-									<MoreVertIcon />
-								</IconButton>
-								<Menu
-									anchorEl={anchor}
-									keepMounted
-									open={Boolean(anchor)}
-									onClose={(event) => this.handleCloseMenu(event)}
-								>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#home")}>Accueil</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#rules")}>Les règles</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#calendar")}>Calendrier</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#polls")}>Sondages</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#prices")}>Tarifs</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#goodies")}>Goodies</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#perm")}>Perm</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#postes")}>Postes</MenuItem>
-									<MenuItem onClick={(event) => this.handleCloseMenu(event, "#team")}>La Team</MenuItem>
-								</Menu>
-							</Hidden>
 							<IconButtonLink to="/login" className={classes.menuButton} aria-label="Login">
 								<LockIcon className={classes.icon}/>
 							</IconButtonLink>
@@ -146,7 +98,6 @@ const styles = theme => ({
 	appBar: {
 		backgroundColor: 'var(--color-light)',
 		color: 'white',
-
 	},
 	logo: {
 		flexGrow: 1,
@@ -173,7 +124,6 @@ const styles = theme => ({
 		right: 0,
 		left: 'auto',
 		marginTop: 65,
-
 	},
 	couverture: {
 		width: '100%',
