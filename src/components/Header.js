@@ -17,7 +17,7 @@ export function IconButtonLink(props) {
 
 
 const COUVERTURE_PATH = asset_url('/images/background_a22.png')
-const COUVERTURE_PATH_XS = asset_url('/images/background_a22.png')
+const COUVERTURE_PATH_XS = asset_url('/images/background_no_logo_a22.png')
 const LOGO_PATH = asset_url('/images/logo_a22.png')
 
 
@@ -75,7 +75,10 @@ class Header extends React.Component {
 
 				<div className = {classes.imgContainer}>
 					<Hidden smUp implementation="css">
-						<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture} style={{height:height}}/>
+						<div className={classes.couvXS}>
+							<img alt="logo_pic" src={LOGO_PATH} className={classes.logoCouv} />
+							<img alt="couverture_pic" src={COUVERTURE_PATH_XS} className={classes.couverture} style={{height:height}}/>
+						</div>
 					</Hidden>
 					<Hidden xsDown implementation="css">
 						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture}/>
@@ -130,6 +133,15 @@ const styles = theme => ({
 		height: window.innerHeight,
 		objectFit: 'cover',
 	},
+	logoCouv: {
+		width: '70%',
+		position: 'absolute',
+		top: '15%',
+		left: '15%'
+	},
+	couvXS: {
+		display: 'flex'
+	}
 });
 
 
