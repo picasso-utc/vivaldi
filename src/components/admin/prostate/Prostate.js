@@ -99,9 +99,17 @@ const Prostate = () => {
                         {result.map(({ categorie__nom, total_price }, index) => (
                             <Grid className='prostate-row-container' item key={index}>
                                 <div><b>{categorie__nom}</b></div>
-                                <div><b>{total_price} €</b></div>
+                                <div><b>{new Intl.NumberFormat().format(total_price)} €</b></div>
                             </Grid>
                         ))}
+                        <Grid className='prostate-row-container' item>
+                            <div><b>Total</b></div>
+                            <div>
+                                <b>
+                                {new Intl.NumberFormat().format(result.reduce((partialSum, { total_price }) =>  partialSum + total_price, 0))} €
+                                </b>
+                            </div>
+                        </Grid>
                     </Grid>
                 </div>
             </Grid>
