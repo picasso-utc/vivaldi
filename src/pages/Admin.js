@@ -104,7 +104,6 @@ class Admin extends React.Component {
 	render() {
 		const { classes } = this.props;
 		const { mobileOpen } = this.state;
-		const base_url = this.props.match.url;
 
 		return (
 			<div className={classes.root}>
@@ -135,28 +134,28 @@ class Admin extends React.Component {
 
 				<main className={classes.content}>
 					<Switch>
-						<ProtectedRoute only="member" path={`${base_url}/`} exact component={Dashboard}/>
-						<ProtectedRoute only="member" path={`${base_url}/goodies`} exact component={GoodiesManagement}/>
-						<ProtectedRoute only="member" path={`${base_url}/polls`} exact component={PollsManagement}/>
-						<ProtectedRoute only="member" path={`${base_url}/shotgun`} exact component={ShotgunManagement}/>
-						<ProtectedRoute only="member" path={`${base_url}/current/perm`} exact component={CurrentPerm}/>
-						<ProtectedRoute only="member" path={`${base_url}/calendar`} exact component={CalendarManagement}/>
-						<ProtectedRoute only="member" path={`${base_url}/astreintes`} exact component={Astreintes}/>
-						<ProtectedRoute only="member" path={`${base_url}/perms`} exact component={PermsIndex}/>
-						<ProtectedRoute only="member" path={`${base_url}/perm/details`} exact component={PermDetails}/>
-						<ProtectedRoute only="member" path={`${base_url}/requested/perms`} exact component={RequestedPerm}/>
-						<ProtectedRoute only="member" path={`${base_url}/tv/media`} exact component={Media}/>
-						<ProtectedRoute only="member" path={`${base_url}/tv/url`} exact component={Url}/>
-						<ProtectedRoute only="member" path={`${base_url}/tv/config`} exact component={Configuration}/>
-						<ProtectedRoute only="admin" path={`${base_url}/users`} exact component={Users}/>
-						<ProtectedRoute only="admin" path={`${base_url}/resources`} exact component={ResourcesManagement}/>
-						<ProtectedRoute only="admin" path={`${base_url}/blocked/users`} exact component={BlockedUsers}/>
-						<ProtectedRoute only="admin" path={`${base_url}/team`} exact component={TeamManagement}/>
-						<ProtectedRoute only="admin" path={`${base_url}/semesters`} exact component={Semesters}/>
-						<ProtectedRoute only="admin" path={`${base_url}/settings`} exact component={Settings}/>
-						<ProtectedRoute only="admin" path={`${base_url}/prostate`} exact component={Prostate}/>
-						<ProtectedRoute only="admin" path={`${base_url}/newsletter`} exact component={Newsletter}/>
-						<ProtectedRoute only="admin" path={`${base_url}/calendrier`} exact component={CalendarApp}/>
+						<ProtectedRoute only="member" path='/admin/' exact component={Dashboard}/>
+						<ProtectedRoute only="member" path='/admin/goodies' exact component={GoodiesManagement}/>
+						<ProtectedRoute only="member" path='/admin/polls' exact component={PollsManagement}/>
+						<ProtectedRoute only="member" path='/admin/shotgun' exact component={ShotgunManagement}/>
+						<ProtectedRoute only="member" path='/admin/current/perm' exact component={CurrentPerm}/>
+						<ProtectedRoute only="member" path='/admin/calendar' exact component={CalendarManagement}/>
+						<ProtectedRoute only="member" path='/admin/astreintes' exact component={Astreintes}/>
+						<ProtectedRoute only="member" path='/admin/perms' exact component={PermsIndex}/>
+						<ProtectedRoute only="member" path='/admin/perm/details' exact component={PermDetails}/>
+						<ProtectedRoute only="member" path='/admin/requested/perms' exact component={RequestedPerm}/>
+						<ProtectedRoute only="member" path='/admin/tv/media' exact component={Media}/>
+						<ProtectedRoute only="member" path='/admin/tv/url' exact component={Url}/>
+						<ProtectedRoute only="member" path='/admin/tv/config' exact component={Configuration}/>
+						<ProtectedRoute only="member" path='/admin/prostate' exact component={Prostate}/>
+						<ProtectedRoute only="member" path='/admin/newsletter' exact component={Newsletter}/>
+						<ProtectedRoute only="member" path='/admin/calendrier' exact component={CalendarApp}/>
+						<ProtectedRoute only="admin" path='/admin/users' exact component={Users}/>
+						<ProtectedRoute only="admin" path='/admin/resources' exact component={ResourcesManagement}/>
+						<ProtectedRoute only="admin" path='/admin/blocked/users' exact component={BlockedUsers}/>
+						<ProtectedRoute only="admin" path='/admin/team' exact component={TeamManagement}/>
+						<ProtectedRoute only="admin" path='/admin/semesters' exact component={Semesters}/>
+						<ProtectedRoute only="admin" path='/admin/settings' exact component={Settings}/>
 						<Route component={Error404}/>
 					</Switch>
 				</main>

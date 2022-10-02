@@ -44,21 +44,20 @@ class App extends React.Component {
 				<CssBaseline />
 				<GlobalStyles/>
 				<React.Suspense fallback={<div>Loading</div>}>
-
-				<Switch>
-					<Route path="/" exact component={Home}/>
-					<Route path="/badge" exact component={Badge}/>
-					<Route path="/shotgun" exact component={Shotgun} />
-					<ProtectedRoute only="member" path="/admin" component={Admin}/>
-					<Route path="/login" exact component={Login}/>
-					<Route path="/logout" exact component={Logout}/>
-					<Route path="/charte" exact component={Charte}/>
-					<ProtectedRoute path="/poll/:id" exact component={Poll}/>
-					<ProtectedRoute path="/perm/form" exact component={PermForm}/>
-					<Route path="/menu" component={Menu} />
-					<Route path="/perm/gen/:id" exact component={PermGen} />
-					<Route component={Error404}/>
-				</Switch>
+					<Switch>
+						<Route path="/" exact component={Home}/>
+						<Route path="/badge" exact component={Badge}/>
+						<Route path="/shotgun" exact component={Shotgun} />
+						<Route path="/login" exact component={Login}/>
+						<Route path="/logout" exact component={Logout}/>
+						<Route path="/charte" exact component={Charte}/>
+						<Route path="/menu" component={Menu} />
+						<Route path="/perm/gen/:id" exact component={PermGen} />
+						<ProtectedRoute only="member" path="/admin" component={Admin}/>
+						<ProtectedRoute path="/poll/:id" exact component={Poll}/>
+						<ProtectedRoute path="/perm/form" exact component={PermForm}/>
+						<Route component={Error404}/>
+					</Switch>
 				</React.Suspense>
 			</BrowserRouter>
 		)
