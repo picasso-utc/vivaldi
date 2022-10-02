@@ -32,17 +32,27 @@ const CATEGORIES = [
 		authorized: Auth.isUserMember,
 		children: [
 			{ id: 'Goodies', link: '/admin/goodies'},
-			{ id: 'Sondages', link: '/admin/polls'},
+			// { id: 'Sondages', link: '/admin/polls'},
 			{ id: 'Shotgun', link: '/admin/shotgun'},
 		]
 	},
 	{
 		id: 'Gestion de l\'application',
 		icon: <PhonelinkSetup/>,
-		authorized: Auth.isUserAdmin,
+		authorized: Auth.isUserMember,
 		children: [
 			{ id: 'Newsletter', link: '/admin/newsletter'},
 			{ id: 'Calendrier', link: '/admin/calendrier'}
+		]
+	},
+	{
+		id: ' Gestion des télés',
+		icon: <LiveTvIcon/>,
+		authorized: Auth.isUserMember,
+		children: [
+			{id: 'Configuration', link: '/admin/tv/config'},
+			{id: 'Média', link: '/admin/tv/media'},
+			{id: 'URL', link: '/admin/tv/url'},
 		]
 	},
 	{
@@ -50,13 +60,19 @@ const CATEGORIES = [
 		icon: <EventNoteIcon/>,
 		authorized: Auth.isUserMember,
 		children: [
-			{ id: 'Perm en cours', link: '/admin/current/perm'},
+			// { id: 'Perm en cours', link: '/admin/current/perm'},
 			{ id: 'Planning', link: '/admin/calendar'},
-			{ id: 'Menu', link: '/menu'},
-			{ id: 'Index', link: '/admin/perms'},
-			{id: 'Demandées', link: '/admin/requested/perms'},
+			// { id: 'Menu', link: '/menu'},
+			{ id: 'Index notations', link: '/admin/perms'},
+			// { id: 'Demandées', link: '/admin/requested/perms'},
 			{ id: 'Astreintes', link: '/admin/astreintes'},
 		]
+	},
+	{
+		id: 'Prostate',
+		link: '/admin/prostate',
+		icon: <EqualizerIcon/>,
+		authorized: Auth.isUserMember,
 	},
 	{
 		id: 'Charte',
@@ -81,29 +97,13 @@ const CATEGORIES = [
 		icon: <SettingsIcon/>,
 		authorized: Auth.isUserAdmin,
 		children: [
+			{id: 'Blocage', link: '/admin/blocked/users'},
 			{id: 'Utilisateurs', link: '/admin/users'},
 			{id: 'Team', link: '/admin/team'},
 			{id: 'Semestres', link: '/admin/semesters'},
-			{id: 'Blocage', link: '/admin/blocked/users'},
-			{id: 'Gestion', link: '/admin/resources'},
+			// {id: 'Gestion', link: '/admin/resources'},
 			{id: 'Paramètres', link: '/admin/settings'},
 		]
-	},
-	{
-		id: 'Télés',
-		icon: <LiveTvIcon/>,
-		authorized: Auth.isUserMember,
-		children: [
-			{id: 'Configuration', link: '/admin/tv/config'},
-			{id: 'Média', link: '/admin/tv/media'},
-			{id: 'URL', link: '/admin/tv/url'},
-		]
-	},
-	{
-		id: 'Prostate',
-		link: '/admin/prostate',
-		icon: <EqualizerIcon/>,
-		authorized: Auth.isUserAdmin,
 	}
 ];
 
