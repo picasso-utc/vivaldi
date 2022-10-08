@@ -30,6 +30,7 @@ class CalendarApp extends Component{
 
     loadCalender(n){
         ajaxGet('calendar/?nb='+n).then(res=>{
+            console.log(res)
             res.data.map((element,index) => {
                 if(element.periode){
                     switch (element.periode){
@@ -41,22 +42,21 @@ class CalendarApp extends Component{
                             break;
                         case "M":
                             element.hour='10:00'
+                            break;
+                        default:
+                            element.hour='18:30'
                     }
                 }
             })
             let liste = res.data.sort(function(a,b){
                 if(a.date < b.date){
                     return -1
-                } else if (a.date == b.date){
+                } else if (a.date === b.date){
                     if(a.hour < b.hour){
                         return -1
                     }
-                    else{
-                        return 1
-                    }
-                }else{
-                    return 1
                 }
+                return 1
             })
             this.setState({listCalendrier: liste})
         })
@@ -284,6 +284,9 @@ class CalendarApp extends Component{
                                             break;
                                         case "M":
                                             type = 'Perm matin'
+                                            break;
+                                        default:
+                                            type = 'Perm'
                                     }
                                 }
                             }

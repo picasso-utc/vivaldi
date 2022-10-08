@@ -243,7 +243,7 @@ class PollsManagement extends Component{
 
     render() {
         const {classes} = this.props;
-        const {activeShotgun, unActiveShotgun, newShotgun, personAdd} = this.state
+        const {activeShotgun, unActiveShotgun, newShotgun, } = this.state
 
         return (
             <>

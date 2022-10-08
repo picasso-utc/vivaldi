@@ -96,8 +96,7 @@ class Shotgun extends React.Component {
     renderShutgun(classes){
         return(
             <div>
-                <Grid container direction="row" className={classes.font}
-                      direction="column"
+                <Grid container direction="column" className={classes.font}
                       alignItems="center"
                       justify="center">
                     <Typography variant="h1" className={classes.title}>
@@ -117,8 +116,7 @@ class Shotgun extends React.Component {
         let customMessage = messages[this.state.message]
         return(
             <div>
-                <Grid container direction="row" className={classes.font}
-                      direction="column"
+                <Grid container direction="column" className={classes.font}
                       alignItems="center"
                       justify="center">
                     <Typography variant="h4">
@@ -138,11 +136,10 @@ class Shotgun extends React.Component {
         if(this.state.loading){
             return(
                 <div>
-                    <Grid container direction="row" className={classes.font}
-                          direction="column"
+                    <Grid container direction="column" className={classes.font}
                           alignItems="center"
                           justify="center">
-                        <Typography>N'actualisez pas la page SVP (ça bosse) 😰</Typography>
+                        <Typography>N'actualisez pas la page SVP (ça bosse) !</Typography>
                         <CircularProgress />
                     </Grid>
                 </div>
@@ -150,7 +147,7 @@ class Shotgun extends React.Component {
         }
         else{
             if(this.state.message){
-                if(this.state.message = 'time'){
+                if(this.state.message === 'time'){
                     return this.renderMessageShotgun(classes,this.state.text)
                 }
                 else{

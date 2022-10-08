@@ -1,7 +1,6 @@
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,7 +21,6 @@ import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import GridList from "@material-ui/core/GridList";
 import {ajaxGet} from "../utils/Ajax";
 import FormControl from "@material-ui/core/FormControl";
 
