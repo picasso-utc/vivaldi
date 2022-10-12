@@ -5,3 +5,4 @@ build/
 ./package-lock.json
 .idea/
 .DS_Store
+.prettierrc.json
