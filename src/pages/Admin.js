@@ -25,6 +25,7 @@ import PollsManagement from '../components/admin/website_management/PollsManagem
 import Newsletter from '../components/admin/application_management/Newsletter';
 import CalendarApp from '../components/admin/application_management/CalendarApp';
 import BeerInfo from '../components/admin/application_management/BeerInfo';
+import TrendingProduct from '../components/admin/application_management/TrendingProduct';
 import Media from '../components/admin/tv/Media';
 import Url from '../components/admin/tv/Url';
 import Configuration from '../components/admin/tv/Configuration';
@@ -96,6 +97,10 @@ class Admin extends React.Component {
                 return 'Info Bière';
             case asset_url('/admin/calendrier'):
                 return 'CalendarApp';
+            case asset_url('/admin/calendrier'):
+                return 'CalendarApp';
+            case asset_url('/admin/trending_product'):
+                return 'Trending Product';
             case asset_url('/admin/shotgun'):
                 return 'ShotgunManagement';
             default:
@@ -224,6 +229,12 @@ class Admin extends React.Component {
                             path="/admin/beerInfo"
                             exact
                             component={BeerInfo}
+                        />
+                        <ProtectedRoute
+                            only="member"
+                            path="/admin/trending_product"
+                            exact
+                            component={TrendingProduct}
                         />
                         <ProtectedRoute only="admin" path="/admin/users" exact component={Users} />
                         <ProtectedRoute
