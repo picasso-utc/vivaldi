@@ -5,8 +5,4 @@ build/
 ./package-lock.json
 .idea/
 .DS_Store
-<<<<<<< HEAD
 .prettierrc.json
-=======
-.prettierrc.json
->>>>>>> 150ca90 (Page to change current trending Product)

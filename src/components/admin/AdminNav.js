@@ -49,12 +49,9 @@ const CATEGORIES = [
         authorized: Auth.isUserMember,
         children: [
             { id: 'Newsletter', link: '/admin/newsletter' },
-            { id: 'Calendrier', link: '/admin/calendrier' },
-<<<<<<< HEAD
             { id: 'Info Bières', link: '/admin/beerInfo' },
-=======
             { id: 'Trending Product', link: '/admin/trending_product' },
->>>>>>> 150ca90 (Page to change current trending Product)
+            { id: 'Evenement', link: '/admin/evenement' },
         ],
     },
     {
