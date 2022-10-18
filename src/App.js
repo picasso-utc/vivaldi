@@ -18,6 +18,8 @@ import Badge from './pages/Badge';
 import { createGlobalStyle } from 'styled-components';
 import PermGen from "./pages/PermGen";
 import Shotgun from "./pages/Shotgun";
+import AppAssistancy from "./pages/AppAssistancy";
+import AppPrivacy from "./pages/AppPrivacy";
 
 React.lazy(() => import('./pages/Admin'))
 
@@ -56,6 +58,8 @@ class App extends React.Component {
 						<ProtectedRoute only="member" path="/admin" component={Admin}/>
 						<ProtectedRoute path="/poll/:id" exact component={Poll}/>
 						<ProtectedRoute path="/perm/form" exact component={PermForm}/>
+						<Route path="/app/assistancy" exact component={AppAssistancy}/>
+						<Route path="/app/privacy" exact component={AppPrivacy}/>
 						<Route component={Error404}/>
 					</Switch>
 				</React.Suspense>
