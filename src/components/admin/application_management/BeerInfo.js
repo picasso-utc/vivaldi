@@ -29,21 +29,26 @@ const BeerInfo = () => {
 
     useEffect(() => {
         ajaxGet('beer_info').then((res) => {
-            let info = res.data;
+            const info = res.data;
             info.sort((a, b) => (a.weez_id > b.weez_id ? 1 : -1));
-            setBeerInfo(info);
-        });
-        ajaxGet('payutc/public/articles').then((res) => {
-            let products = res.data;
-            let names = {};
-            products.map((category, index) => {
-                if (category.name === 'Pressions' || category.name === 'Bouteilles') {
-                    category.products.map((beer, index) => {
-                        names[beer.id] = beer.name;
-                    });
+            ajaxGet('payutc/public/articles').then((res) => {
+                let products = res.data;
+                let names = {};
+                products.map((category, index) => {
+                    if (category.name === 'Pressions' || category.name === 'Bouteilles') {
+                        category.products.map((beer, index) => {
+                            names[beer.id] = beer.name;
+                        });
+                    }
+                });
+                let infoAfficher = [];
+                for (let i = 0; i < info.length; i++) {
+                    if (names[info[i].weez_id] !== undefined) {
+                        infoAfficher.push({ ...info[i], name: names[info[i].weez_id] });
+                    }
                 }
+                setBeerInfo(infoAfficher);
             });
-            setBeerNames(names);
         });
     }, [reload]);
 
@@ -191,9 +196,7 @@ const BeerInfo = () => {
                         <TableBody>
                             {beerInfo.map((beer, index) => (
                                 <TableRow key={index}>
-                                    <TableCell className={styles.cellLeft}>
-                                        {beerNames[beer.weez_id]}
-                                    </TableCell>
+                                    <TableCell className={styles.cellLeft}>{beer.name}</TableCell>
                                     <TableCell className={styles.cell}>{beer.amertume}</TableCell>
                                     <TableCell className={styles.cell}>{beer.fruite}</TableCell>
                                     <TableCell className={styles.cell}>{beer.acidite}</TableCell>
@@ -208,7 +211,7 @@ const BeerInfo = () => {
                                                 setEdit(!edit);
                                                 setInfoToEdit({
                                                     id: beer.id,
-                                                    name: beerNames[beer.weez_id],
+                                                    name: beer.name,
                                                     weez_id: beer.weez_id,
                                                     amertume: beer.amertume,
                                                     fruite: beer.fruite,
