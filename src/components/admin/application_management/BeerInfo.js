@@ -41,6 +41,7 @@ const BeerInfo = () => {
                         });
                     }
                 });
+                setBeerNames(names);
                 let infoAfficher = [];
                 for (let i = 0; i < info.length; i++) {
                     if (names[info[i].weez_id] !== undefined) {
@@ -320,7 +321,7 @@ const BeerInfo = () => {
                                     fullWidth
                                     variant="outlined"
                                     multiline
-                                    value={infoToEdit.description}
+                                    defaultValue={infoToEdit.description}
                                     onChange={handleChangeString}
                                 />
                             </TableCell>
