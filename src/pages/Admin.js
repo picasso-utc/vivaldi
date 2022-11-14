@@ -23,7 +23,6 @@ import GoodiesManagement from '../components/admin/website_management/GoodiesMan
 import ShotgunManagement from '../components/admin/website_management/ShotgunManagement';
 import PollsManagement from '../components/admin/website_management/PollsManagement';
 import Newsletter from '../components/admin/application_management/Newsletter';
-import CalendarApp from '../components/admin/application_management/CalendarApp';
 import BeerInfo from '../components/admin/application_management/BeerInfo';
 import TrendingProduct from '../components/admin/application_management/TrendingProduct';
 import Media from '../components/admin/tv/Media';
@@ -95,10 +94,6 @@ class Admin extends React.Component {
                 return 'Newsletter';
             case asset_url('/admin/beerInfo'):
                 return 'Info Bière';
-            case asset_url('/admin/calendrier'):
-                return 'CalendarApp';
-            case asset_url('/admin/calendrier'):
-                return 'CalendarApp';
             case asset_url('/admin/trending_product'):
                 return 'Trending Product';
             case asset_url('/admin/shotgun'):
@@ -217,12 +212,6 @@ class Admin extends React.Component {
                             path="/admin/newsletter"
                             exact
                             component={Newsletter}
-                        />
-                        <ProtectedRoute
-                            only="member"
-                            path="/admin/calendrier"
-                            exact
-                            component={CalendarApp}
                         />
                         <ProtectedRoute
                             only="member"
