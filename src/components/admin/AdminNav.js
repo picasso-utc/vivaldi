@@ -50,6 +50,7 @@ const CATEGORIES = [
         children: [
             { id: 'Newsletter', link: '/admin/newsletter' },
             { id: 'Info Bières', link: '/admin/beerInfo' },
+            { id: 'Évenements du semestre', link: '/admin/evenements' },
             { id: 'Trending Product', link: '/admin/trending_product' },
         ],
     },
