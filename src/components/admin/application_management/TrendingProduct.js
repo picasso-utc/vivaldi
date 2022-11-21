@@ -30,6 +30,7 @@ const TrendingProduct = () => {
                     categoryNames[product.name] = category.name;
                 });
             });
+            productNames.sort((a, b) => (a > b ? 1 : -1));
             setProducts(productNames);
             setCategoryNames(categoryNames);
         });
