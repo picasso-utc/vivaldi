@@ -218,12 +218,6 @@ class Admin extends React.Component {
                         />
                         <ProtectedRoute
                             only="member"
-                            path="/admin/calendrier"
-                            exact
-                            component={CalendarApp}
-                        />
-                        <ProtectedRoute
-                            only="member"
                             path="/admin/evenements"
                             exact
                             component={Evenements}
