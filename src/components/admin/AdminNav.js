@@ -49,8 +49,8 @@ const CATEGORIES = [
         authorized: Auth.isUserMember,
         children: [
             { id: 'Newsletter', link: '/admin/newsletter' },
-            { id: 'Calendrier', link: '/admin/calendrier' },
             { id: 'Info Bières', link: '/admin/beerInfo' },
+            { id: 'Évenements du semestre', link: '/admin/evenements' },
             { id: 'Trending Product', link: '/admin/trending_product' },
         ],
     },

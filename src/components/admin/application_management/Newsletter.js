@@ -269,6 +269,7 @@ class Newsletter extends Component {
                                 <TableCell className={classes.cell}>
                                     <TextField
                                         label="Content"
+                                        multiline
                                         className={classes.textField}
                                         name="content"
                                         value={newNews.content}
