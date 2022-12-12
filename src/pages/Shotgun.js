@@ -10,10 +10,11 @@ import * as qs from "query-string";
 const messages = {
     "max":"Le shotgun est déjà complet 😭",
     "login":"Le login fourni n'est pas reconnu 😭",
-    "time":"Le shotgun n'a pas commencé / est fini ⏰",
+    "early":"Le shotgun n'a pas commencé ⏰",
+    "late": "Le shotgun est fini ⏰",
     "succes":"Ton shotgun a bien été pris en compte! ☑️ Nous reviendrons vers toi par mail pour te confirmer ta participation️",
     "others":"Une erreur interne est arrivé, vérifiez votre lien ou envoyez un message au pic 🚨",
-    "notFound":"Le shotgun semble ne pas éxister il est soit supprimé soit votre lien n'est pas le bon 🚧"
+    "notFound":"Le shotgun semble ne pas exister. Il est soit supprimé soit votre lien n'est pas le bon 🚧"
 }
 
 class Shotgun extends React.Component {
@@ -39,9 +40,11 @@ class Shotgun extends React.Component {
         ajaxGet('shotgun/creneau/'+this.state.nb).then((res) => {
             this.setState({text:res.data['text']})
             let date = new Date(res.data['shotgunDate'])
-            if(!res.data['actif'] || date >  Date.now()){
-                this.setState({loading: false})
-                this.setState({message:'time'})
+            if(!res.data['actif']){
+                this.setState({message:'late'})
+            }
+            if(date >  Date.now()){
+                this.setState({message:'early'})
             }
             this.setState({loading: false})
         }).catch((reason => {
@@ -59,9 +62,11 @@ class Shotgun extends React.Component {
         this.setState({loading:true})
         ajaxPost('shotgun/persons/',{login: this.state.login, id_creneau: this.state.nb, email: null}).then((res) =>{
             document.cookie = 'SHOTGUN_'+this.state.nb+'=True'
+            console.log('succes')
             this.setState({message:'succes'})
             this.setState({loading:false})
         }).catch((exeption)=>{
+            console.log(exeption)
             if (exeption.response) {
                 switch (exeption.response.status){
                     case 400:
@@ -74,8 +79,11 @@ class Shotgun extends React.Component {
                     case 422:
                         this.setState({message:'login'})
                         break;
-                    case 451:
-                        this.setState({message:'time'})
+                    case 423:
+                        this.setState({message:'late'})
+                        break;
+                    case 425:
+                        this.setState({message:'early'})
                         break;
                     default:
                         this.setState({message:'others'})
@@ -150,7 +158,7 @@ class Shotgun extends React.Component {
         }
         else{
             if(this.state.message){
-                if(this.state.message = 'time'){
+                if(this.state.message === 'early' || this.state.message === 'late'){
                     return this.renderMessageShotgun(classes,this.state.text)
                 }
                 else{
