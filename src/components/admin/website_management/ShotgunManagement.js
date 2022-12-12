@@ -180,8 +180,7 @@ class PollsManagement extends Component{
                         {element.actif &&
                         <LinkIcon
                             onClick={() => {
-                                navigator.clipboard.writeText("picasso-utc.fr/shotgun?id=" + element.id)
-                                alert('Lien copié dans le presse-papier')
+                                alert("picasso-utc.fr/shotgun?id=" + element.id)
                             }}
                         />
                         }
