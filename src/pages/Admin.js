@@ -8,7 +8,6 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import AdminNav from '../components/admin/AdminNav';
 import Dashboard from '../components/admin/Dashboard';
 import Semesters from '../components/admin/administrations/Semesters';
-import Settings from '../components/admin/administrations/Settings';
 import TeamManagement from '../components/admin/administrations/TeamManagement';
 import Users from '../components/admin/administrations/Users';
 import BlockedUsers from '../components/admin/administrations/BlockedUsers';
@@ -258,12 +257,6 @@ class Admin extends React.Component {
                             path="/admin/semesters"
                             exact
                             component={Semesters}
-                        />
-                        <ProtectedRoute
-                            only="admin"
-                            path="/admin/settings"
-                            exact
-                            component={Settings}
                         />
                         <Route component={Error404} />
                     </Switch>
