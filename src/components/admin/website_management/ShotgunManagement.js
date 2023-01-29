@@ -82,7 +82,7 @@ class PollsManagement extends Component{
     }
 
     sendEmails(){
-        alert("coucou")
+        alert("Not Implemented")
     }
 
     loadAllComponent(){
@@ -179,7 +179,9 @@ class PollsManagement extends Component{
                         />
                         {element.actif &&
                         <LinkIcon
-                            onClick={() => alert("url: picasso-utc.fr/shotgun?id="+element.id)}
+                            onClick={() => {
+                                alert("picasso-utc.fr/shotgun?id=" + element.id)
+                            }}
                         />
                         }
 
