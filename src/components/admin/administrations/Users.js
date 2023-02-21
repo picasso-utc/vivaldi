@@ -85,7 +85,7 @@ class Users extends Component{
         ajaxGet('users').then(res => {
             let users = res.data.users;
             users = users.sort(function(a,b){
-                if (a.user.prenom > b.user.prenom) {
+                if (a.user?.prenom > b.user?.prenom) {
                     return 1
                 }
                 return -1
@@ -286,9 +286,9 @@ class Users extends Component{
                     <TableBody>
                         {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
-                            <TableRow hover key={index} className={classes.row}>
-                                <TableCell component="th" scope="row" className={classes.cell}>
-                                    {row.user && row.user.prenom} {row.user && row.user.nom} ({row.login})
+                            <TableRow hover key={index} className={classes.row} style={(row.user)? styles.style : {backgroundColor: "lightpink"}}>
+                                <TableCell component="th" scope="row" className={classes.cell} style={(row.user)? styles.style : {fontWeight : 'bold'}}>
+                                    {row.user?.prenom} {row.user?.nom} {(!row.user)? "Utilisateur CAS non trouvé" : ""} ({row.login})
                                 </TableCell>
                                 <TableCell component="th" scope="row" className={classes.cell}>
                                     {row.right_detail}
