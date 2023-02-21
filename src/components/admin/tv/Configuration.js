@@ -106,7 +106,7 @@ class Configuration extends Component{
                                     select
                                     className={classes.textField}
                                     name="link_id"
-                                    value={row.link.name || ''}
+                                    value={row.link?.name || ''}
                                     autoComplete="off"
                                     fullWidth
                                     onChange={(event) => this.handleChangeLink(event, index)}
