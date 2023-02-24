@@ -156,7 +156,7 @@ class BlockedUsers extends Component{
                 <Grid container>
                     <Grid item xs={12} sm={5}>
                         <TextField
-                            label="Nom de l'étudiant"
+                            label="CAS de l'étudiant"
                             className={classes.textField}
                             name="login"
                             value={new_user.login}
