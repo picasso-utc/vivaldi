@@ -171,9 +171,9 @@ class BlockedUsers extends Component{
                                     className={classes.suggestionItem}
                                     key={index}
                                     component="div"
-                                    onClick={()=>this.selectUser(suggestion.name.split('-')[0])}
+                                    onClick={()=>this.selectUser(suggestion.name.replace('--', ' ').split('-')[0])}
                                 >
-                                    {suggestion.name.split('-')[0]}
+                                    {suggestion.name.replace('--', ' ').split('-')[0]}
                                 </MenuItem>
                             ))}
 
