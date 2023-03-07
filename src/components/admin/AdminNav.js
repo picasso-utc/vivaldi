@@ -75,6 +75,7 @@ const CATEGORIES = [
             { id: 'Index notations', link: '/admin/perms' },
             // { id: 'Demandées', link: '/admin/requested/perms'},
             { id: 'Astreintes', link: '/admin/astreintes' },
+            { id: 'Shotgun des astreintes', link: '/admin/astreintesshotgun' },
         ],
     },
     {
