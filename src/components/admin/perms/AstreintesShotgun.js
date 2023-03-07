@@ -163,11 +163,25 @@ class AstreintesShotgun extends Component{
 
                     creneaux.push(d2Creneaux);
                 } else if (creneaux[index].creneau === "S"){
-                    creneaux[index].title = "Soir | 18:30 - 23:00"
+                    // Separating into two distincts creneaux
+                    let s2Creneaux = JSON.parse(JSON.stringify(creneaux[index]))
+                    s2Creneaux.astreintes = creneaux[index].astreintes.filter((elem) => (elem.includes('S2')))
+                    creneaux[index].astreintes = creneaux[index].astreintes.filter((elem) => (elem.includes('S1')))
+
+                    s2Creneaux.creneau = "S2";
+                    creneaux[index].creneau = "S1";
+
+                    creneaux[index].title = "Soir | 17:45 - 23:00"
+                    s2Creneaux.title = "Soir | 18:30 - 23:00"
+
+                    creneaux.push(s2Creneaux);
                 }
 
                 // Empty astreintes
                 let size = creneaux[index].size;
+                // Quite a hotfix for night
+                if(creneaux[index].creneau == "S1") size = 1;
+                if(creneaux[index].creneau == "S2") size = size - 1;
                 let astreintes = creneaux[index].astreintes;
                 let astreintesLength = astreintes.length
 
