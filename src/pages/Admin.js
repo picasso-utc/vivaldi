@@ -34,6 +34,7 @@ import ProtectedRoute from '../utils/ProtectedRoute';
 import { asset_url } from '../utils/Config';
 
 import Prostate from '../components/admin/prostate/Prostate';
+import AstreintesShotgun from '../components/admin/perms/AstreintesShotgun';
 
 export function IconButtonLink(props) {
     return <IconButton component={Link} {...props} />;
@@ -66,6 +67,8 @@ class Admin extends React.Component {
                 return 'Planning du semestre';
             case asset_url('/admin/astreintes'):
                 return 'Astreintes';
+            case asset_url('/admin/astreintesshotgun'):
+                return 'Shotgun des astreintes';
             case asset_url('/admin/requested/perms'):
                 return 'Perms demandées';
             case asset_url('/admin/perm/details'):
@@ -171,6 +174,12 @@ class Admin extends React.Component {
                             path="/admin/astreintes"
                             exact
                             component={Astreintes}
+                        />
+                        <ProtectedRoute
+                            only="member"
+                            path="/admin/astreintesshotgun"
+                            exact
+                            component={AstreintesShotgun}
                         />
                         <ProtectedRoute
                             only="member"

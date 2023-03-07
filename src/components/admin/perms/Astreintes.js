@@ -269,7 +269,8 @@ class Astreintes extends Component{
                                                             {creneau.creneau === "M" && <option value="M2">Matin 2</option>}
                                                             {creneau.creneau === "D" && <option value="D1">Midi 1</option>}
                                                             {creneau.creneau === "D" && <option value="D2">Midi 2</option>}
-                                                            {creneau.creneau === "S" && <option value="S">Soir</option>}
+                                                            {creneau.creneau === "S" && <option value="S1">Soir 1</option>}
+                                                            {creneau.creneau === "S" && <option value="S2">Soir 2</option>}
                                                         </select>
                                                         <button disabled={!creneau.new_astreinte_type && !creneau.new_member_id} onClick={() => this.saveAstreinte(creneau)}>
                                                             Ajouter
