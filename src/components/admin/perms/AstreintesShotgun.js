@@ -22,16 +22,23 @@ class AstreintesShotgun extends Component{
             creneaux: [],
             members: [],
             loading: true,
+
             astreinte_id: '',
             confirm_modal: false,
-            user_login: ''
+            user_login: '',
+            isAdmin: false,
+
+            // shotgun button part
+            timer: '10.000',
+            shotgunHasStarted: false,
+
+            // shotgun enabled
+            canShotgun: false
         }
         
         this.displayCreneau = this.displayCreneau.bind(this)
-        this.changeNewAstreinte = this.changeNewAstreinte.bind(this)
         this.goNextWeek = this.goNextWeek.bind(this)
         this.goPreviousWeek = this.goPreviousWeek.bind(this)
-        this.saveAstreinte = this.saveAstreinte.bind(this)
         this.shotgunAstreinte = this.shotgunAstreinte.bind(this)
 	}
 
@@ -39,15 +46,25 @@ class AstreintesShotgun extends Component{
 	componentDidMount(){
         this.loadDates();
         this.loadMembers();
+        this.interval = setInterval(() => {
+            this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate));
+        }, 1000);
 	}
+
+    componentWillUnmount() {
+        // Clear the interval right before component unmount
+        clearInterval(this.interval);
+    }
 
     loadUser() {
         ajaxGet('auth/me').then(res => {
             let login = res.data.login
 
+            let right = res.data.right;
+
             let user_id = this.state.members.find(member => member.userright.login === login)?.id;
 
-			this.setState({user_id: user_id});
+			this.setState({user_id: user_id, isAdmin: right === 'A'});
 		})
 		.catch(error => {
 			this.setState({loading: false});
@@ -111,6 +128,11 @@ class AstreintesShotgun extends Component{
     }
 
 	loadAstreintes(startDate, endDate){
+        ajaxGet('perm/shotgun').then(res => {
+            let shotguns = res.data;
+
+            this.setState({canShotgun : shotguns.some((shotgun) => shotgun.date === startDate)})
+        })
 		ajaxPost('perms/week/astreintes', {start_date: startDate, end_date: endDate}).then(res => {
             let creneaux = res.data.creneaux;
             for (let index = 0; index < creneaux.length; index++) {
@@ -140,22 +162,29 @@ class AstreintesShotgun extends Component{
                     d2Creneaux.title = "Midi | 12:45 - 14:15"
 
                     creneaux.push(d2Creneaux);
+                } else if (creneaux[index].creneau === "S"){
+                    creneaux[index].title = "Soir | 18:30 - 23:00"
                 }
 
                 // Empty astreintes
                 let size = creneaux[index].size;
                 let astreintes = creneaux[index].astreintes;
+                let astreintesLength = astreintes.length
 
-                if(size > astreintes.length) {
-                    for(let subIndex = 0; subIndex < size - astreintes.length; subIndex++) {
+                if(size > astreintesLength) {
+                    for(let subIndex = 0; subIndex < size - astreintesLength; subIndex++) {
                         creneaux[index].astreintes.push("? - libre - 0")
                     }
                 }
             }
 
-            console.log(creneaux)
+            let formatedCreneaux = {
+                'M': creneaux.filter((elem) => elem.creneau.includes('M')), 
+                'D' : creneaux.filter((elem) => elem.creneau.includes('D')), 
+                'S' : creneaux.filter((elem) => elem.creneau.includes('S')),
+            }
 
-			this.setState({creneaux: res.data.creneaux, loading: false})
+			this.setState({creneaux: formatedCreneaux, loading: false})
 		})
 		.catch(error => {
 			this.setState({loading: false});
@@ -163,63 +192,37 @@ class AstreintesShotgun extends Component{
 	}
 
 	displayCreneau(date, creneau_type){
-		if(date){
+		if(date && this.state.creneaux[creneau_type]){
             date = formateToDjangoDate(date);
-            const found_creneaux = this.state.creneaux.filter(c => c.date === date && c.creneau === creneau_type);
-			if (found_creneaux.length > 0) {
-				return found_creneaux[0];
+
+            const found_creneaux = this.state.creneaux[creneau_type].filter(c => c.date === date);
+
+			if (found_creneaux?.length > 0) {
+				return found_creneaux;
             }
 		}
 		return '';
     }
-    
 
-    changeNewAstreinte(creneau, name, value){
-        let creneaux= [...this.state.creneaux];
-        const creneau_index = creneaux.findIndex(c => c.id === creneau.id);
-        if (creneau_index >= 0) {
-            creneaux[creneau_index][name] = value;
-        }
-        this.setState({creneaux: creneaux})
-    }
+    async shotgunAstreinte(creneau){
+        const creneau_type = creneau.creneau;
 
-
-    saveAstreinte(creneau){
-        const creneaux = [...this.state.creneaux];
-        const creneau_index = creneaux.findIndex(c => c.id === creneau.id);
-
-        const data={
-            member_id: creneau.new_member_id,
-            astreinte_type: creneau.new_astreinte_type,
-            creneau_id: creneau.id
-        }
-
-        ajaxPost('perm/astreintes/', data).then(res => {
-            const astreinte = res.data.astreinte_type + " - " + res.data.member.userright.name + " - " + res.data.id;
-            creneaux[creneau_index].new_member_id = '';
-            creneaux[creneau_index].astreintes.push(astreinte);
-            this.setState({creneaux: creneaux});
-		})
-		.catch(error => {
-			// this.setState({loading: false});
-		});
-    }
-
-    async shotgunAstreinte(creneau, new_astreinte_type){
-        const creneaux = [...this.state.creneaux];
+        const creneaux = [...this.state.creneaux[creneau_type[0]]];
         const creneau_index = creneaux.findIndex(c => c.id === creneau.id);
 
 
         // Already full :(
-        if(creneau.size <= creneau.astreintes.filter((elem) => !(elem.includes('libre'))).length) return;
+        // if(creneau.size <= creneau.astreintes.filter((elem) => !(elem.includes('libre'))).length) return;
 
         const data= {
             member_id: this.state.user_id,
-            astreinte_type: new_astreinte_type,
-            creneau_id: creneau.creneau_id
+            astreinte_type: creneau_type,
+            creneau_id: creneau.id
         }
 
         await this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate))
+
+        if(!this.state.canShotgun) return;
 
         ajaxPost('perm/astreintes/', data).then(res => {
             this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate));
@@ -229,32 +232,53 @@ class AstreintesShotgun extends Component{
 		});
     }
 
-    handleModalClickClose(){
-        this.setState({astreinte_id: '', confirm_modal: false})
-    }
+    launchShotgun() {
+        const elt = this;
+        if(!this.state.shotgunHasStarted) {
+            this.setState({shotgunHasStarted : true})
+            var countDownDate = new Date();
+            countDownDate.setSeconds(countDownDate.getSeconds() + 10);
 
-    handleConfirmModalOpen(astreinte_id){
-        this.setState({astreinte_id: astreinte_id, confirm_modal: true})
-    }
+            let interval = setInterval(function() {
+                // Get today's date and time
+                var now = new Date().getTime();
+            
+                // Find the distance between now and the count down date
+                var diffTime = Math.abs(countDownDate - now);
+                var distance = countDownDate - now;
+            
+                // Time calculations for seconds and milliseconds
+                var seconds = Math.floor((diffTime) / 1000);
+                var milliseconds = diffTime - Math.floor(diffTime / 1000) * 1000;
+            
+                // Display the result
+                elt.setState({timer: seconds + "." + milliseconds})
+            
+                // If the count down is finished, write some text
+                if (distance < 1) {
+                    clearInterval(interval);
+                    elt.setState({timer: "SHOTGUN !"})
 
-    deleteAstreinte(){
-        const astreinte_id = this.state.astreinte_id
-        if (astreinte_id) {
-            ajaxDelete('perm/astreintes/' + astreinte_id + '/').then(() => {
-                this.setState({confirm_modal: false, astreinte_id: ''})
-                this.reloadAstreinte(this.state.startDate, this.state.endDate);
-            })
-            .catch((error) => {
-            })
-        } else {
-            this.setState({confirm_modal: false, astreinte_id: ''})
+                    const data= {
+                        launched_by_id: elt.state.user_id,
+                        date : formateToDjangoDate(elt.state.startDate)
+                    }
+
+                    ajaxPost('perm/shotgun/', data).then(res => {
+                        this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate));
+                    })
+                    .catch(error => {
+                        // this.setState({loading: false});
+                    });
+                }
+            }, 100);
         }
     }
 
     render(){
         
         const { classes } = this.props;
-        const { startDate, members, loading, confirm_modal } = this.state;
+        const { startDate, members, loading, confirm_modal, timer, canShotgun } = this.state;
 
         const week_days=[0,1,2,3,4,5]
 		const creneau_types=[
@@ -299,64 +323,44 @@ class AstreintesShotgun extends Component{
                                 <tr key={creneau_type.code}>
                                     <th className={classes.leftTitleCell}>{creneau_type.name}</th>
                                     {week_days.map((week_day, index)=> {
-                                        const creneau = this.displayCreneau(addDays(startDate, week_day), creneau_type.code)
-                                        console.log(creneau)
+                                        const creneauPeriode = this.displayCreneau(addDays(startDate, week_day), creneau_type.code)
                                         return (
-                                            <td key={index} className={classes.cell}>                                        
-                                                {creneau ? (
+                                            <td key={index} className={classes.cell}>
+                                                {creneauPeriode ? (
                                                     <React.Fragment>
-                                                        <span>{creneau.perm.nom}</span>
+                                                        <span>{creneauPeriode[0].perm.nom}</span>       
                                                         <hr/>
-                                                        {creneau.creneau === "M" && <div>
-                                                            <Button variant="contained" value="M1" onClick={() => this.shotgunAstreinte(creneau.creneaux.M1, "M1")}>
-                                                                <div>
-                                                                    <p>
-                                                                        Matin | 09:30 - 10:15
-                                                                    </p>
-                                                                    {creneau.creneaux.M1.astreintes.map(astreinte => (
-                                                                        // Astreinte de la forme astreinte_type - nom_astreinteur - id_astreinte
-                                                                        <Card variant="outlined">
-                                                                            <CardContent style={{ padding: "0" }}>
-                                                                                <Typography variant="overline" color="textSecondary">
-                                                                                    {astreinte.split('-')[1]?.trim().split(' ')[0]}
-                                                                                </Typography>
-                                                                            </CardContent>
-                                                                        </Card>
-                                                                    ))}
-                                                                </div>
-                                                            </Button>
-                                                        </div>}
-                                                        {creneau.creneau === "M" && <div>
-                                                            <Button 
-                                                                variant="contained" 
-                                                                value="M2" 
-                                                                onClick={() => this.shotgunAstreinte(creneau.creneaux.M2, "M2")} 
-                                                            >
-                                                                <div>
-                                                                    <p>
-                                                                        Matin | 10:00 - 12:00
-                                                                    </p>
-                                                                    {creneau.creneaux.M2.astreintes.map(astreinte =>  (
-                                                                        // Astreinte de la forme astreinte_type - nom_astreinteur - id_astreinte
-                                                                        <Card variant="outlined">
-                                                                            <CardContent style={{ padding: "0" }}>
-                                                                                <Typography variant="overline" color="textSecondary">
-                                                                                    {astreinte.split('-')[1]?.trim().split(' ')[0]}
-                                                                                </Typography>
-                                                                            </CardContent>
-                                                                        </Card>
-                                                                    ))}
-                                                                </div>
-                                                            </Button>
-                                                        </div>}
-                                                        {creneau.creneau === "D" && <div><button value="D1" onClick={() => this.shotgunAstreinte(creneau, "D1")}>Midi 1</button><br/></div>}
-                                                        {creneau.creneau === "D" && <div><button value="D2" onClick={() => this.shotgunAstreinte(creneau, "D2")}>Midi 2</button><br/></div>}
-                                                        {creneau.creneau === "S" && <div><button value="S" onClick={() => this.shotgunAstreinte(creneau, "S")}>Soir</button><br/></div>}
+                                                        {
+                                                            creneauPeriode.map((creneau) => (
+                                                                <Button 
+                                                                    key={`${creneau.id}${creneau.creneau}`} 
+                                                                    variant="contained" 
+                                                                    value={creneau.creneau} 
+                                                                    onClick={() => this.shotgunAstreinte(creneau)}
+                                                                    style={(creneau.astreintes.every((element) => !element.includes('libre')))? styles.style : (canShotgun)? {backgroundColor: "lightgreen"} : {backgroundColor: "rgb(230 238 232)"}}
+                                                                >
+                                                                    <div>
+                                                                        <p>
+                                                                            {creneau.title}
+                                                                        </p>
+                                                                        {creneau.astreintes.map(astreinte => (
+                                                                            // Astreinte de la forme astreinte_type - nom_astreinteur - id_astreinte
+                                                                            <Card variant="outlined">
+                                                                                <CardContent style={{ padding: "0" }}>
+                                                                                    <Typography variant="overline" color="textSecondary">
+                                                                                        {astreinte.split('-')[1]?.trim().split(' ')[0]}
+                                                                                    </Typography>
+                                                                                </CardContent>
+                                                                            </Card>
+                                                                        ))}
+                                                                    </div>
+                                                                </Button>
+                                                            ))
+                                                        }
                                                     </React.Fragment>
-                                                ):(
-                                                    ''  
-                                                )}
-                                            </td>        
+                                                ): ('')
+                                            }
+                                        </td>        
                                         )
                                     })}
                                 </tr>
@@ -372,29 +376,26 @@ class AstreintesShotgun extends Component{
                         Semaine suivante
                     </button>
                 </Grid>
-                <Dialog
-                    open={confirm_modal}
-                    onClose={() => this.handleModalClickClose()}
-                >
-                    <DialogTitle>Suppresion</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Veux-tu vraiment supprimer cette astreinte ?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button 
-                            color="secondary"
-                            variant="contained" 
-                            margin="dense"
-                            size="small"
-                            className={classes.btn} 
-                            onClick={(e) => this.deleteAstreinte()}
-                        >
-                            Supprimer
-                        </Button>    
-                    </DialogActions>
-                </Dialog>
+                {this.state.isAdmin &&
+                    <div>
+                        <Grid container direction="row" justify="center" alignItems="center" className="top10">
+                            <Button 
+                                variant='outlined'
+                                style={{
+                                    backgroundColor: 'salmon',
+                                    color: 'white'
+                                }}
+                                onClick={ () => this.launchShotgun() }
+                                disabled={this.state.canShotgun}
+                            >
+                                LANCER LE SHOTGUN
+                            </Button>
+                        </Grid>
+                        <Grid container direction="row" justify="center" alignItems="center" className="top10">
+                            <h2>{timer}</h2>
+                        </Grid>
+                    </div>
+                }
             </div>
         );
     };
