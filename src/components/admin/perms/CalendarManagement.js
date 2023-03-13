@@ -54,6 +54,8 @@ class CalendarManagement extends Component{
             calendar : [],
             current_semester: {},
             open_mail: false,
+            sending_mail: false,
+            mail_sent_dialog: false,
             selected_perms: [],
             unselected_perms: [],
             autocomplete_users_1: [],
@@ -462,8 +464,11 @@ class CalendarManagement extends Component{
 
 
     sendPermsMail(){
+        this.setState({sending_mail: true});
         ajaxPost('perms/mail', this.state.selected_perms).then(res => {
-            
+            this.setState({sending_mail: false});
+            this.setState({open_mail: false})
+            this.setState({mail_sent_dialog : true})
         })
         .catch(error => {
             console.log(error)
@@ -475,7 +480,7 @@ class CalendarManagement extends Component{
         
         const { classes } = this.props;
 
-        const { perms, newPerm, calendar, loading, open_mail, selected_perms, unselected_perms, assos, autocomplete_users_1, autocomplete_users_2 } = this.state 
+        const { perms, newPerm, calendar, loading, open_mail, sending_mail, mail_sent_dialog, selected_perms, unselected_perms, assos, autocomplete_users_1, autocomplete_users_2 } = this.state 
 
         if(loading){
             return (
@@ -842,9 +847,29 @@ class CalendarManagement extends Component{
                         onClick={this.sendPermsMail} 
                         color="primary"
                         variant="contained" 
-                        size="small" 
+                        size="small"
+                        disabled={sending_mail}
                     >
                         Envoyer
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    // fullWidth="lg"
+                    maxWidth="lg"
+                    open={mail_sent_dialog}
+                    aria-labelledby="max-width-dialog-title"
+                >
+                    <DialogTitle id="max-width-dialog-title">Mails envoyés avec succès !</DialogTitle>
+                    <DialogActions>
+                    <Button 
+                        onClick={() => {this.setState({mail_sent_dialog: false})}} 
+                        color="secondary"
+                        variant="contained" 
+                        size="small" 
+                    >
+                        Ok
                     </Button>
                     </DialogActions>
                 </Dialog>
