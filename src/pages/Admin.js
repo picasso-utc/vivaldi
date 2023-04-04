@@ -28,6 +28,7 @@ import Evenements from '../components/admin/application_management/Evenements';
 import Media from '../components/admin/tv/Media';
 import Url from '../components/admin/tv/Url';
 import Configuration from '../components/admin/tv/Configuration';
+import TransferBDD from "../components/admin/Transfere_BDD/TransferBDD";
 import { Link } from 'react-router-dom';
 import Error404 from '../pages/Error404';
 import ProtectedRoute from '../utils/ProtectedRoute';
@@ -103,6 +104,8 @@ class Admin extends React.Component {
                 return 'Évenements du semestre';
             case asset_url('/admin/shotgun'):
                 return 'ShotgunManagement';
+            case asset_url('/admin/transferBDD'):
+                return 'TransferBDD'
             default:
                 break;
         }
@@ -267,6 +270,13 @@ class Admin extends React.Component {
                             exact
                             component={Semesters}
                         />
+                        <ProtectedRoute
+                            only="admin"
+                            path="/admin/transferBDD"
+                            exact
+                            component={TransferBDD}
+                        />
+
                         <Route component={Error404} />
                     </Switch>
                 </main>
