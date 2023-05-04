@@ -28,12 +28,6 @@ class AstreintesShotgun extends Component{
             user_login: '',
             isAdmin: false,
 
-            // shotgun button part
-            timer: '10.000',
-            shotgunHasStarted: false,
-
-            // shotgun enabled
-            canShotgun: false
         }
         
         this.displayCreneau = this.displayCreneau.bind(this)
@@ -48,7 +42,7 @@ class AstreintesShotgun extends Component{
         this.loadMembers();
         this.interval = setInterval(() => {
             this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate));
-        }, 1000);
+        }, 1000 * 10);
 	}
 
     componentWillUnmount() {
@@ -128,11 +122,6 @@ class AstreintesShotgun extends Component{
     }
 
 	loadAstreintes(startDate, endDate){
-        ajaxGet('perm/shotgun').then(res => {
-            let shotguns = res.data;
-
-            this.setState({canShotgun : shotguns.some((shotgun) => shotgun.date === startDate)})
-        })
 		ajaxPost('perms/week/astreintes', {start_date: startDate, end_date: endDate}).then(res => {
             let creneaux = res.data.creneaux;
             for (let index = 0; index < creneaux.length; index++) {
@@ -236,8 +225,6 @@ class AstreintesShotgun extends Component{
 
         await this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate))
 
-        if(!this.state.canShotgun) return;
-
         ajaxPost('perm/astreintes/', data).then(res => {
             this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate));
 		})
@@ -246,53 +233,10 @@ class AstreintesShotgun extends Component{
 		});
     }
 
-    launchShotgun() {
-        const elt = this;
-        if(!this.state.shotgunHasStarted) {
-            this.setState({shotgunHasStarted : true})
-            var countDownDate = new Date();
-            countDownDate.setSeconds(countDownDate.getSeconds() + 10);
-
-            let interval = setInterval(function() {
-                // Get today's date and time
-                var now = new Date().getTime();
-            
-                // Find the distance between now and the count down date
-                var diffTime = Math.abs(countDownDate - now);
-                var distance = countDownDate - now;
-            
-                // Time calculations for seconds and milliseconds
-                var seconds = Math.floor((diffTime) / 1000);
-                var milliseconds = diffTime - Math.floor(diffTime / 1000) * 1000;
-            
-                // Display the result
-                elt.setState({timer: seconds + "." + milliseconds})
-            
-                // If the count down is finished, write some text
-                if (distance < 1) {
-                    clearInterval(interval);
-                    elt.setState({timer: "SHOTGUN !"})
-
-                    const data= {
-                        launched_by_id: elt.state.user_id,
-                        date : formateToDjangoDate(elt.state.startDate)
-                    }
-
-                    ajaxPost('perm/shotgun/', data).then(res => {
-                        this.loadAstreintes(formateToDjangoDate(this.state.startDate), formateToDjangoDate(this.state.endDate));
-                    })
-                    .catch(error => {
-                        // this.setState({loading: false});
-                    });
-                }
-            }, 100);
-        }
-    }
-
     render(){
         
         const { classes } = this.props;
-        const { startDate, members, loading, confirm_modal, timer, canShotgun } = this.state;
+        const { startDate, members, loading, confirm_modal, timer } = this.state;
 
         const week_days=[0,1,2,3,4,5]
 		const creneau_types=[
@@ -351,7 +295,7 @@ class AstreintesShotgun extends Component{
                                                                     variant="contained" 
                                                                     value={creneau.creneau} 
                                                                     onClick={() => this.shotgunAstreinte(creneau)}
-                                                                    style={(creneau.astreintes.every((element) => !element.includes('libre')))? styles.style : (canShotgun)? {backgroundColor: "lightgreen"} : {backgroundColor: "rgb(230 238 232)"}}
+                                                                    style={(creneau.astreintes.every((element) => !element.includes('libre')))? styles.style : {backgroundColor: "lightgreen"}}
                                                                 >
                                                                     <div>
                                                                         <p>
@@ -390,26 +334,6 @@ class AstreintesShotgun extends Component{
                         Semaine suivante
                     </button>
                 </Grid>
-                {this.state.isAdmin &&
-                    <div>
-                        <Grid container direction="row" justify="center" alignItems="center" className="top10">
-                            <Button 
-                                variant='outlined'
-                                style={{
-                                    backgroundColor: 'salmon',
-                                    color: 'white'
-                                }}
-                                onClick={ () => this.launchShotgun() }
-                                disabled={this.state.canShotgun}
-                            >
-                                LANCER LE SHOTGUN
-                            </Button>
-                        </Grid>
-                        <Grid container direction="row" justify="center" alignItems="center" className="top10">
-                            <h2>{timer}</h2>
-                        </Grid>
-                    </div>
-                }
             </div>
         );
     };
