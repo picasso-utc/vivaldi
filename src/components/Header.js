@@ -16,9 +16,10 @@ export function IconButtonLink(props) {
 }
 
 
-const COUVERTURE_PATH = asset_url('/images/background_a22.png')
-const COUVERTURE_PATH_XS = asset_url('/images/background_no_logo_a22.png')
-const LOGO_PATH = asset_url('/images/logo_a22.png')
+//const COUVERTURE_PATH = asset_url('/images/background_a22.png')
+const COUVERTURE_PATH = asset_url('/images/background_no_logo_p23.gif')
+const COUVERTURE_PATH_XS = asset_url('/images/background_no_logo_p23.gif')
+const LOGO_PATH = asset_url('/images/logo_p23.png')
 
 
 class Header extends React.Component {
@@ -82,6 +83,7 @@ class Header extends React.Component {
 					</Hidden>
 					<Hidden xsDown implementation="css">
 						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture}/>
+						<img alt="logo_pic" src={LOGO_PATH} className={classes.logoCouv} />
 					</Hidden>
 				</div>
 			</React.Fragment>
@@ -101,12 +103,12 @@ const styles = theme => ({
 	appBar: {
 		backgroundColor: 'var(--color-light)',
 		color: 'white',
+
 	},
 	logo: {
 		flexGrow: 1,
 	},
 	menuButton: {
-		backgroundColor: 'var(--color-light)',
 		fontSize: 35,
 		padding: "10px",
 		marginTop: 0,
@@ -117,6 +119,7 @@ const styles = theme => ({
 			borderTop: "3px solid var(--color-primary)",
 			textDecoration: "none",
 		},
+		boxshadow: '0 0 60px 30px #fff',
 	},
 	icon: {
 		fontSize: 35,
@@ -134,10 +137,10 @@ const styles = theme => ({
 		objectFit: 'cover',
 	},
 	logoCouv: {
-		width: '70%',
+		width: '50%',
 		position: 'absolute',
-		top: '15%',
-		left: '15%'
+		top: '3%',
+		left: '25%'
 	},
 	couvXS: {
 		display: 'flex'
