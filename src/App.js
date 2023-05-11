@@ -28,15 +28,15 @@ const PUBLIC_URL = process.env.PUBLIC_URL;
 // I usually already have this, to include a CSS
 // reset, set border-box, and other global concerns.
 const GlobalStyles = createGlobalStyle`
-  html {
-	  --color-primary: #7ADFCE;
-	  --color-secondary: #D4E4E0;
-	  --color-third: #1D1D1B;
-	  --color-light: #3499FF;
-	  --color-warning: #3499FF;
-	  --color-important: #3499FF;
-	  --color-font: #FAFAFA;
-  }
+	html {
+		--color-primary: #BAB9B9;
+		--color-secondary: #D4E4E0;
+		--color-third: #1D1D1B;
+		--color-light: #464646;
+		--color-warning: #464646;
+		--color-important: #464646;
+		--color-font: #FAFAFA;
+	}
 `;
 
 class App extends React.Component {
