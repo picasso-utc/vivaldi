@@ -236,13 +236,13 @@ class Astreintes extends Component{
                                                         {creneau.astreintes.map(astreinte => (
                                                             // Astreinte de la forme astreinte_type - nom_astreinteur - id_astreinte
                                                             <span key={astreinte}>
-                                                                {astreinte.split('-')[0]} - {astreinte.split('-')[1]}
+                                                                {astreinte.split(' - ')[0]} - {astreinte.split(' - ')[1]}
                                                                 <IconButton 
                                                                     edge="end" 
                                                                     aria-label="delete" 
                                                                     color="secondary"
                                                                     style={{padding:0}}
-                                                                    onClick={() => this.handleConfirmModalOpen(astreinte.split('-')[2])}
+                                                                    onClick={() => this.handleConfirmModalOpen(astreinte.split(' - ')[2])}
                                                                 >
                                                                     <CloseIcon />
                                                                 </IconButton>
