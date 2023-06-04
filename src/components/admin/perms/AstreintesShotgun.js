@@ -124,6 +124,17 @@ class AstreintesShotgun extends Component{
 	loadAstreintes(startDate, endDate){
 		ajaxPost('perms/week/astreintes', {start_date: startDate, end_date: endDate}).then(res => {
             let creneaux = res.data.creneaux;
+
+            // Remove duplicates
+            let creneaux_filtered = [];
+            for (let index = 0; index < creneaux.length; index++) {
+                let elem = creneaux[index];
+
+                if(!creneaux_filtered.some(e => e.creneau === elem.creneau && e.date === elem.date)) 
+                    creneaux_filtered.push(elem);
+            }
+            creneaux = creneaux_filtered;
+
             for (let index = 0; index < creneaux.length; index++) {
                 if (creneaux[index].creneau === "M"){
                     // Separating into two distincts creneaux
