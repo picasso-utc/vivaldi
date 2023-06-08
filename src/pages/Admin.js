@@ -35,6 +35,7 @@ import { asset_url } from '../utils/Config';
 
 import Prostate from '../components/admin/prostate/Prostate';
 import AstreintesShotgun from '../components/admin/perms/AstreintesShotgun';
+import Exoneration from '../components/admin/exoneration/Exoneration';
 
 export function IconButtonLink(props) {
     return <IconButton component={Link} {...props} />;
@@ -93,6 +94,8 @@ class Admin extends React.Component {
                 return 'Gestion des médias TV';
             case asset_url('/admin/prostate'):
                 return 'Prostate';
+            case asset_url('/admin/exoneration'):
+                return 'Exoneration';
             case asset_url('/admin/newsletter'):
                 return 'Newsletter';
             case asset_url('/admin/beerInfo'):
@@ -217,6 +220,12 @@ class Admin extends React.Component {
                             path="/admin/prostate"
                             exact
                             component={Prostate}
+                        />
+                        <ProtectedRoute
+                            only="member"
+                            path="/admin/exoneration"
+                            exact
+                            component={Exoneration}
                         />
                         <ProtectedRoute
                             only="member"
