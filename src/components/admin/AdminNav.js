@@ -24,6 +24,7 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import PhonelinkSetup from '@material-ui/icons/PhonelinkSetup';
 import Auth from '../../utils/Auth';
 import { asset_url } from '../../utils/Config';
+import { LocalDrink } from '@material-ui/icons';
 
 const LOGO_PATH = asset_url('/images/logo.png');
 const CATEGORIES = [
@@ -82,6 +83,12 @@ const CATEGORIES = [
         id: 'Prostate',
         link: '/admin/prostate',
         icon: <EqualizerIcon />,
+        authorized: Auth.isUserMember,
+    },
+    {
+        id: 'Exoneration',
+        link: '/admin/exoneration',
+        icon: <LocalDrink />,
         authorized: Auth.isUserMember,
     },
     {
