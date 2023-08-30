@@ -15,11 +15,10 @@ export function IconButtonLink(props) {
 	return <IconButton component={Link} {...props} />
 }
 
-
-//const COUVERTURE_PATH = asset_url('/images/background_a22.png')
-const COUVERTURE_PATH = asset_url('/images/background_no_logo_p23.gif')
-const COUVERTURE_PATH_XS = asset_url('/images/background_no_logo_p23.gif')
-const LOGO_PATH = asset_url('/images/logo_p23.png')
+//path = logo, XS = no_logo
+const COUVERTURE_PATH = asset_url('/images/BGLoading.jpg')
+const COUVERTURE_PATH_XS = asset_url('/images/BGLoading.jpg')
+const LOGO_PATH = asset_url('/images/loading.png')
 
 
 class Header extends React.Component {
@@ -83,7 +82,6 @@ class Header extends React.Component {
 					</Hidden>
 					<Hidden xsDown implementation="css">
 						<img alt="couverture_pic" src={COUVERTURE_PATH} className={classes.couverture}/>
-						<img alt="logo_pic" src={LOGO_PATH} className={classes.logoCouv} />
 					</Hidden>
 				</div>
 			</React.Fragment>
