@@ -32,7 +32,7 @@ class Footer extends React.Component {
                         Signer la charte du permanencier <a target="_blank" rel="noopener noreferrer" href={asset_url("/charte")} className={classes.link}>ici</a>
                     </Typography>
                     <Typography variant="body1" gutterBottom className={classes.copyright}>
-                        @2021 Copyright Pic'Asso
+                        @2023 Copyright Pic'Asso
                     </Typography>
                     </Grid>
                 </Grid>
