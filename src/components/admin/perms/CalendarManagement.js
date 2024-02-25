@@ -69,6 +69,7 @@ class CalendarManagement extends Component {
     this.formateCalendarDate = this.formateCalendarDate.bind(this);
     this.handleChangeOnMail = this.handleChangeOnMail.bind(this);
     this.sendPermsMail = this.sendPermsMail.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
   }
 
   componentDidMount() {
@@ -428,6 +429,16 @@ class CalendarManagement extends Component {
     }
   }
 
+  handleNameChange(event) {
+    this.setState({
+      newPerm: {
+        ...this.state.newPerm,
+        [event.target.name]: event.target.value,
+      },
+    });
+    console.log(this.state.newPerm);
+  }
+
   savePerm() {
     let mail_asso = "";
     if (this.state.newPerm.asso) {
@@ -571,7 +582,7 @@ class CalendarManagement extends Component {
               item
               xs={12}
               sm={6}
-              lg={3}
+              lg={6}
               className={classes.textFieldContainer}
             >
               <FormControlLabel
@@ -617,7 +628,7 @@ class CalendarManagement extends Component {
               item
               xs={12}
               sm={6}
-              lg={3}
+              lg={6}
               className={classes.textFieldContainer}
             >
               <TextField
@@ -634,11 +645,13 @@ class CalendarManagement extends Component {
                 InputProps={{ style: { fontSize: 12 } }}
               />
             </Grid>
+          </Grid>
+          <Grid container direction="row" alignItems="start">
             <Grid
               item
               xs={12}
               sm={6}
-              lg={3}
+              lg={6}
               className={classes.textFieldContainer}
             >
               <TextField
@@ -648,14 +661,12 @@ class CalendarManagement extends Component {
                 fullWidth
                 className={classes.textField}
                 name="nom_resp"
-                label="Responsable 1"
+                label="Nom Responsable 1"
                 value={newPerm.nom_resp}
-                onChange={(event) =>
-                  this.handleAutocompleteChange(event, "autocomplete_users_1")
-                }
+                onChange={(event) => this.handleNameChange(event)}
                 autoComplete="off"
               />
-              {autocomplete_users_1.length > 0 && (
+              {/*autocomplete_users_1.length > 0 && (
                 <Paper className={classes.suggestions}>
                   {autocomplete_users_1.map((suggestion, index) => (
                     <MenuItem
@@ -674,13 +685,35 @@ class CalendarManagement extends Component {
                     </MenuItem>
                   ))}
                 </Paper>
-              )}
+              )*/}
             </Grid>
             <Grid
               item
               xs={12}
               sm={6}
-              lg={3}
+              lg={6}
+              className={classes.textFieldContainer}
+            >
+              <TextField
+                variant="outlined"
+                size="small"
+                margin="dense"
+                fullWidth
+                name="mail_resp"
+                className={classes.textField}
+                label="Mail Responsable 1"
+                value={newPerm.mail_resp}
+                onChange={(event) => this.handleNameChange(event)}
+                autoComplete="off"
+              />
+            </Grid>
+          </Grid>
+          <Grid container direction="row" alignItems="start">
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={6}
               className={classes.textFieldContainer}
             >
               <TextField
@@ -690,14 +723,13 @@ class CalendarManagement extends Component {
                 fullWidth
                 name="nom_resp_2"
                 className={classes.textField}
-                label="Responsable 2"
+                label="Nom Responsable 2"
                 value={newPerm.nom_resp_2}
-                onChange={(event) =>
-                  this.handleAutocompleteChange(event, "autocomplete_users_2")
-                }
+                onChange={(event) => this.handleNameChange(event)}
                 autoComplete="off"
               />
-              {autocomplete_users_2.length > 0 && (
+
+              {/*autocomplete_users_2.length > 0 && (
                 <Paper className={classes.suggestions}>
                   {autocomplete_users_2.map((suggestion, index) => (
                     <MenuItem
@@ -716,7 +748,27 @@ class CalendarManagement extends Component {
                     </MenuItem>
                   ))}
                 </Paper>
-              )}
+              )*/}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={6}
+              className={classes.textFieldContainer}
+            >
+              <TextField
+                variant="outlined"
+                size="small"
+                margin="dense"
+                fullWidth
+                name="mail_resp_2"
+                className={classes.textField}
+                label="Mail Responsable 2"
+                value={newPerm.mail_resp_2}
+                onChange={(event) => this.handleNameChange(event)}
+                autoComplete="off"
+              />
             </Grid>
           </Grid>
           <Grid container direction="row" justify="center" alignItems="center">
