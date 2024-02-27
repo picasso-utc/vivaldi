@@ -15,9 +15,9 @@ export function IconButtonLink(props) {
 	return <IconButton component={Link} {...props} />
 }
 
-const COUVERTURE_PATH = asset_url('/images/background_logo_a23.jpeg')
-const COUVERTURE_PATH_XS = asset_url('/images/Fond_P24.jpeg')
-const LOGO_PATH = asset_url('/images/lLogo_P24.png')
+const COUVERTURE_PATH = asset_url('/images/background_logo_a23.png')
+const COUVERTURE_PATH_XS = asset_url('/images/fond_P24.png')
+const LOGO_PATH = asset_url('/images/logo_P24.png')
 
 
 class Header extends React.Component {
