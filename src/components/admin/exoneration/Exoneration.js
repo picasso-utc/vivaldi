@@ -17,7 +17,7 @@ const Exoneration = () => {
     const handleForm = async () => {
         setLoading(true)
 
-        await ajaxPost('treso/exonerations', {
+        await ajaxPost('exoneration', {
             "start_date": startDate.toISOString().split('T')[0],
             "end_date": endDate.toISOString().split('T')[0]
         }).then(
